@@ -1,9 +1,15 @@
-<script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+<script setup>
+import LngLatInfo from '../components/LngLatInfo.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <LngLatInfo />
   </main>
 </template>
+
+<style scoped lang="less">
+main {
+  margin: 25px;
+}
+</style>
