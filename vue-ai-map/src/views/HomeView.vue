@@ -1,5 +1,5 @@
 <script setup>
-import LngLatInfo from '../components/LngLatInfo.vue'
+import LngLatInfo from '@/components/LngLatInfo.vue'
 </script>
 
 <template>

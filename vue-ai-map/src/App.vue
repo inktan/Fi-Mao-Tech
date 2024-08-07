@@ -1,12 +1,14 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import GdMap from '@/components/GdMap.vue'
+
 </script>
 
 <template>
   <header>
-
+    <GdMap />
   </header>
-  <RouterView />
+  <!-- <RouterView /> -->
 </template>
 
 <style scoped>
