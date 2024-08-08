@@ -1,19 +1,19 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import GdMap from '@/components/GdMap.vue'
+import GdMapContainer from '@/components/GdMapContainer.vue'
 
 </script>
 
 <template>
-  <header>
-    <GdMap />
-  </header>
+  <div class="gd-map-container">
+    <GdMapContainer />
+  </div>
   <!-- <RouterView /> -->
 </template>
 
 <style scoped>
-header {
-  height: 120px;
+.gd-map-container {
+  height: 600px;
   background-color: aliceblue;
 }
 </style>
