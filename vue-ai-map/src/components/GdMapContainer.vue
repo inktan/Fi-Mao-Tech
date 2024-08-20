@@ -9,7 +9,7 @@ import { web_frontend_key, web_frontend_secret_key } from "@/gd_map_config.js";
 import { shanghai, suzhou, wuxi } from "@/data/shanghai.js";
 
 // console.log(`key_web_js:${key_web_js}`)
-const styleTheme = ref('whitesmoke')
+const styleTheme = ref('dark')
 let map = null;
 let aMap = null;
 
@@ -22,7 +22,7 @@ onMounted(() => {
   AMapLoader.load({
     key: web_frontend_key, // 申请好的Web端开发者Key，首次调用 load 时必填
     version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-    plugins: ["AMap.Scale", 'AMap.ToolBar', "AMap.PlaceSearch"], //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
+    plugins: ["AMap.Scale", 'AMap.ToolBar', "AMap.PlaceSearch", "AMap.Driving"], //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
   }).then((AMap) => {
     aMap = AMap;
 
@@ -98,6 +98,25 @@ onMounted(() => {
       console.log(status, result);
     }); //使用插件搜索关键字并查看结果
 
+    // 规划路线
+    const driving = new AMap.Driving({
+      map: map, //展现结果的地图实例
+      panel: "drive-panel", //参数值为你页面定义容器的 id 值<div id="my-panel"></div>，结果列表将在此容器中进行展示。
+    });
+    const points = [
+      { keyword: '拙政园', city: '苏州' }, //起始点坐标
+      { keyword: '西交利物浦', city: '苏州' } //终点坐标
+    ]
+    //获取起终点规划线路
+    driving.search(points, function (status, result) {
+      if (status === "complete") {
+        //status：complete 表示查询成功，no_data 为查询无结果，error 代表查询错误
+        //查询成功时，result 即为对应的驾车导航信息
+        console.log(result);
+      } else {
+        console.log("获取驾车数据失败：" + result);
+      }
+    });
 
 
   }).catch((e) => {
@@ -168,6 +187,7 @@ const handleChangeStyleTheme = function (index) {
 <template>
   <div id="container"></div>
   <div id="search-panel"></div>
+  <div id="drive-panel"></div>
   <ToolBar @ChangeStyleTheme="handleChangeStyleTheme" />
 
 </template>
