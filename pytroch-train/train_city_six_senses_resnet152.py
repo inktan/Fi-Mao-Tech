@@ -1,0 +1,157 @@
+# -*- coding: utf-8 -*-
+
+import torch
+from torchvision import transforms,datasets,models
+import os
+from PIL import Image
+from torch.utils.data import Dataset, DataLoader 
+import pandas as pd  
+
+class CustomDataset(Dataset): 
+    '''
+    这里定义预测图像数据所在文件夹
+    ''' 
+    def __init__(self,  csv_file, img_dir, transform=None):  
+        self.data = pd.read_csv(csv_file)  
+        self.img_dir = img_dir  
+        self.transform = transform  
+        # self.img_names = [i for i in os.listdir(img_dir) if i.endswith('jpg') ==True or i.endswith('jpeg')  ==True or i.endswith('png')  ==True ] # 读取文件夹中的所有图片名  
+
+    def __len__(self):  
+        return len(self.data)  
+  
+    def __getitem__(self, idx):
+        img_path = os.path.join(self.img_dir, self.data.iloc[idx]['image_name'])  
+        image = Image.open(img_path)  
+        target = self.data.iloc[idx]['target']
+
+        if self.transform:  
+            image = self.transform(image)  # 如果有定义转换，则应用转换  
+        return image, target  # 返回图片和对应的索引  
+    
+def load_dataset(csv_file, img_dir, batch_size, split=False, split_ratio=0.8):
+    # 训练集图像预处理：缩放裁剪、图像增强、转 Tensor、归一化
+    transformation = transforms.Compose(
+            [transforms.RandomResizedCrop(224),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+    
+    # Load all the images, and transform
+    full_dataset = CustomDataset(csv_file, img_dir,transform=transformation)
+    
+    if split == False:
+        loader = torch.utils.data.DataLoader(full_dataset, batch_size, shuffle=False)
+        return loader
+    else:
+        # 需要划分数据集
+        # Spliting into training(80%) and validation(20%)
+        train_size = int(len(full_dataset) * split_ratio)  # 训练集的大小
+        validation_size = len(full_dataset) - train_size  # 测试集的大小
+        
+        # torch split
+        train_dataset, validation_dataset  = torch.utils.data.random_split(full_dataset, [train_size, validation_size])
+        
+        train_loader = torch.utils.data.DataLoader(train_dataset, batch_size, shuffle=False,num_workers=1) # shuffle是否打乱顺序
+        validation_loader = torch.utils.data.DataLoader(validation_dataset, batch_size, shuffle=False,num_workers=1)# num_workers使用几个工作进程
+        
+        return train_loader, validation_loader
+    
+def train(model, device, train_loader, validation_loader, epochs):
+    model = model.to(device)
+    optimizer = torch.optim.Adam(params=model.fc.parameters(), lr=0.001)  # Create adam optimizer
+    lossFuction =torch.nn.MSELoss()  # 均方误差损失函数  
+
+    for epoch in range(epochs):
+        '''train'''
+        model.train()  # train模式：启用Dropout， Batch Normalization的参数会学习和更新
+
+        acc_epoch_count_train = 0
+        acc_epoch_count_val = 0
+
+        for batchidx, dt in enumerate(train_loader):
+            images, y = dt[0].to(device), dt[1].to(device)
+
+            outputs = model(images)
+            # 假设 output 是你的模型输出的张量  
+            outputs = outputs.squeeze(1)  # 这将删除第二个维度（索引为1的维度），如果它的尺寸是1的话
+            loss = lossFuction(outputs, y.float())
+
+            # backward
+            optimizer.zero_grad()  # 每次backward会对梯度累加，因此每次backward前要把梯度清零
+            loss.backward()
+            optimizer.step()
+            avg_loss = loss.item()
+
+            acc_count = sum(outputs == y)
+            acc_epoch_count_train += acc_count
+            all_nums = ((batchidx + 1) * train_loader.batch_size)
+            print(acc_epoch_count_train.item(), all_nums)
+
+            acc_percentage = acc_count / train_loader.batch_size
+            acc_epoch_percentage = acc_epoch_count_train / all_nums
+
+            print(
+                '=== Train Epoch: {0:d}/{1:d} === Iter:{2:d} === avg_Loss: {3:.2f} === BatchAcc: {4:.2f} === allAcc: {5:.2f} ==='. \
+                format(epoch, epochs, batchidx, avg_loss, acc_percentage, acc_epoch_percentage))
+
+        '''eval'''
+        model.eval()  # eval模式：不启用Dropout，Batch Normalization的参数保持不变
+
+        with torch.no_grad():  # 告诉pytorch，此段不需要构建计算图，更加安全
+            for batchidx_val, dt_val in enumerate(validation_loader):
+                images_val, y_val = dt_val[0].to(device), dt_val[1].to(device)
+
+                outputs_val = model(images_val)
+                outputs_val = outputs_val.squeeze(1)  # 这将删除第二个维度（索引为1的维度），如果它的尺寸是1的话
+
+                loss_val = lossFuction(outputs_val, y_val.float())
+                avg_loss_val = loss_val.item()
+
+                acc_count_val = sum(outputs_val == y_val)
+                acc_epoch_count_val += acc_count_val
+                all_nums_val = ((batchidx_val + 1) * train_loader.batch_size)
+                print(acc_epoch_count_val, all_nums_val)
+
+                acc_percentage_val = acc_count_val / train_loader.batch_size
+                acc_epoch_percentage_val = acc_epoch_count_val / all_nums_val
+
+                print(
+                    '=== Eval Epoch: {0:d}/{1:d} === Iter:{2:d} === avg_Loss: {3:.2f} === BatchAcc: {4:.2f} === allAcc: {5:.2f} ==='. \
+                    format(epoch, epochs, batchidx_val, avg_loss_val, acc_percentage_val, acc_epoch_percentage_val))
+
+def main():
+    categories=   [ 'beautiful','boring','depressing','lively','safety','wealthy']
+
+    # for i in range(10):
+    #     train(i,model_names,categories)
+        # break
+
+    epochs = 20
+    batch_size = 5
+
+    tar_train = categories[0]
+    tar_train = 'safety'
+
+    csv_file = r'f:\sv\imageability\Familiarity\5.csv'
+    img_dir = r'f:\sv\imageability\Familiarity\5'
+    train_loader, validation_loader = load_dataset(csv_file, img_dir, batch_size, split=True)
+
+    # for batchidx_val, dt_val in enumerate(validation_loader):
+        # images_val, y_val = dt_val[0].to(device), dt_val[1].to(device)
+        # print("1")
+
+    model = models.resnet152(pretrained=True)
+    # model = models.resnet152()
+    model.fc = torch.nn.Linear(model.fc.in_features, 1)  # 替换为线性回归层，输出维度为1
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+    train(model,device,train_loader, validation_loader,epochs)
+
+    torch.save(model, f'f:\sv\imageability\Familiarity\5/{tar_train}_.pth')
+
+
+if __name__ == "__main__":
+
+    main()
