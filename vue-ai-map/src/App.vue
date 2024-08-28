@@ -1,14 +1,16 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import GdMap from '@/views/GdMap.vue'
+import AIChat from '@/components/AIChat.vue'
 
 </script>
 
 <template>
   <div class="app-container">
-    <GdMap />
+    <!-- <GdMap /> -->
+    <RouterView />
+    <AIChat />
+
   </div>
-  <!-- <RouterView /> -->
 </template>
 
 <style lang="less" scoped>
