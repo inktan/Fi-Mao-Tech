@@ -4,7 +4,10 @@ import os
 import shutil
 import datetime
 import time
+import sqlite3
 from tqdm import tqdm
+
+Image.MAX_IMAGE_PIXELS = None  # 这将移除像素数量的限制
 
 def timer_decorator(func):
     def wrapper(*args, **kwargs):
@@ -15,6 +18,41 @@ def timer_decorator(func):
         print(f"{func.__name__} 耗时: {elapsed_time:.6f} 秒")  # 打印耗时
         return result  # 返回原始函数的结果
     return wrapper
+
+def get_imagehash(img_paths):
+    db_path = r'E:\work\imagehash\imageHash20240830.db'
+    db = sqlite3.connect(db_path)
+
+    table_name = 'imageHash'
+
+    cursor = db.cursor()
+    cursor.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{table_name}'")
+    # 检查查询结果
+    table_exists = cursor.fetchone()
+    # 如果表存在，则删除它
+    if not table_exists:
+        db.execute(f'''CREATE TABLE {table_name}
+            (ID INTEGER PRIMARY KEY,
+            ImageHash TEXT    NOT NULL,
+            Path        TEXT    NOT NULL);''')
+        db.commit()
+
+    for i, file_path in enumerate(tqdm(img_paths)):
+        try:
+            img = Image.open(file_path)
+            hash_value = str(imagehash.phash(img))
+
+            cursor.execute(f"SELECT * FROM {table_name} WHERE ImageHash=?", (hash_value,))
+            if not cursor.fetchone():
+                db.execute(f'''INSERT INTO {table_name} (ImageHash, Path)
+                            VALUES (?, ?)''', (hash_value, ''))
+        except Exception as e:
+            continue
+
+        if i%10000==0:
+            db.commit()
+    db.commit()
+    db.close()
 
 def remove_duplicate_images(img_paths):
     hash_table = {}
@@ -44,8 +82,8 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus',
-        r'D:\Ai-clip-seacher\AiArchLibAdd-20240822',
+        r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus_thumbnail_1k',
+        # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822',
         ]
     for folder_path in folder_path_list:
         for root, dirs, files in os.walk(folder_path):
@@ -55,7 +93,31 @@ def main():
                     img_paths.append(file_path)
                     img_names.append(file)
 
-    remove_duplicate_images(img_paths)
+    # remove_duplicate_images(img_paths)
+    get_imagehash(img_paths)
+
+def SELECT_COUNT():
+    db_path = r'E:\work\imagehash\imageHash20240830.db'
+    conn = sqlite3.connect(db_path)
+
+    table_name = 'imageHash'
+    # 连接到SQLite数据库
+    # 数据库文件是test.db，如果文件不存在，会自动在当前目录创建:
+    cursor = conn.cursor()
+
+    # 执行查询语句，这里假设表名为example_table:
+    cursor.execute('SELECT COUNT(*) FROM imageHash')
+
+    # 使用fetchone()获取单条数据
+    count = cursor.fetchone()[0]
+
+    print(f'imageHash 表中共有 {count} 条数据。')
+
+    # 关闭Cursor和Connection:
+    cursor.close()
+    conn.close()
+
 
 if __name__ == '__main__':
     main()
+

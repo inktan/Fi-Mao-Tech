@@ -62,6 +62,8 @@ if __name__ == '__main__':
         # 遍历并打印每个键值对
         for index, img_url in enumerate(data['project_imgs_links']):
             # print(img_url)
+            if index<8786:
+                continue
 
             file_path = project_imgs_folder+ '\\' +f'img_{index}.jpg'
             file_exists = os.path.exists(file_path)

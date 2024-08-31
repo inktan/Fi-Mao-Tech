@@ -149,7 +149,7 @@ function handleMouseLeave(index) {
                     :class="{ 'with-overlay': activeIndex === index }">
                     <div class="ai-role">
                         <div class="role">{{ roleAlias[item.role] }}：</div>
-                        <Copy v-if="activeIndex === index" class="role-copy" :content="item.content" />
+                        <!-- <Copy v-if="activeIndex === index" class="role-copy" :content="item.content" /> -->
                     </div>
                     <div class="ai-content">
                         <div class="content" v-if="item.content" v-html="item.content"></div>
