@@ -15,8 +15,8 @@ let aMap = null;
 
 onMounted(() => {
   window._AMapSecurityConfig = {
-    // securityJsCode: web_frontend_secret_key,
-    serviceHost: "http://39.98.218.136:8801/_AMapService",
+    securityJsCode: web_frontend_secret_key,
+    // serviceHost: "http://39.98.218.136:8801/_AMapService",
   };
 
   AMapLoader.load({
@@ -53,7 +53,7 @@ onMounted(() => {
       layers: [layer], //layer为创建的默认图层
     });
 
-    var toolbar = new AMap.ToolBar(
+    var toolbar = new AMap.Scale(
       {
         position: {
           right: '10px',
@@ -62,64 +62,31 @@ onMounted(() => {
       }); //缩放工具条实例化
     map.addControl(toolbar); //添加控件
 
-    var toolbar = new AMap.Scale(
-      {
-        position: {
-          right: '50px',
-          bottom: '25px'
-        }
-      }); //缩放工具条实例化
-    map.addControl(toolbar); //添加控件
-
-    const marker = new AMap.Marker({
-      position: [120.629029, 31.32416], //位置-苏州拙政园
-      // icon: 'https://a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
-      anchor: 'bottom-center',
-    });
-    map.add(marker); //添加到地图
-    // 在地图上打开信息窗体
-    // openInfo();
-
-    // 添加路况信息
-    // const traffic = new AMap.TileLayer.Traffic({
-    //   autoRefresh: true, //是否自动刷新，默认为false
-    //   interval: 180, //刷新间隔，默认180s
-    // });
-    // map.add(traffic); //通过add方法添加图层
-    // traffic.show(); //显示路况图层
-    // traffic.hide(); //隐藏路况图层
-
-    // addPolygon(shanghai);
-    // addPolygon(suzhou);
-    // addPolygon(wuxi);
-
-    // 地点搜索
-    // const placeSearch = new AMap.PlaceSearch({
-    //   pageSize: 5, //单页显示结果条数
-    //   pageIndex: 1, //页码
-    //   city: "0512", //兴趣点城市
-    //   citylimit: true, //是否强制限制在设置的城市内搜索
-    //   map: map, //展现结果的地图实例
-    //   panel: "search-panel", //参数值为你页面定义容器的 id 值<div id="my-panel"></div>，结果列表将在此容器中进行展示。
-    //   autoFitView: true, //是否自动调整地图视野使绘制的 Marker 点都处于视口的可见范围
-    // });
-    // placeSearch.search("拙政园", function (status, result) {
-    //   console.log(status, result);
-    // }); //使用插件搜索关键字并查看结果
-
-    // 规划路线
+    // 驾车导航
     // const driving = new AMap.Driving({
     //   map: map, //展现结果的地图实例
-    //   panel: "drive-panel", //参数值为你页面定义容器的 id 值<div id="my-panel"></div>，结果列表将在此容器中进行展示。
-    // });
-    const driving = new AMap.Walking({
+    //   panel: "drive-panel",
+    // 公交导航
+    const driving = new AMap.Transfer({
       map: map, //展现结果的地图实例
-      panel: "drive-panel", //参数值为你页面定义容器的 id 值<div id="my-panel"></div>，结果列表将在此容器中进行展示。
-    });
+      panel: "drive-panel",
+    })
+    // 步行路导航
+    // const driving = new AMap.Walking({
+    //   map: map, //展现结果的地图实例
+    //   panel: "drive-panel",
+    // })
+    // 骑行导航
+    // const driving = new AMap.Riding({
+    //   map: map, //展现结果的地图实例
+    //   panel: "drive-panel",
+    // })
+
     const points = [
-      { keyword: '拙政园', city: '苏州' }, //起始点坐标
-      { keyword: '留园', city: '苏州' }, //终点坐标
-      { keyword: '苏州博物馆', city: '苏州' }, //终点坐标
+      { keyword: '拙政园', city: '苏州' },
+      { keyword: '留园', city: '苏州' },
+      { keyword: '平江历史街区', city: '苏州' },
+      { keyword: '苏州博物馆', city: '苏州' },
     ]
     //获取起终点规划线路
     driving.search(points, function (status, result) {
@@ -128,9 +95,6 @@ onMounted(() => {
         //查询成功时，result 即为对应的驾车导航信息
         console.log(result);
         // 如何展示导航的文字信息
-
-
-
       } else {
         console.log("获取驾车数据失败：" + result);
       }
@@ -211,6 +175,7 @@ const handleChangeStyleTheme = function (index) {
 
 <style lang="less" scoped>
 #container {
+  height: 100%;
   height: calc(100% + 20px);
 }
 

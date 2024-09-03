@@ -34,7 +34,7 @@ def download_image_(url, file_path):
 
 # 替换为从浏览器中复制的cookie值
 cookies = {
-    'cookie_name1': 'sp=3a960e76-4058-48b2-9457-df093207eeaf; _strava4_session=tu86jjodb8npdv3aimjum9hi4i8iamu9; CloudFront-Key-Pair-Id=APKAIDPUN4QMG7VUQPSA; CloudFront-Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vaGVhdG1hcC1leHRlcm5hbC0qLnN0cmF2YS5jb20vKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTcyNTg1MTQ5OX0sIkRhdGVHcmVhdGVyVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzI0NjI3NDk5fX19XX0_; CloudFront-Signature=ePRxddae2gq9ARxHqgTk~C-O5eq1z7EnjGjFw8YRGcneOMx~5YGZayMj11Qcm~BNPQNO~gtJBPaujCkKz5DB1JY2QuzFJD5J7xRRWGn3aMYnnUTUVf3Btmg5Qs9VcYu-akvTqcBxGOV13~URrCa9sgL~~8VfvjJX2h0WX88PZ6giQqnH7xsuSNjxcDZ2EqW-LDc1YWm7RvblEyLjSm3RLakBvHpBOc3enxxMinNeN-cNN-A7~VtcQc8ew9Ks2dAesPBgVd4yW5ezXttBS5S-vlM~3-rr3b9c0TRRp2Er9008kWhVrDRbN3C9F54AG2RvYmwlsZcnqlmG4N0hPExgDg__',
+    'cookie_name1': 'sp=3a960e76-4058-48b2-9457-df093207eeaf; CloudFront-Key-Pair-Id=APKAIDPUN4QMG7VUQPSA; _strava4_session=puc5a2qsevi3i0g9ok83gegenva21ja; CloudFront-Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vaGVhdG1hcC1leHRlcm5hbC0qLnN0cmF2YS5jb20vKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTcyNjEzNDA1N30sIkRhdGVHcmVhdGVyVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzI0OTEwMDU3fX19XX0_; CloudFront-Signature=jAQssF9qFm1aCwgBbWp5c6~L8YfR82FdadAL-hm125ho-Cded~orAjb2PibhNz-9HKUuh53Bbdq7bm18mUILXvipPzWAEo0cmpd6MmEaVUqE-4cjUOVUYDHpC06FxpMVPcF0Vmxe4yQGHPbcqo2StDTC3dGA18la1ARPbTLYtHUtKvGzFm4TAC9PRYxdeYvmT0hoNQlBB0QxJ6DC9TpJTvOsib4XTuMUkn-nbEhlJyazrx-shf9bYWqPALDe4YgYXtiT2rKK9Yx8Cv7Zw2aCFwzfDm6ze~rjZLAVqM2HL~bTmrIEtZImH7YUqed9GZcwXLbYcxh6Rad~IApxfGbHnA__',
 }
 
 def download_image(url, file_path):
@@ -66,14 +66,15 @@ if __name__ == '__main__':
     folder_path = r"D:\Ai-clip-seacher\strava_heatmap\imgs"
 
     for i in tqdm(range(27414,27468)): #X轴
-        for j in range(13374,13416): #Y轴
+        for j in range(13369,13416): #Y轴
             img_url = f'https://heatmap-external-a.strava.com/tiles-auth/all/orange/15/{i}/{j}.png?v=19'
             file_path = folder_path+ '\\' +f'img_{i}_{j}.png'
 
-            # file_exists = os.path.exists(file_path)
-            # if not file_exists and img_url.startswith('http'):
+            file_exists = os.path.exists(file_path)
+            if not file_exists:
+                # print(file_path)
 
-            download_image(img_url, file_path)
-            time.sleep(3)
+                download_image(img_url, file_path)
+                time.sleep(3)
             # break
 

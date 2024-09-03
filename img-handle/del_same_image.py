@@ -47,7 +47,8 @@ def get_imagehash(img_paths):
                 db.execute(f'''INSERT INTO {table_name} (ImageHash, Path)
                             VALUES (?, ?)''', (hash_value, ''))
         except Exception as e:
-            continue
+            print(e)
+            # continue
 
         if i%10000==0:
             db.commit()

@@ -17,32 +17,34 @@
 from PIL import Image
 
 num_cols = 27468-27414
-num_rows = 13416-13374
+num_rows = 13416-13369
 
-contact_sheet = Image.new('RGB', (num_cols * 512, num_rows * 512), (255, 255, 255, 0))
+contact_sheet = Image.new('RGBA', (num_cols * 512, num_rows * 512), (255, 255, 255, 0))
 
 x_offset = 0
 y_offset = 0
 
 for i in range(27414,27468): #X轴
-    for j in range(13374,13416): #Y轴
+    for j in range(13369,13416): #Y轴
 
         img_path = f'd:\Ai-clip-seacher\strava_heatmap\imgs\img_{i}_{j}.png'
 
         try:
-            img = Image.open(img_path).convert('L')
-            # contact_sheet.paste(img, (x_offset, y_offset))
-            # y_offset += 512
-            # if y_offset >= num_rows * 512:
-            #     y_offset = 0
-            #     x_offset += 512
+            # img = Image.open(img_path).convert('L')
+            img = Image.open(img_path)
+            
+            contact_sheet.paste(img, (x_offset, y_offset))
+            y_offset += 512
+            if y_offset >= num_rows * 512:
+                y_offset = 0
+                x_offset += 512
 
         except Exception as e:
             print(img_path)
-            # y_offset += 512
-            # if y_offset >= num_rows * 512:
-            #     y_offset = 0
-            #     x_offset += 512
+            y_offset += 512
+            if y_offset >= num_rows * 512:
+                y_offset = 0
+                x_offset += 512
 
-contact_sheet_path = r'D:\Ai-clip-seacher\strava_heatmap\contact_sheet_L.png'
+contact_sheet_path = r'D:\Ai-clip-seacher\strava_heatmap\contact_transparent.png'
 contact_sheet.save(contact_sheet_path)
