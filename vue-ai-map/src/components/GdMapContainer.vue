@@ -74,21 +74,40 @@ onUnmounted(() => {
   map?.destroy();
 });
 
-const btnTest = async function () {
-  const addresses = ['苏州市拙政园', '苏州市留园']
-  var path = [];
+const btnNavigation = async function () {
+  const addresses = ['苏州市拙政园', '苏州平江历史文化街区', '苏州市留园']
+  var points = [];
 
   for (let address of addresses)  // x 为属性名
   {
     let resp = await addressToLonLat(address)
     let jsonData = await resp.json()
     var coord = jsonData.geocodes[0].location
-    path.push(coord.split(',').map(str => parseFloat(str)));
+    points.push(coord.split(',').map(str => parseFloat(str)));
   }
 
-  // console.log(path)
-  var route = new aMap.DragRoute(map, path, 0);
-  route.search();
+  var startLngLat = points[0]; //起始点坐标
+  var endLngLat = points[2]; //终点坐标
+  var opts = {
+    waypoints: [points[1]], //途经点参数，最多支持传入16个途经点
+  };
+
+  var driving = new AMap.Driving({
+    policy: 11, //驾车路线规划策略，0是速度优先的策略
+    map: map,
+    //panel 指定将结构化的路线详情数据显示的对应的 DOM 上，传入值需是 DOM 的 ID
+    panel: "drive-panel", 
+  });
+
+  driving.search(startLngLat, endLngLat, opts, function (status, result) {
+    //status：complete 表示查询成功，no_data 为查询无结果，error 代表查询错误
+    //查询成功时，result 即为对应的驾车导航信息
+    console.log(status)
+    console.log(result)
+  });
+
+
+
 
 }
 
@@ -125,7 +144,7 @@ const handleChangeStyleTheme = function (index) {
   <div id="drive-panel"></div>
   <div id="panel"></div>
   <div id="panel02"></div>
-  <ToolBar @ChangeStyleTheme="handleChangeStyleTheme" @btnTest="btnTest" @reSet="reSet" @test="test" />
+  <ToolBar @ChangeStyleTheme="handleChangeStyleTheme" @btnNavigation="btnNavigation" @reSet="reSet" @test="test" />
 
 </template>
 

@@ -11,8 +11,8 @@ const handleCommand = (command) => {
     //   ElMessage(`click on item ${command}`)
     emit('ChangeStyleTheme', command);
 }
-const btnTest = () => {
-    emit('btnTest', btnTest);
+const btnNavigation = () => {
+    emit('btnNavigation', btnNavigation);
 }
 const reSet = () => {
     emit('reSet', reSet);
@@ -49,7 +49,7 @@ const test = () => {
                 <Right />
             </el-icon>
         </el-button>
-        <el-button @click="btnTest">导航</el-button>
+        <el-button @click="btnNavigation">导航</el-button>
         <el-button @click="reSet">刷新</el-button>
         <el-button @click="test">测试</el-button>
 
