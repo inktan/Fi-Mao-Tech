@@ -2,7 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import Aside from '@/components/Aside.vue'
 import AIChat from '@/components/AIChat.vue'
-import Trans from '@/components/Trans.vue'
+import Weather from '@/components/Weather.vue'
 
 </script>
 
@@ -18,7 +18,7 @@ import Trans from '@/components/Trans.vue'
     </div>
 
     <AIChat />
-    <!-- <Trans /> -->
+    <Weather />
   </div>
 </template>
 
@@ -28,12 +28,12 @@ import Trans from '@/components/Trans.vue'
   display: flex;
 
   .left-box {
-    background-color: #000000;
+    // background-color: #000000;
     flex-shrink: 0;
   }
 
   .right-box {
-    background-color: #f0f0f0;
+    // background-color: #f0f0f0;
     flex-grow: 1;
   }
 

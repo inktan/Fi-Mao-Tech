@@ -52,6 +52,4 @@
 // return Promise.reject(error);
 // });
 
-
-
-export default ins;
+// export default ins;

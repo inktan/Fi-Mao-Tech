@@ -5,10 +5,20 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { standard_style_theme } from "@/gd_map_config.js";
 
 const standardStyleThemeRef = ref(standard_style_theme)
-const emit = defineEmits(['ChangeStyleTheme']);
+
+const emit = defineEmits(['ChangeStyleTheme', 'btnTest', 'reSet', 'test']);
 const handleCommand = (command) => {
     //   ElMessage(`click on item ${command}`)
     emit('ChangeStyleTheme', command);
+}
+const btnTest = () => {
+    emit('btnTest', btnTest);
+}
+const reSet = () => {
+    emit('reSet', reSet);
+}
+const test = () => {
+    emit('test', test);
 }
 </script>
 
@@ -39,6 +49,9 @@ const handleCommand = (command) => {
                 <Right />
             </el-icon>
         </el-button>
+        <el-button @click="btnTest">导航</el-button>
+        <el-button @click="reSet">刷新</el-button>
+        <el-button @click="test">测试</el-button>
 
     </div>
 </template>
@@ -50,7 +63,8 @@ const handleCommand = (command) => {
     align-items: center;
     justify-content: center;
 
-    width: 420px;
+    // width: 420px;
+    padding: 0 10px;
     position: absolute;
     bottom: 10px;
     left: 50%;
@@ -58,7 +72,7 @@ const handleCommand = (command) => {
     border-radius: 10px;
 
     z-index: 0;
-    background-color: aliceblue;
+    background-color: #409eff;
 
     .el-dropdown-link {
         background-color: rgb(255, 255, 255);

@@ -7,6 +7,20 @@ import time
 import sqlite3
 from tqdm import tqdm
 
+# 配置日志
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    handlers=[
+        logging.FileHandler('run_work.log'),  # 日志文件名
+        logging.StreamHandler()  # 控制台输出
+    ]
+)
+logger = logging.getLogger(__name__)
+# logger.info('')
+
 Image.MAX_IMAGE_PIXELS = None  # 这将移除像素数量的限制
 
 def timer_decorator(func):
@@ -38,6 +52,11 @@ def get_imagehash(img_paths):
         db.commit()
 
     for i, file_path in enumerate(tqdm(img_paths)):
+        if i%10000==0:
+            db.commit()
+# 51 171 238
+        logger.info(f'图像查重到第{i}张')
+
         try:
             img = Image.open(file_path)
             hash_value = str(imagehash.phash(img))
@@ -46,19 +65,22 @@ def get_imagehash(img_paths):
             if not cursor.fetchone():
                 db.execute(f'''INSERT INTO {table_name} (ImageHash, Path)
                             VALUES (?, ?)''', (hash_value, ''))
+            else:
+                folder_path = os.path.dirname(file_path.replace('data-20240822','data-20240822-dup'))
+                if not os.path.exists(folder_path):
+                    os.makedirs(folder_path)
+                shutil.move(file_path, folder_path)  
+
         except Exception as e:
             print(e)
-            # continue
+            continue
 
-        if i%10000==0:
-            db.commit()
     db.commit()
     db.close()
 
 def remove_duplicate_images(img_paths):
     hash_table = {}
     for i, file_path in enumerate(tqdm(img_paths)):
-
         try:
             img = Image.open(file_path)
             hash_value = str(imagehash.phash(img))
@@ -83,8 +105,7 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus_thumbnail_1k',
-        # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822',
+        r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
         ]
     for folder_path in folder_path_list:
         for root, dirs, files in os.walk(folder_path):
