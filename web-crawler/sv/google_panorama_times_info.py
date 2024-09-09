@@ -66,6 +66,10 @@ def GSVpanoMetadataCollector():
                         panoramas_info.append(pand_info)
             json_dict[id] = panoramas_info
 
+            if count%1000==0:
+                with open(json_file_path, 'w', encoding='utf-8') as file:
+                    json.dump(json_dict, file, ensure_ascii=False, indent=4)
+                    
     with open(json_file_path, 'w', encoding='utf-8') as file:
         json.dump(json_dict, file, ensure_ascii=False, indent=4)
         
