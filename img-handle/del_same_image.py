@@ -106,6 +106,7 @@ def main():
 
     folder_path_list =[
         r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
+        # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
         ]
     for folder_path in folder_path_list:
         for root, dirs, files in os.walk(folder_path):
@@ -115,8 +116,8 @@ def main():
                     img_paths.append(file_path)
                     img_names.append(file)
 
-    # remove_duplicate_images(img_paths)
-    get_imagehash(img_paths)
+    remove_duplicate_images(img_paths)
+    # get_imagehash(img_paths)
 
 def SELECT_COUNT():
     db_path = r'E:\work\imagehash\imageHash20240830.db'

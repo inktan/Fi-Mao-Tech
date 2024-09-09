@@ -24,10 +24,10 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
     for index, row in tqdm(df.iterrows()):
         print(index,all_points_count)
         
-        if index <= 11111:
+        if index <= 12485:
             continue
-        # if index >11111:
-        #     continue
+        if index >16000:
+            continue
         
         id = row[0]
         lon = row[3]
@@ -80,7 +80,7 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
 
                 black_pixel_ratio = num_black_pixels / total_pixels
                 # 判断黑色像素比例是否大于0.28
-                if black_pixel_ratio > 0.28:
+                if black_pixel_ratio > 0.15:
                     continue
                 else:
                     img_save_path = output_floder+f"/{name_count}_{pano_year.pano.date}.jpg"
@@ -111,7 +111,7 @@ if __name__ == "__main__":
         # writer.writerow(['id','heading_google','lat','lon','heading','pitch','fov1','fov2'])
         writer.writerow(['id','name_count','heading_google'])
     # 全景分辨率设置 1-512*1024; 2-1024*2048; 3-2048*4096; 4-4096*8192
-    zoom = 3
+    zoom = 2
     if os.path.exists(output_) == False:
         os.makedirs(output_)    
     GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv)

@@ -182,7 +182,7 @@ function handleMouseLeave(index) {
 .aichat-container {
     position: fixed;
     right: -600px;
-    bottom: 10px;
+    bottom: 60px;
     z-index: 10000;
 
     .open-btn {
@@ -192,7 +192,7 @@ function handleMouseLeave(index) {
         width: 120px;
         border-radius: 30px;
         right: -50px;
-        bottom: 200px;
+        bottom: 300px;
         transition: all 0.5s ease;
         transform: translateX(100px);
 
@@ -302,8 +302,8 @@ function handleMouseLeave(index) {
             position: absolute;
             right: 0;
             top: 0;
-            transform: translate(-20px, 3px);
-            width: 10px;
+            transform: translate(-20px, -4px);
+            width: 1px;
         }
     }
 }
