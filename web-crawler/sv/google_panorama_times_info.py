@@ -18,10 +18,10 @@ def GSVpanoMetadataCollector():
             count += 1
             if count == 1 or len(row)<3:
                 continue
-            if count > 266000:
+            if count > 10:
                 continue
-            if count <= 133000 :
-                continue
+            # if count <= 133000 :
+            #     continue
             
             id = row[0]
             lon = row[2]
@@ -75,8 +75,8 @@ def GSVpanoMetadataCollector():
         
 if __name__ == "__main__":
     # 输入经纬度点的csv文件
-    input_csv = r'e:\work\roadpoints_50m\RoadPoints_50m_unique.csv'
+    input_csv = r'e:\work\sv_chenlong20240907\RoadPoints_50m_unique.csv'
     # 输入街景保存文件夹
-    json_file_path = r'e:\work\roadpoints_50m\RoadPoints_50m_unique.json'
+    json_file_path = r'e:\work\sv_chenlong20240907\id_panoramas_infos_01.json'
     
     GSVpanoMetadataCollector()
