@@ -13,7 +13,6 @@ main_list = list(data05.values())
 # empty_lists_count = sum(1 for sublist in main_list if not sublist)
 # print(empty_lists_count)
 
-
 from collections import defaultdict
 
 date_year_month_counts = defaultdict(int)
@@ -21,12 +20,21 @@ date_year_month_counts = defaultdict(int)
 count = 0
 
 # 遍历每个列表和字典
+# for list_of_dict in main_list:
+#     years = [item.get("year", None) for item in list_of_dict]
+
+#     has_01 = any(n in [2013, 2012, 2011] for n in years)  
+#     has_02 = any(n in [2021, 2022, 2023] for n in years)  
+#     if has_01 and has_02:
+#         count += 1
+
 for list_of_dict in main_list:
     years = [item.get("year", None) for item in list_of_dict]
 
-    has_01 = any(n in [2013, 2012, 2011] for n in years)  
-    has_02 = any(n in [2021, 2022, 2023] for n in years)  
-    if has_01 and has_02:
+    years_set = set(years)  
+    all_0 = len(set(years_set)) == 1 and list(set(years_set))[0] == 0  
+
+    if all_0:
         count += 1
 
         # print(years)

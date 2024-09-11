@@ -24,10 +24,6 @@ filtered_df = df[~df['id'].isin(given_list_int)]
 # 将筛选后的数据保存为新的CSV文件
 output_csv_file_path = r'e:\work\sv_chenlong20240907\RoadPoints_50m_miss.csv'
 filtered_df.to_csv(output_csv_file_path, index=False)
-
-output_csv_file_path
-
-  
   
   
   
