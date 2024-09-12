@@ -34,9 +34,12 @@ def make_download_url(pano_id: str, zoom: int, x: int, y: int) -> str:
     """
     Returns the URL to download a tile.
     """
+    # return (
+    #     "https://cbk0.google.com/cbk"
+    #     f"?output=tile&panoid={pano_id}&zoom={zoom}&x={x}&y={y}"
+    # )
     return (
-        "https://cbk0.google.com/cbk"
-        f"?output=tile&panoid={pano_id}&zoom={zoom}&x={x}&y={y}"
+        f'https://streetviewpixels-pa.googleapis.com/v1/tile?cb_client=maps_sv.tactile&panoid={pano_id}&x={x}&y={y}&zoom={zoom}&nbt=1&fover=2'
     )
 
 
@@ -73,6 +76,17 @@ def iter_tiles(pano_id: str, zoom: int) -> Generator[Tile, None, None]:
         image = fetch_panorama_tile(info)
         yield Tile(x=info.x, y=info.y, image=image)
 
+def get_degree_streetview(pano_id: str, degree: int = 0) -> Image.Image:
+    url = f'https://streetviewpixels-pa.googleapis.com/v1/thumbnail?cb_client=maps_sv.tactile&w=640&h=640&pitch=0&panoid={pano_id}&yaw={degree}'
+    while True:
+        try:
+            response = requests.get(url, stream=True)
+            break
+        except requests.ConnectionError:
+            print("Connection error. Trying again in 2 seconds.")
+            time.sleep(10)
+
+    return Image.open(BytesIO(response.content))
 
 def get_panorama(pano_id: str, zoom: int = 1) -> Image.Image:
     """

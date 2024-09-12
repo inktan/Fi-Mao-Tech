@@ -115,8 +115,8 @@ def main():
                     file_path = os.path.join(root, file)
                     img_paths.append(file_path)
                     img_names.append(file)
-
-    remove_duplicate_images(img_paths)
+    print(len(img_paths))
+    # remove_duplicate_images(img_paths)
     # get_imagehash(img_paths)
 
 def SELECT_COUNT():
@@ -142,5 +142,6 @@ def SELECT_COUNT():
 
 
 if __name__ == '__main__':
+    print('a01')
     main()
 
