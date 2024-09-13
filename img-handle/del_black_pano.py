@@ -1,5 +1,5 @@
 from PIL import Image
-import imagehash
+# import imagehash
 import os
 import shutil
 import datetime
@@ -68,7 +68,7 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
+        r'D:\BaiduNetdiskDownload\sv_j_ran\sv_google_20240903\sv_pan',
         # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
         ]
     for folder_path in folder_path_list:

@@ -24,15 +24,19 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
     for index, row in tqdm(df.iterrows()):
         print(index,all_points_count)
         
-        if index <= 12485:
-            continue
-        if index >16000:
-            continue
+        # if index <= 12485:
+        #     continue
+        # if index >16000:
+        #     continue
         
         id = row[0]
         lon = row[3]
         lat = row[4]
         
+        output_floder = output_+  f"\{id}_{lon}_{lat}" 
+        if os.path.exists(output_floder) == True:
+            continue
+
         panos = []
         try:
             panos = search_panoramas(lat, lon)
@@ -55,6 +59,8 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
         output_floder = output_+  f"\{id}_{lon}_{lat}" 
         if os.path.exists(output_floder) == False:
             os.makedirs(output_floder)
+        else:
+            continue
 
         name_count = 0
         for pano_year in sorted_panoramas:
@@ -80,15 +86,15 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
 
                 black_pixel_ratio = num_black_pixels / total_pixels
                 # 判断黑色像素比例是否大于0.28
-                if black_pixel_ratio > 0.15:
+                if black_pixel_ratio > 0.12:
                     continue
                 else:
                     img_save_path = output_floder+f"/{name_count}_{pano_year.pano.date}.jpg"
                     image.save(img_save_path)
                     
-                    with open(output_csv ,'a' ,newline='') as f: 
-                        writer = csv.writer(f)
-                        writer.writerow([id,name_count,pano_year.heading])
+                    # with open(output_csv ,'a' ,newline='') as f: 
+                    #     writer = csv.writer(f)
+                    #     writer.writerow([id,name_count,pano_year.heading])
                     
                     name_count += 1
                     # break
@@ -101,15 +107,15 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
 if __name__ == "__main__":
     
     # 输入经纬度点的csv文件
-    input_csv = r'e:\work\sv_j_ran\sv_google_20240903\data_coor_unique.csv'
+    input_csv = r'd:\BaiduNetdiskDownload\sv_j_ran\sv_google_20240903\data_coor_unique.csv'
     # 输入街景保存文件夹
-    output_ = r'E:\work\sv_j_ran\sv_google_20240903\sv_pan'
-    output_csv = r'E:\work\sv_j_ran\sv_google_20240903\sv_times_info.csv'
+    output_ = r'D:\BaiduNetdiskDownload\sv_j_ran\sv_google_20240903\sv_pan'
+    output_csv = r'd:\BaiduNetdiskDownload\sv_j_ran\sv_google_20240903\sv_times_info.csv'
     
-    with open(output_csv ,'w' ,newline='') as f: 
-        writer = csv.writer(f)
+    # with open(output_csv ,'w' ,newline='') as f: 
+    #     writer = csv.writer(f)
         # writer.writerow(['id','heading_google','lat','lon','heading','pitch','fov1','fov2'])
-        writer.writerow(['id','name_count','heading_google'])
+        # writer.writerow(['id','name_count','heading_google'])
     # 全景分辨率设置 1-512*1024; 2-1024*2048; 3-2048*4096; 4-4096*8192
     zoom = 2
     if os.path.exists(output_) == False:
