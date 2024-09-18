@@ -103,7 +103,6 @@ def add_json(foloder_path):
     print(len(image_files)) 
     print(len(unique_directories))
 
-
 def resize(image_directory):
     TARGET_PIXELS = 1024 * 1024  # 1K像素的平方
     image_files,unique_directories =get_all_image_files(image_directory)

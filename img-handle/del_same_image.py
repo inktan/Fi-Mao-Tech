@@ -105,7 +105,7 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
+        r'E:\ai_项目\embedding-test\img02',
         # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
         ]
     for folder_path in folder_path_list:
@@ -116,7 +116,7 @@ def main():
                     img_paths.append(file_path)
                     img_names.append(file)
     print(len(img_paths))
-    # remove_duplicate_images(img_paths)
+    remove_duplicate_images(img_paths)
     # get_imagehash(img_paths)
 
 def SELECT_COUNT():

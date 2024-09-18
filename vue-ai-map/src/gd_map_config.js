@@ -16,7 +16,6 @@ const standard_style_theme = {
     wine: '酱籽'
 }
 
-
 export {
     web_frontend_key,
     web_frontend_secret_key,

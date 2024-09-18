@@ -1,41 +1,34 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { onMounted, ref } from "vue";
 import Aside from '@/components/Aside.vue'
 import AIChat from '@/components/AIChat.vue'
 import Weather from '@/components/Weather.vue'
+import { useProjectStore } from "@/pinia.js";
+
+console.log('进入App.vue')
+const store = useProjectStore()
+onMounted(() => {
+  onResize()
+  window.addEventListener('resize', () => {
+    onResize()
+  })
+})
+
+function onResize() {
+  store.windowInsets.height = window.innerHeight
+  store.windowInsets.width = window.innerWidth
+  store.contentInsets.heightContent = window.innerHeight - store.contentInsets.heightToolbar - store.contentInsets.heightPager
+  store.contentInsets.widthContent = window.innerWidth - store.navWidth
+  // console.log(store.isInPortraitMode)
+}
 
 </script>
 
 <template>
-  <div class="app-container">
-
-    <div class="left-box">
-      <Aside />
-
-    </div>
-    <div class="right-box">
-      <RouterView />
-    </div>
-
-    <AIChat />
-    <Weather />
-  </div>
+  <RouterView />
 </template>
 
 <style lang="less" scoped>
-.app-container {
-  height: 100%;
-  display: flex;
 
-  .left-box {
-    // background-color: #000000;
-    flex-shrink: 0;
-  }
-
-  .right-box {
-    // background-color: #f0f0f0;
-    flex-grow: 1;
-  }
-
-}
 </style>

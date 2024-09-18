@@ -20,7 +20,7 @@ const handleClick = async function () {
   for (const key in params) {
     searchParams.append(key, params[key]);
   }
-  const get_url = `http://10.1.12.30:5002/get_lng_lat_info?${searchParams.toString()}`
+  const get_url = `http://110.40.230.188:8004/get_lng_lat_info?${searchParams.toString()}`
   const response = await fetch(get_url);
   if (!response.ok) {
     throw new Error('Network response was not ok');
