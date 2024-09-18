@@ -12,7 +12,7 @@ import json
 def GSVpanoMetadataCollector(input_csv,output_):
   
     data05 = {}
-    file_path = r'd:\BaiduNetdiskDownload\roadpoints_50m\id_panoramas_infos_02.json'
+    file_path = r'e:\work\roadpoints_50m\id_panoramas_infos_02.json'
     with open(file_path, 'r', encoding='utf-8') as file:
         data05 = json.load(file)
 
@@ -21,7 +21,7 @@ def GSVpanoMetadataCollector(input_csv,output_):
 
     for index, key in enumerate(sorted(data05)):
         
-        if index <= 268000:
+        if index <= 44967:
             continue
         # if index >16000:
         #     continue
@@ -99,26 +99,28 @@ def GSVpanoMetadataCollector(input_csv,output_):
                     except:
                         continue
 
-        for key,value in svPanoImgs.items():
-            value.save(key)
-        output_csv = output_ +  f"\{id}_{lon}_{lat}\\panos_info.csv" 
-        with open(output_csv ,'w' ,newline='') as f: 
-            writer = csv.writer(f)
-            writer.writerow(['pano_id','heading','pitch','date'])
-        with open(output_csv ,'a' ,newline='') as f: 
-            writer = csv.writer(f)
-            writer.writerows(sv_infos)
+        try :
+            for key,value in svPanoImgs.items():
+                value.save(key)
+            output_csv = output_ +  f"\{id}_{lon}_{lat}\\panos_info.csv" 
+            with open(output_csv ,'w' ,newline='') as f: 
+                writer = csv.writer(f)
+                writer.writerow(['pano_id','heading','pitch','date'])
+            with open(output_csv ,'a' ,newline='') as f: 
+                writer = csv.writer(f)
+                writer.writerows(sv_infos)
+        except:
+            index -= 1
+            continue
 
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
     
     # 输入经纬度点的csv文件
-    input_csv = r'e:\work\sv_chenlong20240907\RoadPoints_50m_unique.csv'
-    input_csv = r'd:\BaiduNetdiskDownload\roadpoints_50m\RoadPoints_50m_unique.csv'
+    input_csv = r'e:\work\roadpoints_50m\RoadPoints_50m_unique.csv'
     # 输入街景保存文件夹
-    output_ = r'E:\work\sv_chenlong20240907\sv_pan'
-    output_ = r'D:\BaiduNetdiskDownload\roadpoints_50m\sv_pan'
+    output_ = r'E:\work\roadpoints_50m\sv_pan'
     
     if os.path.exists(output_) == False:
         os.makedirs(output_)    

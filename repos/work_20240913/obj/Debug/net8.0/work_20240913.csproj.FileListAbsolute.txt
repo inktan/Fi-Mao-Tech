@@ -1,0 +1,15 @@
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\bin\Debug\net8.0\work_20240913.exe
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\bin\Debug\net8.0\work_20240913.deps.json
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\bin\Debug\net8.0\work_20240913.runtimeconfig.json
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\bin\Debug\net8.0\work_20240913.dll
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\bin\Debug\net8.0\work_20240913.pdb
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\obj\Debug\net8.0\work_20240913.GeneratedMSBuildEditorConfig.editorconfig
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\obj\Debug\net8.0\work_20240913.AssemblyInfoInputs.cache
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\obj\Debug\net8.0\work_20240913.AssemblyInfo.cs
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\obj\Debug\net8.0\work_20240913.csproj.CoreCompileInputs.cache
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\obj\Debug\net8.0\work_20240913.sourcelink.json
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\obj\Debug\net8.0\work_20240913.dll
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\obj\Debug\net8.0\refint\work_20240913.dll
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\obj\Debug\net8.0\work_20240913.pdb
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\obj\Debug\net8.0\work_20240913.genruntimeconfig.cache
+D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\repos\work_20240913\obj\Debug\net8.0\ref\work_20240913.dll
