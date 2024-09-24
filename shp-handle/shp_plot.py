@@ -1,13 +1,17 @@
 import os
 import geopandas as gpd
+import matplotlib.pyplot as plt
 import pandas as pd
+
+folder_path = r'E:\work\苏大-鹌鹑蛋好吃\热力图\shp_patch\cropped_image_14_14'
 
 shp_paths = []
 shp_names = []
 accepted_formats = (".shp")
 
 folder_path_list =[
-    r'E:\work\苏大-鹌鹑蛋好吃\热力图\shp_patch',
+    r'E:\work\苏大-鹌鹑蛋好吃\热力图\shp_patch\cropped_image_13_14',
+    r'E:\work\苏大-鹌鹑蛋好吃\热力图\shp_patch\cropped_image_14_14',
     # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
     ]
 for folder_path in folder_path_list:
@@ -22,10 +26,7 @@ for folder_path in folder_path_list:
 gdfs = [gpd.read_file(shp) for shp in shp_paths]
 merged_gdf = gpd.GeoDataFrame(pd.concat(gdfs, ignore_index=True))
 
-# 4. 保存合并后的 Shapefile
-merged_gdf.to_file('E:\work\苏大-鹌鹑蛋好吃\热力图\merged_output.shp')
-
-print("合并完成并保存为 merged_output.shp")
-
-
-
+# 可视化
+fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+merged_gdf.plot(ax=ax)
+plt.show()

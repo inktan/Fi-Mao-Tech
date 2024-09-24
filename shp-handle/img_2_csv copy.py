@@ -79,7 +79,15 @@ for i, file_path in enumerate(tqdm(img_paths)):
                 y = y_max_start - i * y_scale_patch  # 注意：图像的 y 轴是从上往下的，坐标系是从下往上的
 
                 if gray_value <= 230:
-                    gray_value = gray_value / 230.0 * 100.0
+
+                    min_value = 45
+                    max_value = 230
+                    if gray_value <= min_value:
+                        gray_value = 100
+                    elif gray_value >= max_value:
+                        gray_value = 0
+                    else:
+                        gray_value = (max_value - gray_value) / (max_value - min_value) * 100
                     writer.writerow([x, y, gray_value])
 
     print("CSV 文件生成成功")

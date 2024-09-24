@@ -77,7 +77,7 @@ def iter_tiles(pano_id: str, zoom: int) -> Generator[Tile, None, None]:
         yield Tile(x=info.x, y=info.y, image=image)
 
 def get_degree_streetview(pano_id: str, degree: int = 0) -> Image.Image:
-    url = f'https://streetviewpixels-pa.googleapis.com/v1/thumbnail?cb_client=maps_sv.tactile&w=640&h=640&pitch=0&panoid={pano_id}&yaw={degree}'
+    url = f'https://streetviewpixels-pa.googleapis.com/v1/thumbnail?cb_client=maps_sv.tactile&w=1000&h=1000&pitch=0&panoid={pano_id}&yaw={degree}'
     while True:
         try:
             response = requests.get(url, stream=True)
