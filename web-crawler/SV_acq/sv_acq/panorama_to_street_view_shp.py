@@ -62,7 +62,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
                     persp_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  
                     pil_image = Image.fromarray(persp_rgb)  
 
-                    out_dir = input_dir.replace('sv_pan02','sv_pan02_640_640')
+                    out_dir = input_dir.replace('sv_pan','sv_pan_960_720')
                     img_name_ = img_name.replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
                     img_degree_save = out_dir+'\\'+img_name_
                     folder_path = os.path.dirname(img_degree_save)
@@ -76,7 +76,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
-    input = r'C:\Users\wang.tan.GOA\Desktop\sv_pan\sv_pan02'
+    input = r'E:\work\sv_20240918\sv_pan'
 
     # fov是镜头的远近关系 水平方向范围，范围[10,360]，fov=360即可显示整幅全是图
     # pitch是仰头，低头关系 垂直视角，范围[0,90]。
@@ -88,8 +88,8 @@ if __name__ == "__main__":
     degree_count = 4
         
     # 角度街景宽度
-    width = 640
-    height = 640
+    width = 960
+    height = 720
     
     panorama_to_street_view(input ,fov,degree_count,phi,height,width)
 

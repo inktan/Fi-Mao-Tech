@@ -76,7 +76,8 @@ def main(csv_path,folder_out_path):
         lng1 = lng_lst[i]
         lat1 =lat_lst[i]
         # headings = [angle_lst[i]]
-        headings = [0,60,120,180,240,300]
+        # headings = [0,60,120,180,240,300]
+        headings = [0,90,180,270]
         # 设置请求头，模拟浏览器访问
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
@@ -121,8 +122,8 @@ def main(csv_path,folder_out_path):
 
 if __name__ == '__main__':
     # 文件夹路径
-    folder_out_path = r'e:\work\sv_cynthia\sv_points01' # 
-    csv_path = r'e:\work\sv_cynthia\points.csv' # 
+    folder_out_path = r'e:\work\sv_20240918\20240918Export_Output_02' # 
+    csv_path = r'e:\work\sv_20240918\20240918Export_Output_02.csv' # 
 
     main(csv_path,folder_out_path)
 

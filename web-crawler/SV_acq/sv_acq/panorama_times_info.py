@@ -42,10 +42,10 @@ def get_panoid(lng,lat,bound,sv_id,folder_out_path):
          result = data['content']
 
          # 输出道路名
-         RoadName = result['RoadName']
-         streetname = sv_id + ',' + bound + ',' + str(RoadName) + '\n'
-         with open( folder_out_path+ '/road_name_results.csv', 'a', encoding='utf-8') as f:
-             f.write(streetname)
+        #  RoadName = result['RoadName']
+        #  streetname = sv_id + ',' + bound + ',' + str(RoadName) + '\n'
+        #  with open( folder_out_path+ '/road_name_results.csv', 'a', encoding='utf-8') as f:
+        #      f.write(streetname)
 
          # 提取所有历史街景ID
          panoid = result['id']
@@ -74,17 +74,17 @@ def coord_convert(lng1,lat1):
  
 resolution_ratio = 4
 def main(csv_path,folder_out_path):
-    if os.path.exists(folder_out_path) == False:
-        os.makedirs(folder_out_path)
+    # if os.path.exists(folder_out_path) == False:
+    #     os.makedirs(folder_out_path)
 
     # 分辨率 "3 - 2048*1024   4 - 4096*2048"
-    if(resolution_ratio == 3):
-        ratio = 8
-    else:
-        ratio = 32
+    # if(resolution_ratio == 3):
+    #     ratio = 8
+    # else:
+    #     ratio = 32
 
-    x_count = int(2 ** (resolution_ratio - 2))
-    y_count = int(x_count * 2)
+    # x_count = int(2 ** (resolution_ratio - 2))
+    # y_count = int(x_count * 2)
 
     # 读取经纬度坐标点
     id_lst = []
@@ -103,9 +103,9 @@ def main(csv_path,folder_out_path):
             lat_lst.append(row[2])
 
     #临时文件夹位置
-    temp_path = folder_out_path + '/data stream file (can be deleted after crawling)'
-    if os.path.exists(temp_path) == False:
-        os.makedirs(temp_path)
+    # temp_path = folder_out_path + '/data stream file (can be deleted after crawling)'
+    # if os.path.exists(temp_path) == False:
+    #     os.makedirs(temp_path)
 
     # 记录信息的csv文件
     # with open(folder_out_path+r'/road_name_results.csv','w' ,newline='') as f:
@@ -114,8 +114,8 @@ def main(csv_path,folder_out_path):
     #     writer = csv.writer(f)
     
     for i in tqdm(range(len(id_lst))):
-        if i<835:
-            continue
+        # if i<835:
+        #     continue
         # 1、lat是“latitude”的缩写，纬度
         # 2、lng是“longitude”的缩写，经度
         # 中国的经纬度 经度范围:73°33′E至135°05′E。 纬度范围:3°51′N至53°33′N。
@@ -128,26 +128,34 @@ def main(csv_path,folder_out_path):
 
             # 每个地点单独存一个文件夹，使用id命名
             # pic_path = folder_out_path +'/'+str(id)+'_' +str(lng)+'_' +str(lat)
-            pic_path = folder_out_path +'/'+str(id)
-            if os.path.exists(pic_path) == False:
-                os.makedirs(pic_path)
+            # pic_path = folder_out_path +'/'+str(id)
+            # if os.path.exists(pic_path) == False:
+            #     os.makedirs(pic_path)
 
             for timeLine in timeLineIds:
-                result_cache_path = temp_path + '/'+str(id)+'_'+ timeLine['ID'] +'_'+ timeLine['TimeLine']
-                if os.path.exists(result_cache_path) == False:
-                    os.makedirs(result_cache_path)
-                get_streetview(result_cache_path ,timeLine['ID'] ,x_count,y_count)
-                merge_image(result_cache_path, id,lng,lat,x_count,y_count,pic_path,timeLine['TimeLine'])
+
+                with open(r'e:\work\sv_畫畫_20240923\aomen_sv_info.csv','a' ,newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([id,lng,lat, timeLine['TimeLine'], timeLine['Year']])
+                # result_cache_path = temp_path + '/'+str(id)+'_'+ timeLine['ID'] +'_'+ timeLine['TimeLine']
+                # if os.path.exists(result_cache_path) == False:
+                #     os.makedirs(result_cache_path)
+                # get_streetview(result_cache_path ,timeLine['ID'] ,x_count,y_count)
+                # merge_image(result_cache_path, id,lng,lat,x_count,y_count,pic_path,timeLine['TimeLine'])
 
         except:
             print("There is no streetview in the current location")
-            mistake = id + ',' + lng+','+lat + ',' + '\n'
-            with open(folder_out_path + '/error_data.csv', 'a', encoding='utf-8') as f:
-                f.write(mistake)
+            # mistake = id + ',' + lng+','+lat + ',' + '\n'
+            # with open(folder_out_path + '/error_data.csv', 'a', encoding='utf-8') as f:
+            #     f.write(mistake)
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\20240201\20240201.csv' # 需要爬取的点
+    csv_path = r'e:\work\sv_畫畫_20240923\aomen_01.csv' # 需要爬取的点
     folder_out_path = r'e:\work\20240201\sv' # 保存街景文件
+
+    with open(r'e:\work\sv_畫畫_20240923\aomen_sv_info.csv','w' ,newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['id','lng','lat','timeLine','year'])
 
     main(csv_path,folder_out_path)

@@ -20,13 +20,26 @@ class Panorama:
 def GSVpanoMetadataCollector(input_csv,output_):
     
     df = pd.read_csv(input_csv)  
-    for index, row in tqdm(df.iterrows()):
-        
+    for index, pano_row in tqdm(df.iterrows()):
+                
         # if index <= 15000:
         #     continue
         # if index >16000:
         #     continue
         
+        original_heading = pano_row[ 'heading' ]if 'heading' in pano_row else 0
+        headingl = pano_row[ 'heading_ori']
+        fov1 =pano_row['fov1']
+        pitch1 = pano_row[ 'pitch1']
+        heading2 = pano_row[ 'heading_ori']
+        fov2 = pano_row['fov2']
+        pitch2 = pano_row['pitch2']
+        original_pitch = pano_row['pitch']
+        roll = pano_row['roll']
+
+        e_img = load_image(input_path,(15360,7680)
+        if e_img is not None:
+           
         id = row[0]
         id_01 = row[2]
         lon = row[3]
