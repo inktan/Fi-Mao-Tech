@@ -31,8 +31,8 @@ def GSVpanoMetadataCollector(samplesFeatureClass,output_,zoom,output_csv):
             #     continue
             # if count >300000005:
             #     continue
-            lon = row[2]
-            lat = row[3]
+            lon = row[1]
+            lat = row[2]
             
             panos = []
             try:
@@ -68,28 +68,28 @@ def GSVpanoMetadataCollector(samplesFeatureClass,output_,zoom,output_csv):
                     # image.save(img_save_path)
                     
                     # image = Image.open(image_path)
-                    img_array = np.array(image)
+                    # img_array = np.array(image)
                     # 判断黑色像素
                     # 对于RGB图像，黑色像素的值为(0, 0, 0)
                     # 对于灰度图像，黑色像素的值为0
-                    if len(img_array.shape) == 3:  # RGB图像
-                        black_pixels = (img_array == [0, 0, 0]).all(axis=2)
-                    else:  # 灰度图像
-                        black_pixels = (img_array == 0)
+                    # if len(img_array.shape) == 3:  # RGB图像
+                    #     black_pixels = (img_array == [0, 0, 0]).all(axis=2)
+                    # else:  # 灰度图像
+                    #     black_pixels = (img_array == 0)
 
-                    num_black_pixels = np.sum(black_pixels)
-                    total_pixels = img_array.size // 3 if len(img_array.shape) == 3 else img_array.size
+                    # num_black_pixels = np.sum(black_pixels)
+                    # total_pixels = img_array.size // 3 if len(img_array.shape) == 3 else img_array.size
 
-                    black_pixel_ratio = num_black_pixels / total_pixels
-                    if black_pixel_ratio > 0.28:
-                        continue
-                    else:
-                        image.save(img_save_path)
-                        
-                        with open(output_csv ,'a' ,newline='') as f: 
-                            writer = csv.writer(f)
-                            writer.writerow([f"{row[0]}_{row[2]}_{row[3]}",pano_year.heading,row[2],row[3]])
-                        break
+                    # black_pixel_ratio = num_black_pixels / total_pixels
+                    # if black_pixel_ratio > 0.28:
+                    #     continue
+                    # else:
+                    image.save(img_save_path)
+                    
+                    with open(output_csv ,'a' ,newline='') as f: 
+                        writer = csv.writer(f)
+                        writer.writerow([f"{row[0]}_{row[2]}_{row[3]}",pano_year.heading,row[2],row[3]])
+                    break
                     # break
                     # name_count += 1
                 except Exception as e :
@@ -100,10 +100,10 @@ def GSVpanoMetadataCollector(samplesFeatureClass,output_,zoom,output_csv):
 if __name__ == "__main__":
     
     # 输入经纬度点的csv文件
-    input = r'c:\Users\wang.tan.GOA\Desktop\sv_pan\RoadPoints_50m_wgs.csv'
+    input = r'd:\BaiduNetdiskDownload\sv_demonio\point.csv'
     # 输入街景保存文件夹
-    output_ = r'C:\Users\wang.tan.GOA\Desktop\sv_pan\sv_pan02'
-    output_csv = r'c:\Users\wang.tan.GOA\Desktop\sv_pan\sv_test_info.csv'
+    output_ = r'd:\BaiduNetdiskDownload\sv_demonio\sv_pan'
+    output_csv = r'd:\BaiduNetdiskDownload\sv_demonio\sv_test_info.csv'
     
     with open(output_csv ,'w' ,newline='') as f: 
         writer = csv.writer(f)

@@ -28,9 +28,9 @@ def GSVpanoMetadataCollector(input_csv,output_):
         #     continue
         
         id = row[0]
-        id_01 = row[2]
-        lon = row[3]
-        lat = row[4]
+        # id_01 = row[2]
+        lon = row[1]
+        lat = row[2]
 
         panos = []
         try:
@@ -59,7 +59,7 @@ def GSVpanoMetadataCollector(input_csv,output_):
             try :
                 for degree in [0,90,180,270]:
                     image = get_degree_streetview(pano_item.pano.pano_id,degree)
-                    img_save_path = output_ +f'\{id}_{id_01}_{lon}_{pano_item.pano.date}_{degree}.jpg'
+                    img_save_path = output_ +f'\{id}_{lon}_{lat}_{pano_item.pano.date}_{degree}.jpg'
                     image.save(img_save_path)
                 break
             except:
@@ -70,9 +70,9 @@ def GSVpanoMetadataCollector(input_csv,output_):
 if __name__ == "__main__":
     
     # 输入经纬度点的csv文件
-    input_csv = r'e:\work\sv_畫畫_20240923\aomen.csv'
+    input_csv = r'd:\BaiduNetdiskDownload\sv_demonio\point.csv'
     # 输入街景保存文件夹
-    output_ = r'e:\work\sv_畫畫_20240923\sv_degrees'
+    output_ = r'd:\BaiduNetdiskDownload\sv_demonio\sv_degrees'
     if os.path.exists(output_) == False:
         os.makedirs(output_)    
 
