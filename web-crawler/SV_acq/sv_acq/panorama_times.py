@@ -50,6 +50,7 @@ def get_panoid(lng,lat,bound,sv_id,folder_out_path):
          # 提取所有历史街景ID
          panoid = result['id']
          url = 'https://mapsv0.bdimg.com/?qt=sdata&sid=' + panoid + '&pc=1'
+         url = 'https://mapsv0.bdimg.com/?qt=sdata&sid=0900290012210415124441208GN&pc=1'
          r = requests.get(url,stream=True)
          data = json.loads(r.text)
          timeLineIds = data["content"][0]['TimeLine']
@@ -72,7 +73,7 @@ def coord_convert(lng1,lat1):
         result = transCoordinateSystem.gcj02_to_bd09(lng1,lat1)
         return transBmap.lnglattopoint(result[0],result[1])
  
-resolution_ratio = 4
+resolution_ratio = 3
 def main(csv_path,folder_out_path):
     if os.path.exists(folder_out_path) == False:
         os.makedirs(folder_out_path)
@@ -122,9 +123,14 @@ def main(csv_path,folder_out_path):
         id = id_lst[i]
         lng = lng_lst[i]
         lat =lat_lst[i]
+        
+        lng = '120.73550218745048'
+        lat = '31.273688469760273'
+
         try:
             tar_lng_lat = coord_convert(float(lng),float(lat))
             timeLineIds = get_panoid(tar_lng_lat[0],tar_lng_lat[1],lng+'_'+lat, id,folder_out_path)
+            continue
 
             # 每个地点单独存一个文件夹，使用id命名
             # pic_path = folder_out_path +'/'+str(id)+'_' +str(lng)+'_' +str(lat)
@@ -147,7 +153,7 @@ def main(csv_path,folder_out_path):
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\sv_20240918\20240918Export_Output_01.csv' # 需要爬取的点
-    folder_out_path = r'e:\work\20240201\sv999' # 保存街景文件
+    csv_path = r'd:\BaiduNetdiskDownload\FiMaoTech\panorama_times\dist\points.csv' # 需要爬取的点
+    folder_out_path = r'd:\BaiduNetdiskDownload\FiMaoTech\panorama_times\dist\sv999' # 保存街景文件
 
     main(csv_path,folder_out_path)

@@ -58,11 +58,11 @@ def get_pro_lits_info(project_link):
         title = soup.find('title').get_text()
         json_dict['title'] = title
 
-        illegal_chars = [" ", "/", "\\", "|", '"', "'"]
+        illegal_chars = [" ", "/", "\\", "|", '"', ':', '*', '?', '<', '>', '|']
         for char in illegal_chars:
             title = title.replace(char, "_")
 
-        folder_path = folder_path_template + f'\{title}' 
+        folder_path = folder_path_template + f'\{title}'
 
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
@@ -86,7 +86,7 @@ if __name__ == '__main__':
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
     }
 
-    folder_path_template = r'D:\Ai-clip-seacher\AiArchLib\archiposition-20241012'
+    folder_path_template = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archiposition-20241012'
 
     url = r'https://www.archiposition.com/wp-admin/admin-ajax.php?action=load_category&ajax=1&limit=2000'
     project_count = 0

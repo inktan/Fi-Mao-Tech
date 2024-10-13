@@ -48,8 +48,8 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
                 image_type = image_path.split('.')[-1]
                 for i in degrees:
                     img = equ.GetPerspective(fov, i, phi,height,width) # Specify parameters(FOV, theta, phi, height, width)
-                    persp_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  
-                    pil_image = Image.fromarray(persp_rgb)  
+                    persp_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                    pil_image = Image.fromarray(persp_rgb)
 
                     img_degree_save = image_path.replace('sv_pan',f'sv_degree_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
                     folder_path = os.path.dirname(img_degree_save)
@@ -64,7 +64,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
-    input = r'E:\work\sv_20240918\sv_points_01\sv_pan'
+    input = r'E:\work\sv_kei\sv_pan'
 
     # fov是镜头的远近关系 水平方向范围，范围[10,360]，fov=360即可显示整幅全是图
     # pitch是仰头，低头关系 垂直视角，范围[0,90]。
