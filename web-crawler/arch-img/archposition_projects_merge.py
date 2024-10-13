@@ -58,7 +58,7 @@ def get_pro_lits_info(project_link):
         title = soup.find('title').get_text()
         json_dict['title'] = title
 
-        illegal_chars = [" ", "/", "\\", "|", '"', "'"]
+        illegal_chars = [" ", "/", "\\", "|", '"', ':', "'"]
         for char in illegal_chars:
             title = title.replace(char, "_")
 
