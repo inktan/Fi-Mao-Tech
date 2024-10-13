@@ -7,6 +7,9 @@ import os
 import pickle
 import json
 
+from datetime import datetime
+print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -67,7 +70,7 @@ def export_pro_lits_info(project_link):
         div_element = soup.find('div', {'id': 'nrd-articles-container'})
         project_index = div_element['data-token'] if div_element else None
 
-        illegal_chars = [" ", "/", "\\", "|", '"', "'"]
+        illegal_chars = [" ", "/", "\\", "|", '"', ':', '*', '?', '<', '>', '|']
         for char in illegal_chars:
             title = title.replace(char, "_")
 
@@ -91,17 +94,15 @@ def export_pro_lits_info(project_link):
 
 if __name__ == '__main__':
 
-    folder_path_template = r'D:\Ai-clip-seacher\AiArchLib\archdaily-20241012'
-    page_index = 0
+    folder_path_template = r'D:\Ai-clip-seacher\AiArchLib\archdaily_com-20241012'
+    page_index = 1
 
     options = webdriver.ChromeOptions()  # 配置 chrome 启动属性
     options.add_experimental_option("excludeSwitches", ['enable-automation'])  # 此步骤很重要，设置为开发者模式，防止被各大网站识别出来使用了Selenium
     browser = webdriver.Chrome(options=options)
 
     while True:
-        if page_index>389:
-            break
-        if page_index>389:
+        if page_index>500:
             break
 
         url = 'https://www.archdaily.com/search/projects'
@@ -109,7 +110,7 @@ if __name__ == '__main__':
             url = f'https://www.archdaily.com/search/projects?page={page_index}'
         page_index+=1
 
-        print(url)
+        print(url,datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
         while True:
             try:
@@ -130,17 +131,19 @@ if __name__ == '__main__':
                 for project_link in project_links:
                     while True:
                         try:
+                            print(project_link,datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                             export_pro_lits_info(project_link) # 请求出错，则陷入无限请求中
+                            time.sleep(2)
                             break # 请求成功，则打破死循环
 
                         except Exception as e:
                             print(f"发生错误：{e}")
                             print("Connection error. Trying again in 2 seconds.")
-                            time.sleep(2)
+                            time.sleep(20)
                             
                 break # 请求成功，则打破死循环
             except Exception as e:
                 print(f"发生错误：{e}")
                 print("Connection error. Trying again in 2 seconds.")
-                time.sleep(2)
+                time.sleep(20)
         

@@ -11,6 +11,20 @@ import pandas as pd
 from datetime import datetime
 print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
+def download_image(url, file_path):
+    try:
+        response = requests.get(url, stream=True)
+        if response.status_code == 200:
+            with open(file_path, 'wb') as file:
+                for chunk in response.iter_content(chunk_size=1024):
+                    file.write(chunk)
+            # print("图片下载成功：", file_path)
+            return
+        else:
+            return
+    except Exception as e:
+        return
+    
 def extract_project_imgs_from_html(html):
     '''获取项目页面中包含的图片链接'''
     soup = BeautifulSoup(html, 'html.parser')
@@ -26,7 +40,13 @@ def get_pro_lits_info(project_link):
         title = soup.find('title').get_text()
         json_dict['title'] = title
 
-        folder_path = folder_path_template + f'\project_{project_count}' 
+        illegal_chars = [" ", "/", "\\", "|", '"', ':', '*', '?', '<', '>', '|']
+        for char in illegal_chars:
+            title = title.replace(char, "_")
+
+        folder_path = folder_path_template + f'\{title[0:218]}' 
+        folder_path = folder_path[0:210] 
+
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
@@ -35,11 +55,14 @@ def get_pro_lits_info(project_link):
             f.write(response.text)
 
         project_imgs_href_links = extract_project_imgs_from_html(response.text)
-        json_dict['project_imgs_links'] = project_imgs_href_links
+        for index, img_url in enumerate(project_imgs_href_links):
+            # print(img_url)
 
-        json_file_path =  folder_path+"\project_imgs_links.json"
-        with open(json_file_path, 'w', encoding='utf-8') as file:
-            json.dump(json_dict, file, ensure_ascii=False, indent=4)
+            file_path = folder_path+ '\\' +f'img_{index}.png'
+            file_exists = os.path.exists(file_path)
+            if not file_exists and img_url.startswith('http'):
+                download_image(img_url, file_path)
+
 
         # print(project_imgs_href_links)
 
@@ -51,21 +74,26 @@ if __name__ == '__main__':
 
     folder_path_template = r'D:\Ai-clip-seacher\AiArchLib\gooood-20241012'
     
-    df = pd.read_csv('d:\Ai-clip-seacher\AiArchLibAdd-20240822\gooood-0-150-2024-8-25.csv')
-    href_column = df['a01-href']
+    df = pd.read_csv(r'D:\Ai-clip-seacher\AiArchLib\gooood-0-150-2024-10-12.csv')
 
-    for index, project_link in df['a01-href'].items():
+    for index, project_link in df['link-href'].items():
+        if index<1739:
+            continue
+
         print(f"Index: {index}, Href: {project_link}", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
         while True:
             try:
                 project_count = index
+                print(project_link)
                 get_pro_lits_info(project_link) # 请求出错，则陷入无限请求中
-                time.sleep(3)
+                time.sleep(2)
                 break # 请求成功，则打破死循环
 
             except Exception as e:
                 print(f"发生错误：{e}")
                 print("Connection error. Trying again in 2 seconds.")
-                time.sleep(2)
+                time.sleep(20)
+
+
 
