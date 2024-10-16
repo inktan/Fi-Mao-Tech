@@ -36,7 +36,6 @@ export async function addressToLonLat(address) {
     let queryString = new URLSearchParams(queryParams).toString();
     const url = `https://restapi.amap.com/v3/geocode/geo?${queryString}`
     return await fetch(url)
-
 }
 
 // 逆地理编码：将经纬度转换为详细结构化的地址
