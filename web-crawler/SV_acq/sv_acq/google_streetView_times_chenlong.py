@@ -8,11 +8,12 @@ import os
 import numpy as np
 import pandas as pd  
 import json
+import os  
 
 def GSVpanoMetadataCollector(input_csv,output_):
   
     data05 = {}
-    file_path = r'e:\work\roadpoints_50m\id_panoramas_infos_02.json'
+    file_path = r'd:\BaiduNetdiskDownload\roadpoints_50m\id_panoramas_infos_02.json'
     with open(file_path, 'r', encoding='utf-8') as file:
         data05 = json.load(file)
 
@@ -21,10 +22,10 @@ def GSVpanoMetadataCollector(input_csv,output_):
 
     for index, key in enumerate(sorted(data05)):
         
-        if index <= 44967:
+        if index <= 259180:
             continue
-        # if index >16000:
-        #     continue
+        if index >270000:
+            continue
 
         panos = data05[key]
         
@@ -41,6 +42,11 @@ def GSVpanoMetadataCollector(input_csv,output_):
         output_floder = output_ +  f"\{id}_{lon}_{lat}" 
         if os.path.exists(output_floder) == False:
             os.makedirs(output_floder)
+        else:
+            items = os.listdir(output_floder)  
+            print(len(items))
+            if len(items) == 9:
+                continue
 
         # sorted_pans = sorted(panos, key=lambda pan: int(pan.date.split('-')[0]) if pan.date is not None and '-' in pan.date else 0, reverse=True)
         sorted_pans = sorted(panos, key=lambda x: x.get('year_month', float('-inf')), reverse=True) 
@@ -118,9 +124,9 @@ def GSVpanoMetadataCollector(input_csv,output_):
 if __name__ == "__main__":
     
     # 输入经纬度点的csv文件
-    input_csv = r'e:\work\roadpoints_50m\RoadPoints_50m_unique.csv'
+    input_csv = r'd:\BaiduNetdiskDownload\roadpoints_50m\RoadPoints_50m_unique.csv'
     # 输入街景保存文件夹
-    output_ = r'E:\work\roadpoints_50m\sv_pan'
+    output_ = r'D:\BaiduNetdiskDownload\roadpoints_50m\sv_pan'
     
     if os.path.exists(output_) == False:
         os.makedirs(output_)    
