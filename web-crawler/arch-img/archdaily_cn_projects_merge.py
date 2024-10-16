@@ -70,7 +70,7 @@ def export_pro_lits_info(project_link):
         div_element = soup.find('div', {'id': 'nrd-articles-container'})
         project_index = div_element['data-token'] if div_element else None
 
-        illegal_chars = [" ", "/", "\\", "|", '"', ':', '*', '?', '<', '>', '|']
+        illegal_chars = [" ", "/", "\\", "|", '"', ':', '*', '?', '<', '>', '|', '\t']
         for char in illegal_chars:
             title = title.replace(char, "_")
 
