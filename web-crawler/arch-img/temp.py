@@ -1,50 +1,93 @@
-# for i in range(27414,27466):
-#     print(i)
+from flask import Flask, Response,request, jsonify
+from flask_cors import CORS
+from gevent import pywsgi  
+import logging
+import time 
+from flask import g
+from zhipuai import ZhipuAI
 
-# from PIL import Image
+# 配置日志
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    handlers=[
+        logging.FileHandler('run_flask_cmd_ai_chat_8803.log'),  # 日志文件名
+        logging.StreamHandler()  # 控制台输出
+    ]
+)
 
-# # 路径到您的图片文件
-# image_path = r'd:\Ai-clip-seacher\strava_heatmap\imgs\img_27414_13374.jpg'  # 请替换为您的图片路径
-# # 路径到您想要保存灰度图的文件
-# gray_image_path = r'd:\Ai-clip-seacher\strava_heatmap\imgs01\img_27414_13374.jpg'  # 请替换为保存路径
+logger = logging.getLogger(__name__)
 
-# # 打开图片
-# image = Image.open(image_path)
-# # 转换为灰度图
-# gray_image = image.convert('L')
-# # 保存灰度图
-# gray_image.save(gray_image_path)
-from PIL import Image
+app = Flask(__name__)
+CORS(app)
+# 对于所有路由
+CORS(app, resources={r"/*": {"origins": "*"}})
 
-num_cols = 27468-27414
-num_rows = 13416-13369
+@app.before_request
+def start_timer():
+    g.start = time.time()
 
-contact_sheet = Image.new('RGBA', (num_cols * 512, num_rows * 512), (255, 255, 255, 0))
+@app.after_request
+def log_request(response):
+    if request.path.startswith('/ai_chat'):
+        elapsed_time = time.time() - g.start
+        logger.info(f'{request.remote_addr} - - [{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())}] '
+                    f'"{request.method} {request.path} {request.environ.get("SERVER_PROTOCOL")}" '
+                    f'{response.status_code} {response.content_length} 请求耗时 {elapsed_time:.6f} s')
+    return response
 
-x_offset = 0
-y_offset = 0
 
-for i in range(27414,27468): #X轴
-    for j in range(13369,13416): #Y轴
+import configparser
+config_file_path = 'config.ini'
+config = configparser.ConfigParser()
+config.read(config_file_path)
+api_credentials = {
+    'api_key': config.get('ZhipuAI_api_credentials', 'api_key'),
+    'expiration_date': config.get('ZhipuAI_api_credentials', 'expiration_date')
+}
 
-        img_path = f'd:\Ai-clip-seacher\strava_heatmap\imgs\img_{i}_{j}.png'
+client = ZhipuAI(api_key=api_credentials['api_key'])
 
+def zhipuai_chat(messageList, is_stream=False):
+    response = client.chat.completions.create(
+        model="glm-4",  # 填写需要调用的模型名称
+        # model="glm-4v",  # 填写需要调用的模型名称
+        messages = messageList,
+        stream = is_stream,
+        )
+    if is_stream:
+        for chunk in response:
+            # print(chunk.choices[0].delta.content)
+            yield chunk.choices[0].delta.content
+    else:
+        answer = response.choices[0].message.content
+        # print(answer)
+        return answer
+    
+def run():
+    print("Waiting for server to start ...")
+
+    # 暂时web前端使用fetch进行ai对话
+    @app.route('/ai_chat',methods=['POST'])
+    def ai_chat():
         try:
-            # img = Image.open(img_path).convert('L')
-            img = Image.open(img_path)
-            
-            contact_sheet.paste(img, (x_offset, y_offset))
-            y_offset += 512
-            if y_offset >= num_rows * 512:
-                y_offset = 0
-                x_offset += 512
-
+            messageList = request.json
+            return Response(zhipuai_chat(messageList['messages'], True), mimetype='text/event-stream')
         except Exception as e:
-            print(img_path)
-            y_offset += 512
-            if y_offset >= num_rows * 512:
-                y_offset = 0
-                x_offset += 512
+            print(e)
+            result = [str(e)]
+            return jsonify(results=result)
 
-contact_sheet_path = r'D:\Ai-clip-seacher\strava_heatmap\contact_transparent.png'
-contact_sheet.save(contact_sheet_path)
+    server = pywsgi.WSGIServer(('0.0.0.0', 8803), app)
+    print("Searcher Serving on port 39.98.218.136:8803 ...")
+
+    server.serve_forever()
+
+if __name__ == "__main__":
+    run()
+
+
+
+
+
