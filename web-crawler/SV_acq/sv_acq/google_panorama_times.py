@@ -62,7 +62,7 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
         else:
             continue
 
-        name_count = 0
+        # name_count = 0
         for pano_year in sorted_panoramas:
             time.sleep(0.05)
             try :
@@ -86,18 +86,18 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
 
                 black_pixel_ratio = num_black_pixels / total_pixels
                 # 判断黑色像素比例是否大于0.28
-                if black_pixel_ratio > 0.12:
-                    continue
-                else:
-                    img_save_path = output_floder+f"/{name_count}_{pano_year.pano.date}.jpg"
-                    image.save(img_save_path)
+                # if black_pixel_ratio > 0.12:
+                #     continue
+                # else:
+                img_save_path = output_floder+f"/{name_count}_{pano_year.pano.date}.jpg"
+                image.save(img_save_path)
                     
                     # with open(output_csv ,'a' ,newline='') as f: 
                     #     writer = csv.writer(f)
                     #     writer.writerow([id,name_count,pano_year.heading])
                     
-                    name_count += 1
-                    # break
+                # name_count += 1
+                # break
                     
             except Exception as e :
                 print(f'error:{e}')
@@ -107,10 +107,10 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
 if __name__ == "__main__":
     
     # 输入经纬度点的csv文件
-    input_csv = r'd:\BaiduNetdiskDownload\sv_j_ran\sv_google_20240903\data_coor_unique.csv'
+    input_csv = r'e:\work\sv_levon\50M-Distance-WGS84-4326.csv'
     # 输入街景保存文件夹
-    output_ = r'D:\BaiduNetdiskDownload\sv_j_ran\sv_google_20240903\sv_pan'
-    output_csv = r'd:\BaiduNetdiskDownload\sv_j_ran\sv_google_20240903\sv_times_info.csv'
+    output_ = r'e:\work\sv_levon\sv_pan'
+    output_csv = r'de:\work\sv_levon\50M-Distance-WGS84-4326_.csv'
     
     # with open(output_csv ,'w' ,newline='') as f: 
     #     writer = csv.writer(f)

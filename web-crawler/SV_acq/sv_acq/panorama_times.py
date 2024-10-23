@@ -61,7 +61,6 @@ def get_panoid(lng,lat,bound,sv_id,folder_out_path):
 
 #经纬度坐标转换
 # 坐标点类别 1-5-6
-coordinate_point_category = 1
 def coord_convert(lng1,lat1):
     if coordinate_point_category == 1:
         result = transCoordinateSystem.wgs84_to_gcj02(lng1, lat1)
@@ -73,7 +72,6 @@ def coord_convert(lng1,lat1):
         result = transCoordinateSystem.gcj02_to_bd09(lng1,lat1)
         return transBmap.lnglattopoint(result[0],result[1])
  
-resolution_ratio = 3
 def main(csv_path,folder_out_path):
     if os.path.exists(folder_out_path) == False:
         os.makedirs(folder_out_path)
@@ -115,8 +113,8 @@ def main(csv_path,folder_out_path):
     #     writer = csv.writer(f)
     
     for i in tqdm(range(len(id_lst))):
-        # if i<835:
-        #     continue
+        if i<1800:
+            continue
         # 1、lat是“latitude”的缩写，纬度
         # 2、lng是“longitude”的缩写，经度
         # 中国的经纬度 经度范围:73°33′E至135°05′E。 纬度范围:3°51′N至53°33′N。
@@ -124,13 +122,10 @@ def main(csv_path,folder_out_path):
         lng = lng_lst[i]
         lat =lat_lst[i]
         
-        lng = '120.73550218745048'
-        lat = '31.273688469760273'
-
         try:
             tar_lng_lat = coord_convert(float(lng),float(lat))
             timeLineIds = get_panoid(tar_lng_lat[0],tar_lng_lat[1],lng+'_'+lat, id,folder_out_path)
-            continue
+            # continue
 
             # 每个地点单独存一个文件夹，使用id命名
             # pic_path = folder_out_path +'/'+str(id)+'_' +str(lng)+'_' +str(lat)
@@ -138,12 +133,29 @@ def main(csv_path,folder_out_path):
             if os.path.exists(pic_path) == False:
                 os.makedirs(pic_path)
 
+            # for timeLine in timeLineIds:
+            #     result_cache_path = temp_path + '/'+str(id)+'_'+ timeLine['ID'] +'_'+ timeLine['TimeLine']
+            #     if os.path.exists(result_cache_path) == False:
+            #         os.makedirs(result_cache_path)
+            #     get_streetview(result_cache_path ,timeLine['ID'] ,x_count,y_count)
+            #     merge_image(result_cache_path, id,lng,lat,x_count,y_count,pic_path,timeLine['TimeLine'])
+            #     break
+
             for timeLine in timeLineIds:
-                result_cache_path = temp_path + '/'+str(id)+'_'+ timeLine['ID'] +'_'+ timeLine['TimeLine']
-                if os.path.exists(result_cache_path) == False:
-                    os.makedirs(result_cache_path)
-                get_streetview(result_cache_path ,timeLine['ID'] ,x_count,y_count)
-                merge_image(result_cache_path, id,lng,lat,x_count,y_count,pic_path,timeLine['TimeLine'])
+                if '2017' in timeLine['TimeLine']:
+                    result_cache_path = temp_path + '/'+str(id)+'_'+ timeLine['ID'] +'_'+ timeLine['TimeLine']
+                    if os.path.exists(result_cache_path) == False:
+                        os.makedirs(result_cache_path)
+                    get_streetview(result_cache_path ,timeLine['ID'] ,x_count,y_count)
+                    merge_image(result_cache_path, id,lng,lat,x_count,y_count,pic_path,timeLine['TimeLine'])
+
+                    timeLine = timeLineIds[0]
+                    result_cache_path = temp_path + '/'+str(id)+'_'+ timeLine['ID'] +'_'+ timeLine['TimeLine']
+                    if os.path.exists(result_cache_path) == False:
+                        os.makedirs(result_cache_path)
+                    get_streetview(result_cache_path ,timeLine['ID'] ,x_count,y_count)
+                    merge_image(result_cache_path, id,lng,lat,x_count,y_count,pic_path,timeLine['TimeLine'])
+                    break
 
         except:
             print("There is no streetview in the current location")
@@ -153,7 +165,9 @@ def main(csv_path,folder_out_path):
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'd:\BaiduNetdiskDownload\FiMaoTech\panorama_times\dist\points.csv' # 需要爬取的点
-    folder_out_path = r'd:\BaiduNetdiskDownload\FiMaoTech\panorama_times\dist\sv999' # 保存街景文件
+    csv_path = r'e:\work\sv_amzon\amazon_points.csv' # 需要爬取的点
+    folder_out_path = r'e:\work\sv_amzon\sv_pan' # 保存街景文件
 
+    resolution_ratio = 4
+    coordinate_point_category = 1
     main(csv_path,folder_out_path)
