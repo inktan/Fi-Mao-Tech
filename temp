@@ -1,0 +1,78 @@
+
+    server {
+        listen       8001;
+        listen       [::]:8001;
+        server_name  8001;
+        # root         /usr/share/nginx/html;
+        root         /home/ubuntu/web/html_work_map/dist;
+        # root         /root/web/chatchan-femaojiang/build;
+
+        index index.html;
+
+        # 为静态资源（js, css, images 等）正确返回文件
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+
+        # 解决跨域问题
+        location /ai_chat {
+            proxy_pass http://110.40.230.188:8002/ai_chat;
+            add_header 'Access-Control-Allow-Origin' '*'; # 允许所有来源，或者替换为特定的域名
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
+        }
+
+        # 解决跨域问题
+        location /ai_chat_get {
+            proxy_pass http://110.40.230.188:8002/ai_chat_get;
+            add_header 'Access-Control-Allow-Origin' '*'; # 允许所有来源，或者替换为特定的域名
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
+        }
+
+        types {
+            text/html html;
+            text/css css;
+            application/javascript js;
+            image/png png;
+            image/jpeg jpg jpeg;
+            font/woff2 woff2;
+            font/woff woff;
+        }
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+
+        # Web服务API 代理
+        location /_AMapService/ {
+            set $args "$args&jscode=6b397d44934f93870490e213fdb4f4a8";
+            proxy_pass https://restapi.amap.com/;
+        }
+
+    }
+    server {
+        listen       8003;
+        listen       [::]:8002;
+        server_name  8003;
+        # root         /usr/share/nginx/html;
+        root         /usr/share/nginx/html_work/html_fimotech;
+        # root         /root/web/chatchan-femaojiang/build;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
