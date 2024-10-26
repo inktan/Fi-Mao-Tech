@@ -66,12 +66,10 @@ def remove_duplicate_images(img_paths):
 # 使用装饰器
 @timer_decorator
 def main():
-    img_paths = []
-    img_names = []
-    accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
-
+    
+    # 图片库所在文件夹
     folder_path_list =[
-        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_com-20241012',# 01   
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_com-20241012',# 01
         r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_cn-20241012',# 02
         r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\gooood-20241012',# 03
         r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archiposition-20241012',# 04
@@ -88,10 +86,13 @@ def main():
         r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\behance'# 15
         r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\inplacevisual'# 16
         # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
-
-
-
         ]
+
+    # 获取文件夹中的所有文件信息(含多级的子文件夹)
+    img_paths = []
+    img_names = []
+    accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
+
     for folder_path in folder_path_list:
         for root, dirs, files in os.walk(folder_path):
             for file in files:
@@ -99,6 +100,8 @@ def main():
                     file_path = os.path.join(root, file)
                     img_paths.append(file_path)
                     img_names.append(file)
+
+
     print(len(img_paths))
     remove_duplicate_images(img_paths)
     # get_imagehash(img_paths)
