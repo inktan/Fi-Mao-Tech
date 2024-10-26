@@ -1,6 +1,8 @@
 import os  
 from tqdm import tqdm
 from PIL import Image
+import os  
+import shutil  
 
 def combine_images_optimized(image_path_list, output_image_path):
     images = [Image.open(path) for path in image_path_list]
@@ -15,9 +17,6 @@ def combine_images_optimized(image_path_list, output_image_path):
 
     new_im.save(output_image_path)
 
-# 指定你想要遍历的文件夹路径  
-folder_path = r'e:\work\sv_levon\sv_degree_new'  
-
 # 自定义排序键：根据后缀中的数字排序  
 def sort_key(file_path):  
     # 提取文件名中的数字部分（即后缀中的角度值）  
@@ -27,33 +26,41 @@ def sort_key(file_path):
     # 返回映射后的顺序值  
     return order[angle]  
   
-for item in tqdm(os.listdir(folder_path)):
-    source_folder = os.path.join(folder_path, item)
-    if os.path.isdir(source_folder):
+source_folder_new = r'E:\work\sv_levon\folder-01\sv_degree_hor_new'
+source_folder_2017 = r'E:\work\sv_levon\folder-01\sv_degree_hor_2017'
+img_paths_new = []
+img_names_new = []
+img_paths_2017 = []
+img_names_2017 = []
 
-        img_paths = []
-        img_names = []
+accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
-        accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
+for root, dirs, files in os.walk(source_folder_new):
+    for file in files:
+        if file.endswith(accepted_formats):
+            file_path = os.path.join(root, file)
+            img_paths_new.append(file_path)
+            img_names_new.append(file)
 
-        for root, dirs, files in os.walk(source_folder):
-            for file in files:
-                if file.endswith(accepted_formats):
-                    file_path = os.path.join(root, file)
-                    img_paths.append(file_path)
-                    img_names.append(file)
+for root, dirs, files in os.walk(source_folder_2017):
+    for file in files:
+        if file.endswith(accepted_formats):
+            file_path = os.path.join(root, file)
+            img_paths_2017.append(file_path)
+            img_names_2017.append(file)
 
-        img_paths = sorted(img_paths, key=sort_key)
+count = 0
+for i in range(1, 10000):
+    img_name_new = [name for name in img_names_new if name.startswith(f"{i}_")]
+    img_name_2017 = [name for name in img_names_2017 if name.startswith(f"{i}_")]
 
-        print(len(img_paths))
-        if len(img_paths) == 4:
+    # if len(img_name_2017) == 2:
+    #     print(img_name_2017)
 
-            directory = r'e:\\work\\sv_levon\\sv_degree_hor'
-            if not os.path.exists(directory):
-                os.makedirs(directory)
+    if len(img_name_new) == 0 and len(img_name_2017) == 1:
+        # print(img_name_new)
+        print(img_name_2017)
+        # count += 1
+        # os.remove(r'E:\work\sv_levon\folder-01\sv_degree_hor_2017/'+img_name_2017[0])
 
-            output_image_path = os.path.join(directory, img_names[0].replace('_0.jpg', '_hor.jpg'))
-
-            combine_images_optimized(img_paths, output_image_path)
-
-
+# print(count)
