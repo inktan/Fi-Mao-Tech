@@ -1,5 +1,5 @@
 from PIL import Image
-import imagehash
+# import imagehash
 import os
 import shutil
 import datetime
@@ -105,7 +105,19 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'E:\ai_项目\embedding-test\img02',
+        r'D:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_degrees_02\sv_pan_01',
+        # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
+        ]
+    for folder_path in folder_path_list:
+        for root, dirs, files in os.walk(folder_path):
+            for file in files:
+                if file.endswith(accepted_formats):
+                    file_path = os.path.join(root, file)
+                    img_paths.append(file_path)
+                    img_names.append(file)
+    print(len(img_paths))
+    folder_path_list =[
+        r'D:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_degrees_02\sv_pan_02',
         # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
         ]
     for folder_path in folder_path_list:
