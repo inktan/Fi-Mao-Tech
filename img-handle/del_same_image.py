@@ -6,6 +6,8 @@ import datetime
 import time
 import sqlite3
 from tqdm import tqdm
+import ctypes
+import sys
 
 # 配置日志
 import logging
@@ -19,7 +21,6 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
-# logger.info('')
 
 Image.MAX_IMAGE_PIXELS = None  # 这将移除像素数量的限制
 
@@ -33,51 +34,11 @@ def timer_decorator(func):
         return result  # 返回原始函数的结果
     return wrapper
 
-def get_imagehash(img_paths):
-    db_path = r'E:\work\imagehash\imageHash20240830.db'
-    db = sqlite3.connect(db_path)
-
-    table_name = 'imageHash'
-
-    cursor = db.cursor()
-    cursor.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{table_name}'")
-    # 检查查询结果
-    table_exists = cursor.fetchone()
-    # 如果表存在，则删除它
-    if not table_exists:
-        db.execute(f'''CREATE TABLE {table_name}
-            (ID INTEGER PRIMARY KEY,
-            ImageHash TEXT    NOT NULL,
-            Path        TEXT    NOT NULL);''')
-        db.commit()
-
-    for i, file_path in enumerate(tqdm(img_paths)):
-        if i%10000==0:
-            db.commit()
-# 51 171 238
-        logger.info(f'图像查重到第{i}张')
-
-        try:
-            img = Image.open(file_path)
-            hash_value = str(imagehash.phash(img))
-
-            cursor.execute(f"SELECT * FROM {table_name} WHERE ImageHash=?", (hash_value,))
-            if not cursor.fetchone():
-                db.execute(f'''INSERT INTO {table_name} (ImageHash, Path)
-                            VALUES (?, ?)''', (hash_value, ''))
-            else:
-                folder_path = os.path.dirname(file_path.replace('data-20240822','data-20240822-dup'))
-                if not os.path.exists(folder_path):
-                    os.makedirs(folder_path)
-                shutil.move(file_path, folder_path)  
-
-        except Exception as e:
-            print(e)
-            continue
-
-    db.commit()
-    db.close()
-
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
 def remove_duplicate_images(img_paths):
     hash_table = {}
     for i, file_path in enumerate(tqdm(img_paths)):
@@ -87,10 +48,15 @@ def remove_duplicate_images(img_paths):
             if hash_value in hash_table:
                 try:
                     os.remove(file_path)
-                    print(f"删除文件 {file_path}")
+                    # print(f"删除文件 {file_path}")
                 except Exception as e:
-                    continue
+                    if not is_admin():
+                        print("没有足够的权限删除文件，请以管理员身份运行此脚本。")
+                        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+                    else:
+                        print("即使以管理员身份运行，也无法删除文件。文件可能被系统或其他程序占用。")
                     # print(f"删除文件 {file_path} 失败: {e}")
+                    continue
             else:
                 hash_table[hash_value] = file_path
         except Exception as e:
@@ -100,14 +66,33 @@ def remove_duplicate_images(img_paths):
 # 使用装饰器
 @timer_decorator
 def main():
+    
+    # 图片库所在文件夹
+    folder_path_list =[
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_com-20241012',# 01
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_cn-20241012',# 02
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\gooood-20241012',# 03
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archiposition-20241012',# 04
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\ArchDaily01',# 05
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\ArchDaily',# 06
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\gooood',# 07
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archiposition',# 08
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archcollege',# 09
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\Architizer',# 10
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\thad',# 11
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\pinsupinsheji',# 12
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\DSWH',# 13
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\FanTuo'# 14
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\behance'# 15
+        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\inplacevisual'# 16
+        # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
+        ]
+
+    # 获取文件夹中的所有文件信息(含多级的子文件夹)
     img_paths = []
     img_names = []
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
-    folder_path_list =[
-        r'D:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_degrees_02\sv_pan_01',
-        # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
-        ]
     for folder_path in folder_path_list:
         for root, dirs, files in os.walk(folder_path):
             for file in files:
@@ -115,45 +100,16 @@ def main():
                     file_path = os.path.join(root, file)
                     img_paths.append(file_path)
                     img_names.append(file)
-    print(len(img_paths))
-    folder_path_list =[
-        r'D:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_degrees_02\sv_pan_02',
-        # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
-        ]
-    for folder_path in folder_path_list:
-        for root, dirs, files in os.walk(folder_path):
-            for file in files:
-                if file.endswith(accepted_formats):
-                    file_path = os.path.join(root, file)
-                    img_paths.append(file_path)
-                    img_names.append(file)
+
+
     print(len(img_paths))
     remove_duplicate_images(img_paths)
     # get_imagehash(img_paths)
 
-def SELECT_COUNT():
-    db_path = r'E:\work\imagehash\imageHash20240830.db'
-    conn = sqlite3.connect(db_path)
-
-    table_name = 'imageHash'
-    # 连接到SQLite数据库
-    # 数据库文件是test.db，如果文件不存在，会自动在当前目录创建:
-    cursor = conn.cursor()
-
-    # 执行查询语句，这里假设表名为example_table:
-    cursor.execute('SELECT COUNT(*) FROM imageHash')
-
-    # 使用fetchone()获取单条数据
-    count = cursor.fetchone()[0]
-
-    print(f'imageHash 表中共有 {count} 条数据。')
-
-    # 关闭Cursor和Connection:
-    cursor.close()
-    conn.close()
-
-
 if __name__ == '__main__':
     print('a01')
     main()
+
+
+
 
