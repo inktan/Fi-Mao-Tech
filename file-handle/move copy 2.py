@@ -1,18 +1,13 @@
 import os  
 import shutil  
 
-months01 = ['03.', '04.', '05.']
-months02 = ['06.', '07.', '08.']
-months03 = ['09.', '10.', '11.']
-months04 = ['01.', '02.', '12.']
-
-target_folders = [r'E:\work\sv_levon\sv_pan_new',r'E:\work\sv_levon\sv_pan_2017',]
+target_folders = [r'E:\work\sv_levon\sv_points_1028\sv_pan_new',r'E:\work\sv_levon\sv_points_1028\sv_pan_2017',]
 
 img_paths = []
 img_names = []
 accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
-folder_path_list =[r'E:\work\sv_levon\sv_pan']
+folder_path_list =[r'E:\work\sv_levon\sv_points_1028\sv_pan']
 for folder_path in folder_path_list:
     for root, dirs, files in os.walk(folder_path):
         for file in files:
