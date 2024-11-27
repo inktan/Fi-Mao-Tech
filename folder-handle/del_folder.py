@@ -1,7 +1,7 @@
 import shutil  
 import os  
   
-folder_path = r'F:\sv_suzhou\sv'  
+folder_path = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus_thumbnail_200px'  
   
 if os.path.exists(folder_path):  
     shutil.rmtree(folder_path)  
