@@ -1,7 +1,7 @@
 import pandas as pd
 
 # 1. 读取 CSV 文件
-input_file = r'e:\work\sv_畫畫_20240923\aomen_sv_info.csv'
+input_file = r'f:\sv_suzhou\points.csv'
 df = pd.read_csv(input_file)
 
 length_of_csv = len(df)
