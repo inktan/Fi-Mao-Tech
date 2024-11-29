@@ -111,6 +111,9 @@ def resize_width_1k(image_directory):
             with Image.open(file_path) as img:
                 
                 tmp = file_path.replace('ArchOctopus','Arch_1k_')
+                if os.path.exists(tmp):
+                    continue
+
                 folder_path = os.path.dirname(tmp)
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
@@ -130,11 +133,14 @@ def resize_width_1k(image_directory):
 
 def resize_width_200px(image_directory):
     image_files,unique_directories =get_all_image_files(image_directory)
-    for file_path in image_files:
+    for file_path in tqdm(list(image_files)):
         try:
             with Image.open(file_path) as img:
             
                 tmp = file_path.replace('ArchOctopus','Arch_200px_')
+                if os.path.exists(tmp):
+                    continue
+
                 folder_path = os.path.dirname(tmp)
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
@@ -156,10 +162,11 @@ def resize_width_200px(image_directory):
     # shutil.copytree(source_directory, destination_directory)
 
 if __name__ == "__main__":
-    image_directory = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus' 
+    # image_directory = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus' 
+    image_directory = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\淘宝效果图资源'
     # move_file_with_folder_creation(destination_directory)
-    # resize_width_200px(image_directory)
-    resize_width_1k(image_directory)
+    resize_width_200px(image_directory)
+    # resize_width_1k(image_directory)
     
 
 

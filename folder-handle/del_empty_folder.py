@@ -48,23 +48,20 @@ def delete_empty_dir(dir_path):
     # else:  
     #     print(f"目录 {dir_path} 不为空，无法删除。")  
   
-current_directory = r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus'
-entries = os.listdir(current_directory)
+current_directory = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus_thumbnail_1k'
 
-folders = [os.path.join(current_directory, entry) for entry in entries if os.path.isdir(os.path.join(current_directory, entry))]  
+def find_leaf_directories(directory):
+    leaf_directories = []
+    for root, dirs, files in os.walk(directory):
+        if not dirs:  # If there are no subdirectories, it's a leaf directory
+            leaf_directories.append(root)
+    return leaf_directories
+
+# Finding leaf directories
+leaf_dirs = find_leaf_directories(current_directory)
   
 # 打印出所有一级文件夹的名称  
-print(len(folders))
-for folder in folders:
-    entries = os.listdir(folder)
-    folders_02 = [os.path.join(folder, entry) for entry in entries if os.path.isdir(os.path.join(folder, entry))]  
-    # 打印出所有一级文件夹的名称  
-    print(len(folders_02))
-    for folder_02 in folders_02:  
-        # print(folder)
-        # delete_empty_dir(folder_02)
-        # print(folder)
-        # delete_empty_dir(folder)
-        # print(folder)
-        delete_empty_images(folder_02)
+print(len(leaf_dirs))
+for folder in leaf_dirs:
+    delete_empty_images(folder)
 
