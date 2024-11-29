@@ -3,6 +3,7 @@ from tqdm import tqdm
 import os  
   
 # folder_path = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus_thumbnail_200px'  
+folder_path = r'D:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_01_ss_rgb'  
   
 # if os.path.exists(folder_path):  
 #     shutil.rmtree(folder_path)  
