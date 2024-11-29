@@ -1,7 +1,7 @@
 import shutil  
 import os  
   
-folder_path = r'F:\sv_suzhou\sv'  
+folder_path = r'D:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_01_ss_rgb'  
   
 if os.path.exists(folder_path):  
     shutil.rmtree(folder_path)  
