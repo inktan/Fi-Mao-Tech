@@ -1,29 +1,45 @@
 import matplotlib.pyplot as plt
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-import imageio
 
-# 读取图片
-# 这里我们使用一个内置的示例图片
-img = imageio.imread(r'c:\Users\wang.tan.GOA\Pictures\qwe.png')
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
-# 提取RGB值
-# 假设图片是RGB格式
-r, g, b = img[:,:,0], img[:,:,1], img[:,:,2]
+import matplotlib.pyplot as plt
 
-# 将三维数组展平为一维数组
-r = r.flatten()
-g = g.flatten()
-b = b.flatten()
+img = Image.open(r'c:\Users\mslne\Desktop\qwe.png')
 
-# 创建3D散点图
-fig = plt.figure(figsize=(10, 8))
+original_width, original_height = img.size
+
+# new_width = original_width // 10
+# new_height = original_height // 10
+
+# img = img.resize((new_width, new_height))
+
+img_array = np.array(img)
+
+img = img.convert('RGB')
+data = list(img.getdata())
+
+# data = data[:4000]
+data = data
+data_array = np.array(data)
+
+normalized_data = (data_array - data_array.min(axis=0)) / (data_array.max(axis=0) - data_array.min(axis=0))
+
+x, y, z = normalized_data[:, 0], normalized_data[:, 1], normalized_data[:, 2]
+
+fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(r, g, b)
 
-# 设置坐标轴标签
-ax.set_xlabel('Red')
-ax.set_ylabel('Green')
-ax.set_zlabel('Blue')
+for i in range(len(data)):
+    ax.scatter(x[i], y[i], z[i],color=np.array(data[i]) / 255.0, s=1)
 
-# 显示图表
+ax.set_xlabel('R')
+ax.set_ylabel('G')
+ax.set_zlabel('B')
+
 plt.show()

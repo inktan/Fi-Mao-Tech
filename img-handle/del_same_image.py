@@ -69,6 +69,7 @@ def main():
     
     # 图片库所在文件夹
     folder_path_list =[
+        r'D:\Ai-clip-seacher\AiArchLib',
         # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_com-20241012',# 01
         # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_cn-20241012',# 02
         # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\gooood-20241012',# 03
@@ -81,11 +82,11 @@ def main():
         # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\Architizer',# 10
         # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\thad',# 11
         # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\pinsupinsheji',# 12
-        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\DSWH',# 13
-        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\FanTuo',# 14
+        # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\DSWH',# 13
+        # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\FanTuo',# 14
         # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\behance',# 15
-        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\inplacevisual',# 16
-        r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\淘宝效果图资源',# 17
+        # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\inplacevisual',# 16
+        # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\淘宝效果图资源',# 17
         # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
         ]
 
