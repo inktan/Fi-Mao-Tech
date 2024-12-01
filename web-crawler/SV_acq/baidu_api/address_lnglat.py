@@ -35,7 +35,7 @@ ak = "qtjtdLI2C7RaEr7PPnbg1FSJljOg4LlI"
 df = pd.read_csv(r'e:\work\sv_zhoujunling\建筑地名.csv', encoding='gbk')
 
 # 创建一个空列表来存储行数据  
-rows = []  
+rows = []
 
 # 遍历每一行数据  
 for index, row in df.iterrows():  
@@ -52,8 +52,9 @@ for index, row in df.iterrows():
     response = requests.get(url = host + uri, params = params)
     if response:
         response_result = response.json()["result"]
+        print(len(response_result),'==',row['address'])
         if len(response_result) > 0:
-            print(response_result[0])
+            # print(response_result[0])
             row_dict['lng'] = response_result[0]["location"]["lng"]
             row_dict['lat'] = response_result[0]["location"]["lat"]
     else:
@@ -61,8 +62,8 @@ for index, row in df.iterrows():
         row_dict['lat'] = ''
 
     rows.append(row_dict)
-    print(row_dict)
+    # print(row_dict)
 
-new_df = pd.DataFrame(rows)
+# new_df = pd.DataFrame(rows)
 
-new_df.to_csv(r'e:\work\sv_zhoujunling\建筑地名_lnglat.csv', index=False)
+# new_df.to_csv(r'e:\work\sv_zhoujunling\建筑地名_lnglat.csv', index=False)
