@@ -25,7 +25,7 @@ def main():
     
     # 图片库所在文件夹
     folder_path_list =[
-        r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus_thumbnail_1k',
+        r'E:\work\渡一前端2023',
         # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_com-20241012',# 01
         # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_cn-20241012',# 02
         ]

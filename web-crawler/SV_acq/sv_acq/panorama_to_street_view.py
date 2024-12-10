@@ -34,8 +34,8 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
     for i,image_path in enumerate(tqdm(img_paths)): 
         # 判断文件是否为图片类型  
         if image_path.lower().endswith(image_types):
-            # if i<14390:
-            #     continue
+            if i<151000:
+                continue
             # if i==20:
             #     break
             try:
@@ -67,7 +67,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
-    input = r'E:\work\sv_青霭\sv_pan'
+    input = r'F:\sv_shanghai\sv_pan'
 
     # fov是镜头的远近关系 水平方向范围，范围[10,360]，fov=360即可显示整幅全是图
     # pitch是仰头，低头关系 垂直视角，范围[0,90]。
