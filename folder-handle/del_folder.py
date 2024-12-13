@@ -2,6 +2,7 @@ import shutil
 from tqdm import tqdm
 import os  
   
+folder_path = r'E:\work\苏大-鹌鹑蛋好吃\20220720-上海'  
 # folder_path = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus_thumbnail_200px'  
 folder_path = r'F:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_ss_mask'  
   
@@ -37,9 +38,10 @@ def main():
     
     # 图片库所在文件夹
     folder_path_list =[
-        # folder_path,
+        
         r'F:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_ss_mask',# 01
         r'F:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_ss_rgb',# 02
+
         ]
 
     # 获取文件夹中的所有文件信息(含多级的子文件夹)
