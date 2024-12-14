@@ -1,17 +1,34 @@
 import pandas as pd
 
+input_files = []
+
 # 1. 读取 CSV 文件
-input_file = r'f:\sv_suzhou\points.csv'
+input_file = r'd:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_new_file.csv'
 df = pd.read_csv(input_file)
+headers = df.columns
+print(headers)
 
-length_of_csv = len(df)
+# input_file = r'd:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_pan_01_ss.csv'
+# input_files.append(input_file)
+# input_file = r'd:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_pan_01_ss_01.csv'
+# input_files.append(input_file)
+# input_file = r'd:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_pan_02_ss_01.csv'
+# input_files.append(input_file)
+# input_file = r'd:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_pan_02_ss_02.csv'
+# input_files.append(input_file)
+# input_file = r'd:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_pan_02_ss_03.csv'
+# input_files.append(input_file)
+# input_file = r'd:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_pan_02_ss_04.csv'
+# input_files.append(input_file)
+# input_file = r'd:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_pan_02_ss_05.csv'
+# input_files.append(input_file)
 
-print(length_of_csv)
-
-# import pandas as pd
-
-# df = pd.read_csv(r'e:\work\sv_YJ_20240924\all_points.csv')
-# df_unique = df.drop_duplicates(subset='pano_id')
-# print(f'去重后共有 {df_unique.shape[0]} 行数据')
-
-
+# for i in input_files:
+    # df = pd.read_csv(i, header=None)
+    # new_df = pd.DataFrame(df.values, columns=df.columns)
+    # new_df.to_csv(i, index=False)
+    
+    # df = pd.read_csv(i)
+    # print(df.shape)
+    # print(df.head())
+    
