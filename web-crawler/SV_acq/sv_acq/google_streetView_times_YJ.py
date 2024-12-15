@@ -228,11 +228,17 @@ def panoids_from_response(text, closest=False, disp=False, proxies=None):
     # 2012
     # 2013
     # 2014
-    pans = re.findall('\[[0-9]+,"(.+?)"\].+?\[\[null,null,(-?[0-9]+.[0-9]+),(-?[0-9]+.[0-9]+)', text)
+    pans = re.findall('\[[0-9]+,"(.+?)"\].+?\[\[null,null,(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+).*?\],\s*\[(-?[0-9]+\.[0-9]+).*?\[(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+)\]', text)
+    # pans = re.findall('\[[0-9]+,"(.+?)"\].+?\[\[null,null,(-?[0-9]+.[0-9]+),(-?[0-9]+.[0-9]+)', text)
     pans = [{
         "panoid": p[0],
         "lat": float(p[1]),
-        "lon": float(p[2])} for p in pans]  # Convert to floats
+        "lon": float(p[2]),
+        "pitch": float(p[3]),
+        "heading": float(p[4]),
+        "fov01": float(p[5]),
+        "fov02": float(p[6]),
+        } for p in pans]  # Convert to floats
 
     # Remove duplicate panoramas
     pans = [p for i, p in enumerate(pans) if p not in pans[:i]]
@@ -301,8 +307,8 @@ def GSVpanoMetadataCollector(samplesFeatureClass,output_,zoom):
             # if count >2000:
             #     continue
             
-            lon = row[1]
-            lat = row[0]
+            lon = row[2]
+            lat = row[1]
             panos = []
             try:
                 resp = search_request(lat, lon)
@@ -325,10 +331,10 @@ def GSVpanoMetadataCollector(samplesFeatureClass,output_,zoom):
                     continue
 
 # 输入经纬度点的csv文件
-input = r'e:\work\sv_levon\50M-Distance-WGS84-4326.csv'
+input = r'd:\BaiduNetdiskDownload\sv_LDW\points.csv'
 zoom = 4
 # 输入街景保存文件夹
-output_ = f'e:\work\sv_levon\sv_pan_zoom{zoom}'
+output_ = f'd:\BaiduNetdiskDownload\sv_LDW\sv_pan_zoom{zoom}'
 
 if os.path.exists(output_) == False:
     os.makedirs(output_)
