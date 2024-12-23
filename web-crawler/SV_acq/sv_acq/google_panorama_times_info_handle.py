@@ -13,11 +13,11 @@ def GSVpanoMetadataCollector():
     # 读取CSV文件，并保存'lat'和'lon'同时不重复的列数据
     # df_unique = pd.read_csv(input_csv).drop_duplicates(subset=['long', 'lat'])
     # print(df_unique.shape)
-    csv_file = r'e:\work\sv_j_ran\sv_google_20240903\data_coor_unique.csv'
+    # csv_file = r'e:\work\sv_j_ran\sv_google_20240903\data_coor_unique.csv'
     # df_unique.to_csv(csv_file, index=False)
     
     json_dict={}
-    with open(csv_file, 'r') as f:  
+    with open(input_csv, 'r') as f:  
         reader = csv.reader(f)
         mylist = list(reader)
         count = 0
@@ -32,13 +32,15 @@ def GSVpanoMetadataCollector():
             #     continue
             
             id = row[0]
-            lon = row[3]
-            lat = row[4]
+            lon = row[2]
+            lat = row[1]
         
             panos = []
             try:
                 panos = search_panoramas(lat, lon)
-            except:
+                
+            except Exception as e :
+                print(f'error:{e}')
                 continue
 
             panoramas_info = []
@@ -83,8 +85,8 @@ def GSVpanoMetadataCollector():
         
 if __name__ == "__main__":
     # 输入经纬度点的csv文件
-    input_csv = r'e:\work\sv_j_ran\sv_google_20240903\data_coor.csv'
+    input_csv = r'e:\work\sv_yantu\points.csv'
     # 输入街景保存文件夹
-    json_file_path = r'e:\work\sv_j_ran\sv_google_20240903\data_coor_id_panoramas_infos.json'
+    json_file_path = r'e:\work\sv_yantu\data_coor_id_panoramas_infos.json'
     
     GSVpanoMetadataCollector()

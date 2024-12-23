@@ -2,9 +2,7 @@ import shutil
 from tqdm import tqdm
 import os  
   
-folder_path = r'E:\work\苏大-鹌鹑蛋好吃\20220720-上海'  
-# folder_path = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus_thumbnail_200px'  
-folder_path = r'F:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_ss_mask'  
+folder_path = r'F:\China_90Cities_Rooftop_Data'  
   
 try:
     if os.path.exists(folder_path):  
@@ -15,7 +13,7 @@ try:
 except Exception as e:
     print(f"删除文件时出错: {e}")
     
-folder_path = r'F:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_ss_rgb'  
+# folder_path = r'F:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_ss_rgb'  
   
 try:
     if os.path.exists(folder_path):  
@@ -38,10 +36,8 @@ def main():
     
     # 图片库所在文件夹
     folder_path_list =[
-        
-        r'F:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_ss_mask',# 01
-        r'F:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_ss_rgb',# 02
-
+        folder_path,# 02\
+        r'F:\sv_hangzhou',
         ]
 
     # 获取文件夹中的所有文件信息(含多级的子文件夹)

@@ -31,12 +31,12 @@ def GSVpanoMetadataCollector(samplesFeatureClass,output_,zoom,output_csv):
             #     continue
             # if count >300000005:
             #     continue
-            lon = row[1]
-            lat = row[2]
+            lon = row[13]
+            lat = row[14]
             
             panos = []
             try:
-                panos = search_panoramas(lat, lon)
+                panos = search_panoramas(float(lat), float(lon))
             except:
                 continue
 
@@ -100,10 +100,12 @@ def GSVpanoMetadataCollector(samplesFeatureClass,output_,zoom,output_csv):
 if __name__ == "__main__":
     
     # 输入经纬度点的csv文件
-    input = r'd:\BaiduNetdiskDownload\sv_demonio\point.csv'
+    # input = r'd:\BaiduNetdiskDownload\sv_demonio\point.csv'
+    input = r'd:\Users\wang.tan.GOA\WeChat Files\wxid_0431434314115\FileStorage\File\2024-12\kabuer.csv'
+
     # 输入街景保存文件夹
-    output_ = r'd:\BaiduNetdiskDownload\sv_demonio\sv_pan'
-    output_csv = r'd:\BaiduNetdiskDownload\sv_demonio\sv_test_info.csv'
+    output_ = r'd:\Users\wang.tan.GOA\WeChat Files\wxid_0431434314115\FileStorage\File\2024-12\sv_pan'
+    output_csv =r'd:\Users\wang.tan.GOA\WeChat Files\wxid_0431434314115\FileStorage\File\2024-12\sv_test_info.csv'
     
     with open(output_csv ,'w' ,newline='') as f: 
         writer = csv.writer(f)
