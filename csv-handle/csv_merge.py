@@ -15,7 +15,8 @@ csv_names = []
 accepted_formats = (".csv")
 
 csv_path_list =[
-    r'E:\work\sv_YJ_20240924\points',
+    # r'E:\work\sv_YJ_20240924\points',
+    r'D:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_',
     ]
 for folder_path in csv_path_list:
     for root, dirs, files in os.walk(folder_path):
@@ -30,6 +31,6 @@ df_list = [pd.read_csv(csv_file) for csv_file in csv_paths]
 merged_df = pd.concat(df_list, ignore_index=True)
 
 # 4. 保存合并后的结果
-merged_df.to_csv(r'E:\work\sv_YJ_20240924\all_points.csv', index=False)
+merged_df.to_csv(r'D:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_pan_ss.csv', index=False)
 
 print("所有 CSV 文件已合并并保存为 merged_output.csv")

@@ -2,16 +2,27 @@ import shutil
 from tqdm import tqdm
 import os  
   
-folder_path = r'E:\work\苏大-鹌鹑蛋好吃\20220720-上海'  
-# folder_path = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus_thumbnail_200px'  
-folder_path = r'D:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_01_ss_rgb'  
+folder_path = r'F:\China_90Cities_Rooftop_Data'  
   
-# if os.path.exists(folder_path):  
-#     shutil.rmtree(folder_path)  
-#     print(f"文件夹 '{folder_path}' 已成功删除。")
-# else:  
-#     print(f"文件夹 '{folder_path}' 不存在。")
-
+try:
+    if os.path.exists(folder_path):  
+        shutil.rmtree(folder_path)  
+        print(f"文件夹 '{folder_path}' 已成功删除。")
+    else:  
+        print(f"文件夹 '{folder_path}' 不存在。")
+except Exception as e:
+    print(f"删除文件时出错: {e}")
+    
+# folder_path = r'F:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_ss_rgb'  
+  
+try:
+    if os.path.exists(folder_path):  
+        shutil.rmtree(folder_path)  
+        print(f"文件夹 '{folder_path}' 已成功删除。")
+    else:  
+        print(f"文件夹 '{folder_path}' 不存在。")
+except Exception as e:
+    print(f"删除文件时出错: {e}")
 
 def del_files(img_paths):
     for i, file_path in enumerate(tqdm(img_paths)):
@@ -25,9 +36,8 @@ def main():
     
     # 图片库所在文件夹
     folder_path_list =[
-        r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus_thumbnail_1k',
-        # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_com-20241012',# 01
-        # r'y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_cn-20241012',# 02
+        folder_path,# 02\
+        r'F:\sv_hangzhou',
         ]
 
     # 获取文件夹中的所有文件信息(含多级的子文件夹)

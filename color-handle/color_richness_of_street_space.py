@@ -79,8 +79,8 @@ if __name__ == "__main__":
     '''
     空间色彩丰富度
     '''
-    folder_path = os.path.join(r"F:\sv_mochoujiedao\莫愁社区街景\streetmap")
-    Level_Diversity_csv = os.path.join(r"F:\sv_mochoujiedao\色彩丰富度-cri.csv")
+    folder_path = os.path.join(r"F:\BaiduNetdiskDownload\sv_renleiluoshifen\sv_澳门_degree_960_720\sv_degree_960_720")
+    Level_Diversity_csv = os.path.join(r"F:\BaiduNetdiskDownload\sv_renleiluoshifen\sv_澳门_degree_960_720\色彩丰富度-cri.csv")
 
     main(folder_path,Level_Diversity_csv)
     

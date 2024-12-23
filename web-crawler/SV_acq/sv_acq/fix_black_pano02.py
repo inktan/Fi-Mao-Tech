@@ -25,6 +25,7 @@ def load_image(path, target_size):
         black_pixels = np.sum(np.all(e_img[:, :, :3] == [0, 0, 0], axis=-1))
         black_pixel_ratio = black_pixels / total_pixels
         if black_pixel_ratio > 0.10:
+            print('qwe')
             e_img = remove_black_borders(e_img)
             e_img = cv2.resize(e_img, target_size, interpolation=cv2.INTER_LINEAR)
 
@@ -34,6 +35,7 @@ def load_image(path, target_size):
             e_img = cv2.cvtColor(e_img, cv2.COLOR_BGR2RGB)
 
         pillow_img = Image.fromarray(e_img)
+
         return pillow_img
         
     except Exception as e:
@@ -43,10 +45,18 @@ def load_image(path, target_size):
 def fix_black_images(img_paths):
     for i, file_path in enumerate(tqdm(img_paths)):
         try:
-            e_img = load_image(file_path, (15360, 7680))  # 添加缩放尺寸
+            # pillow_img = load_image(file_path, (15360, 7680))  # 添加缩放尺寸
+            pillow_img = load_image(file_path, (4096, 2048))  # 添加缩放尺寸
             # 保存图片到image文件夹
-            cv2.imwrite(file_path, e_img)
+            img_save_path = file_path.replace('zoom3',f'zoom3_fixedBlack')
+            folder_path = os.path.dirname(img_save_path)
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+
+            pillow_img.save(img_save_path)
+
         except Exception as e:
+            print(f"{file_path} 失败: {e}")
             continue
             # print(f"删除文件 {file_path} 失败: {e}")
 
@@ -56,7 +66,7 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'D:\BaiduNetdiskDownload\sv_j_ran\sv_google_20240903\sv_pan',
+        r'E:\work\sv_yantu\sv_pan_zoom3',
         # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
         ]
     for folder_path in folder_path_list:
