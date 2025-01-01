@@ -28,7 +28,7 @@ query_text="请从下面三个角度对这张街景图片进行研判分析打�
         3、街道界面有序度打分，最高3分，最低0分，从职能有序（功能区分、商业工业交通居住）、\
         路权有序（机、非、人宽度比、机、非、人数量比、过街天桥、过街地道、公交专用道、盲道、无障碍设施非机等候区、公交等候区、骑行道铺装提示、人行道隔离设施）、\
         界面有序（广告牌、店招牌、街廓连续度、街道高宽比、开阔指数、建筑外立面和谐度街道整体视觉宜人度）；\
-        请基于以上三个原则对街景图片进行打分，然后将三个角度的打分数据进行平均计算，给出一个最终打分结果，打分数据必须在0-3之间。"
+        请基于以上三个原则对街景图片进行打分，然后将三个角度的打分数据进行平均计算，给出一个最终打分结果，打分数据必须在0-3之间。请使用中文回答。"
 headers = {
 # 'Authorization': 'Bearer fk192489-7dCTdBKwtYid3GzzAvy3om3gVEwSRBNU',
 'Authorization': 'Bearer fk192612-pLVI3zuqAZCoCaeeDaZqmhia1uHmz4RE',
@@ -78,10 +78,22 @@ def chat_gpt4o(img_info):
             print(e)
             print("Connection error. Trying again in 2 seconds.")
             time.sleep(2)
+            text = ''
+            break
 
     string_without_empty_lines = '\n'.join([line for line in text.split('\n') if line.strip()])
-    with open(img_info['img_path'].replace('.jpg','.txt'), "w", encoding="utf-8") as file:
-        file.write(string_without_empty_lines)
+    if '.jpg' in img_info['img_path']:
+        with open(img_info['img_path'].replace('.jpg','.txt'), "w", encoding="utf-8") as file:
+            file.write(string_without_empty_lines)
+    elif '.png' in img_info['img_path']:
+        with open(img_info['img_path'].replace('.png','.txt'), "w", encoding="utf-8") as file:
+            file.write(string_without_empty_lines)
+    elif '.JPG' in img_info['img_path']:
+        with open(img_info['img_path'].replace('.JPG','.txt'), "w", encoding="utf-8") as file:
+            file.write(string_without_empty_lines)
+    elif '.jpeg' in img_info['img_path']:
+        with open(img_info['img_path'].replace('.jpeg','.txt'), "w", encoding="utf-8") as file:
+            file.write(string_without_empty_lines)
 
 def main(img_folder):
     roots = []
@@ -96,9 +108,16 @@ def main(img_folder):
                 file_path = os.path.join(root, file)
                 img_paths.append(file_path)
 
+    # img_paths =[r'E:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai\sv_degree_10_ai\work']
+    img_paths =[r'e:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai-分析数据\ai_out\拉萨传统商业街景筛选-ai\1374(-90)-3.png']
+    # 单张图片消耗点数 计算前点数 23839
+    # 单张图片消耗点数 计算后点数 23781 差 58点=0.203元
+
+    # 1000P 人民币 ¥3.50
+
     for i, img_path in enumerate(tqdm(img_paths)):
-        if i>30 and i<338:
-            continue
+        # if i>30 and i<338:
+        #     continue
 
         with Image.open(img_path) as img:
             image_bytes = BytesIO()
@@ -106,7 +125,7 @@ def main(img_folder):
             image_bytes = image_bytes.getvalue()
 
         base64_image_data = base64.b64encode(image_bytes).decode('utf-8')
-
+        print(img_path)
         img_info={
             'img_path':img_path,
             'base64_image_data':base64_image_data,
@@ -115,5 +134,5 @@ def main(img_folder):
         chat_gpt4o(img_info)
 
 if __name__ == '__main__':
-    img_folder = r'E:\work\spatio_evo_urbanvisenv_svi\风貌评估-gpt4o\拉萨市传统商业街区街景\test'
+    img_folder = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai\sv_degree_10_ai\work'
     main(img_folder)
