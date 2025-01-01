@@ -19,11 +19,11 @@ arch_buildings = gdf.to_crs(epsg=3857)
 
 arch_buildings_data = arch_buildings['geometry'].tolist()
 
-csv_path = r'e:\work\sv_kaixindian\points.csv'
-df1 = pd.read_csv(csv_path)
-df1['lng'] = pd.to_numeric(df1['lng'], errors='coerce')
-df1['lat'] = pd.to_numeric(df1['lat'], errors='coerce')
-points = gpd.GeoDataFrame(df1, geometry=[Point(xy) for xy in zip(df1.lng, df1.lat)])
+csv_path = r'e:\work\sv_yueliang\备份小区名_lng_lat_01.csv'
+df1 = pd.read_csv(csv_path, encoding='gbk')
+df1['lng_wgs84'] = pd.to_numeric(df1['lng_wgs84'], errors='coerce')
+df1['lat_wgs84'] = pd.to_numeric(df1['lat_wgs84'], errors='coerce')
+points = gpd.GeoDataFrame(df1, geometry=[Point(xy) for xy in zip(df1.lng_wgs84, df1.lat_wgs84)])
 points.crs = {'init': 'epsg:4326'}
 
 points_data1 = points.to_crs(epsg=3857)
@@ -39,7 +39,7 @@ for i,point in enumerate(tqdm(points_data2)):
     if point.is_empty:
         continue
     point = points_data2[i]
-    radius = 500
+    radius = 1500
     circle = point.buffer(radius)
 
     intersecting = arch_buildings[arch_buildings.geometry.intersects(circle)]
@@ -55,8 +55,8 @@ for i,point in enumerate(tqdm(points_data2)):
     # if i>10:
     #     break
     if i%1000 == 0:
-        points_data1.to_csv(r'e:\work\sv_kaixindian\04-土地利用综合\points_id_land_use_average_height_01.csv', index=False)
+        points_data1.to_csv(r'e:\work\sv_yueliang\备份小区名_lng_lat_land_use_average_height_01.csv', index=False)
 
-points_data1.to_csv(r'e:\work\sv_kaixindian\04-土地利用综合\points_id_land_use_building_density_01.csv', index=False)
+points_data1.to_csv(r'e:\work\sv_yueliang\备份小区名_lng_lat_land_use_average_height_01.csv', index=False)
 
 

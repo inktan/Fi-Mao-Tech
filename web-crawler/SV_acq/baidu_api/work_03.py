@@ -76,9 +76,11 @@ qury_types = ['公园广场','运动场馆','医院','商场','公交车站','�
 ## 车站数量 = 统计该点周边的车站（这个车站指的是公交车站？）总个数，统计半径为多大
 
 csv_path = r'D:\BaiduNetdiskDownload\FiMaoTech\SV_acq\baidu_api\id_address_lng_lat_01.csv'
+csv_path = r'e:\work\sv_yueliang\备份小区名_lng_lat_01.csv'
 df = pd.read_csv(csv_path)
 
 csv_path = r'D:\BaiduNetdiskDownload\FiMaoTech\SV_acq\baidu_api\id_address_residential_info.csv'
+csv_path = r'e:\work\sv_yueliang\备份小区名_lng_lat_anjuke_01.csv'
 
 with open(csv_path ,'w',encoding='utf-8' ,newline='') as f:
     writer = csv.writer(f)

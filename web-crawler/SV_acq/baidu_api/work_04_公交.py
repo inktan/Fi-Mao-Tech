@@ -4,6 +4,7 @@ from math import radians, cos, sin, asin, sqrt
 import csv
 from tqdm import tqdm
 import numpy as np
+import os
 
 def haversine_np(lon1, lat1, lon2, lat2):
     """
@@ -21,11 +22,27 @@ def haversine_np(lon1, lat1, lon2, lat2):
     r = 6371 # 地球平均半径，单位为公里
     return c * r * 1000
 
-df_point = pd.read_csv(r'e:\work\sv_kaixindian\points.csv')
-df_gongjiao = pd.read_csv(r'f:\2022poi\2022POI\华东poi1\上海市\上海市POI数据_故居_博物馆_纪念馆_no_parking.csv')
-csv_path_gongjiao = r'E:\work\sv_kaixindian\03-poi\points_故居_博物馆_纪念馆.csv'
+# df_point = pd.read_csv(r'e:\work\sv_kaixindian\points.csv')
+csv_path = r'e:\work\sv_yueliang\备份小区名_lng_lat_01.csv'
+df_point = pd.read_csv(csv_path, encoding='gbk')
 
-point_coords = df_point[['lng', 'lat']].to_numpy()
+# poi_name = r'上海市POI数据_餐饮店_咖啡店.csv'
+# poi_name = r'上海市POI数据_公交站.csv'
+# poi_name = r'上海市POI数据_公园_广场.csv'
+# poi_name = r'上海市POI数据_故居_博物馆_纪念馆_no_parking.csv'
+# poi_name = r'上海市POI数据_商场.csv'
+# poi_name = r'上海市POI数据_手工艺品店_零售店_商店.csv'
+# poi_name = r'上海市POI数据_停车场.csv'
+# poi_name = r'上海市POI数据_小区_no_parking.csv'
+# poi_name = r'上海市POI数据_医院_诊所.csv'
+poi_name = r'上海市POI数据_运动.csv'
+
+poi_folder = r'f:\2022poi\2022POI\华东poi1\上海市'
+df_gongjiao = pd.read_csv(os.path.join(poi_folder, poi_name))
+out_folder = r'e:\work\sv_yueliang'
+csv_path_gongjiao = os.path.join(out_folder, poi_name.replace('上海市POI数据_', '备份小区名_lng_lat_'))
+
+point_coords = df_point[['lng_wgs84', 'lat_wgs84']].to_numpy()
 gongjiao_coords = df_gongjiao[['经度', '纬度']].to_numpy()
 
 results = []
@@ -40,7 +57,8 @@ for i, (lng, lat) in enumerate(tqdm(point_coords)):
         continue
 
     distances = haversine_np(lng_rep , lat_rep , gongjiao_coords[:, 0], gongjiao_coords[:, 1])
-    valid_distances = distances[distances <= 500]
+    valid_distances = distances[distances <= 1500]
+    print(valid_distances)
     if valid_distances.size == 0:
         results.append([df_point['id'][i], 0, 0, 0])
         continue
