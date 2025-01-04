@@ -27,10 +27,8 @@ def getlocation(address):
     else:
         return 'miss','miss'
 
-csv_path = r'f:\shanghaijiaoda_poi_shp\20240614\work03.csv'
 csv_path = r'e:\work\sv_yueliang\备份小区名.csv'
 df = pd.read_csv(csv_path, encoding='gbk')
-csv_path = r'f:\shanghaijiaoda_poi_shp\20240614\work03_address_lng_lat_01.csv'
 csv_path = r'e:\work\sv_yueliang\备份小区名_lng_lat_01.csv'
 
 points_df = pd.DataFrame(columns=['id','address','lng_bd09','lat_bd09','lng_gcj02', 'lat_gcj02','lng_wgs84', 'lat_wgs84'])
@@ -42,7 +40,7 @@ for i,row in enumerate(tqdm(df.iterrows())):
     #     continue
 
     print(i)
-    input_string = row[1]['管理机构']
+    input_string = '上海市' + row[1]['管理机构']
 
     lng_bd09, lat_bd09 = getlocation(input_string)
     lng_gcj02, lat_gcj02 = transCoordinateSystem.bd09_to_gcj02(lng_bd09, lat_bd09)
@@ -50,10 +48,5 @@ for i,row in enumerate(tqdm(df.iterrows())):
 
     points_df.loc[len(points_df)] = [row[1]['id'],input_string,lng_bd09,lat_bd09,lng_gcj02, lat_gcj02,lng_wgs84, lat_wgs84]
 
-
-    with open(csv_path ,'a',encoding='utf-8' ,newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(rate_list)
-
 print(points_df)
-points_df.to_csv(r'h:\地学大数据\2024年5月全国路网数据\2024年5月全国路网数据_分省市\广东省\深圳市.csv', index=False)
+points_df.to_csv(r'e:\work\sv_yueliang\备份小区名_lng_lat_01.csv', index=False)

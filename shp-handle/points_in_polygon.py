@@ -2,13 +2,13 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point
 
-def main():
+def main(csv_file,shapefile,output_csv_file):
     # 读取CSV文件
     df = pd.read_csv(csv_file)
 
     # 假设CSV文件中有'lon'和'lat'列
     # 创建一个GeoDataFrame
-    geometry = [Point(xy) for xy in zip(df['longitude'], df[' latitude'])]
+    geometry = [Point(xy) for xy in zip(df['longitude'], df['latitude'])]
     gdf_points = gpd.GeoDataFrame(df, geometry=geometry)
 
     # 读取shapefile

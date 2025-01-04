@@ -29,7 +29,8 @@ entertainment_land1 = entertainment_land.to_crs(epsg=3857)
 entertainment_land1_data = entertainment_land1['geometry'].tolist()
 
 csv_path = r'e:\work\sv_yueliang\备份小区名_lng_lat_01.csv'
-df1 = pd.read_csv(csv_path, encoding='gbk')
+# df1 = pd.read_csv(csv_path, encoding='gbk')
+df1 = pd.read_csv(csv_path)
 df1['lng_wgs84'] = pd.to_numeric(df1['lng_wgs84'], errors='coerce')
 df1['lat_wgs84'] = pd.to_numeric(df1['lat_wgs84'], errors='coerce')
 points = gpd.GeoDataFrame(df1, geometry=[Point(xy) for xy in zip(df1.lng_wgs84, df1.lat_wgs84)])

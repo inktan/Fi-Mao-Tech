@@ -22,7 +22,8 @@ filtered_data = gdf[gdf[column_name].isin(values_to_find)]
 
 # 点
 csv_path = r'e:\work\sv_yueliang\备份小区名_lng_lat_01.csv'
-df1 = pd.read_csv(csv_path, encoding='gbk')
+# df1 = pd.read_csv(csv_path, encoding='gbk')
+df1 = pd.read_csv(csv_path)
 df1['lng_wgs84'] = pd.to_numeric(df1['lng_wgs84'], errors='coerce')
 df1['lat_wgs84'] = pd.to_numeric(df1['lat_wgs84'], errors='coerce')
 points = gpd.GeoDataFrame(df1, geometry=[Point(xy) for xy in zip(df1.lng_wgs84, df1.lat_wgs84)])
@@ -50,9 +51,7 @@ for i,point in enumerate(tqdm(point_data2)):
     intersection = circle.intersection(all_roads_union)
     total_length = intersection.length / 1000.0  # 转换为千米
     # 计算率值
-    print('intersection')
     print(intersection.length)
-    print('circle')
     print(circle.area)
     rate = total_length / (circle.area/1000000)  # 转换为平方千米
     point_data1.at[i, 'rate'] = rate
