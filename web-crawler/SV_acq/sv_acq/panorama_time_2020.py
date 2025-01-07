@@ -175,7 +175,8 @@ def main(csv_path,folder_out_path):
                 f.write(mistake)
 
 
-resolution_ratio = 4
+# 分辨率 "3 - 2048*1096   4 - 4096*2048"
+resolution_ratio = 2
 if __name__ == '__main__':
     # 文件夹路径
     csv_path = r'e:\work\sv_cynthia\points.csv' # 需要爬取的点
