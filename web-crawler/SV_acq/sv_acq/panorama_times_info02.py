@@ -13,19 +13,41 @@ import pandas as pd
 #获取街景对应ID
 def get_panoid(lng,lat):
     url = 'https://mapsv0.bdimg.com/?qt=qsdata&x=' + str(lng) + '&y=' + str(lat)
-    req = requests.get(url)
-    data = json.loads(req.text)
-    if (data is not None):
-        if 'content' in data:
-            result = data['content']
-            # 提取所有历史街景ID
-            panoid = result['id']
-            url = 'https://mapsv0.bdimg.com/?qt=sdata&sid=' + panoid + '&pc=1'
-            r = requests.get(url,stream=True)
-            data = json.loads(r.text)
-            timeLineIds = data["content"][0]['TimeLine']
 
-            return timeLineIds
+    for i in range(3):
+        try:
+            req = requests.get(url)
+            data = json.loads(req.text)
+            if (data is not None):
+                if 'content' in data:
+                    result = data['content']
+                    # 提取所有历史街景ID
+                    panoid = result['id']
+                    url = 'https://mapsv0.bdimg.com/?qt=sdata&sid=' + panoid + '&pc=1'
+                    
+                    for j in range(3):
+                        try:
+                            r = requests.get(url,stream=True)
+                            data = json.loads(r.text)
+                            if (data is not None):
+                                if 'content' in data:
+                                    results = data['content']
+                                    if len(results) > 0:
+                                        # 提取所有历史街景ID
+                                        if 'TimeLine' in results[0]:
+                                            timeLineIds = results[0]['TimeLine']
+                                            return timeLineIds 
+                                             
+                        except Exception as e:
+                            print(e)
+                            print('retrying...')
+                            time.sleep(2)     
+                                                                    
+        except Exception as e:
+            print(e)
+            print('retrying...')
+            time.sleep(2)
+
     return []
 
 #经纬度坐标转换
@@ -52,7 +74,7 @@ def main(csv_path,sv_infos_path):
     # 遍历每一行数据  
     count=0
     for index, row in tqdm(df.iterrows()):  
-        # if i<835:
+        # if index<11750:
         #     continue
         # 1、lat是“latitude”的缩写，纬度
         # 2、lng是“longitude”的缩写，经度
@@ -70,17 +92,22 @@ def main(csv_path,sv_infos_path):
 
         tar_lng_lat = coord_convert(float(row['longitude']),float(row['latitude']))
         print(index,tar_lng_lat)
+        print(df.shape)
+
         # break
         timeLineIds = get_panoid(tar_lng_lat[0],tar_lng_lat[1])
-        if len(timeLineIds)>0:
-            print(timeLineIds)
-            break
+        # if len(timeLineIds)>0:
+        #     print(timeLineIds)
+        #     break
         for timeLine in timeLineIds:
             with open(sv_infos_path,'a' ,newline='') as f:
                 writer = csv.writer(f)
-                writer.writerow([count,float(row['longitude']),float(row['latitude']),row['name'],row['type'],row['oneway'],row['bridge'],row['tunnel'],timeLine['TimeLine'], timeLine['Year']])
-                count++
-                break
+                writer.writerow([count,float(row['longitude']),float(row['latitude']),row['name'],row['type'],row['oneway'],row['bridge'],row['tunnel'],timeLine['ID'], timeLine['TimeLine'], timeLine['Year']])
+                count+=1
+                # break
+
+        # if index>=11850:
+        #     break
 
 if __name__ == '__main__':
     # 文件夹路径
@@ -89,7 +116,7 @@ if __name__ == '__main__':
 
     with open(sv_infos_path,'w' ,newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['id','longitude','latitude','name','type','oneway','bridge','tunnel','timeLine','year'])
+        writer.writerow(['id','longitude','latitude','name','type','oneway','bridge','tunnel','ID','timeLine','year'])
 
     main(csv_path,sv_infos_path)
 
