@@ -1,9 +1,14 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import GoogleSVdisplay from '@/components/GoogleSVdisplay.vue'
+import BdSVdisplay from '@/components/BdSVdisplay.vue'
+
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <div>
+    <GoogleSVdisplay />
+    <BdSVdisplay />
+  </div>
 </template>
+
+<style lang="less"></style>

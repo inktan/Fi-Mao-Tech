@@ -66,6 +66,6 @@ const handleClick = async function () {
 
 </template>
 
-<style scoped lang=" less">
+<style lang=" less">
 
 </style>
