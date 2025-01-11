@@ -1,0 +1,39 @@
+Operating instructions:
+Folder Description
+_01_Sv-example original street view storage location
+_02 ss_rgb semantic segmentation result storage location
+_Storage location of the original street view overlay semantic segmentation results in 03_Ss_mask
+
+
+Python program file description
+01_imgs-secg.py semantic segmentation program
+
+
+Explanation of the Results Data Table
+ADE20K classes.pdf     A table of semantic segmentation elements used to find the numbering of semantic segmentation elements
+ss.csv     Semantic segmentation result table of images
+
+Operating instructions:
+1. Empty the folder '_01_02_03_04_05_06_';
+2. Put the new research street view into folder 01;
+3. Run the _01_02_03_python program in sequence to retrieve the results from each folder
+
+操作说明：
+文件夹说明
+_01_sv_example    原始街景存放位置
+_02 ss_rgb    语义分割结果存放位置
+_03_ss_mask    原始街景叠加语义分割结果的存放位置
+
+
+python程序文件说明
+01_imgs _seg.py    语义分割程序
+
+
+结果数据表格说明
+ADE20K classes.pdf    语义分割元素的表格，用来查找语义分割元素的编号
+ss.csv    图像的语义分割结果表格
+
+操作说明：
+1、将_01_02_03_04_05_06_文件夹清空；
+2、将新研究街景放到01文件夹；
+3、依次运行_01_02_03_python程序，即可获取各个文件夹中的结果

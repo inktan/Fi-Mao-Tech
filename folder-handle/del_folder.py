@@ -2,7 +2,7 @@ import shutil
 from tqdm import tqdm
 import os  
   
-folder_path = r'F:\GoogleDrive'  
+folder_path = r'F:\sv_shanghai\sv_degree_960_720'  
   
 try:
     if os.path.exists(folder_path):  
@@ -13,8 +13,6 @@ try:
 except Exception as e:
     print(f"删除文件时出错: {e}")
     
-# folder_path = r'F:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_ss_rgb'  
-  
 # try:
 #     if os.path.exists(folder_path):  
 #         shutil.rmtree(folder_path)  
@@ -41,6 +39,12 @@ except Exception as e:
 #         r'F:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_ss_rgb',# 02
 
 #         ]
+    # 图片库所在文件夹
+    folder_path_list =[
+        folder_path,# 02\
+        r'F:\sv_shanghai\sv_degree_960_720',
+        r'F:\sv_shanghai\sv_pan'
+        ]
 
 #     # 获取文件夹中的所有文件信息(含多级的子文件夹)
 #     img_paths = []

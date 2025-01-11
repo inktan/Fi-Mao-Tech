@@ -165,8 +165,8 @@ if __name__ == "__main__":
     # image_directory = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus' 
     image_directory = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\淘宝效果图资源'
     # move_file_with_folder_creation(destination_directory)
-    resize_width_200px(image_directory)
-    # resize_width_1k(image_directory)
+    # resize_width_200px(image_directory)
+    resize_width_1k(image_directory)
     
 
 

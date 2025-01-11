@@ -1,11 +1,19 @@
-import glob
-import os
+import numpy as np
 
-# 指定要检查的文件夹路径
-folder_path = r'F:\sv_hangzhou\hangzhou_800_600_108776'
+def haversine_np(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees), returns an array.
+    """
+    # 将十进制度数转化为弧度
+    lon1, lat1, lon2, lat2 = np.radians([lon1, lat1, lon2, lat2])
+    
+    # haversine公式
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = np.sin(dlat/2)**2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon/2)**2
+    c = 2 * np.arcsin(np.sqrt(a))
+    r = 6371 # 地球平均半径，单位为公里
+    return c * r * 1000
 
-for i in range(1, 107000):
-    pattern = os.path.join(folder_path, str(i)+'_' + '*')
-    if len(glob.glob(pattern))>4:
-        print(i)
-
+print(haversine_np(121.15436700408115,31.31207288494634,121.147862,31.306458))

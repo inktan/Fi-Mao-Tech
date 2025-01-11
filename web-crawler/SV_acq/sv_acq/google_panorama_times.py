@@ -107,7 +107,7 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
 if __name__ == "__main__":
     
     # 输入经纬度点的csv文件
-    input_csv = r'e:\work\sv_levon\50M-Distance-WGS84-4326.csv'
+    input_csv = r'd:\Users\wang.tan.GOA\WeChat Files\wxid_0431434314115\FileStorage\File\2024-12\kabuer.csv'
     # 输入街景保存文件夹
     output_ = r'e:\work\sv_levon\sv_pan'
     output_csv = r'de:\work\sv_levon\50M-Distance-WGS84-4326_.csv'

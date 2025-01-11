@@ -52,6 +52,7 @@ def send_get(url,headers,params):
 
 def get_info(address):
     url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=11&kw={address}&type=2'
+    print(url)
     response = send_get(url,headers=headers,params={}).json()
     datalist = response.get("data",[])
     if len(datalist) == 0:
@@ -61,7 +62,10 @@ def get_info(address):
     # if str(id)=="12172":
     #     return []
     url = f'https://m.anjuke.com/sh/community/{id}/'
+    print(url)
     response = send_get(url,headers=headers,params={})
+    # print(response.status_code)
+    # print(response.text)
 
     info_dict = {}
 
@@ -84,28 +88,32 @@ def get_info(address):
     return result
 
 if __name__ == '__main__':
-    csv_path = r'f:\shanghaijiaoda_poi_shp\20240614\work03_address_lng_lat_02.csv'
+    
+    csv_path = r'e:\work\sv_yueliang\备份小区名_lng_lat_住宅区_别墅区.csv'
+    # df = pd.read_csv(csv_path, encoding='gbk')
     df = pd.read_csv(csv_path)
-    csv_path = r'f:\shanghaijiaoda_poi_shp\20240614\work03_id_address_anjuke_05.csv'
-        
-    csv_headers = ['id','address','address_01','lng','lat','所属商圈', '开发商', '物业公司', '小区名称', '物业类型', '竣工时间', '绿化率', '容积率', '建筑面积', '总户数', '小区地址', '停车位', '物业费', '挂牌均价']
-    # csv_headers = ['id','address','address_01','lng','lat','公交','地铁','学校','餐饮','购物','医院','银行']
-    # with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
-    #     csvwriter = csv.writer(csvfile)
-    #     csvwriter.writerow(csv_headers)
 
+    points_df = pd.DataFrame(columns=['id','address','address_01','lng','lat','所属商圈', '开发商', '物业公司', '小区名称', '物业类型', '竣工时间', '绿化率', '容积率', '建筑面积', '总户数', '小区地址', '停车位', '物业费', '挂牌均价'])
     for i,row in enumerate(tqdm(df.iterrows())):
-        if i<1997:
-            continue
+        # if i<1997:
+        #     continue
         # if i>=20000:
         #     continue
         print(i)
 
         id = row[1]['id']
-        address = row[1]['address']
-        lng = row[1]['lng']
-        lat = row[1]['lat']
+        address = row[1]['name']
+        # lng = row[1]['lng_wgs84']
+        # lat = row[1]['lat_wgs84']
+        temp = ['','','','','','', '', '', '', '', '', '', '', '', '', '', '', '', '']
         if not isinstance(address,str):
+            points_df.loc[len(points_df)] = temp
+            continue
+        if address == '0':
+            points_df.loc[len(points_df)] = temp
+            continue
+        if address == 0:
+            points_df.loc[len(points_df)] = temp
             continue
 
         if address.endswith("号"):
@@ -122,18 +130,34 @@ if __name__ == '__main__':
             address_01 = address_01.split('上海市')[-1]
 
         if not isinstance(address_01,str):
+            points_df.loc[len(points_df)] = temp
             continue
 
-        rate_list = [id,address,address_01,lng,lat]
-        infos = get_info(address_01)
-        rate_list.extend(infos)
+        rate_list = [id,address,address,'lng','lat']
 
-        with open(csv_path,'a' ,newline='', encoding='utf-8') as f:
-            writer = csv.writer(f)
+        while True:
+            # count+=1
+            # if count>90:
+            #     return
             try:
-                writer.writerow(rate_list)
-            except Exception as e :
-                rate_list = [e]
-                writer.writerow(rate_list)
+                infos = get_info(address)
+                break
+            except Exception as e:
+                print(f"请判断 m.anjuke 是否需要验证,{e}")
+                print("Connection error. Trying again in 2 seconds.")
+                time.sleep(2)
 
+        if len(infos) == 0:
+            points_df.loc[len(points_df)] = temp
+            continue
+        else:
+            rate_list.extend(infos)
+            # print(rate_list)
+
+        points_df.loc[len(points_df)] = rate_list
+        
+        if i%100 == 0:
+            points_df.to_csv(r'e:\work\sv_yueliang\备份小区名_lng_lat_anjuke_01.csv', index=False)
+
+points_df.to_csv(r'e:\work\sv_yueliang\备份小区名_lng_lat_anjuke_01.csv', index=False)
 
