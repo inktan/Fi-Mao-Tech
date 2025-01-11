@@ -3,10 +3,12 @@ import pandas as pd
 input_files = []
 
 # 1. 读取 CSV 文件
-input_file = r'd:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_new_file.csv'
+input_file = r'f:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_person_03.csv'
 df = pd.read_csv(input_file)
 headers = df.columns
 print(headers)
+print(df.head())
+print(df.shape)
 
 # input_file = r'd:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_pan_01_ss.csv'
 # input_files.append(input_file)
