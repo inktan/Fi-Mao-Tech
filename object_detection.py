@@ -93,7 +93,7 @@ def main():
     
 if __name__ == '__main__':
     print('a01')
-    image_ss_csv= os.path.join(r'F:\BaiduNetdiskDownload\sv_roadpoints_50m',"sv_pan_02_person_01.csv")
+    image_ss_csv= os.path.join(r'F:\BaiduNetdiskDownload\sv_roadpoints_50m',"sv_pan_02_person_02.csv")
         
     with open('%s'%image_ss_csv ,'w' ,newline='') as f: 
         writer = csv.writer(f)

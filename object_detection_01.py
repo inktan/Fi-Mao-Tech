@@ -17,7 +17,7 @@ model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revisi
 def object_detection(img_paths):
     rate_lists= []
     for index, file_path in enumerate(tqdm(list(img_paths))):
-        if index < 870950:
+        if index < 1559302:
             continue
         try:
             image = Image.open(file_path)
@@ -98,7 +98,7 @@ def main():
     
 if __name__ == '__main__':
     print('a01')
-    image_ss_csv= os.path.join(r'F:\BaiduNetdiskDownload\sv_roadpoints_50m',"sv_pan_02_person_01.csv")
+    image_ss_csv= os.path.join(r'F:\BaiduNetdiskDownload\sv_roadpoints_50m',"sv_pan_02_person_02.csv")
         
     with open('%s'%image_ss_csv ,'w' ,newline='') as f: 
         writer = csv.writer(f)
