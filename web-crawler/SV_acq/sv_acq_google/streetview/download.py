@@ -34,13 +34,13 @@ def make_download_url(pano_id: str, zoom: int, x: int, y: int) -> str:
     """
     Returns the URL to download a tile.
     """
-    # return (
-    #     "https://cbk0.google.com/cbk"
-    #     f"?output=tile&panoid={pano_id}&zoom={zoom}&x={x}&y={y}"
-    # )
     return (
-        f'https://streetviewpixels-pa.googleapis.com/v1/tile?cb_client=maps_sv.tactile&panoid={pano_id}&x={x}&y={y}&zoom={zoom}&nbt=1&fover=2'
+        "https://cbk0.google.com/cbk"
+        f"?output=tile&panoid={pano_id}&zoom={zoom}&x={x}&y={y}"
     )
+    # return (
+    #     f'https://streetviewpixels-pa.googleapis.com/v1/tile?cb_client=maps_sv.tactile&panoid={pano_id}&x={x}&y={y}&zoom={zoom}&nbt=1&fover=2'
+    # )
 
 
 def fetch_panorama_tile(tile_info: TileInfo) -> Image.Image:
