@@ -43,7 +43,7 @@ def extract_points(line, interval):
 folder_path = r'f:\立方数据\2025年道路数据\【立方数据学社】澳门特别行政区'  # 替换为你的文件夹路径
 shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
-shape_files=[r'f:\地学大数据\澳门特别行政区\澳门特别行政区.shp']
+shape_files=[r'e:\work\sv_nadingzichidefangtoushi\澳门路网\道路.shp']
 
 for file_path in shape_files:
     print(file_path)
@@ -51,9 +51,10 @@ for file_path in shape_files:
     # shp_file_path = r'e:\work\sv_小丸\福田区面\深圳市.shp'
     shp_file_path = file_path
     gdf = gpd.read_file(shp_file_path)
-    # gdf = gdf.to_crs(epsg=4326)  # 转换为WGS 84
+    gdf = gdf.to_crs(epsg=4326)  # 转换为WGS 84
 
-    points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name', 'type', 'oneway', 'bridge', 'tunnel' ])
+    # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name', 'type', 'oneway', 'bridge', 'tunnel' ])
+    points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude'])
     interval = 15
     print(gdf.shape)
     for index, row in tqdm(gdf.iterrows()):
@@ -67,13 +68,13 @@ for file_path in shape_files:
             exterior = geometry.exterior
             points = extract_points(LineString(exterior.coords),interval)
             for point in points:
-                points_df.loc[len(points_df)] = [index, point.x, point.y,row['name'],row['type'],row['oneway'],row['bridge'],row['tunnel'],]
+                points_df.loc[len(points_df)] = [index, point.x, point.y]
         elif geometry.geom_type == 'MultiPolygon':
             for polygon in geometry.geoms:
                 exterior = polygon.exterior
                 points = extract_points(LineString(exterior.coords),interval)
                 for point in points:
-                    points_df.loc[len(points_df)] = [index, point.x, point.y,row['name'],row['type'],row['oneway'],row['bridge'],row['tunnel'],]
+                    points_df.loc[len(points_df)] = [index, point.x, point.y]
         # print(geometry)
         # print(geometry.geom_type)
 
@@ -82,14 +83,14 @@ for file_path in shape_files:
             for line in geometry.geoms:
                 points = extract_points(line,interval)
                 for point in points:
-                    points_df.loc[len(points_df)] = [index, point.x, point.y,row['name'],row['type'],row['oneway'],row['bridge'],row['tunnel'],]
+                    points_df.loc[len(points_df)] = [index, point.x, point.y]
         elif geometry.geom_type == 'LineString':
             points = extract_points(geometry,interval)
             for point in points:
-                points_df.loc[len(points_df)] = [index, point.x, point.y,row['name'],row['type'],row['oneway'],row['bridge'],row['tunnel'],]
+                points_df.loc[len(points_df)] = [index, point.x, point.y]
         elif  geometry.geom_type == 'Point':
                 point = Point(geometry.coords[0])
-                points_df.loc[len(points_df)] = [index, point.x, point.y,row['name'],row['type'],row['oneway'],row['bridge'],row['tunnel'],]
+                points_df.loc[len(points_df)] = [index, point.x, point.y]
 
     print(points_df)
     points_df.to_csv(shp_file_path.replace('.shp','_15m_.csv') , index=False)

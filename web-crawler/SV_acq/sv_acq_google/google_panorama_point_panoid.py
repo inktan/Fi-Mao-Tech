@@ -105,6 +105,7 @@ def get_panorama(pano_id: str, zoom: int = 1) -> Image.Image:
     tile_height = 512
 
     total_width, total_height = get_width_and_height_from_zoom(zoom)
+    print(total_width, total_height)
     panorama = Image.new("RGB", (total_width * tile_width, total_height * tile_height))
 
     for tile in iter_tiles(pano_id=pano_id, zoom=zoom):
@@ -188,33 +189,29 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom):
     for index, row in tqdm(df.iterrows()):
         print(index,all_points_count)
         
-        if index <= 6612:
-            continue
+        # if index <= 6612:
+        #     continue
         # if index >16000:
         #     continue
-        
-        id = row[0]
-        lon = row[2]
-        lat = row[1]
-        # pano_id = row[3]
-        
+
+        id = int(row[0])	
+        longitude = float(row[1])	
+        latitude = float(row[2])	
+        panoid = row[3]	
+        year = row[4]	
+        month = row[5]
+
         time.sleep(0.05)
         try :
-            resp = search_request(lat, lon)
-            pano_info = extract_panoramas(resp.text)
-            # print(pano_info)
-
-            if pano_info['panoid'] == '':
-                continue
-            img_save_path = output_+f"/{int(id)}_{lon}_{lat}_{pano_info['year']}_{pano_info['month']}.png"
+            img_save_path = output_+f"/{int(id)}_{longitude}_{latitude}_{year}_{month}.png"
             if os.path.exists(img_save_path):
                 continue
-            # print(img_save_path)
-
-            image = get_panorama(pano_info['panoid'],zoom)
+            print(img_save_path)
+            image = get_panorama(panoid,zoom)
             image.save(img_save_path)
+            print(img_save_path,'下载完成')
                 
-            # break
+            break
                 
         except Exception as e :
             print(f'error:{e}')
@@ -225,13 +222,13 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom):
 if __name__ == "__main__":
     
     # 输入经纬度点的csv文件
-    input_csv = r'e:\work\sv_yantu\points.csv'
+    input_csv = r'e:\work\sv_nadingzichidefangtoushi\merged_coordinates_01_sv_infos_.csv'
     # 输入街景保存文件夹
         
     # 全景分辨率设置 1-512*1024; 2-1024*2048; 3-2048*4096; 4-4096*8192
     # 全景分辨率设置 1-512*1024; 2-7++*1536; 3-1024*3072; 4-2048*4096; 5-4096*8192
     zoom = 3
-    output_ =r'e:\work\sv_yantu\sv_pan_zoom'+str(zoom)
+    output_ =r'e:\work\sv_nadingzichidefangtoushi\sv_pan_zoom'+str(zoom)
 
     if os.path.exists(output_) == False:
         os.makedirs(output_)    

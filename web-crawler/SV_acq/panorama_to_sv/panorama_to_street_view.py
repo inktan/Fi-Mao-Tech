@@ -80,8 +80,8 @@ if __name__ == "__main__":
     degree_count = 4
 
     # 角度街景宽度
-    width = 960
-    height = 720
+    width = 1024
+    height = 512
 
     # width = 1024
     # height = 768

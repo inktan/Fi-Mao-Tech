@@ -7,22 +7,6 @@ from tqdm import tqdm
 import os
 import time
 
-# 100点/0.35元
-# 单纯的代码解答需要84点 0.294元 包含上下文
-# 单纯的代码解答需要40点 0.14元 不包含上下文
-
-# 本代码案例是图文一起
-# 39279 27506 = 11773
-# 612 800 = 188 
-# 11773/188=62.62
-# 当前每个请求花费65个点
-
-# 27506/382=72
-# all 4541+2026 =6567
-# start 10+800+382=1192
-# end 6567-1192 = 5375*100=537500个点
-
-
 query_text="请根据以下三个标准对提供的街景图片进行评分分析：\
     1、街道清洁度评分，满分为3分，最低为0分。评分内容包括：生态清洁（行道树绿化、沿街绿地卫生、花卉状况、隔离带绿化、口袋公园情况）、\
     路面清洁（路面垃圾、建筑垃圾、施工垃圾、道路破损情况、道路标识、斑马线、路缘石、人行道、盲道破损情况）、运输清洁（重型货车覆盖、\
@@ -36,29 +20,30 @@ query_text="请根据以下三个标准对提供的街景图片进行评分分�
     街廓连续性、街道高宽比、开阔度、建筑外立面和谐度、街道整体视觉效果）。\
     请依据这三个评分标准对街景图片进行打分，计算三个评分的平均值，得出最终评分结果，最终评分在0到3之间。"
 
+# 在这里配置您在本站的API_KEY
+api_key = "sk-FOIcGQMsc7236Ad6671CT3BLbkFJ03Dd2b5F428040b1B8e8"
+
 headers = {
-# 'Authorization': 'Bearer fk192489-7dCTdBKwtYid3GzzAvy3om3gVEwSRBNU',
-'Authorization': 'Bearer fk192612-pLVI3zuqAZCoCaeeDaZqmhia1uHmz4RE',
-'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
-'Content-Type': 'application/json'
+    "Authorization": 'Bearer ' + api_key,
+    # 'Content-Type': 'application/json'
 }
 
-url = "https://oa.api2d.net/v1/chat/completions"
+# url = "https://api.ohmygpt.com"
+# url = "https://apic.ohmygpt.com"
+# url = "https://c-z0-api-01.hash070.com"
 
-def chat_gpt4o(img_info):
-    if '.jpg' in img_info['img_path']:
-        tmp = img_info['img_path'].replace('ai_out','txt_out').replace('.jpg','.txt')
-    elif '.png' in img_info['img_path']:
-        tmp = img_info['img_path'].replace('ai_out','txt_out').replace('.png','.txt')
-    elif '.JPG' in img_info['img_path']:
-        tmp = img_info['img_path'].replace('ai_out','txt_out').replace('.JPG','.txt')
-    elif '.jpeg' in img_info['img_path']:
-        tmp = img_info['img_path'].replace('ai_out','txt_out').replace('.jpeg','.txt')
+# url = "https://api.ohmygpt.com/v1"
+# url = "https://apic.ohmygpt.com/v1"
+# url = "https://c-z0-api-01.hash070.com/v1"
 
-    if os.path.exists(tmp):
-        return
+# url = "https://api.ohmygpt.com/v1/chat/completions"
+# url = "https://apic.ohmygpt.com/v1/chat/completions"
+url = "https://c-z0-api-01.hash070.com/v1/chat/completions"
 
-    payload = json.dumps({
+# url = "https://aigptx.top/v1/chat/completions"
+
+def chat_gpt4o(img_info,txt_path):
+    params ={
     "model": "gpt-4o",
     #    "model": "gpt-3.5-turbo",
     #    "messages": [
@@ -83,14 +68,17 @@ def chat_gpt4o(img_info):
             }
         ],
         # "max_tokens":300,
-        "safe_mode": False
-    })
+        # "safe_mode": False
+    }
 
     while True:
         try:
-            response = requests.request("POST", url, headers=headers, data=payload)
-            converted_dict = json.loads(response.text)
-            text = converted_dict['choices'][0]['message']['content']
+            response = requests.post(url,headers=headers,json=params,stream=False)
+            # print(response)
+            res = response.json()
+            # print(response)
+
+            text = res['choices'][0]['message']['content']
             break
         except  Exception as e:
             print(e)
@@ -101,10 +89,10 @@ def chat_gpt4o(img_info):
 
     string_without_empty_lines = '\n'.join([line for line in text.split('\n') if line.strip()])
 
-    folder_path = os.path.dirname(tmp)
+    folder_path = os.path.dirname(txt_path)
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
-    with open(tmp, "w", encoding="utf-8") as file:
+    with open(txt_path, "w", encoding="utf-8") as file:
         file.write(string_without_empty_lines)
 
 def main(img_folder):
@@ -123,16 +111,24 @@ def main(img_folder):
     # img_paths =[r'E:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai\sv_degree_10_ai\work']
     # img_paths =[r'e:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai-分析数据\ai_out\拉萨传统商业街景筛选-ai\181(180)-1.png']
     
-    # 单张图片消耗点数 计算前点数 23839
-    # 单张图片消耗点数 计算后点数 23781 差 58点=0.203元
-
-    # 1000P 人民币 ¥3.50
-
     for i, img_path in enumerate(tqdm(img_paths)):
-        # if i>5: 
+        # if i<=350:
+            # continue
+        # if i>108: 
         #     continue
-        # if i<=107:
-        #     continue
+        print(img_path)
+        
+        if '.jpg' in img_path:
+            txt_path = img_path.replace('ai_out','txt_out').replace('.jpg','.txt')
+        elif '.png' in img_path:
+            txt_path = img_path.replace('ai_out','txt_out').replace('.png','.txt')
+        elif '.JPG' in img_path:
+            txt_path = img_path.replace('ai_out','txt_out').replace('.JPG','.txt')
+        elif '.jpeg' in img_path:
+            txt_path = img_path.replace('ai_out','txt_out').replace('.jpeg','.txt')
+
+        if os.path.exists(txt_path):
+            continue
 
         with Image.open(img_path) as img:
             image_bytes = BytesIO()
@@ -140,13 +136,12 @@ def main(img_folder):
             image_bytes = image_bytes.getvalue()
 
         base64_image_data = base64.b64encode(image_bytes).decode('utf-8')
-        print(img_path)
         img_info={
             'img_path':img_path,
             'base64_image_data':base64_image_data,
         }
 
-        chat_gpt4o(img_info)
+        chat_gpt4o(img_info,txt_path)
 
 if __name__ == '__main__':
     img_folder = r'e:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai-分析数据\ai_out'

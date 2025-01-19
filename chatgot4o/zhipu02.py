@@ -19,8 +19,11 @@ img_info={
 }
 
 response = client.chat.completions.create(
-#   model="glm-4",  # 填写需要调用的模型名称
-  model="glm-4v",  # 填写需要调用的模型名称
+    # model="GLM-4V-Flash",  
+    # model="glm-zero-preview",
+    # model="glm-4-Plus",  
+    model="GLM-4V-Plus",  
+
     messages=[
       {
         "role": "user",
