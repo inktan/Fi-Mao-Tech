@@ -3,12 +3,12 @@ import pandas as pd
 input_files = []
 
 # 1. 读取 CSV 文件
-# input_file = r'd:\BaiduNetdiskDownload\sv_roadpoints_50m\seg_\sv_new_file.csv'
-# df = pd.read_csv(input_file)
-# headers = df.columns
-# print(headers)
-import os
-import pandas as pd
+input_file = r'f:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_person_03.csv'
+df = pd.read_csv(input_file)
+headers = df.columns
+print(headers)
+print(df.head())
+print(df.shape)
 
 # 假设文件夹路径为 "folder_path"
 folder_path = r"E:\work\sv_nadingzichidefangtoushi"

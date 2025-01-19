@@ -68,6 +68,9 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
+    input = r'F:\GoogleDrive\wt282532\我的云端硬盘\sv_LDW\sv_pan_zoom4'
+    # input = r'F:\GoogleDrive\mslneed\我的云端硬盘\sv_LDW\sv_pan_zoom4'
+    # input = r'F:\GoogleDrive\gongchuanjia\我的云端硬盘\sv_LDW\sv_pan_zoom4'
     input = r'E:\work\sv_小丸\sv_pan'
 
     # fov是镜头的远近关系 水平方向范围，范围[10,360]，fov=360即可显示整幅全是图
@@ -80,16 +83,8 @@ if __name__ == "__main__":
     degree_count = 4
 
     # 角度街景宽度
-    width = 1024
-    height = 512
-
-    # width = 1024
-    # height = 768
-    # width = 2048
-    # height = 1536
-
-    # width = 3072
-    # height = 2304
+    width = 960
+    height = 720
     
     panorama_to_street_view(input ,fov,degree_count,phi,height,width)
 
