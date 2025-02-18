@@ -1,12 +1,9 @@
-import requests as requests
+# Please install OpenAI SDK first: `pip3 install openai`
 
-# 在这里配置您在本站的API_KEY
-api_key = "sk-CAV81J75a5314C226aF5T3BlbKFJ1D4469f61Ab74a4e85a3"
+from openai import OpenAI
 
-headers = {
-    "Authorization": 'Bearer ' + api_key,
-}
-# question = input("输入您的问题\n")
+client = OpenAI(api_key="sk-8f022fdb45524520aff4667d2c7b6c17", base_url="https://api.deepseek.com")
+
 
 question = r'请使用简短的建筑设计专业语言，总结下面的文字内容。\n'
 question += r'''
@@ -48,28 +45,20 @@ City: 无锡
 引用: "梁溪医疗器械产业园 / UDG有关工作室" [Liangxi Medical Equipment Industrial Park / UDG About Studio] 07 2月 2025. ArchDaily. Accesed 10 2月 2025. <https://www.archdaily.cn/cn/1026143/liang-xi-yi-liao-qi-jie-chan-ye-yuan-udgyou-guan-gong-zuo-shi>
 '''
 
-params = {
-    "messages": [
-        {
-            "role": 'user',
-            "content": question
-        }
+# print(question)
+response = client.chat.completions.create(
+    model="deepseek-chat",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant"},
+        # {"role": "user", "content": "Hello"},
+        {"role": "user", "content": question},
     ],
-    # 如果需要切换模型，在这里修改
-    # "model": 'gpt-3.5-turbo'
-    # "model": 'gpt-4o'
-    
-    # "model": "gpt-4o-mini",
-    # "model": "o3-mini",
-    "model": "o1-mini",
-}
-response = requests.post(
-    "https://aigptx.top/v1/chat/completions",
-    headers=headers,
-    json=params,
     stream=False
+    # stream=True
 )
-# print(response.text)
-res = response.json()
-res_content = res['choices'][0]['message']['content']
-print(res_content)
+
+print(response.choices[0].message.content)
+
+# for chunk in response:
+#     print(chunk.choices[0].delta.content)
+

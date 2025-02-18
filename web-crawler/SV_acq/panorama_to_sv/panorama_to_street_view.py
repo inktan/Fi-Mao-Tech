@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# import csv
-# import time
-# from streetview import search_panoramas
-# from streetview import get_panorama
-# from datetime import datetime  
 import os
 import Equirec2Perspec as E2P 
 import cv2
@@ -16,7 +11,7 @@ import numpy as np
 def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
       
     # 定义图片文件类型  
-    image_types = ('.png', '.jpg', '.jpeg', '.bmp', '.gif')  
+    image_types = ('.png', '.jpg', '.jpeg', '.bmp', '.gif')
         
     # 遍历输入文件夹中的所有图片文件，并进行处理
     img_paths = []
@@ -34,10 +29,10 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
     for i,image_path in enumerate(tqdm(img_paths)): 
         # 判断文件是否为图片类型  
         if image_path.lower().endswith(image_types):
-            # if i<151000:
+            # if i < 0:
             #     continue
-            # if i==20:
-            #     break
+            # if i >= 111:
+            #     continue
             try:
                 equ = E2P.Equirectangular(image_path)    # Load equirectangular image
 
@@ -48,7 +43,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
                 image_type = image_path.split('.')[-1]
                 for i in degrees:
                     # img_degree_save = image_path.replace('sv_pan',f'sv_degree_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
-                    img_degree_save = image_path.replace('sv_pan',f'sv_degree_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
+                    img_degree_save = image_path.replace('sv_pan_zoom3',f'街景_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
                     if os.path.exists(img_degree_save):
                         continue
 
@@ -68,11 +63,8 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
-    input = r'F:\GoogleDrive\wt282532\我的云端硬盘\sv_LDW\sv_pan_zoom4'
-    # input = r'F:\GoogleDrive\mslneed\我的云端硬盘\sv_LDW\sv_pan_zoom4'
-    # input = r'F:\GoogleDrive\gongchuanjia\我的云端硬盘\sv_LDW\sv_pan_zoom4'
-    input = r'E:\work\sv_小丸\sv_pan'
-
+    input = r'E:\work\sv_welly\sv_pan_zoom3'
+    
     # fov是镜头的远近关系 水平方向范围，范围[10,360]，fov=360即可显示整幅全是图
     # pitch是仰头，低头关系 垂直视角，范围[0,90]。
     # heading是东南西北旋转关系 水平视角，范围[0.360]

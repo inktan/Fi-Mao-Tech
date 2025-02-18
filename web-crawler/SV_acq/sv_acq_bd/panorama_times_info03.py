@@ -71,26 +71,18 @@ def main(csv_path,sv_infos_path):
     df = pd.read_csv(csv_path)
     print(df.shape)
 
-    # 遍历每一行数据  
-    count=0
-    for index, row in tqdm(df.iterrows()):  
+    # 遍历每一行数据
+    # count=0
+    for index, row in tqdm(df.iterrows()):
         # if index<11750:
         #     continue
         # 1、lat是“latitude”的缩写，纬度
         # 2、lng是“longitude”的缩写，经度
         # 中国的经纬度 经度范围:73°33′E至135°05′E。 纬度范围:3°51′N至53°33′N。
-        # print(row)
-        # print(row['id'])
-        # print(row['longitude'])
-        # print(row['latitude'])
-        # print(row['name'])
-        # print(row['type'])
-        # print(row['oneway'])
-        # print(row['bridge'])
-        # print(row['tunnel'])
+
         # break
 
-        tar_lng_lat = coord_convert(float(row['longitude']),float(row['latitude']))
+        tar_lng_lat = coord_convert(float(row['X']),float(row['Y']))
         print(index,tar_lng_lat)
         print(df.shape)
 
@@ -100,10 +92,12 @@ def main(csv_path,sv_infos_path):
         #     print(timeLineIds)
         #     break
         for timeLine in timeLineIds:
+            # print(timeLine)
+            # break
             with open(sv_infos_path,'a' ,newline='') as f:
                 writer = csv.writer(f)
-                writer.writerow([count,float(row['longitude']),float(row['latitude']),row['name'],row['type'],row['oneway'],row['bridge'],row['tunnel'],timeLine['ID'], timeLine['TimeLine'], timeLine['Year']])
-                count+=1
+                writer.writerow([row['OBJECTID'],float(row['X']),float(row['Y']),timeLine['ID'], timeLine['TimeLine'], timeLine['Year']])
+                # count+=1
                 # break
 
         # if index>=11850:
@@ -111,12 +105,12 @@ def main(csv_path,sv_infos_path):
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'D:\ProgramData\GitHub\Fi-Mao-Tech\csv-handle\csv_len.py' # 需要爬取的点
-    sv_infos_path = csv_path.replace('_.csv','sv_infos_.csv')
+    csv_path = r'e:\work\sv_songguo\points.csv' # 需要爬取的点
+    sv_infos_path = csv_path.replace('.csv','_sv_infos_.csv')
 
     with open(sv_infos_path,'w' ,newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['id','longitude','latitude','name','type','oneway','bridge','tunnel','ID','timeLine','year'])
+        writer.writerow(['id','X','Y','panoid','timeLine','year'])
 
     main(csv_path,sv_infos_path)
 

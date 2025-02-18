@@ -1,32 +1,37 @@
+import os
 import pandas as pd
 
-input_files = []
+csv_paths = []
+csv_names = []
+accepted_formats = (".csv")
 
-# 1. 读取 CSV 文件
-input_file = r'f:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_person_03.csv'
-df = pd.read_csv(input_file)
-headers = df.columns
-print(headers)
-print(df.head())
-print(df.shape)
+csv_path_list =[
+    # r'E:\work\sv_YJ_20240924\points',
+    r'E:\work\sv_juanjuanmao\指标计算\业态混合度',
+    ]
+for folder_path in csv_path_list:
+    for root, dirs, files in os.walk(folder_path):
+        for file in files:
+            if file.endswith(accepted_formats):
+                file_path = os.path.join(root, file)
+                csv_paths.append(file_path)
+                csv_names.append(file)
+                
+# csv_paths = [
+#     r'f:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_person_01.csv',
+#     r'f:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_person_03.csv',
+#     ]
 
-# 假设文件夹路径为 "folder_path"
-folder_path = r"E:\work\sv_nadingzichidefangtoushi"
+total_rows = 0
+for file_path in csv_paths:
+    try:
+        # df = pd.read_csv(file_path)
+        df = pd.read_csv(file_path, encoding='GBK')
+        # print(df.columns[2])
+        # print(df.head(5))
+        print(f"{len(df)}")
+        total_rows += len(df)
+    except Exception as e:
+        print(f"Error reading {file_path}: {e}")
 
-count=0
-# 遍历文件夹中的所有文件
-for filename in os.listdir(folder_path):
-    if filename.endswith(".csv"):
-        file_path = os.path.join(folder_path, filename)
-        # 使用pandas读取csv文件
-        df = pd.read_csv(file_path)
-        # 打印DataFrame的shape值
-        print(f"文件 {filename} 的 shape 值为: {df.shape}")
-                        
-        headers = df.columns
-        print(len(headers))
-        print(df.head())
-        print(df.shape)
-        count+=df.shape[0]
-
-print("总行数：",count)
+# print(f"Total number of rows in all matching CSV files: {total_rows}")

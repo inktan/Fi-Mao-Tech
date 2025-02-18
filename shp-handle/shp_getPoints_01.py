@@ -40,10 +40,10 @@ def extract_points(line, interval):
     return points
 
 
-folder_path = r'f:\立方数据\2025年道路数据\【立方数据学社】澳门特别行政区'  # 替换为你的文件夹路径
-shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
+# folder_path = r'F:\立方数据\2025年道路数据\【立方数据学社】武汉市'  # 替换为你的文件夹路径
+# shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
-shape_files=[r'e:\work\sv_nadingzichidefangtoushi\澳门路网\道路.shp']
+shape_files=[r'e:\work\sv_juanjuanmao\澳门特别行政区_矢量路网\道路.shp']
 
 for file_path in shape_files:
     print(file_path)
@@ -93,5 +93,14 @@ for file_path in shape_files:
                 points_df.loc[len(points_df)] = [index, point.x, point.y]
 
     print(points_df)
-    points_df.to_csv(shp_file_path.replace('.shp','_15m_.csv') , index=False)
+
+    unique_count = points_df.shape[0]
+    print(f'原数据有 {ids_df.shape} 行数据')
+
+    points_df = points_df.drop_duplicates(subset=['longitude', 'latitude'])
+    # df_unique = ids_df.drop_duplicates(subset=['id'])
+    # 打印去重后的数据行数
+    print(f'去重后共有 {points_df.shape} 行数据')
+
+    points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_.csv') , index=False)
 

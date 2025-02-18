@@ -16,8 +16,7 @@ for root, dirs, files in os.walk(r'E:\work\sv_hukejia\sv\handle\points01_panoid0
             file_path = os.path.join(root, file)
             shp_paths.append(file_path)
 
-# shp_paths =[r'E:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai\sv_degree_10_ai\work']
-shp_paths =[r'e:\work\sv_hukejia\sv\handle\points01_panoid02_toshp\merged_output_in.shp']
+shp_paths =[r'e:\work\sv_nadingzichidefangtoushi\points_15m\filtered_points.shp']
 
 # for shp_path in tqdm(shp_paths):
 for shp_path in shp_paths:

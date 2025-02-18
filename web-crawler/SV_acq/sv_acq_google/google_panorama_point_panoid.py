@@ -32,7 +32,7 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom):
             img_save_path = output_+f"/{int(id)}_{longitude}_{latitude}_{year}_{month}.png"
             if os.path.exists(img_save_path):
                 continue
-            print(img_save_path)
+            # print(img_save_path)
             image = get_panorama(panoid,zoom)
             image.save(img_save_path)
             print(img_save_path,'下载完成')

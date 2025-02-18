@@ -8,7 +8,7 @@ import numpy as np
 
 from PIL import Image
 
-# 找黑色边界
+# 人工定位找黑色边界
 def find_first_non_black_pixel(img):
 
     rect_xy = [0,0,0,0]
@@ -43,7 +43,9 @@ def find_first_non_black_pixel(img):
 
 def fix_black_images(img_paths):
     for i, image_path in enumerate(tqdm(img_paths)):
-        # if i<2396:
+        # if i < 0:
+        #     continue
+        # if i >= 111:
         #     continue
         try:
             with Image.open(image_path) as img:
@@ -56,11 +58,15 @@ def fix_black_images(img_paths):
                     os.makedirs(folder_path)
 
                 rect_xy = find_first_non_black_pixel(img)
-                print(image_path)
-                print(rect_xy)
+                # print(image_path)
+                # print(rect_xy)
 
                 cropped_img = img.crop((rect_xy[0], rect_xy[1], rect_xy[2], rect_xy[3]))
                 # resized_img = cropped_img.resize((4096, 2048))
+
+                height = cropped_img.height
+                width = int(height * 2)
+                cropped_img = cropped_img.crop((0, 0, width, height))
 
                 cropped_img.save(img_save_path)
                 # resized_img.save(img_save_path)
@@ -76,8 +82,7 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'E:\work\sv_yantu\sv_pan_zoom3',
-        # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
+        r'E:\work\sv_welly\sv_pan_zoom3',
         ]
     for folder_path in folder_path_list:
         for root, dirs, files in os.walk(folder_path):

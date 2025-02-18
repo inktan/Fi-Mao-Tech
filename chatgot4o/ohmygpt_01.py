@@ -114,9 +114,9 @@ def main(img_folder):
     for i, img_path in enumerate(tqdm(img_paths)):
         # if i<=350:
             # continue
-        # if i>108: 
+        # if i>1: 
         #     continue
-        print(img_path)
+        # print(img_path)
         
         if '.jpg' in img_path:
             txt_path = img_path.replace('ai_out','txt_out').replace('.jpg','.txt')
@@ -127,8 +127,11 @@ def main(img_folder):
         elif '.jpeg' in img_path:
             txt_path = img_path.replace('ai_out','txt_out').replace('.jpeg','.txt')
 
+        # print(txt_path)
+
         if os.path.exists(txt_path):
             continue
+        # print(txt_path)
 
         with Image.open(img_path) as img:
             image_bytes = BytesIO()
@@ -144,5 +147,5 @@ def main(img_folder):
         chat_gpt4o(img_info,txt_path)
 
 if __name__ == '__main__':
-    img_folder = r'e:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai-分析数据\ai_out'
+    img_folder = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai-分析数据\20250109街景数据\ai_out'
     main(img_folder)

@@ -58,7 +58,7 @@ if __name__ == "__main__":
     ss_rgb_img_paths = []
     ss_rgb_img_names = []
     # 语义分割色块路径
-    ss_rgb_image_folder =r'D:\BaiduNetdiskDownload\sv_j_ran\temp\ss_suzhou_test\ss_rgb'
+    ss_rgb_image_folder =r'D:\ProgramData\GitHub\Fi-Mao-Tech\citycolorImpression\ss_rgb'
 
     for root, dirs, files in os.walk(ss_rgb_image_folder):
         for file in files:
@@ -68,8 +68,8 @@ if __name__ == "__main__":
                 ss_rgb_img_names.append(file)
                 
     # 街景图像文件路径
-    sv_image_folder =r'D:\BaiduNetdiskDownload\sv_j_ran\temp\sv_suzhou_test'
-    sv_tree_folder =r'D:\BaiduNetdiskDownload\sv_j_ran\temp\sv_tree'
+    sv_image_folder =r'D:\ProgramData\GitHub\Fi-Mao-Tech\citycolorImpression\images-0'
+    sv_tree_folder =r'D:\ProgramData\GitHub\Fi-Mao-Tech\citycolorImpression\images-0_tree_out'
 
     extracted_arch(ss_rgb_img_paths,ss_rgb_image_folder,sv_image_folder,sv_tree_folder)
 

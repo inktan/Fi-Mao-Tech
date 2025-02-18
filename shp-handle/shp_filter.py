@@ -1,10 +1,17 @@
 import geopandas as gpd
 
-# 读取原始的Shapefile
-original_shp = gpd.read_file('e:\work\sv_hukejia\calculate_point\浙江行政境界高分\行政境界-乡镇-面.shp')
+# 读取Shapefile文件
+input_file = r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\merged_output.shp'
+output_file = r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\merged_output_店铺.shp'
 
-# 筛选出FNAME列中包含"街道"的行
-filtered_shp = original_shp[original_shp['FNAME'].str.contains("街道", na=False)]
+# 读取Shapefile文件
+gdf = gpd.read_file(input_file)
 
-# 保存筛选后的数据为新的Shapefile
-filtered_shp.to_file('e:\work\sv_hukejia\calculate_point\浙江行政境界高分\行政境界-乡镇-面_街道.shp')
+# 选择 name 列中包含 "店铺"、"咖啡" 或 "购物" 的行
+
+filtered_gdf = gdf[gdf['name'].str.contains('店|店', case=False)]
+
+# 保存为新的Shapefile文件
+filtered_gdf.to_file(output_file)
+
+print(f"Data saved to {output_file}")

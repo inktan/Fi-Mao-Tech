@@ -18,6 +18,7 @@ from pydantic import BaseModel
 from requests.models import Response
 import time
 from datetime import datetime
+import pandas as pd  
 
 def make_search_url(lat: float, lon: float) -> str:
     """
@@ -104,11 +105,16 @@ def main(csv_path,sv_infos_path):
     # 遍历每一行数据
     count=0
     for index, row in tqdm(df.iterrows()):
-        print(index,float(row['longitude']),float(row['latitude']))
+        # if index <= 6612:
+        #     continue
+        # if index >16000:
+        #     continue
+
+        # print(index,float(row['longitude']),float(row['latitude']))
         print(df.shape)
 
         try:
-            resp = search_request(float(row['latitude']), float(row['longitude']))
+            resp = search_request(float(row['latitude_circle']), float(row['longitude_circle']))
             panoids = panoids_from_response(resp.text)
         except Exception as e:
             print(e)
@@ -128,7 +134,7 @@ def main(csv_path,sv_infos_path):
 
         with open(sv_infos_path,'a' ,newline='') as f:
             writer = csv.writer(f)
-            writer.writerow([count,float(row['longitude']),float(row['latitude']),pano['panoid'], year, month])
+            writer.writerow([int(row['id']),int(row['id_circle']),float(row['longitude_circle']),float(row['latitude_circle']),pano['panoid'], year, month])
             print(count)
             count+=1
 
@@ -137,9 +143,7 @@ sv_infos_path = csv_path.replace('.csv','_sv_infos_.csv')
 
 with open(sv_infos_path,'w' ,newline='') as f:
     writer = csv.writer(f)
-    writer.writerow(['id','longitude','latitude','panoid','year','month'])
-
-start_inedx = 0
-end_index = 2495000000
+    # writer.writerow(['id','longitude','latitude','panoid','year','month'])
+    writer.writerow(['id','id_circle','longitude_circle','latitude_circle','panoid','year','month'])
 
 main(csv_path,sv_infos_path)

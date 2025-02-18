@@ -15,7 +15,7 @@ csv_names = []
 accepted_formats = (".csv")
 
 folder_path_list =[
-    r'E:\work\sv_hukejia\sv\handle\points01_panoid02',
+    r'E:\work\sv_juanjuanmao\指标计算',
     ]
 for folder_path in folder_path_list:
     for root, dirs, files in os.walk(folder_path):
@@ -25,7 +25,7 @@ for folder_path in folder_path_list:
                 csv_paths.append(file_path)
                 csv_names.append(file)
 
-csv_paths = [r'e:\work\sv_nadingzichidefangtoushi\merged_coordinates_01.csv']
+# csv_paths = [r'e:\work\sv_juanjuanmao\window_ss.csv']
 
 for i, csv_file in enumerate(tqdm(csv_paths)):
     # if i > 112:
@@ -36,6 +36,7 @@ for i, csv_file in enumerate(tqdm(csv_paths)):
     df = pd.read_csv(csv_file)
 
     df['geometry'] = df.apply(lambda row: Point(float(row['longitude']), float(row['latitude'])), axis=1)
+    # df['geometry'] = df.apply(lambda row: Point(float(row['longitude']), float(row['latitude'])), axis=1)
     gdf = gpd.GeoDataFrame(df, geometry='geometry')
     gdf.set_crs(epsg=4326, inplace=True)
 

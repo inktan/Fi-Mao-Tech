@@ -8,9 +8,19 @@ import os
 import time
 
 query_text="Please describe the urban environmental features of this street view image from the perspectives of walking, cycling, and driving."
+query_text='''
+作者根据声景的定义和研究目标，构建了一个包含15个指标的声景指标体系。这些指标分为四大类：
+声音强度（Sound Intensity）：衡量声音的强弱，例如“嘈杂”或“安静”。
+声景质量（Soundscape Quality）：衡量声音环境的整体质量，例如“感觉良好”或“感觉不好”。
+声音来源（Sound Source）：包括交通噪声、人声、自然声音、机械噪声和音乐噪声。
+感知情绪（Perceptual Emotion）：包括愉快、混乱、充满活力、平淡、平静、恼人、有事件感和单调等。
+这些指标是基于人类对声音的主观感知设计的，而不是基于物理声学测量。
+
+请对这张图片进行15个声景指标打分
+'''
 
 # 在这里配置您在本站的API_KEY
-api_key = "sk-FOIcGQMsc7236Ad6671CT3BLbkFJ03Dd2b5F428040b1B8e8"
+api_key = "sk-CAV81J75a5314C226aF5T3BlbKFJ1D4469f61Ab74a4e85a3"
 
 headers = {
     "Authorization": 'Bearer ' + api_key,
@@ -33,7 +43,10 @@ url = "https://c-z0-api-01.hash070.com/v1/chat/completions"
 
 def chat_gpt4o(img_info,txt_path):
     params ={
-    "model": "gpt-4o",
+    "model": "gpt-4o-mini",
+    # "model": "gpt-4o",
+    # "model": "o3-mini",
+    # "model": "o1-mini",
     #    "model": "gpt-3.5-turbo",
     #    "messages": [
     #       {
@@ -64,6 +77,8 @@ def chat_gpt4o(img_info,txt_path):
         try:
             response = requests.post(url,headers=headers,json=params,stream=False)
             # print(response)
+            print(response.text)
+
             res = response.json()
             # print(response)
 
@@ -98,7 +113,7 @@ def main(img_folder):
                 img_paths.append(file_path)
 
     # img_paths =[r'E:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai\sv_degree_10_ai\work']
-    # img_paths =[r'e:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai-分析数据\ai_out\拉萨传统商业街景筛选-ai\181(180)-1.png']
+    img_paths =[r'e:\work\sv_welly\街景_960_720\2_114.1774793_22.2982878_2009_1_0.jpg']
     
     for i, img_path in enumerate(tqdm(img_paths)):
         # if i<=350:
