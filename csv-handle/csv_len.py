@@ -17,20 +17,21 @@ for folder_path in csv_path_list:
                 csv_paths.append(file_path)
                 csv_names.append(file)
                 
-# csv_paths = [
-#     r'f:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_person_01.csv',
-#     r'f:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_pan_02_person_03.csv',
-#     ]
+csv_paths = [
+    r'e:\work\sv_shushu\谷歌\ss_merged_file.csv',
+    ]
 
 total_rows = 0
 for file_path in csv_paths:
     try:
-        # df = pd.read_csv(file_path)
-        df = pd.read_csv(file_path, encoding='GBK')
+        df = pd.read_csv(file_path)
+        print(df.shape)
+        print(df.iloc[0,0])
+        # df = pd.read_csv(file_path, encoding='GBK')
         # print(df.columns[2])
-        # print(df.head(5))
-        print(f"{len(df)}")
-        total_rows += len(df)
+        print(df.head(5))
+        # print(f"{len(df)}")
+        # total_rows += len(df)
     except Exception as e:
         print(f"Error reading {file_path}: {e}")
 

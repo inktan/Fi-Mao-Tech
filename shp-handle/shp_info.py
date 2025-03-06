@@ -3,6 +3,7 @@ from shapely.geometry import Polygon
 
 from tqdm import tqdm
 import os
+import pandas as pd
 
 roots = []
 shp_names = []
@@ -16,16 +17,16 @@ for root, dirs, files in os.walk(r'E:\work\sv_juanjuanmao\澳门POI2022\ShapeFil
             file_path = os.path.join(root, file)
             shp_paths.append(file_path)
 
-shp_paths =[r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\merged_output_店铺.shp']
+shp_paths =[r'e:\work\sv_gonhoo\value_shp\0-Zvalue-Totle-fukuoka-city.shp']
 
 # for shp_path in tqdm(shp_paths):
 for shp_path in shp_paths:
-#     gdf = gpd.read_file(shp_path, encoding='GBK')
+    gdf = gpd.read_file(shp_path, encoding='GBK')
     gdf = gpd.read_file(shp_path)
     print(shp_path,gdf.shape)
     print(gdf.head)
-    # print(gdf.columns)
-    # print(gdf.crs)
+    print(gdf.columns)
+    print(gdf.crs)
 
     # # 检查 'name' 列是否存在
     # if 'Name' in gdf.columns:
@@ -72,10 +73,8 @@ def read_shapefile_names(shapefile_path):
         # gdf = gpd.read_file(shapefile_path)
         gdf = gpd.read_file(shapefile_path, encoding='GBK')
 
-        # str_type = '大类'
-        # str_type = '中类'
-        # str_type = '小类'
-        str_type = 'name'
+        str_type = 'page_type'
+        # str_type = 'actual_typ'
         # 检查Name列是否存在
         if str_type not in gdf.columns:
             print(f"Shapefile文件中不存在'{str_type}'列。")
@@ -89,11 +88,18 @@ def read_shapefile_names(shapefile_path):
         for name in unique_names:
             print(name)
         print(len(unique_names))
+
+        # 创建DataFrame
+        df = pd.DataFrame(unique_names, columns=['page_type'])
+
+        # 保存为CSV文件
+        csv_file_path = shapefile_path.replace('.shp', '_names.csv')
+        df.to_csv(csv_file_path, index=False)
+
     
     except Exception as e:
         print(f"读取Shapefile文件时发生错误：{e}")
 
 # 示例使用
-# shapefile_path = r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\merged_output.shp'
-
+# shapefile_path = r'e:\work\sv_gonhoo\fugang\fugang.shp'
 # read_shapefile_names(shapefile_path)

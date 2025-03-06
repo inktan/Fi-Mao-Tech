@@ -29,7 +29,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
     for i,image_path in enumerate(tqdm(img_paths)): 
         # 判断文件是否为图片类型  
         if image_path.lower().endswith(image_types):
-            # if i < 0:
+            # if i < 12890:
             #     continue
             # if i >= 111:
             #     continue
@@ -43,7 +43,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
                 image_type = image_path.split('.')[-1]
                 for i in degrees:
                     # img_degree_save = image_path.replace('sv_pan',f'sv_degree_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
-                    img_degree_save = image_path.replace('sv_pan_zoom3',f'街景_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
+                    img_degree_save = image_path.replace('sv_pan',f'街景_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
                     if os.path.exists(img_degree_save):
                         continue
 
@@ -63,7 +63,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
-    input = r'E:\work\sv_welly\sv_pan_zoom3'
+    input = r'E:\work\sv_lvmaoshuiguai\sv_result_15m\sv_pan'
     
     # fov是镜头的远近关系 水平方向范围，范围[10,360]，fov=360即可显示整幅全是图
     # pitch是仰头，低头关系 垂直视角，范围[0,90]。
@@ -75,8 +75,8 @@ if __name__ == "__main__":
     degree_count = 4
 
     # 角度街景宽度
-    width = 960
-    height = 720
+    width = 640
+    height = 480
     
     panorama_to_street_view(input ,fov,degree_count,phi,height,width)
 

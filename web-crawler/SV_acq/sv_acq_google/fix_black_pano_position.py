@@ -82,7 +82,7 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'E:\work\sv_welly\sv_pan_zoom3',
+        r'E:\work\sv_shushu\谷歌\sv_pan_zoom3',
         ]
     for folder_path in folder_path_list:
         for root, dirs, files in os.walk(folder_path):

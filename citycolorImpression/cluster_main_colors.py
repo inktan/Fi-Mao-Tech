@@ -38,14 +38,14 @@ def cluster_main_colors(img_path, img_name, results_folder_path, n_clusters):
 
     cluster_color_csv = [img_name] 
     cluster_color_csv.extend(cluster_centers_colors)
-    with open(results_csv,'a' ,newline='') as f:
-        writer = csv.writer(f)
-        try:
-            writer.writerow(cluster_color_csv)
-        except Exception as e :
-            print(f'error:{e}')
+    # with open(results_csv,'a' ,newline='') as f:
+    #     writer = csv.writer(f)
+    #     try:
+    #         writer.writerow(cluster_color_csv)
+    #     except Exception as e :
+    #         print(f'error:{e}')
     
-    return 
+    # return 
     # 计算每个像素到每个聚类中心的距离，得到一个距离矩阵。每个像素点到聚类中心的距离列表，数量为n
     dist_matrix = distance.cdist(pix_datas_without_white, cluster_centers_colors)
     # 对于每个像素，找到最近的聚类中心的索引。
@@ -72,11 +72,11 @@ def cluster_main_colors(img_path, img_name, results_folder_path, n_clusters):
         except Exception as e :
             print(f'error:{e}')
     
-    return 
+    # return 
     # 绘制图案
     # 1 绘制图片
-    fig = plt.figure(figsize=(15, 5))
-    grid = plt.GridSpec(1, 2, hspace=0, wspace=0, width_ratios=[20, 1])
+    fig = plt.figure(figsize=(8, 5))
+    grid = plt.GridSpec(1, 2, hspace=0, wspace=0, width_ratios=[4, 1])
     ax = fig.add_subplot(grid[0, 0])
     ax.imshow(image)
     ax.axis('off')
@@ -99,9 +99,9 @@ def cluster_main_colors(img_path, img_name, results_folder_path, n_clusters):
 
 if __name__ == "__main__":
     
-    iamges_folder_path = r'F:\sv_yueliangshiwokenwande\20240516-2'
-    results_folder_path = r'F:\sv_yueliangshiwokenwande\images_cluster_colors'
-    results_csv = r'F:\sv_yueliangshiwokenwande\images_cluster_colors.csv'
+    iamges_folder_path = r'E:\work\sv_renleihuoshifen\sv_degree_960_720'
+    results_folder_path = r'E:\work\sv_renleihuoshifen\images_cluster_colors'
+    results_csv = r'E:\work\sv_renleihuoshifen\images_cluster_colors.csv'
     
     if not os.path.exists(results_folder_path):
         os.makedirs(results_folder_path)
@@ -123,10 +123,11 @@ if __name__ == "__main__":
         writer = csv.writer(f)
         writer.writerow(headers)
  
-    n_clusters = 1
+    n_clusters = 8
     for i ,img_path in enumerate(tqdm(img_paths)):
         try:
             cluster_main_colors(img_path, img_names[i],results_folder_path,n_clusters)
+            # break
         except Exception as e :
             print(f'error:{e}')
             continue

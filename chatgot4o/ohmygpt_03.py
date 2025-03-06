@@ -43,10 +43,10 @@ url = "https://c-z0-api-01.hash070.com/v1/chat/completions"
 
 def chat_gpt4o(img_info,txt_path):
     params ={
-    "model": "gpt-4o-mini",
+    # "model": "gpt-4o-mini",
     # "model": "gpt-4o",
     # "model": "o3-mini",
-    # "model": "o1-mini",
+    "model": "o1-mini",
     #    "model": "gpt-3.5-turbo",
     #    "messages": [
     #       {
@@ -113,7 +113,7 @@ def main(img_folder):
                 img_paths.append(file_path)
 
     # img_paths =[r'E:\work\spatio_evo_urbanvisenv_svi_leo371\风貌评估-gpt4o\ai\sv_degree_10_ai\work']
-    img_paths =[r'e:\work\sv_welly\街景_960_720\2_114.1774793_22.2982878_2009_1_0.jpg']
+    img_paths =[r'e:\work\sv_songguo\temp\sv\202210_180.jpg']
     
     for i, img_path in enumerate(tqdm(img_paths)):
         # if i<=350:
@@ -131,8 +131,8 @@ def main(img_folder):
         elif '.jpeg' in img_pat:
             txt_path = img_path.replace('.jpeg','.txt')
 
-        if os.path.exists(txt_path):
-            continue
+        # if os.path.exists(txt_path):
+        #     continue
 
         with Image.open(img_path) as img:
             image_bytes = BytesIO()

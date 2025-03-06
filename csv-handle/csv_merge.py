@@ -21,14 +21,24 @@ combined_df = pd.DataFrame()
 #     # 按照列方向进行排序
 #     combined_df = pd.concat([combined_df, df[need_columns]], axis=1)
 
-file_paths=[r'e:\work\sv_welly\ss_01.csv',r'e:\work\sv_welly\语义分析指标_01.csv']
+file_paths=[
+    r'e:\work\sv_shushu\谷歌\ss_01.csv',
+    r'e:\work\sv_shushu\谷歌\ss_02.csv',
+    r'e:\work\sv_shushu\谷歌\ss_03.csv',
+]
 for file in file_paths:
     df = pd.read_csv(file)
+    print(df.shape)
     combined_df = pd.concat([combined_df, df])
 
 print(combined_df.columns)
-# # # 保存合并后的 DataFrame 到新的 CSV 文件
-output_file_path = 'e:\work\sv_welly\语义分析指标_merged_file.csv'
+print(combined_df.shape)
+print(combined_df.shape)
+combined_df = combined_df.drop_duplicates(subset='id')
+print(combined_df.shape)
+
+# 保存合并后的 DataFrame 到新的 CSV 文件
+output_file_path = 'E:\work\sv_shushu\谷歌\ss_merged_file.csv'
 combined_df.to_csv(output_file_path, index=False)
 
 print(f"合并后的文件已保存到 {output_file_path}")

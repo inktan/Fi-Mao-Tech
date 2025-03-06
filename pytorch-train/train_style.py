@@ -13,7 +13,8 @@ import pandas as pd
 from tqdm import tqdm
 
 import matplotlib.pyplot as plt
-from datasets import PerDataset
+# from datasets import PerDataset
+from datasets_gougou import PerDataset
 
 def train(i,model_names,categories):
     BATCHSIZE = 10

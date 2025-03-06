@@ -43,7 +43,7 @@ def extract_points(line, interval):
 folder_path = r'f:\立方数据\2025年道路数据\【立方数据学社】澳门特别行政区'  # 替换为你的文件夹路径
 shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
-shape_files=[r'f:\地学大数据\澳门特别行政区\澳门特别行政区.shp']
+shape_files=[r'f:\立方数据\2025年道路数据\【立方数据学社】西安市\西安市.shp']
 
 for file_path in shape_files:
     print(file_path)
@@ -54,7 +54,7 @@ for file_path in shape_files:
     # gdf = gdf.to_crs(epsg=4326)  # 转换为WGS 84
 
     points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name', 'type', 'oneway', 'bridge', 'tunnel' ])
-    interval = 15
+    interval = 50
     print(gdf.shape)
     for index, row in tqdm(gdf.iterrows()):
 
