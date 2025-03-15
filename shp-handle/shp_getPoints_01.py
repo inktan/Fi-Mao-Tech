@@ -43,7 +43,16 @@ def extract_points(line, interval):
 # folder_path = r'F:\立方数据\2025年道路数据\【立方数据学社】武汉市'  # 替换为你的文件夹路径
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
-shape_files=[r'e:\work\sv_lvmaoshuiguai\road_zhonglou.shp']
+shape_files=[
+    r'e:\work\sv_juanjuanmao\20250308\八条路线\T1.shp',
+    r'e:\work\sv_juanjuanmao\20250308\八条路线\T2.shp',
+    r'e:\work\sv_juanjuanmao\20250308\八条路线\T3.shp',
+    r'e:\work\sv_juanjuanmao\20250308\八条路线\T4.shp',
+    r'e:\work\sv_juanjuanmao\20250308\八条路线\T5.shp',
+    r'e:\work\sv_juanjuanmao\20250308\八条路线\T6.shp',
+    r'e:\work\sv_juanjuanmao\20250308\八条路线\T7.shp',
+    r'e:\work\sv_juanjuanmao\20250308\八条路线\T8.shp',
+]
 
 for file_path in shape_files:
     print(file_path)
@@ -55,7 +64,7 @@ for file_path in shape_files:
 
     # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name', 'type', 'oneway', 'bridge', 'tunnel' ])
     points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude'])
-    interval = 15
+    interval = 50
     print(gdf.shape)
     for index, row in tqdm(gdf.iterrows()):
 
@@ -109,7 +118,7 @@ for file_path in shape_files:
 
     # 如果 result_gdf 是 DataFrame，则将其转换为 GeoDataFrame
     if type(points_df) == pd.core.frame.DataFrame:
-        points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude))
+        points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude, crs='EPSG:4326'))
 
     points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_.shp') , index=False)
 

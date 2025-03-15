@@ -17,16 +17,16 @@ for root, dirs, files in os.walk(r'E:\work\sv_juanjuanmao\澳门POI2022\ShapeFil
             file_path = os.path.join(root, file)
             shp_paths.append(file_path)
 
-shp_paths =[r'e:\work\sv_gonhoo\value_shp\0-Zvalue-Totle-fukuoka-city.shp']
+shp_paths =[r"e:\work\sv_juanjuanmao\20250308\八条路线\poi250312\T1.shp"]
 
 # for shp_path in tqdm(shp_paths):
 for shp_path in shp_paths:
-    gdf = gpd.read_file(shp_path, encoding='GBK')
+    # gdf = gpd.read_file(shp_path, encoding='GBK')
     gdf = gpd.read_file(shp_path)
     print(shp_path,gdf.shape)
     print(gdf.head)
     print(gdf.columns)
-    print(gdf.crs)
+    # print(gdf.crs)
 
     # # 检查 'name' 列是否存在
     # if 'Name' in gdf.columns:

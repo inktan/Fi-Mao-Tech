@@ -140,6 +140,9 @@ def main(csv_path,folder_out_path):
             tar_lng_lat = coord_convert(float(lng),float(lat))
             print(tar_lng_lat)
             timeLineIds = get_panoid(tar_lng_lat[0],tar_lng_lat[1],lng+'_'+lat, id,folder_out_path)
+            print(timeLineIds)
+            break
+
             panoramas = []
             for timeLineId in timeLineIds:
                 panoramas.append(Panorama(timeLineId, timeLineId['TimeLine'], int(timeLineId['TimeLine'][:4]), int(timeLineId['TimeLine'][4:])))
@@ -212,7 +215,7 @@ resolution_ratio = 4
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\test\points.csv' # 需要爬取的点
+    csv_path = r'e:\work\zhanshubaigeiyiwan\180度照片朝向\正南朝向01.csv' # 需要爬取的点
     folder_out_path = r'e:\work\test\sv_' # 保存街景文件
 
     main(csv_path,folder_out_path)

@@ -10,7 +10,7 @@ h_value_df = pd.DataFrame(columns=['index','Name','result_index'])
 # print(df.head())
  
 # 读取CSV文件到一个DataFrame中
-df = pd.read_csv(r'e:\work\sv_juanjuanmao\指标计算\业态混合度\merged_file.csv', )
+df = pd.read_csv(r'e:\work\sv_juanjuanmao\指标计算\混合度\merged_file.csv', )
  
 # 遍历DataFrame中的每一行
 for index, row in df.iterrows():

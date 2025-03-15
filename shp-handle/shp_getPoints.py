@@ -43,7 +43,7 @@ def extract_points(line, interval):
 folder_path = r'f:\立方数据\2025年道路数据\【立方数据学社】澳门特别行政区'  # 替换为你的文件夹路径
 shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
-shape_files=[r'f:\立方数据\2025年道路数据\【立方数据学社】西安市\西安市.shp']
+shape_files=[r'f:\立方数据\2025年道路数据\【立方数据学社】上海市\上海市.shp']
 
 for file_path in shape_files:
     print(file_path)
@@ -57,6 +57,12 @@ for file_path in shape_files:
     interval = 50
     print(gdf.shape)
     for index, row in tqdm(gdf.iterrows()):
+        # print(row)
+        if row['name'] not in ['愚园路','淮海中路','安福路','武康路','永嘉路','巨鹿路','富民路','新华路','番禺路']:
+            continue
+            # print(row['name'])
+        # break
+        # continue
 
         geometry = row['geometry']
         if geometry is None:
@@ -92,5 +98,23 @@ for file_path in shape_files:
                 points_df.loc[len(points_df)] = [index, point.x, point.y,row['name'],row['type'],row['oneway'],row['bridge'],row['tunnel'],]
 
     print(points_df)
-    points_df.to_csv(shp_file_path.replace('.shp','_15m_.csv') , index=False)
+
+    unique_count = points_df.shape[0]
+    print(f'原数据有 {points_df.shape} 行数据')
+
+    points_df = points_df.drop_duplicates(subset=['longitude', 'latitude'])
+    # df_unique = points_df.drop_duplicates(subset=['id'])
+    # 打印去重后的数据行数
+    print(f'去重后共有 {points_df.shape} 行数据')
+
+    points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_.csv') , index=False)
+
+    # 检查 result_gdf 的类型
+    print(type(points_df))
+
+    # 如果 result_gdf 是 DataFrame，则将其转换为 GeoDataFrame
+    if type(points_df) == pd.core.frame.DataFrame:
+        points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude))
+
+    points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_.shp') , index=False)
 

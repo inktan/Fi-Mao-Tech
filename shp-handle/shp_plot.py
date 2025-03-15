@@ -21,8 +21,7 @@ for folder_path in folder_path_list:
                 shp_names.append(file)
 
 # 3. 读取并合并所有 .shp 文件
-shp_paths=[r'e:\work\sv_nadingzichidefangtoushi\澳门路网\道路.shp']
-shp_paths=[r'e:\work\sv_nadingzichidefangtoushi\澳门路网\底图.shp']
+shp_paths=[r'e:\work\sv_shushu\Export_Output-澳门\Export_Output-澳门.shp']
 gdfs = [gpd.read_file(shp) for shp in shp_paths]
 # merged_gdf = gpd.GeoDataFrame(pd.concat(gdfs, ignore_index=True))
 # print(merged_gdf.shape)
