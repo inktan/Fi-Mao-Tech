@@ -5,13 +5,13 @@ img_paths = []
 img_names = []
 accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
-folder_path = r'E:\work\sv_nadingzichidefangtoushi\points_15m\sv_panoid_info\sv_pan_zoom3'
+folder_path = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\sv_拉萨'
 
-rate_lists = []
-image_ss_csv = r'E:\work\sv_nadingzichidefangtoushi\points_15m\sv_panoid_info\sv_pan_zoom3.csv'
-with open('%s' % image_ss_csv ,'a',encoding='utf-8' ,newline='') as f:
-    writer = csv.writer(f)
-    writer.writerows(rate_lists)
+# rate_lists = []
+# image_ss_csv = r'E:\work\sv_nadingzichidefangtoushi\points_15m\sv_panoid_info\sv_pan_zoom3.csv'
+# with open('%s' % image_ss_csv ,'a',encoding='utf-8' ,newline='') as f:
+#     writer = csv.writer(f)
+#     writer.writerows(rate_lists)
 
 for root, dirs, files in os.walk(folder_path):
     for file in files:
@@ -19,15 +19,14 @@ for root, dirs, files in os.walk(folder_path):
             file_path = os.path.join(root, file)
             img_paths.append(file_path)
             img_names.append(file)
-
             
-            rate_list =[file] 
-            rate_lists.append(rate_list)
+            # rate_list =[file] 
+            # rate_lists.append(rate_list)
 
-            with open('%s' % image_ss_csv ,'a',encoding='utf-8' ,newline='') as f:
-                writer = csv.writer(f)
-                writer.writerows(rate_lists)
-            rate_lists = []
+            # with open('%s' % image_ss_csv ,'a',encoding='utf-8' ,newline='') as f:
+            #     writer = csv.writer(f)
+            #     writer.writerows(rate_lists)
+            # rate_lists = []
 
 print(len(img_names))
 # for i in img_paths:
@@ -45,8 +44,6 @@ print(len(img_names))
 #     ids.append(id_)
 
 # len(ids)
-
-
 
 # number_list = []
 # for s in img_names:

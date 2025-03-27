@@ -17,15 +17,15 @@ for folder_path in csv_path_list:
                 csv_names.append(file)
                 
 csv_paths = [
-    r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\color_山南_complexity_harmony.csv',
+     r'f:\sv_suzhou\分析数据\城市感知\_beautiful.csv'
     ]
 
 total_rows = 0
 for file_path in csv_paths:
     print(file_path)
     try:
-        df = pd.read_csv(file_path, encoding='GBK')
-        # df = pd.read_csv(file_path)
+        # df = pd.read_csv(file_path, encoding='GBK')
+        df = pd.read_csv(file_path)
         print(df.shape)
         print(df.columns)
         # print(df.iloc[0,0])

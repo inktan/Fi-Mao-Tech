@@ -124,10 +124,13 @@ def panoids_from_response(text, closest=False, disp=False, proxies=None):
 
     # Sort the pans array
     def func(x):
-        if 'year'in x:
-            return datetime(year=x['year'], month=x['month'], day=1)
+        if 'year' in x:
+            # 返回一个元组，year 取负值（实现降序），month 取负值（实现降序）
+            return (-x['year'], -x['month'])
         else:
-            return datetime(year=3000, month=1, day=1)
+            # 没有 'year' 键的元素排在最后
+            return (float('inf'), float('inf'))
+
     pans.sort(key=func)
 
     if closest:

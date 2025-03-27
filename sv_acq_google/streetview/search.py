@@ -23,13 +23,21 @@ def make_search_url(lat: float, lon: float) -> str:
     Builds the URL of the script on Google's servers that returns the closest
     panoramas (ids) to a give GPS coordinate.
     """
+    # url = (
+    #     "https://maps.googleapis.com/maps/api/js/"
+    #     "GeoPhotoService.SingleImageSearch"
+    #     "?pb=!1m5!1sapiv3!5sUS!11m2!1m1!1b0!2m4!1m2!3d{0:}!4d{1:}!2d50!3m10"
+    #     "!2m2!1sen!2sGB!9m1!1e2!11m4!1m3!1e2!2b1!3e2!4m10!1e1!1e2!1e3!1e4"
+    #     "!1e8!1e6!5m1!1e2!6m1!1e2"
+    #     "&callback=callbackfunc"
+    # )
     url = (
-        "https://maps.googleapis.com/maps/api/js/"
-        "GeoPhotoService.SingleImageSearch"
-        "?pb=!1m5!1sapiv3!5sUS!11m2!1m1!1b0!2m4!1m2!3d{0:}!4d{1:}!2d50!3m10"
-        "!2m2!1sen!2sGB!9m1!1e2!11m4!1m3!1e2!2b1!3e2!4m10!1e1!1e2!1e3!1e4"
-        "!1e8!1e6!5m1!1e2!6m1!1e2"
-        "&callback=callbackfunc"
+    "https://maps.googleapis.com/maps/api/js/"
+    "GeoPhotoService.SingleImageSearch"
+    "?pb=!1m5!1sapiv3!5sUS!11m2!1m1!1b0!2m4!1m2!3d{0:}!4d{1:}!2d50!3m10"
+    "!2m2!1sen!2sGB!9m1!1e2!11m4!1m3!1e2!2b1!3e2!4m10!1e1!1e2!1e3!1e4"
+    "!1e8!1e6!5m1!1e2!6m1!1e2"
+    "&callback=_xdc_._v2mub5"
     )
     return url.format(lat, lon)
 

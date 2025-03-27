@@ -97,7 +97,7 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
                     #     writer.writerow([id,name_count,pano_year.heading])
                     
                 # name_count += 1
-                # break
+                break
                     
             except Exception as e :
                 print(f'error:{e}')
@@ -107,19 +107,13 @@ def GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv):
 if __name__ == "__main__":
     
     # 输入经纬度点的csv文件
-    input_csv = r'd:\Users\wang.tan.GOA\WeChat Files\wxid_0431434314115\FileStorage\File\2024-12\kabuer.csv'
+    input_csv = r'e:\work\sv_j_ran\20241227\data_coor_unique_500_circle.csv'
     # 输入街景保存文件夹
-    output_ = r'e:\work\sv_levon\sv_pan'
-    output_csv = r'de:\work\sv_levon\50M-Distance-WGS84-4326_.csv'
+    output_ = r'e:\work\sv_j_ran\20241227\sv_pan'
     
-    # with open(output_csv ,'w' ,newline='') as f: 
-    #     writer = csv.writer(f)
-        # writer.writerow(['id','heading_google','lat','lon','heading','pitch','fov1','fov2'])
-        # writer.writerow(['id','name_count','heading_google'])
-    # 全景分辨率设置 1-512*1024; 2-1024*2048; 3-2048*4096; 4-4096*8192
     zoom = 2
     if os.path.exists(output_) == False:
         os.makedirs(output_)    
-    GSVpanoMetadataCollector(input_csv,output_,zoom,output_csv)
+    GSVpanoMetadataCollector(input_csv,output_,zoom,'output_csv')
 
 
