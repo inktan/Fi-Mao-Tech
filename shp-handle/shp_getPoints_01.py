@@ -44,14 +44,7 @@ def extract_points(line, interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'e:\work\sv_juanjuanmao\20250308\八条路线\T1.shp',
-    r'e:\work\sv_juanjuanmao\20250308\八条路线\T2.shp',
-    r'e:\work\sv_juanjuanmao\20250308\八条路线\T3.shp',
-    r'e:\work\sv_juanjuanmao\20250308\八条路线\T4.shp',
-    r'e:\work\sv_juanjuanmao\20250308\八条路线\T5.shp',
-    r'e:\work\sv_juanjuanmao\20250308\八条路线\T6.shp',
-    r'e:\work\sv_juanjuanmao\20250308\八条路线\T7.shp',
-    r'e:\work\sv_juanjuanmao\20250308\八条路线\T8.shp',
+    r'e:\work\sv_aaalingnanlizhiwangge\street_network.shp',
 ]
 
 for file_path in shape_files:
@@ -64,7 +57,7 @@ for file_path in shape_files:
 
     # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name', 'type', 'oneway', 'bridge', 'tunnel' ])
     points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude'])
-    interval = 50
+    interval = 15
     print(gdf.shape)
     for index, row in tqdm(gdf.iterrows()):
 

@@ -61,4 +61,9 @@ if __name__ == "__main__":
 
     GSVpanoMetadataCollector(input_csv,output_,zoom)
 
+    
+
+
+
+
 

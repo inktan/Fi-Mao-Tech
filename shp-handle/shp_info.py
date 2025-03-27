@@ -17,7 +17,7 @@ for root, dirs, files in os.walk(r'E:\work\sv_juanjuanmao\澳门POI2022\ShapeFil
             file_path = os.path.join(root, file)
             shp_paths.append(file_path)
 
-shp_paths =[r"e:\work\sv_juanjuanmao\20250308\八条路线\poi250312\T1.shp"]
+shp_paths =[r"e:\work\sv_yangxueyan\街景南京颐和路\街景道路.shp"]
 
 # for shp_path in tqdm(shp_paths):
 for shp_path in shp_paths:
@@ -26,12 +26,13 @@ for shp_path in shp_paths:
     print(shp_path,gdf.shape)
     print(gdf.head)
     print(gdf.columns)
+    # print(gdf['name'][gdf['name'].notna()][0:100])
     # print(gdf.crs)
 
     # # 检查 'name' 列是否存在
-    # if 'Name' in gdf.columns:
+    # if 'name' in gdf.columns:
     #     # 筛选 'name' 列不为 None 的数据
-    #     filtered_gdf = gdf[gdf['Name'].notna()]  # 或者使用 gdf['name'] != None
+    #     filtered_gdf = gdf[gdf['name'].notna()]  # 或者使用 gdf['name'] != None
     #     print(f"筛选后的数据行数: {filtered_gdf.shape[0]}")
     #     print(filtered_gdf.head())  # 打印前几行数据
     # else:

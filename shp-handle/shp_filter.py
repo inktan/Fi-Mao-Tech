@@ -1,17 +1,11 @@
 import geopandas as gpd
 
-# 读取Shapefile文件
-input_file = r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\merged_output.shp'
-output_file = r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\merged_output_店铺.shp'
+# 加载Shapefile文件
+gdf = gpd.read_file('f:\sv_suzhou\gis数据\道路网\苏州市.shp')
 
-# 读取Shapefile文件
-gdf = gpd.read_file(input_file)
+# 筛选包含“历史”的行
+# 假设'name'是列名，根据实际情况替换
+filtered_gdf = gdf[gdf['name'].str.contains('山塘', na=False)]
 
-# 选择 name 列中包含 "店铺"、"咖啡" 或 "购物" 的行
-
-filtered_gdf = gdf[gdf['name'].str.contains('店|店', case=False)]
-
-# 保存为新的Shapefile文件
-filtered_gdf.to_file(output_file)
-
-print(f"Data saved to {output_file}")
+# 输出筛选后的结果
+print(filtered_gdf['name'])
