@@ -77,9 +77,9 @@ def main(img_folder):
                 img_paths.append(file_path)
 
     for i, img_path in enumerate(tqdm(img_paths)):
-        if i < 0:
+        if i < -10:
             continue
-        if i >= 111: 
+        if i >= 2520000000: 
             continue
   
         if '.jpg' in img_path:

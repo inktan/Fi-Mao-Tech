@@ -2,7 +2,7 @@ import shutil
 from tqdm import tqdm
 import os  
   
-folder_path = r'F:\sv_shanghai\sv_degree_960_720'  
+folder_path = r'C:\Windows.old'  
   
 try:
     if os.path.exists(folder_path):  
@@ -40,11 +40,11 @@ except Exception as e:
 
 #         ]
     # 图片库所在文件夹
-    folder_path_list =[
-        folder_path,# 02\
-        r'F:\sv_shanghai\sv_degree_960_720',
-        r'F:\sv_shanghai\sv_pan'
-        ]
+    # folder_path_list =[
+    #     folder_path,# 02\
+    #     r'F:\sv_shanghai\sv_degree_960_720',
+    #     r'F:\sv_shanghai\sv_pan'
+    #     ]
 
 #     # 获取文件夹中的所有文件信息(含多级的子文件夹)
 #     img_paths = []
