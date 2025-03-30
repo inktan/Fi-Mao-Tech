@@ -8,7 +8,7 @@ image_types = ('.png', '.jpg', '.jpeg', '.bmp', '.gif')
 img_paths = []
 roots = []
 img_names = []
-for root, dirs, files in os.walk(r'E:\work\sv_j_ran\20241227\pan2fish\fisheye'):
+for root, dirs, files in os.walk(r'F:\work\sv_ran\sv_pan_fisheye'):
     for file in files:
         if file.endswith(".jpg") or file.endswith(".JPG") or file.endswith(".png") or file.endswith(".jpeg"):
             file_path = os.path.join(root, file)
@@ -31,7 +31,7 @@ for i,image_path in enumerate(tqdm(img_paths)):
     prj = osr.SpatialReference()  
     prj.ImportFromWkt(inraster.GetProjection()) 
     
-    outshp = image_path.replace(r'fisheye', r'fish_shp').replace(r'.png', r'.shp') 
+    outshp = image_path.replace(r'sv_pan_fisheye', r'sv_pan_fisheye_shp').replace(r'.jpg', r'.shp') 
     folder_path = os.path.dirname(outshp)
     if not os.path.exists(folder_path):
         print(folder_path)

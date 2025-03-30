@@ -30,7 +30,7 @@ for file_path in csv_paths:
         print(df.columns)
         print(df.iloc[0,0])
         # print(df.columns[2])
-        print(df.head(15))
+        # print(df.head(15))
         # print(f"{len(df)}")
         # total_rows += len(df)
     except Exception as e:

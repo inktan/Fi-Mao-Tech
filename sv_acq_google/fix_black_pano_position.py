@@ -60,6 +60,9 @@ def fix_black_images(img_paths):
                 rect_xy = find_first_non_black_pixel(img)
                 # print(image_path)
                 # print(rect_xy)
+                width, height = img.size
+                if rect_xy[2] == width and rect_xy[3] == height:
+                    continue
 
                 cropped_img = img.crop((rect_xy[0], rect_xy[1], rect_xy[2], rect_xy[3]))
                 # resized_img = cropped_img.resize((4096, 2048))
@@ -82,7 +85,7 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'E:\work\sv_shushu\谷歌\sv_pan_zoom3',
+        r'F:\work\sv_ran\sv_pan\sv_points_ori\sv_pan_zoom3',
         ]
     for folder_path in folder_path_list:
         for root, dirs, files in os.walk(folder_path):
