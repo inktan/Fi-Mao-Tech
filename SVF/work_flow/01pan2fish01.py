@@ -82,7 +82,7 @@ img_paths = []
 roots = []
 img_names = []
 
-for root, dirs, files in os.walk(r'F:\work\sv_ran\sv_pan\sv_points_ori\sv_pan_zoom3'):
+for root, dirs, files in os.walk(r'F:\work\sv_ran\sv_pan\surrounding_fixedBlack'):
     for file in files:
         if file.endswith(".jpg") or file.endswith(".JPG") or file.endswith(".png") or file.endswith(".jpeg"):
             file_path = os.path.join(root, file)
@@ -91,15 +91,9 @@ for root, dirs, files in os.walk(r'F:\work\sv_ran\sv_pan\sv_points_ori\sv_pan_zo
             roots.append(root)
 
 for i,image_path in enumerate(tqdm(img_paths)): 
-    if i<=10000:
+    if i<=9000:
         continue
-    if i>8000000:
+    if i>100000000:
         continue
     create_fisheye(image_path)
-    
-    
-    
-    
-    
-    
     
