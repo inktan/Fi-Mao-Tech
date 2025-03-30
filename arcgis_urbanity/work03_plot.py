@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import Normalize
 from matplotlib.cm import ScalarMappable
 import contextily as cx
+import tilemapbase
 
 # 打开 Shapefile 文件
 shapefile_path = r'e:\work\九条路\上海市_50m_9roads.shp'  # 替换为你的 Shapefile 路径

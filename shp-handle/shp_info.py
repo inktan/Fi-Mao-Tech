@@ -17,7 +17,7 @@ for root, dirs, files in os.walk(r'E:\work\sv_juanjuanmao\澳门POI2022\ShapeFil
             file_path = os.path.join(root, file)
             shp_paths.append(file_path)
 
-shp_paths =[r"e:\work\sv_yangxueyan\街景南京颐和路\街景道路.shp"]
+shp_paths =[r"e:\work\sv_goufu\datatrain\bird02\tongji\tj23.shp"]
 
 # for shp_path in tqdm(shp_paths):
 for shp_path in shp_paths:

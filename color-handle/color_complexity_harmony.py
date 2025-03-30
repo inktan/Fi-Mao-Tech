@@ -141,7 +141,10 @@ for i,img_path in enumerate(tqdm(img_paths)):
 
         complexity = calculate_color_complexity(image,kmeans, 10)
         harmony = calculate_color_harmony(image,kmeans, 10)
-
+        # print(complexity,harmony)
+        print(f"色彩复杂度: {complexity:.4f}")
+        print(f"色彩协调度: {harmony:.4f}")
+        # break
         with open(color_complexity_harmony_csv,'a' ,newline='') as f:
             writer = csv.writer(f)
             writer.writerow([img_path,complexity,harmony])
