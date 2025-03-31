@@ -19,7 +19,7 @@ def rgb_to_hsv_(r, g, b):
     # 返回HSV值
     return h*360, s, v
 
-def cluster_main_colors(img_path, img_name, results_folder_path, n_clusters):
+def cluster_main_colors(img_path, n_clusters):
     image = Image.open(img_path)
     pixels = np.array(image)
     # height, width, _ = pixels.shape
@@ -36,15 +36,6 @@ def cluster_main_colors(img_path, img_name, results_folder_path, n_clusters):
     # 将聚类中心的颜色转换为无符号8位整数（适合表示像素值），并转换为列表格式。
     cluster_centers_colors = np.array(km.cluster_centers_, dtype=np.uint8).tolist()
 
-    cluster_color_csv = [img_name] 
-    cluster_color_csv.extend(cluster_centers_colors)
-    # with open(results_csv,'a' ,newline='') as f:
-    #     writer = csv.writer(f)
-    #     try:
-    #         writer.writerow(cluster_color_csv)
-    #     except Exception as e :
-    #         print(f'error:{e}')
-    
     # return 
     # 计算每个像素到每个聚类中心的距离，得到一个距离矩阵。每个像素点到聚类中心的距离列表，数量为n
     dist_matrix = distance.cdist(pix_datas_without_white, cluster_centers_colors)
@@ -61,7 +52,7 @@ def cluster_main_colors(img_path, img_name, results_folder_path, n_clusters):
     sorted_indices = sorted(range(len(cluster_color_ratios)), key=lambda k: cluster_color_ratios[k], reverse=True)
     sorted_cluster_centers_colors = [cluster_centers_colors[i] for i in sorted_indices]
 
-    cluster_color_csv = [img_name] 
+    cluster_color_csv = [img_path] 
     cluster_color_csv.extend(sorted_cluster_centers_colors)
     cluster_color_csv.extend(sorted_cluster_color_ratios)
 
@@ -94,18 +85,22 @@ def cluster_main_colors(img_path, img_name, results_folder_path, n_clusters):
     ax2.set_anchor('W')
     # plt.show()
     plt.tight_layout()
-    plt.savefig(results_folder_path+'\\'+img_name)
+
+    out_name = img_path.replace('sv_林芝', 'sv_林芝_cluster_colors')
+    
+    # 保存图像
+    folder_path = os.path.dirname(out_name)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    plt.savefig(out_name)
     plt.close('all')
 
 if __name__ == "__main__":
     
-    iamges_folder_path = r'E:\work\sv_renleihuoshifen\sv_degree_960_720'
-    results_folder_path = r'E:\work\sv_renleihuoshifen\images_cluster_colors'
-    results_csv = r'E:\work\sv_renleihuoshifen\images_cluster_colors.csv'
+    iamges_folder_path = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\sv_林芝'
+    results_csv = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\sv_林芝_cluster_colors.csv'
     
-    if not os.path.exists(results_folder_path):
-        os.makedirs(results_folder_path)
-
     img_paths = []
     img_names = []
 
@@ -126,7 +121,7 @@ if __name__ == "__main__":
     n_clusters = 8
     for i ,img_path in enumerate(tqdm(img_paths)):
         try:
-            cluster_main_colors(img_path, img_names[i],results_folder_path,n_clusters)
+            cluster_main_colors(img_path,n_clusters)
             # break
         except Exception as e :
             print(f'error:{e}')

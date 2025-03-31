@@ -12,6 +12,7 @@ size = 300
 rotation = 0
 from_center = True
 
+# for zoom in [22,,,20,18,16]:
 for zoom in [22,20,18,16]:
 
     lon=wgs_coords[0][0]
