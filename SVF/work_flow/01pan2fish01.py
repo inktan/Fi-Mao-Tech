@@ -13,7 +13,7 @@ from tqdm import tqdm
 #创建鱼眼
 # 鱼眼的半径r=width/2PI。街景分辨率为1024*256，则鱼眼的半径为1024/2PI=163
 def create_fisheye(file_n):
-    out_name = file_n.replace(r'sv_pan', r'sv_pan_fisheye')
+    out_name = file_n.replace(r'ss_rgb', r'ss_rgb_fisheye')
     if os.path.exists(out_name):
         return
     # 使用Pillow打开图片
@@ -22,6 +22,15 @@ def create_fisheye(file_n):
     width, height = pil_img.size
     # 裁剪出图片的上半部分 为了得到半球
     upper_half = pil_img.crop((0, 0, width, height // 2))
+
+    # 对于语义色块的处理，只保留天空
+    upper_half_array = np.array(upper_half)
+    color_to_keep = [6, 230, 230]
+    mask = np.all(upper_half_array == color_to_keep, axis=-1)
+    filtered_image = np.zeros_like(upper_half_array)
+    filtered_image[mask] = upper_half_array[mask]
+    upper_half = Image.fromarray(filtered_image)
+    
     # 将裁剪后的图像转换为OpenCV格式
     _img = np.array(upper_half)
     _img = cv2.cvtColor(_img, cv2.COLOR_RGB2BGR)  # Pillow使用RGB格式，OpenCV使用BGR格式
@@ -82,7 +91,7 @@ img_paths = []
 roots = []
 img_names = []
 
-for root, dirs, files in os.walk(r'F:\work\sv_ran\sv_pan\surrounding_fixedBlack'):
+for root, dirs, files in os.walk(r'F:\work\sv_ran\ss_rgb'):
     for file in files:
         if file.endswith(".jpg") or file.endswith(".JPG") or file.endswith(".png") or file.endswith(".jpeg"):
             file_path = os.path.join(root, file)
@@ -91,9 +100,11 @@ for root, dirs, files in os.walk(r'F:\work\sv_ran\sv_pan\surrounding_fixedBlack'
             roots.append(root)
 
 for i,image_path in enumerate(tqdm(img_paths)): 
-    if i<=9000:
+    if i<=2800:
         continue
-    if i>100000000:
+    if i>3000:
         continue
     create_fisheye(image_path)
+    
+    
     
