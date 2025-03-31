@@ -5,7 +5,7 @@ img_paths = []
 img_names = []
 accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
-folder_path = r'F:\work\sv_ran\sv_pan\sv_points_ori_times\sv_pan_zoom3'
+folder_path = r'F:\work\sv_ran\sv_pan\sv_points_ori_times'
 
 # rate_lists = []
 # image_ss_csv = r'E:\work\sv_nadingzichidefangtoushi\points_15m\sv_panoid_info\sv_pan_zoom3.csv'

@@ -226,7 +226,7 @@ image_types = ('.shp')
 shp_paths = []
 roots = []
 shp_names = []
-for root, dirs, files in os.walk(r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_ori'):
+for root, dirs, files in os.walk(r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding'):
     for file in files:
         if file.endswith(".shp"):
             file_path = os.path.join(root, file)
@@ -234,7 +234,7 @@ for root, dirs, files in os.walk(r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_o
             shp_names.append(file)
             roots.append(root)
        
-image_ss_csv = r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_ori_pd_pf.csv'
+image_ss_csv = r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf.csv'
             
 with open('%s'%image_ss_csv ,'w' ,newline='') as f: 
     writer = csv.writer(f)
@@ -243,17 +243,15 @@ with open('%s'%image_ss_csv ,'w' ,newline='') as f:
 for i,shp_path in enumerate(tqdm(shp_paths)): 
     if i<=-1:
         continue
-    if i>20000:
+    if i>10000:
         continue
     
     # latitude = 52.776188701508325  # 纬度
     # longitude = -1.238319474       # 经度
     # shp_path = r"5948747_-0.4116458187047517_51.38516306618657_7_14.58752727508545_2018_4.png"
     infos = shp_names[i].split('_')
-    longitude = float(infos[-5])
-    latitude = float(infos[-4])
-    # longitude = float(infos[-6])
-    # latitude = float(infos[-5])
+    longitude = float(infos[-6])
+    latitude = float(infos[-5])
     year = int(infos[-2])
     month = int(infos[-1].split('.')[0])
 
