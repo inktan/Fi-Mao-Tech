@@ -241,10 +241,10 @@ with open('%s'%image_ss_csv ,'w' ,newline='') as f:
     writer.writerow(['shp_path','pd','pf'])
         
 for i,shp_path in enumerate(tqdm(shp_paths)): 
-    if i<=-1:
-        continue
-    if i>20000:
-        continue
+    # if i<=-1:
+    #     continue
+    # if i>20000:
+    #     continue
     
     # latitude = 52.776188701508325  # 纬度
     # longitude = -1.238319474       # 经度
@@ -252,20 +252,18 @@ for i,shp_path in enumerate(tqdm(shp_paths)):
     infos = shp_names[i].split('_')
     longitude = float(infos[-5])
     latitude = float(infos[-4])
-    # longitude = float(infos[-6])
-    # latitude = float(infos[-5])
     year = int(infos[-2])
     month = int(infos[-1].split('.')[0])
+    try:
+        gdf_ss = read_shp_ss(shp_path)
+        PD = cal_pd(gdf_ss,longitude,latitude,year,month)
+        PF = cal_pf(gdf_ss)
 
-    gdf_ss = read_shp_ss(shp_path)
-    PD = cal_pd(gdf_ss,longitude,latitude,year,month)
-    PF = cal_pf(gdf_ss)
-
-    # print('PD',PD,'PF',PF)
-    
-    with open('%s' % image_ss_csv ,'a',encoding='utf-8' ,newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow([shp_path,PD,PF])
-
-
-
+        # print('PD',PD,'PF',PF)
+        
+        with open('%s' % image_ss_csv ,'a',encoding='utf-8' ,newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([shp_path,PD,PF])
+    except Exception as e:
+        print(e)
+        continue

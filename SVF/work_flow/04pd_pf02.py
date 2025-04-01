@@ -234,17 +234,23 @@ for root, dirs, files in os.walk(r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_s
             shp_names.append(file)
             roots.append(root)
        
-image_ss_csv = r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf.csv'
+image_ss_csv = r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf09.csv'
             
 with open('%s'%image_ss_csv ,'w' ,newline='') as f: 
     writer = csv.writer(f)
     writer.writerow(['shp_path','pd','pf'])
         
+df = pd.read_csv(image_ss_csv)
+        
 for i,shp_path in enumerate(tqdm(shp_paths)): 
-    if i<=-1:
+    if i<=80000:
         continue
-    if i>10000:
+    if i>90000:
         continue
+        # 读取 CSV 文件
+
+    # if shp_path in df['shp_path'].values:
+    #     continue
     
     # latitude = 52.776188701508325  # 纬度
     # longitude = -1.238319474       # 经度
@@ -254,16 +260,16 @@ for i,shp_path in enumerate(tqdm(shp_paths)):
     latitude = float(infos[-5])
     year = int(infos[-2])
     month = int(infos[-1].split('.')[0])
+    try:
+        gdf_ss = read_shp_ss(shp_path)
+        PD = cal_pd(gdf_ss,longitude,latitude,year,month)
+        PF = cal_pf(gdf_ss)
 
-    gdf_ss = read_shp_ss(shp_path)
-    PD = cal_pd(gdf_ss,longitude,latitude,year,month)
-    PF = cal_pf(gdf_ss)
-
-    # print('PD',PD,'PF',PF)
-    
-    with open('%s' % image_ss_csv ,'a',encoding='utf-8' ,newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow([shp_path,PD,PF])
-
-
-
+        # print('PD',PD,'PF',PF)
+        
+        with open('%s' % image_ss_csv ,'a',encoding='utf-8' ,newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([shp_path,PD,PF])
+    except Exception as e:
+        print(e)
+        continue
