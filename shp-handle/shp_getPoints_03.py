@@ -56,6 +56,7 @@ for file_path in shape_files:
     gdf = gdf.to_crs(epsg=4326)  # 转换为WGS 84
 
     # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name', 'type', 'oneway', 'bridge', 'tunnel' ])
+    points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name'])
     # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude'])
     interval = 100
     print(gdf.shape)
@@ -70,13 +71,13 @@ for file_path in shape_files:
             exterior = geometry.exterior
             points = extract_points(LineString(exterior.coords),interval)
             for point in points:
-                points_df.loc[len(points_df)] = [index, point.x, point.y]
+                points_df.loc[len(points_df)] = [index, point.x, point.y, row['name']]
         elif geometry.geom_type == 'MultiPolygon':
             for polygon in geometry.geoms:
                 exterior = polygon.exterior
                 points = extract_points(LineString(exterior.coords),interval)
                 for point in points:
-                    points_df.loc[len(points_df)] = [index, point.x, point.y]
+                    points_df.loc[len(points_df)] = [index, point.x, point.y, row['name']]
         # print(geometry)
         # print(geometry.geom_type)
 
@@ -85,14 +86,14 @@ for file_path in shape_files:
             for line in geometry.geoms:
                 points = extract_points(line,interval)
                 for point in points:
-                    points_df.loc[len(points_df)] = [index, point.x, point.y]
+                    points_df.loc[len(points_df)] = [index, point.x, point.y, row['name']]
         elif geometry.geom_type == 'LineString':
             points = extract_points(geometry,interval)
             for point in points:
-                points_df.loc[len(points_df)] = [index, point.x, point.y]
+                points_df.loc[len(points_df)] = [index, point.x, point.y, row['name']]
         elif  geometry.geom_type == 'Point':
                 point = Point(geometry.coords[0])
-                points_df.loc[len(points_df)] = [index, point.x, point.y]
+                points_df.loc[len(points_df)] = [index, point.x, point.y, row['name']]
 
     print(points_df)
 

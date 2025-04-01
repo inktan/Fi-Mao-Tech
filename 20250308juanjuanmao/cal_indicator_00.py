@@ -62,7 +62,7 @@ for filename in os.listdir(r'E:\work\sv_juanjuanmao\20250308\八条路线'):
 
             # print(line_length)
             # 距离线段小于20米的所有点
-            nearby_points = ss_gdf[ss_gdf.geometry.distance(line_geom) < 20]
+            nearby_points = ss_gdf[ss_gdf.geometry.distance(line_geom) < 25]
             point_count = len(nearby_points)
             if point_count >0:
 
@@ -93,4 +93,6 @@ for filename in os.listdir(r'E:\work\sv_juanjuanmao\20250308\八条路线'):
                         
         # 保存结果到新的文件（可选）
         output_path = file_path.replace('_SEG.shp', '_SEG_ssindicators.shp')
+        line_gdf = line_gdf.to_crs(epsg=4326)
+
         line_gdf.to_file(output_path, driver='ESRI Shapefile')

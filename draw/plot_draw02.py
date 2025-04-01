@@ -2,7 +2,7 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 
 # 读取 Shapefile 文件
-gdf = gpd.read_file(r"f:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_ori\1000572_-4.313730575_50.4977833_49.20157241821289_2022_7.shp")  # 替换为你的 .shp 文件路径
+gdf = gpd.read_file(r"e:\work\sv_juanjuanmao\20250308\八条路线\T7_50m_.shp")  # 替换为你的 .shp 文件路径
 
 # 绘制几何图形
 gdf.plot()  # 使用 geopandas 内置的 plot 方法（基于 matplotlib）
