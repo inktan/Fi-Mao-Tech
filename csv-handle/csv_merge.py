@@ -7,7 +7,7 @@ csv_names = []
 accepted_formats = (".csv")
 
 csv_path_list =[
-    r'E:\work\spatio_evo_urbanvisenv_svi_leo371\20250224\color_拉萨_complexity_harmony',
+    r'Y:\GOA-AIGC\02-Model\安装包\stru',
     ]
 for folder_path in csv_path_list:
     for root, dirs, files in os.walk(folder_path):
@@ -44,7 +44,7 @@ for file in csv_paths:
 # combined_df = combined_df.drop_duplicates(subset='img_path')
 
 # # 保存合并后的 DataFrame 到新的 CSV 文件
-output_file_path = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\20250224\color_拉萨_complexity_harmony.csv'
+output_file_path = r'Y:\GOA-AIGC\02-Model\安装包\stru\sv_拉萨_brightness_saturation.csv'
 combined_df.to_csv(output_file_path, index=False)
 
 # print(f"合并后的文件已保存到 {output_file_path}")

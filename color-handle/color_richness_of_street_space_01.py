@@ -61,7 +61,6 @@ def main(folder_path,Level_Diversity_csv):
         writer = csv.writer(f)
         writer.writerow(['image_name', 'cri'])
 
-
     # 读取Excel文件
     df = pd.read_excel('e:\work\sv_renleihuoshifen\研究-指标.xlsx', engine='openpyxl')
 

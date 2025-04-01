@@ -17,7 +17,7 @@ for folder_path in csv_path_list:
                 csv_names.append(file)
                 
 csv_paths = [
-     r'e:\work\spatio_evo_urbanvisenv_svi_leo371\20250224\color_拉萨_complexity_harmony.csv'
+r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\sv_拉萨_cluster_colors\color_拉萨_complexity_harmony_all.csv'
     ]
 
 total_rows = 0
