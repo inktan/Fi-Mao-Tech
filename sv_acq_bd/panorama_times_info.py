@@ -125,6 +125,9 @@ def main(csv_path,folder_out_path):
         try:
             tar_lng_lat = coord_convert(float(lng),float(lat))
             timeLineIds = get_panoid(tar_lng_lat[0],tar_lng_lat[1],lng+'_'+lat, id,folder_out_path)
+            print('经纬度：',lng,lat)
+            print('时间线：',timeLineIds)
+            break
 
             # 每个地点单独存一个文件夹，使用id命名
             # pic_path = folder_out_path +'/'+str(id)+'_' +str(lng)+'_' +str(lat)
@@ -151,11 +154,11 @@ def main(csv_path,folder_out_path):
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\sv_畫畫_20240923\aomen_01.csv' # 需要爬取的点
+    csv_path = r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\sv_拉萨_points.csv' # 需要爬取的点
     folder_out_path = r'e:\work\20240201\sv' # 保存街景文件
 
-    with open(r'e:\work\sv_畫畫_20240923\aomen_sv_info.csv','w' ,newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(['id','lng','lat','timeLine','year'])
+    # with open(r'e:\work\sv_畫畫_20240923\aomen_sv_info.csv','w' ,newline='') as f:
+    #     writer = csv.writer(f)
+    #     writer.writerow(['id','lng','lat','timeLine','year'])
 
     main(csv_path,folder_out_path)

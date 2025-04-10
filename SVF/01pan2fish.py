@@ -13,6 +13,9 @@ from tqdm import tqdm
 #创建鱼眼
 # 鱼眼的半径r=width/2PI。街景分辨率为1024*256，则鱼眼的半径为1024/2PI=163
 def create_fisheye(file_n):
+    out_name = file_n.replace('sv_pan', 'sv_pan_fisheye')
+    if os.path.exists(out_name):
+        return
     # 使用Pillow打开图片
     pil_img = Image.open(file_n)
       # 获取图像的宽度和高度
@@ -55,7 +58,6 @@ def create_fisheye(file_n):
     result = cv2.bitwise_and(img_hemi, mask)  # 使用“与”操作函数cv2.bitwise_and()对图像掩膜（遮挡）
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    out_name = file_n.replace('全景_pan', '半球_fisheye')
     
     # 保存图像
     folder_path = os.path.dirname(out_name)
@@ -80,7 +82,7 @@ img_paths = []
 roots = []
 img_names = []
 
-for root, dirs, files in os.walk(r'E:\work\sv_j_ran\20241227\全景2鱼眼\全景_pan'):
+for root, dirs, files in os.walk(r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\sv_pan'):
     for file in files:
         if file.endswith(".jpg") or file.endswith(".JPG") or file.endswith(".png") or file.endswith(".jpeg"):
             file_path = os.path.join(root, file)

@@ -42,6 +42,8 @@ def get_panoid(lng,lat,bound,sv_id,folder_out_path):
     url = 'https://mapsv0.bdimg.com/?qt=qsdata&x=' + str(lng) + '&y=' + str(lat)
     req = requests.get(url)
     data = json.loads(req.text)
+    # print('data')
+    # print(data)
     if (data is not None):
          result = data['content']
 
@@ -57,8 +59,11 @@ def get_panoid(lng,lat,bound,sv_id,folder_out_path):
          r = requests.get(url,stream=True)
          data = json.loads(r.text)
          timeLineIds = data["content"][0]['TimeLine']
+         Heading = data["content"][0]['Heading']
+         MoveDir = data["content"][0]['MoveDir']
+         NorthDir = data["content"][0]['NorthDir']
 
-         return timeLineIds
+         return [timeLineIds,Heading,MoveDir, NorthDir]
     else:
         return []
 
@@ -95,6 +100,7 @@ def main(csv_path,folder_out_path):
     id_lst = []
     lng_lst = []
     lat_lst = []
+    # in__out_lst = []
     with open(csv_path, 'r') as csv_file:  
         # 创建CSV阅读器对象  
         csv_reader = csv.reader(csv_file)
@@ -106,6 +112,7 @@ def main(csv_path,folder_out_path):
             id_lst.append(row[0])
             lng_lst.append(row[1])
             lat_lst.append(row[2])
+            # in__out_lst.append(row[3])
 
     #临时文件夹位置
     temp_path = folder_out_path + '/data stream file (can be deleted after crawling)'
@@ -119,21 +126,25 @@ def main(csv_path,folder_out_path):
     #     writer = csv.writer(f)
     
     for j in tqdm(range(len(id_lst))):
-        if j<=-200:
+        if j<=4000:
             continue
-        if j>200000:
+        if j>8000:
             continue
 
         # 1、lat是“latitude”的缩写，纬度
         # 2、lng是“longitude”的缩写，经度
         # 中国的经纬度 经度范围:73°33′E至135°05′E。 纬度范围:3°51′N至53°33′N。
-        id = id_lst[j]
+        # id = id_lst[j]
+        id = str(j)
         lng = lng_lst[j]
         lat =lat_lst[j]
+        # in__out = in__out_lst[j]
         try:
             tar_lng_lat = coord_convert(float(lng),float(lat))
-
-            timeLineIds = get_panoid(tar_lng_lat[0],tar_lng_lat[1],lng+'_'+lat, id,folder_out_path)
+            panoidInfos = get_panoid(tar_lng_lat[0],tar_lng_lat[1],lng+'_'+lat, id,folder_out_path)
+            timeLineIds = panoidInfos[0]
+            heading = panoidInfos[1]
+            # break
 
             panoramas = []
             for timeLineId in timeLineIds:
@@ -141,40 +152,55 @@ def main(csv_path,folder_out_path):
 
             # 筛选2015-2017年中5-9月份的街景
             # 使用列表推导式筛选month大于4小于10的实例
-            filtered_panoramas = [p for p in panoramas if 4 < p.month < 10]
+            # filtered_panoramas = [p for p in panoramas  if p.month in [6, 7, 8]]
+
+            filtered_panoramas = panoramas
+
             filtered_panoramas = [p for p in filtered_panoramas if 2014 < p.year < 2018]
-            if len(filtered_panoramas) == 0:
-                filtered_panoramas = [p for p in panoramas if 4 < p.month < 10]
-            if len(filtered_panoramas) == 0:
-                filtered_panoramas = panoramas
+            # if len(filtered_panoramas) == 0:
+                # filtered_panoramas = [p for p in panoramas if 4 < p.month < 10]
+            # if len(filtered_panoramas) == 0:
+            #     filtered_panoramas = [p for p in filtered_panoramas if 2014 < p.year < 2019]
 
             # 是否过滤
             filtered_panoramas = panoramas
-
             for i in range(len(filtered_panoramas)):
-                print(filtered_panoramas[i])
-                break
+                # print(filtered_panoramas[i])
+                # break
                 pano_id = filtered_panoramas[i].pano['ID']
                 timeLine = filtered_panoramas[i].pano['TimeLine']
                 year = filtered_panoramas[i].year
                 month = filtered_panoramas[i].month
 
-                pic_path = folder_out_path +'/sv_pan'  +'/'+id+'_' +str(lng)+'_' +str(lat)
+                # pic_path = folder_out_path +'/sv_pan'  +'/'+id+'_' +str(lng)+'_' +str(lat)
+                pic_path = folder_out_path +'/sv_pan/'
                 if os.path.exists(pic_path) == False:
                     os.makedirs(pic_path)
 
-                save_file_path = pic_path + '/'  +timeLine+ '.jpg'
+                # save_file_path = pic_path + '/' + str(in__out)+'_'+ str(id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
+                # save_file_path = pic_path + '/' + str(id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
+                save_file_path = pic_path + '/' + str(id)+'_' +str(lng)+'_' +str(lat)+ '/' + str(heading)+ '_' +timeLine+ '.jpg'
+                # save_file_path = pic_path + '/' + str(id)+ '_' +timeLine+ '.jpg'
                 if os.path.exists(save_file_path):
-                    continue
+                    print(save_file_path,'已存在')
+                    break
 
                 result_cache_path = temp_path + '/'+str(id)+'_'+ pano_id +'_'+ timeLine
                 if os.path.exists(result_cache_path) == False:
                     os.makedirs(result_cache_path)
                 get_streetview(result_cache_path ,pano_id ,x_count,y_count)
+
+                folder_path = os.path.dirname(save_file_path)
+                print(foler_path)
+                if not os.path.exists(folder_path):
+                    os.makedirs(folder_path)
+
                 merge_image(result_cache_path, x_count,y_count,save_file_path)
+                print(save_file_path,'下载完成')
+                # break
 
         except Exception as e:
-            print("There is no streetview in the current location")
+            print(f'error:{e}')
             # mistake = id + ',' + lng+','+lat + ',' + '\n'
             # with open(folder_out_path + '/error_data.csv', 'a', encoding='utf-8') as f:
             #     f.write(mistake)
@@ -186,6 +212,6 @@ resolution_ratio = 4
 if __name__ == '__main__':
     # 文件夹路径
     csv_path = r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\sv_拉萨_points.csv' # 需要爬取的点
-    folder_out_path = r'/home/ubuntu/SV_acq/sv_拉萨' # 保存街景文件
+    folder_out_path = r'e:\work\test\sv_' # 保存街景文件
 
     main(csv_path,folder_out_path)
