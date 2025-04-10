@@ -234,23 +234,23 @@ for root, dirs, files in os.walk(r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_s
             shp_names.append(file)
             roots.append(root)
        
-image_ss_csv = r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf09.csv'
+image_ss_csv = r'f:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf01.csv'
             
-with open('%s'%image_ss_csv ,'w' ,newline='') as f: 
-    writer = csv.writer(f)
-    writer.writerow(['shp_path','pd','pf'])
+# with open('%s'%image_ss_csv ,'w' ,newline='') as f: 
+#     writer = csv.writer(f)
+#     writer.writerow(['shp_path','pd','pf'])
         
 df = pd.read_csv(image_ss_csv)
         
 for i,shp_path in enumerate(tqdm(shp_paths)): 
-    if i<=80000:
-        continue
-    if i>90000:
-        continue
+    # if i<=80000:
+    #     continue
+    # if i>90000:
+    #     continue
         # 读取 CSV 文件
 
-    # if shp_path in df['shp_path'].values:
-    #     continue
+    if shp_path in df['shp_path'].values:
+        continue
     
     # latitude = 52.776188701508325  # 纬度
     # longitude = -1.238319474       # 经度

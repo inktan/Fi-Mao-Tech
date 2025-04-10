@@ -28,11 +28,11 @@
 import pandas as pd
 
 # 读取CSV文件
-df = pd.read_csv(r'f:\地学大数据\2024年华东地区POI数据（上海、江苏、浙江、安徽）\上海市\上海市POI数据.csv')  # 替换'your_file.csv'为你的文件路径
+df = pd.read_csv(r'f:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf.csv')  # 替换'your_file.csv'为你的文件路径
 
 # 筛选出id列为'住宅a'或'住宅b'的行
 filtered_df = df[df['中类'].isin(['别墅区', '住宅区'])]
 
 # 保存为新的CSV文件
-filtered_df.to_csv(r'f:\地学大数据\2024年华东地区POI数据（上海、江苏、浙江、安徽）\上海市\上海市POI数据_住宅区——别墅区.csv', index=False)  # 替换'filtered_file.csv'为你希望保存的新文件名
+filtered_df.to_csv(r'f:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf01.csv', index=False)  # 替换'filtered_file.csv'为你希望保存的新文件名
 
