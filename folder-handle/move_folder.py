@@ -2,8 +2,8 @@ import shutil
 import os
 
 # 定义源文件夹和目标文件夹路径
-source_folder = r'F:\sv_shanghai\20220720-上海\sv_pan\BaiduSyncdisk01\SH-2'
-destination_folder = r'D:\work\sv_shanghai'
+source_folder = r'F:\work\sv_ran\sv_pan\sv_points_surrounding_times01\sv_points_surrounding_times'
+destination_folder = r'F:\work\sv_ran\sv_pan'
 
 # 确保目标文件夹存在，如果不存在则创建
 os.makedirs(destination_folder, exist_ok=True)

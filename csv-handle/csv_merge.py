@@ -7,7 +7,7 @@ csv_names = []
 accepted_formats = (".csv")
 
 csv_path_list =[
-    r'Y:\GOA-AIGC\02-Model\安装包\stru',
+    r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf',
     ]
 for folder_path in csv_path_list:
     for root, dirs, files in os.walk(folder_path):
@@ -35,8 +35,8 @@ combined_df = pd.DataFrame()
 #     r'e:\work\sv_songguo\ss_02.csv',
 # ]
 for file in csv_paths:
-    # df = pd.read_csv(file)
-    df = pd.read_csv(file, encoding='GBK')
+    df = pd.read_csv(file)
+    # df = pd.read_csv(file, encoding='GBK')
     print(df.shape)
     # 按照行方向进行排序
     combined_df = pd.concat([combined_df, df])
@@ -44,7 +44,7 @@ for file in csv_paths:
 # combined_df = combined_df.drop_duplicates(subset='img_path')
 
 # # 保存合并后的 DataFrame 到新的 CSV 文件
-output_file_path = r'Y:\GOA-AIGC\02-Model\安装包\stru\sv_拉萨_brightness_saturation.csv'
+output_file_path = r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf.csv'
 combined_df.to_csv(output_file_path, index=False)
 
 # print(f"合并后的文件已保存到 {output_file_path}")

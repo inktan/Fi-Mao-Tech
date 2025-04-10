@@ -33,6 +33,16 @@ class Equirectangular:
 
         # 使用PIL读取图像  
         pil_image = Image.open(img_name)  
+        # 获取当前宽度和高度
+        width, height = pil_image.size
+        # 检查宽度是否是高度的2倍
+        if width != 2 * height:
+            # 计算新的高度（保持原始高度）和新的宽度（高度的2倍）
+            new_height = height
+            new_width = 2 * height
+            
+            # 使用Lanczos重采样算法进行高质量缩放
+            pil_image = pil_image.resize((new_width, new_height), Image.LANCZOS)
         # 将PIL图像转换为OpenCV格式  
         self._img = np.array(pil_image)[:, :, ::-1].copy()  # 注意：PIL使用RGB顺序，而OpenCV使用BGR顺序
 

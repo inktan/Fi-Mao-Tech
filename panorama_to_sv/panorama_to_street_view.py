@@ -29,10 +29,10 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
     for i,image_path in enumerate(tqdm(img_paths)): 
         # 判断文件是否为图片类型  
         if image_path.lower().endswith(image_types):
-            # if i < 2800:
-            #     continue
-            # if i >= 111000000:
-            #     continue
+            if i < 270000:
+                continue
+            if i >= 300000:
+                continue
             try:
                 equ = E2P.Equirectangular(image_path)    # Load equirectangular image
 
@@ -42,8 +42,10 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
                 
                 image_type = image_path.split('.')[-1]
                 for i in degrees:
-                    # img_degree_save = image_path.replace('sv_pan',f'sv_degree_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
-                    img_degree_save = image_path.replace('sv_pan_zoom3',f'街景_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
+                    img_degree_save = image_path.replace('sv_pan',f'sv_degree_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
+                    # img_degree_save = image_path.replace('sv_pan_zoom3',f'街景_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
+                    # img_degree_save = image_path.replace(r'F:\GoogleDrive\wt282532\我的云端硬盘',r'F:\work\sv_ran\sv_degrees').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
+                    # img_degree_save = image_path.replace(r'F:\GoogleDrive\wt282532\我的云端硬盘',r'F:\work\sv_ran\sv_degrees').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
                     if os.path.exists(img_degree_save):
                         continue
 
@@ -63,7 +65,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
-    input = r'E:\work\sv_guannvzhou\sv_pan_zoom3'
+    input = r'F:\work\sv_ran\sv_pan\sv_points_surrounding_times'
     
     # fov是镜头的远近关系 水平方向范围，范围[10,360]，fov=360即可显示整幅全是图
     # pitch是仰头，低头关系 垂直视角，范围[0,90]。
