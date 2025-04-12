@@ -1,30 +1,63 @@
 import geopandas as gpd
-import random
 from shapely.geometry import Point
+import numpy as np
+from scipy.spatial import cKDTree
+import pyproj
 
-# 读取Shapefile
-shapefile_path = r'e:\work\sv_nadingzichidefangtoushi\merged_coordinates_01.shp'  # Replace with your shapefile path
-gdf = gpd.read_file(shapefile_path)
+def process_points(input_shp, output_shp, min_dist=0.1, max_dist=50):
+    """
+    处理点数据，删除距离其他点在0.1m到50m之间的点
+    
+    参数:
+        input_shp: 输入SHP文件路径
+        output_shp: 输出SHP文件路径
+        min_dist: 最小距离阈值(米)
+        max_dist: 最大距离阈值(米)
+    """
+    # 1. 读取数据
+    gdf = gpd.read_file(input_shp)
+    
+    # 确保是WGS84 (EPSG:4326)坐标系
+    if gdf.crs != 'EPSG:4326':
+        gdf = gdf.to_crs('EPSG:4326')
+    
+    # 2. 将经纬度转换为平面坐标(UTM)以便精确计算距离
+    # 自动确定合适的UTM区域
+    centroid = gdf.geometry.unary_union.centroid
+    utm_zone = int(np.floor((centroid.x + 180) / 6) + 1)
+    utm_crs = f'EPSG:{32600 + utm_zone}' if centroid.y >= 0 else f'EPSG:{32700 + utm_zone}'
+    
+    # 转换为UTM坐标
+    gdf_utm = gdf.to_crs(utm_crs)
+    
+    # 3. 使用KDTree进行高效空间查询
+    coords = np.array([(geom.x, geom.y) for geom in gdf_utm.geometry])
+    tree = cKDTree(coords)
+    
+    # 4. 找出需要删除的点
+    to_remove = set()
+    
+    # 查询所有点对，距离在max_dist以内的
+    pairs = tree.query_pairs(max_dist, output_type='ndarray')
+    
+    for i, j in pairs:
+        dist = np.linalg.norm(coords[i] - coords[j])
+        if min_dist < dist < max_dist:
+            # 随机删除其中一个点(这里选择删除索引较大的)
+            to_remove.add(max(i, j))
+    
+    # 5. 创建过滤后的GeoDataFrame
+    mask = [i not in to_remove for i in range(len(gdf))]
+    filtered_gdf = gdf[mask]
+    
+    # 6. 保存结果
+    filtered_gdf.to_file(output_shp)
+    
+    print(f"原始点数: {len(gdf)}, 处理后点数: {len(filtered_gdf)}, 删除点数: {len(to_remove)}")
 
-# 这里假设是UTM区域33N（EPSG:32633），你需要根据实际情况替换
-utm_crs = 'EPSG:32633'  # 替换为你的UTM区域
-gdf = gdf.to_crs(utm_crs)
+# 使用示例
 
-# 确保是点数据
-if gdf.geom_type[0] != 'Point':
-    raise ValueError("Shapefile must contain point data.")
+input_shp = r'e:\work\sv_daxiangshuaishuai\StreetViewSampling\18_SZParks_300_Rd_50m_.shp'  # Replace with your shapefile path
+output_shp = input_shp.replace('.shp', '0m_02.shp')
 
-# 随机选取一个点
-random_index = random.randint(0, len(gdf) - 1)
-random_point = gdf.iloc[random_index]['geometry']
-
-# 计算每个点到随机点的距离
-gdf['distance'] = gdf['geometry'].apply(lambda geom: geom.distance(random_point))
-
-# 找到距离随机点最近的点
-nearest_point_index = gdf['distance'].idxmin()
-nearest_point = gdf.iloc[nearest_point_index]
-
-# 输出结果
-print(f"随机选取的点: {random_point}")
-print(f"距离随机点最近的点: {nearest_point['geometry']}, 距离: {nearest_point['distance']}")
+process_points(input_shp, output_shp)

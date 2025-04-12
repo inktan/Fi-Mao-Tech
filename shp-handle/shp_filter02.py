@@ -1,19 +1,20 @@
-import geopandas as gpd
+import pandas as pd
 
-# 读取 Shapefile 文件
-shp_file_path =r'e:\work\sv_gonhoo\fugang-Poi\fugang.shp'
+# 1. 读取CSV文件（只加载需要的两列）
+input_file = r'e:\work\sv_daxiangshuaishuai\StreetViewSampling\unique_name_2_samples.csv'  # 替换为你的输入文件路径
+df = pd.read_csv(input_file, usecols=['osm_id', 'name_2'])
 
-gdf = gpd.read_file(shp_file_path)
+# 2. 检查重复的osm_id
+duplicate_counts = df['osm_id'].duplicated(keep=False).sum()
+print(f"发现 {duplicate_counts} 行具有重复的osm_id")
 
-print(gdf.columns)
-columns_to_extract = ['title', 'page_type',gdf.geometry.name]
-for col in columns_to_extract:
-    if col not in gdf.columns:
-        print(f"列 {col} 不存在于 Shapefile 文件中，请检查列名。")
-        break
-else:
-    new_gdf = gdf[columns_to_extract]
-    csv_file_path = r'e:\work\sv_gonhoo\fugang-Poi\fugang-page_type.shp'
-    new_gdf.to_file(csv_file_path, index=False)
+# 3. 合并重复项：将相同osm_id的name_2值用逗号连接
+merged_df = df.groupby('osm_id')['name_2'].apply(lambda x: ', '.join(str(i) for i in x if pd.notna(i))).reset_index()
 
-    print(f"新的 CSV 文件已保存到 {csv_file_path}")
+# 4. 保存结果
+output_file = r'e:\work\sv_daxiangshuaishuai\StreetViewSampling\merge_name_2_.csv'
+merged_df.to_csv(output_file, index=False, encoding='utf-8-sig')
+
+print(f"处理完成，结果已保存到: {output_file}")
+print("\n合并后的示例数据：")
+print(merged_df.head())

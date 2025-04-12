@@ -44,7 +44,7 @@ def extract_points(line, interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'e:\work\sv_guannvzhou\street_network01.shp',
+    r'e:\work\sv_daxiangshuaishuai\StreetViewSampling\18_SZParks_300_Rd.shp',
 ]
 
 for file_path in shape_files:
@@ -52,14 +52,19 @@ for file_path in shape_files:
 
     # shp_file_path = r'e:\work\sv_小丸\福田区面\深圳市.shp'
     shp_file_path = file_path
-    gdf = gpd.read_file(shp_file_path)
+    # gdf = gpd.read_file(shp_file_path)
+    gdf = gpd.read_file(shp_file_path, encoding='latin1')
+
     gdf = gdf.to_crs(epsg=4326)  # 转换为WGS 84
 
     # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name', 'type', 'oneway', 'bridge', 'tunnel' ])
-    points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name'])
+    points_df = pd.DataFrame(columns=['id','osm_id', 'longitude', 'latitude', 'name_2'])
     # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude'])
-    interval = 100
+    interval = 200
     print(gdf.shape)
+
+    gdf['name_2'] = gdf['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
+
     for index, row in tqdm(gdf.iterrows()):
 
         geometry = row['geometry']
@@ -71,13 +76,13 @@ for file_path in shape_files:
             exterior = geometry.exterior
             points = extract_points(LineString(exterior.coords),interval)
             for point in points:
-                points_df.loc[len(points_df)] = [index, point.x, point.y, row['name']]
+                points_df.loc[len(points_df)] = [index, row['osm_id'], point.x, point.y, row['name_2']]
         elif geometry.geom_type == 'MultiPolygon':
             for polygon in geometry.geoms:
                 exterior = polygon.exterior
                 points = extract_points(LineString(exterior.coords),interval)
                 for point in points:
-                    points_df.loc[len(points_df)] = [index, point.x, point.y, row['name']]
+                    points_df.loc[len(points_df)] = [index, row['osm_id'], point.x, point.y, row['name_2']]
         # print(geometry)
         # print(geometry.geom_type)
 
@@ -86,33 +91,36 @@ for file_path in shape_files:
             for line in geometry.geoms:
                 points = extract_points(line,interval)
                 for point in points:
-                    points_df.loc[len(points_df)] = [index, point.x, point.y, row['name']]
+                    points_df.loc[len(points_df)] = [index, row['osm_id'], point.x, point.y, row['name_2']]
         elif geometry.geom_type == 'LineString':
             points = extract_points(geometry,interval)
             for point in points:
-                points_df.loc[len(points_df)] = [index, point.x, point.y, row['name']]
+                points_df.loc[len(points_df)] = [index, row['osm_id'], point.x, point.y, row['name_2']]
         elif  geometry.geom_type == 'Point':
                 point = Point(geometry.coords[0])
-                points_df.loc[len(points_df)] = [index, point.x, point.y, row['name']]
+                points_df.loc[len(points_df)] = [index, row['osm_id'], point.x, point.y, row['name_2']]
 
     print(points_df)
 
     unique_count = points_df.shape[0]
     print(f'原数据有 {points_df.shape} 行数据')
+    points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_.csv') , index=False)
+    # 如果 result_gdf 是 DataFrame，则将其转换为 GeoDataFrame
+    if type(points_df) == pd.core.frame.DataFrame:
+        points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude, crs='EPSG:4326'))
+
+    points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_.shp') , index=False)
 
     points_df = points_df.drop_duplicates(subset=['longitude', 'latitude'])
     # df_unique = points_df.drop_duplicates(subset=['id'])
     # 打印去重后的数据行数
     print(f'去重后共有 {points_df.shape} 行数据')
 
-    points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_.csv') , index=False)
-
+    points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_unique.csv') , index=False)
     # 检查 result_gdf 的类型
     print(type(points_df))
-
     # 如果 result_gdf 是 DataFrame，则将其转换为 GeoDataFrame
     if type(points_df) == pd.core.frame.DataFrame:
         points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude, crs='EPSG:4326'))
-
-    points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_.shp') , index=False)
+    points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_unique.shp') , index=False)
 

@@ -1,47 +1,29 @@
-import pandas as pd  
-import os  
-import glob  
-import os   
-# 读取原始CSV文件  
-df = pd.read_csv(r'e:\work\sv_levon\50M-Distance-WGS84-4326.csv', dtype={'Id': int, 'SomeNumber': int})  
+import pandas as pd
 
-# 定义构建文件路径的函数  
-def build_file_path(row):  
-    # 假设文件路径的格式为：'some_directory/{id}_{num}.txt'  
-    # 你可以根据实际情况修改这个格式  
-    return f'E:\work\sv_levon\sv_degree_hor_new/{int(row["Id"])}_{row["lng"]}_{row["lat"]}'
+input_file = r'e:\work\sv_daxiangshuaishuai\StreetViewSampling\18_SZParks_300_Rd_50m_.csv'  # 替换为你的输入文件路径
+df = pd.read_csv(input_file)
 
-# 定义构建文件路径的函数  
-def build_file_path_prefix(row):  
-    # 假设文件路径的格式为：'some_directory/{id}_{num}.txt'  
-    # 你可以根据实际情况修改这个格式  
-    return f'E:\work\sv_levon\sv_degree_hor_new/{int(row["Id"])}_{row["lng"]}_{row["lat"]}*'
-  
-# 创建一个空列表来存储行数据  
-rows = []  
+unique_values = df['osm_id'].unique()
+print(f"找到 {len(unique_values)} 个唯一值")
 
-# 遍历每一行数据  
-for index, row in df.iterrows():  
-    # 构建文件路径前缀  
-    prefix = build_file_path_prefix(row)  
-    # 使用glob模块匹配以该前缀开始的文件  
-    matching_files = glob.glob(prefix)  
-    # 检查是否有匹配的文件  
-    if not matching_files:  
-        # 如果没有匹配的文件，则将该行添加到新的DataFrame中  
-        # new_df = new_df.append(row, ignore_index=True)  
-        rows.append(row.to_dict())  # 将行转换为字典并添加到列表中  
+# 4. 对每个唯一值抽取3行样本（如果存在足够数据）
+samples = []
+for value in unique_values:
+    subset = df[df['osm_id'] == value]
+    # 如果该值的行数>=3则取3行，否则取全部
+    sample_size = min(3, len(subset))
+    samples.append(subset.sample(sample_size) if sample_size > 0 else subset)
 
-# 遍历每一行数据  
-# for index, row in df.iterrows():  
-#     file_path = build_file_path(row)  
-    # 检查路径是否存在  
-    # if not os.path.exists(file_path):  
-        # 如果路径不存在，则将该行添加到新的DataFrame中  
-        # new_df = new_df.append(row, ignore_index=True)  
+# 5. 合并所有样本并保存
+result_df = pd.concat(samples)
+output_csv = r'e:\work\sv_daxiangshuaishuai\StreetViewSampling\18_SZParks_300_Rd_50m_osm_id_samples.csv'
+result_df.to_csv(output_csv, index=False, encoding='utf-8-sig')
 
-# 使用列表创建新的 DataFrame  
-new_df = pd.DataFrame(rows)
+print(f"已提取 {len(result_df)} 行样本数据，保存到: {output_csv}")
+print("示例数据：")
+print(result_df[['name_2'] + list(result_df.columns[:3])].head())  # 显示前几列
 
-# 将新的DataFrame保存为新的CSV文件  
-new_df.to_csv('e:\work\sv_levon\50M-01.csv', index=False)
+
+
+
+

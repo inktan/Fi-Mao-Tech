@@ -8,7 +8,7 @@ image_types = ('.png', '.jpg', '.jpeg', '.bmp', '.gif')
 img_paths = []
 roots = []
 img_names = []
-for root, dirs, files in os.walk(r'F:\work\sv_ran\ss_rgb_fisheye_R'):
+for root, dirs, files in os.walk(r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\sv_pan_rgb_fisheye_R'):
     for file in files:
         if file.endswith(".jpg") or file.endswith(".JPG") or file.endswith(".png") or file.endswith(".jpeg"):
             file_path = os.path.join(root, file)
@@ -43,7 +43,7 @@ for i,image_path in enumerate(tqdm(img_paths)):
         
         folder_path = os.path.dirname(outshp)
         if not os.path.exists(folder_path):
-            print(folder_path)
+            # print(folder_path)
             os.makedirs(folder_path)
 
         drv = ogr.GetDriverByName("ESRI Shapefile")

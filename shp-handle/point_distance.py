@@ -11,7 +11,7 @@ def load_shapefile(file_path):
     gdf = gpd.read_file(file_path)
     return gdf
 
-def filter_points(gdf, min_distance_meters=14):
+def filter_points(gdf, min_distance_meters=49):
     """Filter points to ensure the minimum distance between any two points."""
 
     # 创建一个空的GeoDataFrame来存储剩余的点
@@ -35,7 +35,7 @@ def filter_points(gdf, min_distance_meters=14):
  
         print(nearest_distance)
         # 如果最近距离大于最小距离，则添加新点
-        if nearest_distance > min_distance_meters:
+        if nearest_distance > min_distance_meters or nearest_distance < 0.1:
             remaining_points_gdf = remaining_points_gdf._append(row, ignore_index=True)
  
         # 清理distance列，因为它只用于临时计算
@@ -63,10 +63,10 @@ def main(shapefile_path):
     filtered_gdf = filter_points(gdf)
     
     # Save the result to a new shapefile
-    output_path = 'filtered_points.shp'
+    output_path = shapefile_path.replace('.shp', '0m.shp')
     filtered_gdf.to_file(output_path, driver='ESRI Shapefile')
     print(f"Filtered points saved to {output_path}")
 
 if __name__ == "__main__":
-    shapefile_path = r'e:\work\sv_nadingzichidefangtoushi\merged_coordinates_01.shp'  # Replace with your shapefile path
+    shapefile_path = r'e:\work\sv_daxiangshuaishuai\StreetViewSampling\18_SZParks_300_Rd_50m_.shp'  # Replace with your shapefile path
     main(shapefile_path)

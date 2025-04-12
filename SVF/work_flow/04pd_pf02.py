@@ -226,7 +226,7 @@ image_types = ('.shp')
 shp_paths = []
 roots = []
 shp_names = []
-for root, dirs, files in os.walk(r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding'):
+for root, dirs, files in os.walk(r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\sv_pan_rgb_fisheye_shp'):
     for file in files:
         if file.endswith(".shp"):
             file_path = os.path.join(root, file)
@@ -234,7 +234,7 @@ for root, dirs, files in os.walk(r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_s
             shp_names.append(file)
             roots.append(root)
        
-image_ss_csv = r'f:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf01.csv'
+image_ss_csv = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\sv_pan_rgb_fisheye_shp\pd_pf01.csv'
             
 # with open('%s'%image_ss_csv ,'w' ,newline='') as f: 
 #     writer = csv.writer(f)
@@ -247,25 +247,28 @@ for i,shp_path in enumerate(tqdm(shp_paths)):
     #     continue
     # if i>90000:
     #     continue
-        # 读取 CSV 文件
 
     if shp_path in df['shp_path'].values:
         continue
+    print(shp_path)
     
-    # latitude = 52.776188701508325  # 纬度
-    # longitude = -1.238319474       # 经度
-    # shp_path = r"5948747_-0.4116458187047517_51.38516306618657_7_14.58752727508545_2018_4.png"
-    infos = shp_names[i].split('_')
-    longitude = float(infos[-6])
-    latitude = float(infos[-5])
-    year = int(infos[-2])
-    month = int(infos[-1].split('.')[0])
+    longitude = shp_path.split('\\')[-2].split('_')[1]
+    latitude = shp_path.split('\\')[-2].split('_')[2]
+    year = shp_path[-10:-6]  # '2013'
+    month = shp_path[-6:-4]  # '10'
+
+    print(longitude,latitude,year,month)
+
+    longitude = float(longitude)
+    latitude = float(latitude)
+    year = int(year)
+    month = int(month)
     try:
         gdf_ss = read_shp_ss(shp_path)
         PD = cal_pd(gdf_ss,longitude,latitude,year,month)
         PF = cal_pf(gdf_ss)
 
-        # print('PD',PD,'PF',PF)
+        print('PD',PD,'PF',PF)
         
         with open('%s' % image_ss_csv ,'a',encoding='utf-8' ,newline='') as f:
             writer = csv.writer(f)
