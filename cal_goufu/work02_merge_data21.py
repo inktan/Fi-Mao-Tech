@@ -1,14 +1,16 @@
 import geopandas as gpd
 from tqdm import tqdm  # 用于显示进度条
 
-def merge_shp_data():
+def merge_shp_data(year):
     # 主文件路径
-    main_file = r'e:\work\sv_goufu\datatrain\bird02\tongji\tj21.shp'
+    main_file = f'e:\\work\\sv_goufu\\datatrain\\bird02\\tongji\\tj{year}.shp'
+    # main_file = r'e:\work\sv_goufu\datatrain\dem\点数据\dem.shp'
     
     # 数据源字典 {文件路径: 需要提取的列名}
     data_sources = {
         r'e:\work\sv_goufu\datatrain\coastline\点数据\shcoastline.shp': 'NEAR_DIST',
         r'e:\work\sv_goufu\datatrain\dem\点数据\dem.shp': 'dem',
+        # r'e:\work\sv_goufu\datatrain\bird02\tongji\tj21.shp': 'Join_Count',
         r'E:\work\sv_goufu\datatrain\green\fishnet\shgren22.shp': 'density',
         r'E:\work\sv_goufu\datatrain\landcoverpre\点数据\sh22.shp': 'landcover',
         r'E:\work\sv_goufu\datatrain\lightyear\点数据\ylight20.shp': 'ylight',
@@ -70,7 +72,7 @@ def merge_shp_data():
         print("正在保存合并后的文件...")
 
         # 输出文件路径
-        output_file = r'E:\work\sv_goufu\MLP\year21\MLP21.shp'
+        output_file = f'E:\\work\\sv_goufu\\MLP\year{year}\\year{year}.shp'
         result_gdf.to_file(output_file)
         print(f"合并完成！结果已保存到: {output_file}")
         
@@ -82,7 +84,24 @@ def merge_shp_data():
         print(f"处理过程中发生错误: {str(e)}")
 
 if __name__ == "__main__":
-    merge_shp_data()
+    # merge_shp_data()
+
+    # years = ['98','99','00',
+    # '01','02','03','04','05','06','07','08','09','10',
+    # '11','12','13','14','15','16','17','18','19','20',
+    # '21','22','23',]
+    years = ['98','99','00',
+    '01','02','03','04','05','06','07','08','09','10',
+    '11','12','13','14','15','16','17','18','19','20',
+    '22','23',]
+
+    for year in years:
+        print(year)
+        merge_shp_data(year)
+
+
+
+
 
 
 # # 因变量-鸟

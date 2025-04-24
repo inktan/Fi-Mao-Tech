@@ -4,7 +4,7 @@ from scipy.spatial import cKDTree
 import pyproj
 from tqdm import tqdm  # 用于进度条显示
 
-def process_points(input_shp, output_shp, min_dist=0.1, max_dist=49):
+def process_points(input_shp, output_shp, min_dist=-0.1, max_dist=14.999999):
     """
     处理点数据，删除距离其他点在0.1m到50m之间的点
     
@@ -76,7 +76,7 @@ def process_points(input_shp, output_shp, min_dist=0.1, max_dist=49):
 # 使用示例
 if __name__ == "__main__":
 
-    input_shp = r'e:\work\sv_daxiangshuaishuai\StreetViewSampling\18_SZParks_300_Rd_50m_.shp'  # Replace with your shapefile path
-    output_shp = input_shp.replace('.shp', '0m_01.shp')
+    input_shp = r'e:\work\sv_shushu\20250423\all_points.shp'  # Replace with your shapefile path
+    output_shp = input_shp.replace('.shp', '_Spatial_Balance.shp')
 
     process_points(input_shp, output_shp)

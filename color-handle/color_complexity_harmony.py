@@ -114,14 +114,14 @@ img_paths = []
 img_names = []
 accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
-for root, dirs, files in os.walk(r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\sv_林芝'):
+for root, dirs, files in os.walk(r'E:\work\sv_jumaorizhi\xc_src'):
     for file in files:
         if file.endswith(accepted_formats):
             file_path = os.path.join(root, file)
             img_paths.append(file_path)
             img_names.append(file)
 
-color_complexity_harmony_csv = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\color_林芝_complexity_harmony.csv'
+color_complexity_harmony_csv = r'E:\work\sv_jumaorizhi\xc_srcE:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\color_林芝_complexity_harmony.csv'
 with open(color_complexity_harmony_csv,'w' ,newline='') as f:
     writer = csv.writer(f)
     writer.writerow(['img_path','complexity','harmony'])

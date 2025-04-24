@@ -42,13 +42,13 @@ def plot_shape_and_cells(shape, res=9):
     fig.tight_layout()
 
 # 选择生成六边形的原始范围
-shp_file_path = r'e:\work\sv_shushu\Export_Output-澳门\Export_Output-澳门.shp'
+shp_file_path = r'e:\work\sv_shushu\20250423\all_points_convex_hull.shp'
 gdf = gpd.read_file(shp_file_path)
 # 设置CRS为EPSG:4326
 gdf.crs = 'EPSG:4326'
-geo = gdf.geometry[1]
+geo = gdf.geometry[0]
 
-cells =h3.geo_to_cells(geo, res=10)
+cells =h3.geo_to_cells(geo, res=9)
 shape_column = [h3.cells_to_h3shape([cell]) for cell in cells]
 
 polygons = [Polygon(poly['coordinates'][0]) for poly in [i.__geo_interface__ for i in shape_column]]
@@ -57,7 +57,7 @@ gdf = gpd.GeoDataFrame({'geometry': polygons, 'cellId': cells})
 
 gdf.crs = 'EPSG:4326'
 # 导出为SHP文件
-gdf.to_file('e:\work\sv_shushu\Export_Output-澳门\six_polygon.shp')
+gdf.to_file(r'e:\work\sv_shushu\20250423\all_points_convex_hull_six_polygon.shp')
 
 plot_df(gdf)
 

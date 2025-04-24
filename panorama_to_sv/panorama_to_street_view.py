@@ -29,11 +29,12 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
     for i,image_path in enumerate(tqdm(img_paths)): 
         # 判断文件是否为图片类型  
         if image_path.lower().endswith(image_types):
-            if i < 270000:
+            if i < 26400:
                 continue
-            if i >= 300000:
+            if i >= 330000:
                 continue
             try:
+                
                 equ = E2P.Equirectangular(image_path)    # Load equirectangular image
 
                 degree_avg = 360 / degree_count
@@ -65,7 +66,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
-    input = r'F:\work\sv_ran\sv_pan\sv_points_surrounding_times'
+    input = r'E:\work\sv_quanzhou\sv_pan'
     
     # fov是镜头的远近关系 水平方向范围，范围[10,360]，fov=360即可显示整幅全是图
     # pitch是仰头，低头关系 垂直视角，范围[0,90]。

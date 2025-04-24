@@ -4,7 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 # 读取SHP文件
-input_path = r'e:\work\sv_goufu\MLP\year21\MLP21_valid_data.shp'
+input_path = r'e:\work\sv_goufu\MLP\year21\models\MLP21_predict_valid_data.shp'
 gdf = gpd.read_file(input_path)
 
 # 定义特征列和目标列

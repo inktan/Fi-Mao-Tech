@@ -7,10 +7,10 @@ from libpysal.weights import KNN
 from spreg import ML_Lag
 
 # 1. 数据加载与预处理
-gdf = gpd.read_file(r"e:\work\sv_juanjuanmao\20250308\八条路线\T7_50m_SEG_ssindicators.shp")
+gdf = gpd.read_file(r"e:\work\sv_juanjuanmao\20250308\八条路线\T8_50m_SEG_ssindicators04.shp")
 
 # 2. 只保留显著变量（根据之前结果）
-selected_features = ['ashcan', 'poster', 'green', 'sky', 'window', 'chair']  # 只保留显著变量
+selected_features = ['ashcan', 'poster', 'green', 'sky', 'window', 'chair', 'OpenSocial', 'shop', 'h_value', 'traffic']  # 只保留显著变量
 y = gdf['attraction'].values.reshape(-1, 1)  # 确保y是二维数组
 
 # 3. 数据标准化
@@ -31,3 +31,5 @@ print("\n模型诊断信息:")
 print(f"对数似然值: {slm.logll}")
 print(f"AIC值: {slm.aic}")
 print(f"空间自回归系数(rho): {slm.rho}")
+
+

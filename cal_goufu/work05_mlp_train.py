@@ -146,10 +146,10 @@ def save_artifacts(model, scaler, feature_cols, output_dir):
     print(f"模型和相关文件已保存到: {output_dir}")
 
 # 主流程
-def main():
+def main(year):
     # 输入输出路径
-    input_shp = r'e:\work\sv_goufu\MLP\year21\models\MLP21_valid_data.shp'
-    output_dir = r'e:\work\sv_goufu\MLP\models'
+    input_shp = f'e:\\work\\sv_goufu\\MLP\\year{year}\year{year}_valid_data.shp'
+    output_dir = f'E:\\work\\sv_goufu\\MLP\\year{year}\\models'
     
     # 1. 数据预处理
     X_train, X_test, y_train, y_test, scaler, feature_cols = preprocess_data(input_shp)
@@ -166,4 +166,18 @@ def main():
     save_artifacts(model, scaler, feature_cols, output_dir)
 
 if __name__ == "__main__":
-    main()
+
+    years = ['98','99','00',
+    '01','02','03','04','05','06','07','08','09','10',
+    '11','12','13','14','15','16','17','18','19','20',
+    '22','23',]
+
+    for year in years:
+        print(year)
+        try:
+            # 运行主函数
+            main(year)
+        except Exception as e:
+            print(f"处理过程中发生错误: {str(e)}")
+            continue
+        # main(year)

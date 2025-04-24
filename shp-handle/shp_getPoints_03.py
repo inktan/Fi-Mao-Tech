@@ -2,10 +2,14 @@ from shapely.geometry import Polygon
 import geopandas as gpd
 import pandas as pd
 from tqdm import tqdm
+import numpy as np
 
 from geopy.distance import geodesic
 from shapely.geometry import LineString, Point, Polygon
 import glob
+from scipy.spatial import cKDTree
+import pyproj
+
 import os
 
 def extract_points(line, interval):
@@ -44,7 +48,7 @@ def extract_points(line, interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'e:\work\sv_daxiangshuaishuai\StreetViewSampling\18_SZParks_300_Rd.shp',
+    r'e:\work\sv_quanzhou\泉州市.shp',
 ]
 
 for file_path in shape_files:
@@ -52,21 +56,21 @@ for file_path in shape_files:
 
     # shp_file_path = r'e:\work\sv_小丸\福田区面\深圳市.shp'
     shp_file_path = file_path
-    # gdf = gpd.read_file(shp_file_path)
-    gdf = gpd.read_file(shp_file_path, encoding='latin1')
-
+    gdf = gpd.read_file(shp_file_path)
+    # gdf = gpd.read_file(shp_file_path, encoding='latin1')
+    if gdf.crs is None:
+        gdf = gdf.set_crs(epsg=4326)  # 设置原始 CRS
     gdf = gdf.to_crs(epsg=4326)  # 转换为WGS 84
 
     # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name', 'type', 'oneway', 'bridge', 'tunnel' ])
-    points_df = pd.DataFrame(columns=['id','osm_id', 'longitude', 'latitude', 'name_2'])
-    # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude'])
-    interval = 200
+    # points_df = pd.DataFrame(columns=['id','osm_id', 'longitude', 'latitude', 'name_2'])
+    points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude'])
+    interval = 100
     print(gdf.shape)
 
-    gdf['name_2'] = gdf['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
+    # gdf['name_2'] = gdf['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
 
     for index, row in tqdm(gdf.iterrows()):
-
         geometry = row['geometry']
         if geometry is None:
             continue
@@ -76,13 +80,13 @@ for file_path in shape_files:
             exterior = geometry.exterior
             points = extract_points(LineString(exterior.coords),interval)
             for point in points:
-                points_df.loc[len(points_df)] = [index, row['osm_id'], point.x, point.y, row['name_2']]
+                points_df.loc[len(points_df)] = [index,  point.x, point.y]
         elif geometry.geom_type == 'MultiPolygon':
             for polygon in geometry.geoms:
                 exterior = polygon.exterior
                 points = extract_points(LineString(exterior.coords),interval)
                 for point in points:
-                    points_df.loc[len(points_df)] = [index, row['osm_id'], point.x, point.y, row['name_2']]
+                    points_df.loc[len(points_df)] = [index,  point.x, point.y]
         # print(geometry)
         # print(geometry.geom_type)
 
@@ -91,14 +95,14 @@ for file_path in shape_files:
             for line in geometry.geoms:
                 points = extract_points(line,interval)
                 for point in points:
-                    points_df.loc[len(points_df)] = [index, row['osm_id'], point.x, point.y, row['name_2']]
+                    points_df.loc[len(points_df)] = [index, point.x, point.y]
         elif geometry.geom_type == 'LineString':
             points = extract_points(geometry,interval)
             for point in points:
-                points_df.loc[len(points_df)] = [index, row['osm_id'], point.x, point.y, row['name_2']]
+                points_df.loc[len(points_df)] = [index,  point.x, point.y]
         elif  geometry.geom_type == 'Point':
                 point = Point(geometry.coords[0])
-                points_df.loc[len(points_df)] = [index, row['osm_id'], point.x, point.y, row['name_2']]
+                points_df.loc[len(points_df)] = [index, point.x, point.y]
 
     print(points_df)
 
@@ -123,4 +127,57 @@ for file_path in shape_files:
     if type(points_df) == pd.core.frame.DataFrame:
         points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude, crs='EPSG:4326'))
     points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_unique.shp') , index=False)
+    
+    # 3. 使用KDTree进行高效空间查询
+    print("构建空间索引...")
+    coords = np.array([(geom.x, geom.y) for geom in points_df.geometry])
+    tree = cKDTree(coords)
+    
+    # 4. 找出需要删除的点
+    print("查找邻近点...")
+    to_remove = set()
+
+    min_dist = -0.1
+    max_dist = interval
+        
+    # 使用批量查询提高性能
+    batch_size = 10000  # 根据内存调整
+    for i in tqdm(range(0, len(coords), batch_size), desc="处理进度"):
+        batch_indices = range(i, min(i + batch_size, len(coords)))
+        # 查询所有点对，距离在max_dist以内的
+        neighbors = tree.query_ball_point(coords[batch_indices], r=max_dist, return_sorted=True)
+        
+        for idx, neighbors_list in zip(batch_indices, neighbors):
+            # 跳过已经标记要删除的点
+            if idx in to_remove:
+                continue
+                
+            # 检查每个邻居
+            for j in neighbors_list:
+                if j <= idx:  # 避免重复检查
+                    continue
+                    
+                dist = np.linalg.norm(coords[idx] - coords[j])
+                if min_dist < dist < max_dist:
+                    # 删除其中一个点(这里选择删除索引较大的)
+                    to_remove.add(j)
+    
+    # 5. 创建过滤后的GeoDataFrame
+    print("创建结果数据集...")
+    mask = [i not in to_remove for i in range(len(points_df))]
+    points_df = points_df[mask]
+    
+    points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_unique_Spatial_Balance.csv') , index=False)
+    # 检查 result_gdf 的类型
+    print(type(points_df))
+    # 如果 result_gdf 是 DataFrame，则将其转换为 GeoDataFrame
+    if type(points_df) == pd.core.frame.DataFrame:
+        points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude, crs='EPSG:4326'))
+    points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_unique_Spatial_Balance.shp') , index=False)
+
+
+
+
+
+
 

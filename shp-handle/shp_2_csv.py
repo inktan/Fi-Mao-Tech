@@ -16,7 +16,7 @@ for root, dirs, files in os.walk(r'E:\work\sv_hukejia\sv\handle\points01_panoid0
             file_path = os.path.join(root, file)
             shp_paths.append(file_path)
 
-shp_paths =[r'e:\work\sv_daxiangshuaishuai\StreetViewSampling\18_SZParks_300_Rd_50m_0m_01.shp']
+shp_paths =[r'e:\work\sv_shushu\20250423\all_points01\all_points_Spatial_Balance01.shp']
 
 # for shp_path in tqdm(shp_paths):
 for shp_path in shp_paths:
@@ -25,9 +25,9 @@ for shp_path in shp_paths:
 
     # print(gdf.head)
 
-    gdf = gdf.drop_duplicates(subset=['osm_id', 'name_2'])
-    print(gdf.shape)
-    print(gdf.head)
+    # gdf = gdf.drop_duplicates(subset=['osm_id', 'name_2'])
+    # print(gdf.shape)
+    # print(gdf.head)
 
     gdf['geometry'] = gdf['geometry'].apply(lambda x: x.wkt)
 

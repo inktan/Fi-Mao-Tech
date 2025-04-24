@@ -27,7 +27,7 @@ ss_df['degree'] = ss_df['degree'].str.replace('.jpg', '', regex=False)
 dst_crs = 'EPSG:4326'
 ss_gdf = gpd.GeoDataFrame(ss_df, geometry=gpd.points_from_xy(ss_df.lon, ss_df.lat), crs=dst_crs)
 
-shp_path = r'e:\work\sv_juanjuanmao\20250308\poi微博吸引力0331\poi微博吸引力\路线吸引力路氹.shp'
+shp_path = r'e:\work\sv_juanjuanmao\20250308\poi微博吸引力0331\poi微博吸引力\路线吸引力.shp'
 attraction_gdf = gpd.read_file(shp_path)
 
 # for i in ss_gdf.columns:
@@ -112,7 +112,7 @@ for filename in os.listdir(r'E:\work\sv_juanjuanmao\20250308\八条路线'):
                     line_gdf.at[index, 'attraction'] = 1
 
         # 保存结果到新的文件（可选）
-        output_path = file_path.replace('_SEG.shp', '_SEG_ssindicators.shp')
+        output_path = file_path.replace('.shp', '_ssindicators.shp')
         print(output_path)
         line_gdf = line_gdf.to_crs(epsg=4326)
 

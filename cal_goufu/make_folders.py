@@ -11,13 +11,19 @@ end_year = 2023
 for year in range(start_year, end_year + 1):
     # 格式化年份为两位数字 (98, 99, 00, 01, ..., 23)
     year_str = f"year{str(year)[2:]}"
+    print(year_str)
     folder_path = os.path.join(base_path, year_str)
     
-    # 如果文件夹不存在则创建
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
-        print(f"已创建文件夹: {folder_path}")
-    else:
-        print(f"文件夹已存在: {folder_path}")
+#     # 如果文件夹不存在则创建
+#     if not os.path.exists(folder_path):
+#         os.makedirs(folder_path)
+#         print(f"已创建文件夹: {folder_path}")
+#     else:
+#         print(f"文件夹已存在: {folder_path}")
 
-print("\n文件夹创建完成！")
+# print("\n文件夹创建完成！")
+
+years = ['98','99','00',
+'01','02','03','04','05','06','07','08','09','10',
+'11','12','13','14','15','16','17','18','19','20',
+'21','22','23',]

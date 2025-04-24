@@ -1,55 +1,54 @@
 import os
 import shutil
-import os
-import csv
 
-# source_dir = r"F:\work\sv_ran\sv_pan_fisheye\surrounding_fixedBlack"
-# target_dir = r"F:\work\sv_ran\sv_pan_fisheye\sv_points_surrounding"
-
-# source_dir = r"F:\work\sv_ran\sv_pan\surrounding_fixedBlack"
-# target_dir = r"F:\work\sv_ran\sv_pan\sv_points_surrounding"
-
-# # 确保目标文件夹存在
-# os.makedirs(target_dir, exist_ok=True)
-
-# # 遍历源文件夹中的所有文件
-# for filename in os.listdir(source_dir):
-#     if filename.lower().endswith('.jpg'):
-#         source_path = os.path.join(source_dir, filename)
-#         target_path = os.path.join(target_dir, filename)
-#         try:
-#             # 移动文件
-#             shutil.move(source_path, target_path)
-#             print(f"Moved: {filename}")
-#         except Exception as e:
-#             continue
-
-# print("All JPG files have been moved.")
-
-img_paths = []
-img_names = []
-accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
-
-folder_path = r'F:\work\sv_ran\sv_pan\sv_points_ori_times\sv_pan_zoom3_fixedBlack'
-for root, dirs, files in os.walk(folder_path):
-    for file in files:
-        if file.endswith(accepted_formats):
-            file_path = os.path.join(root, file)
-            img_paths.append(file_path)
-            img_names.append(file)
+def process_images(source_folder, target_folder):
+    # 确保目标文件夹存在
+    if not os.path.exists(target_folder):
+        os.makedirs(target_folder)
+    
+    # 获取所有jpg文件
+    image_files = [f for f in os.listdir(source_folder) if f.lower().endswith('.jpg')]
+    
+    # 创建一个字典来存储文件名前四项和对应的文件信息
+    file_dict = {}
+    
+    # 第一次遍历：收集所有文件信息
+    for filename in image_files:
+        parts = filename.split('_')
+        if len(parts) < 5:
+            continue  # 不符合命名规则的文件跳过
+        
+        # 获取前四项作为键
+        key = '_'.join(parts[:4])
+        
+        # 尝试获取第五部分的数字
+        try:
+            num = int(parts[4].split('.')[0])  # 去掉.jpg后缀后转数字
+        except ValueError:
+            continue  # 如果第五部分不是数字则跳过
+        
+        # 存储文件信息
+        if key not in file_dict:
+            file_dict[key] = []
+        file_dict[key].append({'filename': filename, 'num': num})
+    
+    # 第二次遍历：处理重复文件
+    for key, files in file_dict.items():
+        if len(files) > 1:  # 有重复文件
+            # 找到数字最大的文件
+            max_num_file = max(files, key=lambda x: x['num'])
             
-            source_path = file_path
-            target_path = file_path.replace('sv_pan_zoom3_fixedBlack','sv_pan_zoom3')
-            try:
-                # 移动文件
-                shutil.move(source_path, target_path)
-                print(f"Moved: {source_path}")
-            except Exception as e:
-                continue
+            # 移动其他文件
+            for file_info in files:
+                if file_info != max_num_file:
+                    src_path = os.path.join(source_folder, file_info['filename'])
+                    dst_path = os.path.join(target_folder, file_info['filename'])
+                    shutil.move(src_path, dst_path)
+                    print(f"Moved: {file_info['filename']}")
 
-print(len(img_names))
+# 使用示例
+source_folder = r'E:\work\sv_quanzhou\sv_pan'
+target_folder = r'E:\work\sv_quanzhou\sv_pan01'
 
-
-
-
-
+process_images(source_folder, target_folder)
+print("处理完成！")

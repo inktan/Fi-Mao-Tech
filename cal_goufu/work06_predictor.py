@@ -117,9 +117,30 @@ def predict_and_save_shp(model_dir, input_shp_path, output_shp_path):
 # 4. 使用示例
 if __name__ == "__main__":
     # 设置路径
-    model_directory = r'E:\work\sv_goufu\MLP\year21\models'
-    input_shapefile = r'e:\work\sv_goufu\MLP\year21\predictor\MLP21_predict_valid_data.shp'
-    output_shapefile = r'e:\work\sv_goufu\MLP\year21\predictor\MLP21_with_predictions.shp'
+    # model_directory = r'E:\work\sv_goufu\MLP\year21\models'
+    # input_shapefile = r'e:\work\sv_goufu\MLP\year21\汇总数据-面\year21_valid_data.shp'
+    # output_shapefile = input_shapefile.replace('.shp', '_with_predictions.shp')
     
     # 执行预测并保存
-    predict_and_save_shp(model_directory, input_shapefile, output_shapefile)
+    # predict_and_save_shp(model_directory, input_shapefile, output_shapefile)
+
+    years = ['98','99','00',
+    '01','02','03','04','05','06','07','08','09','10',
+    '11','12','13','14','15','16','17','18','19','20',
+    '22','23',]
+
+    for year in years:
+        print(year)
+        try:
+
+            # 设置路径
+            model_directory = f'E:\\work\\sv_goufu\\MLP\\year{year}\models'
+            input_shapefile = f'e:\\work\\sv_goufu\\MLP\\year{year}\\year{year}_valid_data.shp'
+            output_shapefile = input_shapefile.replace('.shp', '_with_predictions.shp')
+            
+            # 执行预测并保存
+            predict_and_save_shp(model_directory, input_shapefile, output_shapefile)
+
+        except Exception as e:
+            print(f"处理过程中发生错误: {str(e)}")
+            continue
