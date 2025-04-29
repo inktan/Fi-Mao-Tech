@@ -11,7 +11,7 @@ import seaborn as sns
 import matplotlib
 import matplotlib.transforms as transforms
 
-file_name = r"e:\work\sv_shushu\谷歌\index\six_kmeans.shp"
+file_name = r"e:\work\sv_shushu\所有指标\six_sv_mean_kmeans.shp"
 df = gpd.read_file(file_name)
 df = df.iloc[:, 1:-1]
 

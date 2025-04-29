@@ -17,8 +17,7 @@ for folder_path in csv_path_list:
                 csv_names.append(file)
                 
 csv_paths = [
-     r'f:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf02.csv',
-     r'f:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf01.csv'
+    r'e:\work\sv_shushu\所有指标\ss.csv'
     ]
 
 total_rows = 0

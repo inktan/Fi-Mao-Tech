@@ -28,13 +28,13 @@ def plot_df(df, column=None, ax=None):
     plt.show()
 
 # sg_gdf 六边形数据
-output_filepath = r'e:\work\sv_shushu\Export_Output-澳门\six_polygon.shp'
+output_filepath = r'e:\work\sv_shushu\20250423\all_points_convex_hull_six_polygon.shp'
 polygons_gdf = gpd.read_file(output_filepath)
 print(polygons_gdf.shape)
 plot_df(polygons_gdf)
 
 # geo_df1 点数据
-input_file = r'e:\work\sv_shushu\谷歌\index\scaler.csv'
+input_file = r'e:\work\sv_shushu\所有指标\ss_scaler.csv'
 df = pd.read_csv(input_file)
 dst_crs = 'EPSG:4326'
 
@@ -42,7 +42,7 @@ points_gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.lon, df.lat), c
 
 print(points_gdf.shape)
 
-joined = gpd.sjoin(points_gdf, polygons_gdf, how="left", predicate='intersects')  
+joined = gpd.sjoin(points_gdf, polygons_gdf, how="left", predicate='intersects')
 print(joined.shape)
 print(joined.head())
 
@@ -63,7 +63,7 @@ for i in ['Annoying', 'Calm', 'Chaotic', 'Eventful', 'Human_sounds',
 joined_group = geo_df2.groupby('cellId', as_index=False).mean()
 
 # # 根据hexid分组，并计算每组的数量
-# joined_group = joined.groupby('cellId').size().reset_index(name='sv_counts')
+joined_group = joined.groupby('cellId').size().reset_index(name='sv_counts')
 print(joined_group.head())
 
 # 将 polygons_gdf 的几何信息合并到 joined_group 中
@@ -78,6 +78,7 @@ joined_group_gdf = gpd.GeoDataFrame(joined_group, geometry='geometry')
 
 # 打印前几行检查结果
 print(joined_group_gdf.head())
-joined_group_gdf.to_file(r'E:\work\sv_shushu\谷歌\index\six_sv_scaler.shp')
+# joined_group_gdf.to_file(r'E:\work\sv_shushu\所有指标\six_sv_mean.shp')
+joined_group_gdf.to_file(r'E:\work\sv_shushu\所有指标\six_sv_count.shp')
 plot_df(joined_group_gdf)
 

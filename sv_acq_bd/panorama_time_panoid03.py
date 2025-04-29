@@ -143,13 +143,12 @@ def main(folder_out_path):
 
 coordinate_point_category = 1
 # 分辨率 "3 - 2048*1096   4 - 4096*2048"
-resolution_ratio = 5
+resolution_ratio = 4
 
 if __name__ == '__main__':
     # 文件夹路径
-    # csv_path = r'e:\work\sv_quanzhou\泉州市_100m_unique_Spatial_Balance.csv' # 需要爬取的点
-    folder_out_path = r'C:\Users\user.wang\Pictures\sv_pan_work' # 保存街景文件
-    pano_id = r'09025200121708301004112942J'
+    folder_out_path = r'E:\work\全景测试' # 保存街景文件
+    pano_id = r'09025200121709141440010345K'
 
     # main(csv_path,folder_out_path)
     main(folder_out_path)

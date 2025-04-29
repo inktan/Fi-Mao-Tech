@@ -11,7 +11,7 @@ from tqdm import tqdm
 
 import shutil
 
-output_filepath = r'e:\work\sv_shushu\谷歌\index\six_sv_scaler.shp'
+output_filepath = r'e:\work\sv_shushu\所有指标\six_sv_mean_res10.shp'
 gdf = gpd.read_file(output_filepath)
 x = gdf.iloc[:, 1:-1]
 
@@ -25,7 +25,7 @@ labels = kmeans.labels_
 
 # 将聚类结果添加到原始DataFrame中
 gdf['cluster'] = labels
-file_name = f"e:\work\sv_shushu\谷歌\index\six_kmeans.shp"
+file_name = r"e:\work\sv_shushu\所有指标\six_sv_mean_res10_kmeans.shp"
 gdf.to_file(file_name, index=False)
 print(gdf['cluster'].value_counts())
 

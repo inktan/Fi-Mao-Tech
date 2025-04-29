@@ -1,5 +1,6 @@
 import geopandas as gpd
 from tqdm import tqdm  # 用于显示进度条
+import numpy as np
 
 columns = [
     'Join_Count', 
@@ -12,20 +13,26 @@ years = ['98','99','00',
 '01','02','03','04','05','06','07','08','09','10',
 '11','12','13','14','15','16','17','18','19','20',
 '22','23',]
+years = ['00','05','10','15','20','24']
 
 for year in years:
     print(year)
-
-    src_file = f'e:\\work\\sv_goufu\\MLP\\year{year}\\year{year}.shp'
+    src_file = f'e:\\work\\sv_goufu\\MLP2025042801\\year{year}.shp'
+    # src_file = f'e:\\work\\sv_goufu\\MLP\\year{year}\\year{year}.shp'
     # 读取数据源文件
     src_gdf = gpd.read_file(src_file)
 
     # 创建筛选条件 - 首先确保Join_Count > 0
     filter_condition = (src_gdf['Join_Count'] > 0)
 
+    numeric_cols = src_gdf.select_dtypes(include=[np.number]).columns.tolist()
+    # 检查是否有非数值列
+
     # 添加其他列的筛选条件（都大于-99999）
-    for col in columns[1:]:  # 跳过第一个Join_Count列
-        filter_condition &= (src_gdf[col] > -9999)
+    # for col in columns[1:]:  # 跳过第一个Join_Count列
+    #     filter_condition &= (src_gdf[col] > -9999)
+    for col in numeric_cols[1:]:  # 跳过第一个Join_Count列
+        filter_condition &= (src_gdf[col] > -0.1)
 
     # 应用筛选条件
     filtered_gdf = src_gdf[filter_condition]

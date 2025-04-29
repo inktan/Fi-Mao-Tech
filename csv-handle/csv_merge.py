@@ -7,7 +7,7 @@ csv_names = []
 accepted_formats = (".csv")
 
 csv_path_list =[
-    r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf',
+    r'E:\work\sv_shushu\所有指标\声景',
     ]
 for folder_path in csv_path_list:
     for root, dirs, files in os.walk(folder_path):
@@ -21,30 +21,31 @@ for folder_path in csv_path_list:
 # 初始化一个空的DataFrame用于存储合并后的数据
 combined_df = pd.DataFrame()
 
-# for file in csv_paths:
-#     df = pd.read_csv(file, encoding='GBK')
-#     need_columns = []
-#     for col in df.columns:
-#         if not col in combined_df.columns:
-#             need_columns.append(col)
-#     # 按照列方向进行排序
-#     combined_df = pd.concat([combined_df, df[need_columns]], axis=1)
+for file in csv_paths:
+    # df = pd.read_csv(file, encoding='GBK')
+    df = pd.read_csv(file)
+    need_columns = []
+    for col in df.columns:
+        if not col in combined_df.columns:
+            need_columns.append(col)
+    # 按照列方向进行排序
+    combined_df = pd.concat([combined_df, df[need_columns]], axis=1)
 
 # csv_paths=[
-#     r'e:\work\sv_songguo\ss_01.csv',
-#     r'e:\work\sv_songguo\ss_02.csv',
+#      r'e:\work\sv_shushu\所有指标\ss0101.csv',
+#      r'e:\work\sv_shushu\所有指标\ss0202.csv',
 # ]
-for file in csv_paths:
-    df = pd.read_csv(file)
+# for file in csv_paths:
+#     df = pd.read_csv(file)
     # df = pd.read_csv(file, encoding='GBK')
-    print(df.shape)
+    # print(df.shape)
     # 按照行方向进行排序
-    combined_df = pd.concat([combined_df, df])
+    # combined_df = pd.concat([combined_df, df])
 
 # combined_df = combined_df.drop_duplicates(subset='img_path')
 
 # # 保存合并后的 DataFrame 到新的 CSV 文件
-output_file_path = r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf.csv'
+output_file_path = r'e:\work\sv_shushu\所有指标\声景指标-推理预测01.csv'
 combined_df.to_csv(output_file_path, index=False)
 
 # print(f"合并后的文件已保存到 {output_file_path}")

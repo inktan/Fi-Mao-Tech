@@ -128,18 +128,18 @@ def main(csv_path,folder_out_path):
         # print(row)
         id = row['id']
         # osm_id = row['osm_id']
-        lng = row['longitude']
-        lat = row['latitude']
+        lng = row['lon']
+        lat = row['lat']
         # mame_2 = row['name_2']
         
         try:
             tar_lng_lat = coord_convert(lng,lat)
-            # print(tar_lng_lat)
+            print(tar_lng_lat)
             panoidInfos = get_panoid(tar_lng_lat[0],tar_lng_lat[1],str(lng)+'_'+str(lat), str(id),folder_out_path)
             timeLineIds = panoidInfos[0]
             heading = panoidInfos[1]
-            # print(timeLineIds)
-            # break
+            print(panoidInfos)
+            break
 
             panoramas = []
             for timeLineId in timeLineIds:
@@ -149,9 +149,9 @@ def main(csv_path,folder_out_path):
             # 使用列表推导式筛选month大于4小于10的实例
             # filtered_panoramas = [p for p in panoramas  if p.month in [6, 7, 8]]
             filtered_panoramas = panoramas
-            filtered_panoramas = [p for p in filtered_panoramas if 2015 < p.year < 2019]
-            if len(filtered_panoramas) == 0:
-                filtered_panoramas = panoramas
+            # filtered_panoramas = [p for p in filtered_panoramas if 2015 < p.year < 2019]
+            # if len(filtered_panoramas) == 0:
+            #     filtered_panoramas = panoramas
 
             # 是否过滤
             # filtered_panoramas = panoramas
@@ -193,13 +193,15 @@ def main(csv_path,folder_out_path):
             # with open(folder_out_path + '/error_data.csv', 'a', encoding='utf-8') as f:
             #     f.write(mistake)
 
-coordinate_point_category = 1
+# coordinate_point_category = 1
+# coordinate_point_category = 5
+coordinate_point_category = 6
 # 分辨率 "3 - 2048*1096   4 - 4096*2048"
 resolution_ratio = 4
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\sv_quanzhou\泉州市_100m_unique_Spatial_Balance.csv' # 需要爬取的点
-    folder_out_path = r'e:\work\sv_quanzhou\sv_pan01' # 保存街景文件
+    csv_path = r'e:\work\全景测试\points.csv'  # 需要爬取的点
+    folder_out_path = r'e:\work\sv_pan0'  # 保存街景文件
 
     main(csv_path,folder_out_path)

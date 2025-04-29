@@ -5,8 +5,10 @@ from matplotlib.cm import ScalarMappable
 import contextily as cx
 
 # 打开 Shapefile 文件
-shapefile_path = r'e:\work\sv_shushu\20250423\all_points_convex_hull_six_polygon.shp'  # 替换为你的 Shapefile 路径
-shapefile_path = r'e:\work\sv_jumaorizhi\xc_src_complexity_harmony.shp'
+# shapefile_path = r'e:\work\sv_shushu\20250423\all_points_convex_hull_six_polygon.shp'
+shapefile_path = r'e:\work\sv_shushu\20250423\all_points_convex_hull_six_polygon_res10.shp'
+# shapefile_path = r'e:\work\sv_shushu\所有指标\six_sv_count.shp'
+# shapefile_path = r'e:\work\sv_shushu\所有指标\six_sv_count_res10.shp'
 gdf = gpd.read_file(shapefile_path)
 gdf = gdf.copy()
 gdf = gdf.to_crs(epsg=3857)  # web mercator
@@ -30,5 +32,5 @@ cx.add_basemap(ax, crs=gdf.crs, source=cx.providers.CartoDB.Positron)
 # ax.set_title('sv_count Visualization with Gradient Green and Transparency')
 
 # plt.show()
-# plt.savefig(r'e:\work\sv_shushu\20250423\plot\Figure_1.png')
-plt.savefig(r'E:\work\sv_jumaorizhi\Figure_1.png')
+plt.savefig(r'e:\work\sv_shushu\20250423\plot\Figure_1_res10.png')
+# plt.savefig(r'E:\work\sv_jumaorizhi\Figure_1.png')

@@ -159,6 +159,6 @@ coordinate_point_category = 1
 resolution_ratio = 4
 
 if __name__ == '__main__':
-    csv_path = r'/home/ubuntu/SV_acq/泉州市_100m_unique_Spatial_Balance.csv'  # 需要爬取的点
-    folder_out_path = r'/home/ubuntu/SV_acq/sv_pan01'  # 保存街景文件
+    csv_path = r'e:\work\points.csv'  # 需要爬取的点
+    folder_out_path = r'e:\work\sv_pan0'  # 保存街景文件
     main(csv_path, folder_out_path, max_workers=30)  # 设置10个线程

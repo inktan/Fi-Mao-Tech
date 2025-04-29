@@ -103,11 +103,12 @@ def find_pth_files(folder_path):
     return pth_files
 
 if __name__ == "__main__":
-    predictn_folder = r"D:\SD\Ai\sv\街景_960_720"
-    pth_files = find_pth_files(r"D:\SD\Ai\sv\pth")
+    predictn_folder = r"E:\work\sv_shushu\sv_degree_960_720"
+    pth_files = find_pth_files(r"E:\work\sv_shushu\20250423\声景分析结果\机器学习模型")
     for model_path in pth_files:
         batch_size = 5
-        model = torch.load(model_path)
+        model = torch.load(model_path, weights_only=False)
+
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
         predict_loader = load_dataset(predictn_folder, batch_size)

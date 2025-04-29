@@ -1,45 +1,30 @@
 import geopandas as gpd
 
-def filter_points_by_y(input_shp, output_shp, y_threshold=22.176076):
-    """
-    过滤点SHP文件中Y坐标小于指定值的点
-    
-    参数:
-        input_shp: 输入点SHP文件路径
-        output_shp: 输出SHP文件路径
-        y_threshold: Y坐标阈值
-    """
-    try:
-        # 1. 读取SHP文件
-        gdf = gpd.read_file(input_shp)
-        
-        # 2. 检查是否是点图层
-        if not all(gdf.geometry.type == 'Point'):
-            print("错误: 输入文件不是点图层")
-            return False
-        
-        # 3. 提取Y坐标并过滤
-        gdf['y_coord'] = gdf.geometry.y
-        filtered_gdf = gdf[gdf['y_coord'] < y_threshold].copy()
-        
-        # 4. 检查是否有数据保留
-        if len(filtered_gdf) == 0:
-            print("警告: 没有点满足Y坐标小于{}的条件".format(y_threshold))
-            return False
-        
-        # 5. 保存结果
-        filtered_gdf.to_file(output_shp, encoding='utf-8')
-        print("成功保存过滤后的点数据到:", output_shp)
-        print("原始点数:", len(gdf), "| 过滤后点数:", len(filtered_gdf))
-        return True
-        
-    except Exception as e:
-        print("处理过程中发生错误:", e)
-        return False
+# 读取SHP文件
+input_shp = r"e:\work\sv_shushu\所有指标\six_sv_count_res10.shp"  # 替换为你的输入文件路径
+output_shp = r"e:\work\sv_shushu\所有指标\six_sv_count_res1001.shp"  # 替换为你想要的输出文件路径
 
-# 使用示例
-if __name__ == "__main__":
-    input_file = r"e:\work\sv_shushu\20250423\all_points01\all_points_Spatial_Balance.shp"  # 替换为你的输入SHP文件路径
-    output_file = r"e:\work\sv_shushu\20250423\all_points01\all_points_Spatial_Balance01.shp"  # 替换为你想要的输出路径
+gdf = gpd.read_file(input_shp)
+
+# 2. 定义要修改的属性字段名
+target_field = "sv_counts"  # 替换为你实际要修改的字段名
+
+# 3. 处理数据
+for index, row in gdf.iterrows():
+    # 获取几何体的中心点坐标（也可以使用其他方法获取代表性坐标）
+    centroid = row.geometry.centroid
+    latitude = centroid.y  # y坐标对应纬度
     
-    filter_points_by_y(input_file, output_file, y_threshold=22.176076)
+    # 判断纬度是否小于22.176076
+    if latitude < 22.165:
+        # 将目标字段值乘以4
+        if target_field in row:
+            try:
+                gdf.at[index, target_field] = float(row[target_field]) * 3.5
+            except (ValueError, TypeError):
+                print(f"警告：无法转换索引 {index} 的 {target_field} 值为数值")
+
+# 4. 保存为新的SHP文件
+gdf.to_file(output_shp)
+
+print(f"处理完成，结果已保存到 {output_shp}")

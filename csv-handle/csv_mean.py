@@ -1,13 +1,10 @@
 import pandas as pd
-category = 'wealthy'
 
-# 假设df是你的DataFrame，且有一个名为'id'的列
-# df = pd.read_csv(f'e:\work\sv_畫畫_20240923\csv_results\ss_0.csv')
+# 读取两个CSV文件
+df1 = pd.read_csv(r'e:\work\sv_shushu\所有指标\ss.csv')  # 替换为第一个文件路径
+result_df = df1.groupby(['lon', 'lat'], as_index=False).mean()
 
-# df = df.drop('id', axis=1)
+# 保存结果到新CSV文件
+result_df.to_csv(r'e:\work\sv_shushu\所有指标\ss_mean.csv', index=False)
 
-# 计算每个id的平均值
-# average_df = df.groupby("iamge_name").mean()
-
-# 保存为新的CSV文件
-# average_df.to_csv(f"e:\work\sv_畫畫_20240923\csv_results\ss_1.csv")
+print("处理完成，结果已保存为 averaged_result.csv")

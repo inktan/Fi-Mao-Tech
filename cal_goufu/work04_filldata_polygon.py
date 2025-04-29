@@ -4,7 +4,8 @@ from scipy.spatial import cKDTree
 from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
 
-def fill_polygon_missing_values(input_shp, output_shp, missing_value=-9999, power=2, k=5, min_non_missing=5):
+# def fill_polygon_missing_values(input_shp, output_shp, missing_value=-9999, power=2, k=5, min_non_missing=5):
+def fill_polygon_missing_values(input_shp, output_shp, missing_value=0, power=2, k=5, min_non_missing=5):
     """
     使用基于多边形质心的IDW方法填充所有数值型属性列的缺失值
     
@@ -20,8 +21,9 @@ def fill_polygon_missing_values(input_shp, output_shp, missing_value=-9999, powe
     gdf = gpd.read_file(input_shp)
     
     # 获取所有数值型列
-    # numeric_cols = gdf.select_dtypes(include=[np.number]).columns.tolist()
+    numeric_cols = gdf.select_dtypes(include=[np.number]).columns.tolist()
     numeric_cols = ['predicted_']
+    numeric_cols = ['Join_Count']
     
     if not numeric_cols:
         print("没有找到数值型属性列，无需处理")
@@ -80,10 +82,21 @@ def fill_polygon_missing_values(input_shp, output_shp, missing_value=-9999, powe
 
 # 使用示例
 
-input_shapefile = r'e:\work\sv_goufu\MLP\year21\汇总数据-面\year21_final_predictions.shp'
-output_shapefile = input_shapefile.replace('.shp', '_01.shp')
+# 4. 使用示例
+if __name__ == "__main__":
+    years = ['00','05','10','15','20','24']
 
-fill_polygon_missing_values(input_shapefile, output_shapefile)
+    for year in years:
+        print(year)
+        try:
+
+            input_shapefile = f'e:\\work\\sv_goufu\\MLP20250426\year{year}.shp'
+            output_shapefile = input_shapefile.replace('.shp', '_02.shp')
+
+            fill_polygon_missing_values(input_shapefile, output_shapefile)
+        except Exception as e:
+            print(f"处理过程中发生错误: {str(e)}")
+            continue
 
 
 
