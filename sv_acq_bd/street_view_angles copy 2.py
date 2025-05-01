@@ -164,9 +164,9 @@ def main(csv_path,folder_out_path):
     print(df.shape)
     count = 0
     for index, row in tqdm(df.iterrows()):
-        if index <= -7000:
+        if index <= 14000:
             continue
-        if index >7000:
+        if index >140000:
             continue
         print(df.shape[0],index)
 
@@ -209,8 +209,8 @@ def main(csv_path,folder_out_path):
             for i in [0]:
                 pano_id = filtered_panoramas[i].pano['ID']
                 timeLine = filtered_panoramas[i].pano['TimeLine']
-                # year = filtered_panoramas[i].year
-                # month = filtered_panoramas[i].month
+                year = filtered_panoramas[i].year
+                month = filtered_panoramas[i].month
 
                 # pic_path = folder_out_path +'/sv_degrees'  +'/'+id+'_' +str(lng)+'_' +str(lat)
                 pic_path = folder_out_path +'/sv_degrees'
