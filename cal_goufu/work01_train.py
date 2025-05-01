@@ -1,180 +1,119 @@
 import geopandas as gpd
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.pipeline import make_pipeline
-import numpy as np
-import geopandas as gpd
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.svm import SVR
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
-import geopandas as gpd
-import numpy as np
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_squared_error, r2_score
+import torch
+import torch.nn as nn
+import torch.optim as optim
 from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
-import warnings
+from sklearn.preprocessing import StandardScaler
+import numpy as np
 
-# 忽略警告信息
-warnings.filterwarnings('ignore')
+# 1. 读取SHP文件
+def read_shp_file(file_path):
+    """读取SHP文件并提取所需列"""
+    gdf = gpd.read_file(file_path)
+    
+    # 提取需要的列
+    X = gdf[['ylight', 'road2']].values
+    y = gdf['Join_Count'].values
+    
+    return X, y
 
-class RandomForestModel:
-    def __init__(self, n_estimators=100, random_state=42):
-        """
-        初始化随机森林回归模型
-        :param n_estimators: 树的数量
-        :param random_state: 随机种子
-        """
-        self.model = RandomForestRegressor(
-            n_estimators=n_estimators,
-            random_state=random_state,
-            oob_score=True,
-            n_jobs=-1  # 使用所有CPU核心
-        )
-        self.scaler = StandardScaler()
-        self.feature_importances_ = None
+# 2. 数据预处理
+def preprocess_data(X, y):
+    """数据预处理：标准化和划分训练测试集"""
+    # 标准化特征
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
     
-    def train(self, train_shp_path, test_size=0.2):
-        """训练随机森林回归模型"""
-        # 1. 读取训练数据
-        train_gdf = gpd.read_file(train_shp_path)
-        print("原始数据行数:", len(train_gdf))
-        print("训练数据列名:", train_gdf.columns)
-        
-        # 检查必要列是否存在
-        required_columns = ['Join_Count', 'road2', 'densitywa']
-        if not all(col in train_gdf.columns for col in required_columns):
-            raise ValueError("训练SHP文件中缺少所需的列")
-        
-        # 2. 删除含有NaN的行
-        train_gdf = train_gdf.dropna(subset=required_columns)
-        print("删除NaN后数据行数:", len(train_gdf))
-        if len(train_gdf) == 0:
-            raise ValueError("删除NaN后无有效数据可供训练")
-        
-        # 3. 准备数据
-        X = train_gdf[['road2', 'densitywa']].values
-        y = train_gdf['Join_Count'].values
-        
-        # 4. 数据归一化
-        X_normalized = self.scaler.fit_transform(X)
-        
-        # 5. 划分训练集和测试集
-        X_train, X_test, y_train, y_test = train_test_split(
-            X_normalized, y, test_size=test_size, random_state=42
-        )
-        
-        # 6. 训练模型
-        self.model.fit(X_train, y_train)
-        self.feature_importances_ = self.model.feature_importances_
-        
-        # 7. 评估模型
-        y_pred_train = self.model.predict(X_train)
-        y_pred_test = self.model.predict(X_test)
-        
-        mse_train = mean_squared_error(y_train, y_pred_train)
-        r2_train = r2_score(y_train, y_pred_train)
-        mse_test = mean_squared_error(y_test, y_pred_test)
-        r2_test = r2_score(y_test, y_pred_test)
-        
-        print("\n模型训练完成")
-        print(f"特征重要性(road2, densitywa): {self.feature_importances_}")
-        print(f"OOB Score: {self.model.oob_score_:.4f}")
-        print("\n训练集评估:")
-        print(f"MSE: {mse_train:.4f}, R²: {r2_train:.4f}")
-        print("\n测试集评估:")
-        print(f"MSE: {mse_test:.4f}, R²: {r2_test:.4f}")
-        
-        # 可视化特征重要性
-        # self._plot_feature_importance()
-        
-        # 可视化实际值 vs 预测值
-        # self._plot_actual_vs_predicted(y_train, y_pred_train, "训练集")
-        # self._plot_actual_vs_predicted(y_test, y_pred_test, "测试集")
+    # 转换为PyTorch张量
+    X_tensor = torch.FloatTensor(X_scaled)
+    y_tensor = torch.FloatTensor(y).view(-1, 1)  # 确保y是列向量
     
-    def _plot_feature_importance(self):
-        """绘制特征重要性图"""
-        plt.figure(figsize=(10, 5))
-        features = ['road2', 'densitywa']
-        plt.bar(features, self.feature_importances_)
-        plt.title('特征重要性')
-        plt.ylabel('重要性得分')
-        plt.show()
+    # 划分训练集和测试集
+    X_train, X_test, y_train, y_test = train_test_split(
+        X_tensor, y_tensor, test_size=0.2, random_state=42
+    )
     
-    def _plot_actual_vs_predicted(self, y_true, y_pred, title):
-        """绘制实际值 vs 预测值图"""
-        plt.figure(figsize=(10, 6))
-        plt.scatter(y_true, y_pred, alpha=0.5)
-        plt.plot([min(y_true), max(y_true)], [min(y_true), max(y_true)], 'k--', lw=2)
-        plt.xlabel('实际值')
-        plt.ylabel('预测值')
-        plt.title(f'{title} - 实际值 vs 预测值')
-        plt.grid(True)
-        plt.show()
-    
-    def predict_shp(self, predict_shp_path, output_shp_path):
-        """预测新SHP文件并添加预测列"""
-        if not hasattr(self.model, 'feature_importances_'):
-            raise ValueError("请先训练模型")
-        
-        # 1. 读取预测数据
-        predict_gdf = gpd.read_file(predict_shp_path)
-        print("\n预测数据原始行数:", len(predict_gdf))
-        print("预测数据列名:", predict_gdf.columns)
-        
-        # 检查必要列是否存在
-        required_columns = ['road2', 'densitywa']
-        if not all(col in predict_gdf.columns for col in required_columns):
-            raise ValueError("预测SHP文件中缺少所需的列")
-        
-        # 2. 删除含有NaN的行
-        predict_gdf = predict_gdf.dropna(subset=required_columns)
-        print("删除NaN后预测数据行数:", len(predict_gdf))
-        if len(predict_gdf) == 0:
-            raise ValueError("删除NaN后无有效数据可供预测")
-        
-        # 3. 准备预测数据
-        X_predict = predict_gdf[['road2', 'densitywa']].values
-        # X_predict_normalized = self.scaler.transform(X_predict)
-        X_predict_normalized = X_predict
-        
-        # 4. 进行预测
-        predictions = self.model.predict(X_predict_normalized)
-        
-        # 5. 添加预测列到GeoDataFrame
-        predict_gdf['predict'] = predictions
-        
-        # 6. 保存结果
-        predict_gdf.to_file(output_shp_path, encoding='utf-8')
-        print(f"\n预测完成，结果已保存到: {output_shp_path}")
-        
-        # 打印预测统计信息
-        print("\n预测结果统计:")
-        print(predict_gdf['predict'].describe())
-        
-        return predict_gdf
+    return X_train, X_test, y_train, y_test, scaler
 
-# 使用示例
+# 3. 定义PyTorch模型
+class RegressionModel(nn.Module):
+    """简单的回归神经网络模型"""
+    def __init__(self, input_size):
+        super(RegressionModel, self).__init__()
+        self.layer1 = nn.Linear(input_size, 64)
+        self.layer2 = nn.Linear(64, 32)
+        self.output = nn.Linear(32, 1)
+        self.relu = nn.ReLU()
+        
+    def forward(self, x):
+        x = self.relu(self.layer1(x))
+        x = self.relu(self.layer2(x))
+        x = self.output(x)
+        return x
+
+# 4. 训练模型
+def train_model(X_train, y_train, epochs=100, learning_rate=0.01):
+    """训练回归模型"""
+    input_size = X_train.shape[1]
+    model = RegressionModel(input_size)
+    
+    criterion = nn.MSELoss()
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    
+    for epoch in range(epochs):
+        # 前向传播
+        outputs = model(X_train)
+        loss = criterion(outputs, y_train)
+        
+        # 反向传播和优化
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        
+        if (epoch+1) % 10 == 0:
+            print(f'Epoch [{epoch+1}/{epochs}], Loss: {loss.item():.4f}')
+    
+    return model
+
+# 5. 评估模型
+def evaluate_model(model, X_test, y_test):
+    """评估模型性能"""
+    with torch.no_grad():
+        predictions = model(X_test)
+        mse = nn.MSELoss()(predictions, y_test)
+        print(f'Test MSE: {mse.item():.4f}')
+
+# 6. 主函数
+def main(year):
+    # 文件路径 - 替换为你的SHP文件路径
+    shp_file = f'e:\\work\\sv_goufu\\MLP20250428\\year{year}_valid_data.shp'
+    
+    # 1. 读取数据
+    X, y = read_shp_file(shp_file)
+    
+    # 2. 预处理数据
+    X_train, X_test, y_train, y_test, scaler = preprocess_data(X, y)
+    
+    # 3. 训练模型
+    print("开始训练模型...")
+    model = train_model(X_train, y_train, epochs=100, learning_rate=0.01)
+    
+    # 4. 评估模型
+    print("\n模型评估结果:")
+    evaluate_model(model, X_test, y_test)
+    
+    # 5. 保存模型
+    torch.save(model.state_dict(), f'e:\\work\\sv_goufu\\MLP20250428\\year{year}_regression_model.pth')
+    print("\n模型已保存为 e:\work\sv_goufu\MLP20250428\year24_regression_model.pth")
+    
+    # 如果需要，也可以保存scaler
+    import joblib
+    joblib.dump(scaler, f'e:\\work\\sv_goufu\\MLP20250428\\year{year}_scaler.pkl')
+    print("数据标准化器已保存为 e:\work\sv_goufu\MLP20250428\year24_scaler.pkl")
+
 if __name__ == "__main__":
-    # 初始化模型
-    rf_model = RandomForestModel(n_estimators=200)  # 可以调整树的数量
-    
-    # 训练模型
-    train_shp = r"e:\work\sv_goufu\MLP20250427\year20_01_train_valid_data.shp"  # 替换为训练SHP文件路径
-    rf_model.train(train_shp, test_size=0.2)  # 使用20%数据作为测试集
-    
-    # 进行预测
-    predict_shp = r"e:\work\sv_goufu\MLP20250427\year24_01.shp"  # 替换为预测SHP文件路径
-    output_shp = r"e:\work\sv_goufu\MLP20250427\year24_01_predicted_results.shp"  # 输出文件路径
+    years = ['00','05','10','15','20','24']
 
-    
-    # 执行预测并保存结果
-    result_gdf = rf_model.predict_shp(predict_shp, output_shp)
-    
-    # 打印前5个预测结果
-    print("\n前5个预测结果:")
-    print(result_gdf[['road2', 'densitywa', 'predict']].head())
-
-    
+    for year in years:
+        print(year)
+        main(year)

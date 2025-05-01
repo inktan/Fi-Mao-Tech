@@ -17,7 +17,7 @@ years = ['00','05','10','15','20','24']
 
 for year in years:
     print(year)
-    src_file = f'e:\\work\\sv_goufu\\MLP2025042801\\year{year}.shp'
+    src_file = f'e:\\work\\sv_goufu\\MLP20250428\\year{year}.shp'
     # src_file = f'e:\\work\\sv_goufu\\MLP\\year{year}\\year{year}.shp'
     # 读取数据源文件
     src_gdf = gpd.read_file(src_file)

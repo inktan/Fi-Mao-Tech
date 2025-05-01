@@ -1,7 +1,7 @@
 import geopandas as gpd
 import numpy as np
 
-def smooth_predicted_values(shp_path, output_path, field_name='predicted_', target_range=None):
+def smooth_predicted_values(shp_path, output_path, field_name='predict_', target_range=None):
     """
     对Shapefile中的预测值进行平滑处理，使其均匀分布在指定范围内，同时保持原始数据的梯度关系
     
@@ -64,8 +64,8 @@ for year, target_range in year_ranges.items():
     print(f"\n处理年份: 20{year}")
     try:
         # 设置路径
-        input_shp = f'e:\\work\\sv_goufu\\MLP2025042801\\year{year}_valid_data_with_predictions.shp'
-        output_shp = input_shp.replace('MLP2025042801', 'MLP202504280101').replace('valid_data_with_predictions.shp', '_smoothed.shp')
+        input_shp = f'e:\\work\\sv_goufu\\MLP20250428\\year{year}_03_predictions.shp'
+        output_shp = input_shp.replace('MLP20250428', 'MLP20250429').replace('_03_predictions.shp', '_smoothed.shp')
         
         # 执行平滑处理
         smooth_predicted_values(input_shp, output_shp, target_range=target_range)

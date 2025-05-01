@@ -4,8 +4,8 @@ from scipy.spatial import cKDTree
 from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
 
-# def fill_polygon_missing_values(input_shp, output_shp, missing_value=-9999, power=2, k=5, min_non_missing=5):
-def fill_polygon_missing_values(input_shp, output_shp, missing_value=0, power=2, k=5, min_non_missing=5):
+def fill_polygon_missing_values(input_shp, output_shp, missing_values=[-9999, np.nan], power=2, k=5, min_non_missing=5):
+# def fill_polygon_missing_values(input_shp, output_shp, missing_value=0, power=2, k=5, min_non_missing=5):
     """
     使用基于多边形质心的IDW方法填充所有数值型属性列的缺失值
     
@@ -22,8 +22,8 @@ def fill_polygon_missing_values(input_shp, output_shp, missing_value=0, power=2,
     
     # 获取所有数值型列
     numeric_cols = gdf.select_dtypes(include=[np.number]).columns.tolist()
-    numeric_cols = ['predicted_']
-    numeric_cols = ['Join_Count']
+    # numeric_cols = ['predicted_']
+    # numeric_cols = ['Join_Count']
     
     if not numeric_cols:
         print("没有找到数值型属性列，无需处理")
@@ -38,7 +38,7 @@ def fill_polygon_missing_values(input_shp, output_shp, missing_value=0, power=2,
     # 对每个数值列进行处理
     for col in tqdm(numeric_cols, desc="处理列"):
         # 找出当前列的缺失值位置
-        missing_mask = (gdf[col] == missing_value) | gdf[col].isna()
+        missing_mask = gdf[col].isin(missing_values) | gdf[col].isna()
         missing_indices = missing_mask[missing_mask].index.tolist()
         
         if not missing_indices:
@@ -90,7 +90,7 @@ if __name__ == "__main__":
         print(year)
         try:
 
-            input_shapefile = f'e:\\work\\sv_goufu\\MLP20250426\year{year}.shp'
+            input_shapefile = f'e:\\work\\sv_goufu\\MLP20250428\year{year}.shp'
             output_shapefile = input_shapefile.replace('.shp', '_02.shp')
 
             fill_polygon_missing_values(input_shapefile, output_shapefile)

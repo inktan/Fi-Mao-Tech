@@ -34,6 +34,7 @@ def preprocess_data(input_path):
 # lengthwa
 
     feature_cols = ['dem', 'ylight', 'ndvi','podu', 'population', 'road2', 'lengthwa']
+    feature_cols = ['ylight', 'road2']
     target_col = 'Join_Count'
     
     # 检查列是否存在
@@ -160,8 +161,8 @@ def save_artifacts(model, scaler, feature_cols, output_dir):
 # 主流程
 def main(year):
     # 输入输出路径
-    input_shp = f'e:\\work\\sv_goufu\\MLP2025042801\\year{year}_train_valid_data.shp'
-    output_dir = f'e:\\work\\sv_goufu\\MLP2025042801\\year{year}_models'
+    input_shp = f'e:\\work\\sv_goufu\\MLP20250428\\year{year}_train_valid_data.shp'
+    output_dir = f'e:\\work\\sv_goufu\\MLP20250428\\year{year}_models'
     
     # 1. 数据预处理
     X_train, X_test, y_train, y_test, scaler, feature_cols = preprocess_data(input_shp)

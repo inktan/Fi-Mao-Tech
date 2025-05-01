@@ -123,10 +123,10 @@ if __name__ == "__main__":
         try:
 
             # 设置路径
-            model_directory = f'e:\\work\\sv_goufu\\MLP2025042801\\year{year}_models'
+            model_directory = f'e:\\work\\sv_goufu\\MLP20250428\\year{year}_models'
 
             # model_directory = r'E:\work\sv_goufu\MLP\year21\models'
-            input_shapefile = f'E:\\work\\sv_goufu\\MLP2025042801\\year{year}_valid_data.shp'
+            input_shapefile = f'E:\\work\\sv_goufu\\MLP20250428\\year{year}_valid_data.shp'
             output_shapefile = input_shapefile.replace('.shp', '_with_predictions.shp')
             
             # 执行预测并保存

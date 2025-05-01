@@ -4,7 +4,7 @@ import numpy as np
 def smooth_predicted_values_accelerated(
     shp_path, 
     output_path, 
-    field_name='predicted_', 
+    field_name='predict_', 
     target_range=None,
     power=0.5  # 控制非线性程度，0.5表示平方根变换
 ):
@@ -14,7 +14,7 @@ def smooth_predicted_values_accelerated(
     参数:
         shp_path: 输入的Shapefile路径
         output_path: 输出Shapefile路径
-        field_name: 要平滑处理的字段名(默认为'predicted_')
+        field_name: 要平滑处理的字段名(默认为'predict_')
         target_range: 目标范围(元组形式，如(min, max))
         power: 非线性变换的幂指数（0< power <1，越小则小数值拉伸越强）
     """
@@ -79,8 +79,8 @@ for year, target_range in year_ranges.items():
     print(f"\n处理年份: 20{year}")
     try:
         # 设置路径
-        input_shp = f'e:\\work\\sv_goufu\\MLP2025042801\\year{year}_valid_data_with_predictions.shp'
-        output_shp = input_shp.replace('MLP2025042801', 'MLP202504280101').replace('valid_data_with_predictions.shp', '_smoothed.shp')
+        input_shp = f'e:\\work\\sv_goufu\\MLP20250428\\year{year}_02_predictions.shp'
+        output_shp = input_shp.replace('MLP20250428', 'MLP20250429').replace('_02_predictions.shp', '_smoothed.shp')
         
         # 执行非线性平滑处理，power参数控制非线性程度
         smooth_predicted_values_accelerated(

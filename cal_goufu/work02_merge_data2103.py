@@ -9,58 +9,28 @@ def merge_shp_data(year):
     # 数据源字典 {文件路径: 需要提取的列名}
     data_sources ={
         '00': {
-        r'e:\work\sv_goufu\datatrain\dem\点数据\dem.shp': 'dem',
         r'E:\work\sv_goufu\datatrain\lightyear\点数据\ylight00.shp': 'ylight',
-        r'E:\work\sv_goufu\datatrain\ndvi\点数据\00nd点.shp': 'ndvi',
-        r'e:\work\sv_goufu\datatrain\podu\点数据\shpod.shp': 'podu',
-        r'E:\work\sv_goufu\datatrain\population\点数据\00shpop.shp': 'population',
         r'E:\work\sv_goufu\datatrain\road2\点数据\road15.shp': 'road2',
-        r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh00.shp': 'lengthwa',
         },  
         '05': {
-        r'e:\work\sv_goufu\datatrain\dem\点数据\dem.shp': 'dem',
         r'E:\work\sv_goufu\datatrain\lightyear\点数据\ylight05.shp': 'ylight',
-        r'E:\work\sv_goufu\datatrain\ndvi\点数据\05nd点.shp': 'ndvi',
-        r'e:\work\sv_goufu\datatrain\podu\点数据\shpod.shp': 'podu',
-        r'E:\work\sv_goufu\datatrain\population\点数据\05shpop.shp': 'population',
         r'E:\work\sv_goufu\datatrain\road2\点数据\road15.shp': 'road2',
-        r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh05.shp': 'lengthwa',
         },  
         '10': {
-        r'e:\work\sv_goufu\datatrain\dem\点数据\dem.shp': 'dem',
         r'E:\work\sv_goufu\datatrain\lightyear\点数据\ylight10.shp': 'ylight',
-        r'E:\work\sv_goufu\datatrain\ndvi\点数据\10nd点.shp': 'ndvi',
-        r'e:\work\sv_goufu\datatrain\podu\点数据\shpod.shp': 'podu',
-        r'E:\work\sv_goufu\datatrain\population\点数据\10shpop.shp': 'population',
         r'E:\work\sv_goufu\datatrain\road2\点数据\road15.shp': 'road2',
-        r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh10.shp': 'lengthwa',
         },  
         '15': {
-        r'e:\work\sv_goufu\datatrain\dem\点数据\dem.shp': 'dem',
         r'E:\work\sv_goufu\datatrain\lightyear\点数据\ylight15.shp': 'ylight',
-        r'E:\work\sv_goufu\datatrain\ndvi\点数据\15nd点.shp': 'ndvi',
-        r'e:\work\sv_goufu\datatrain\podu\点数据\shpod.shp': 'podu',
-        r'E:\work\sv_goufu\datatrain\population\点数据\15shpop.shp': 'population',
         r'E:\work\sv_goufu\datatrain\road2\点数据\road15.shp': 'road2',
-        r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh15.shp': 'lengthwa',
         },  
         '20': {
-        r'e:\work\sv_goufu\datatrain\dem\点数据\dem.shp': 'dem',
         r'E:\work\sv_goufu\datatrain\lightyear\点数据\ylight20.shp': 'ylight',
-        r'E:\work\sv_goufu\datatrain\ndvi\点数据\20nd点.shp': 'ndvi',
-        r'e:\work\sv_goufu\datatrain\podu\点数据\shpod.shp': 'podu',
-        r'E:\work\sv_goufu\datatrain\population\点数据\20shpop.shp': 'population',
         r'E:\work\sv_goufu\datatrain\road2\点数据\road20.shp': 'road2',
-        r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh19.shp': 'lengthwa',
         },  
         '24': {
-        r'e:\work\sv_goufu\datatrain\dem\点数据\dem.shp': 'dem',
         r'E:\work\sv_goufu\datatrain\lightyear\点数据\ylight23.shp': 'ylight',
-        r'E:\work\sv_goufu\datatrain\ndvi\点数据\24nd点.shp': 'ndvi',
-        r'e:\work\sv_goufu\datatrain\podu\点数据\shpod.shp': 'podu',
-        r'E:\work\sv_goufu\datatrain\population\点数据\23shpop.shp': 'population',
         r'E:\work\sv_goufu\datatrain\road2\点数据\road25.shp': 'road2',
-        r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh22.shp': 'lengthwa',
         },  
     }
     
@@ -120,7 +90,7 @@ def merge_shp_data(year):
         print("正在保存合并后的文件...")
 
         # 输出文件路径
-        output_file = f'E:\\work\\sv_goufu\\MLP2025042801\\year{year}.shp'
+        output_file = f'E:\\work\\sv_goufu\\MLP20250428\\year{year}.shp'
         result_gdf.to_file(output_file)
         print(f"合并完成！结果已保存到: {output_file}")
         
@@ -143,6 +113,3 @@ if __name__ == "__main__":
     for year in years:
         print(year)
         merge_shp_data(year)
-
-
-
