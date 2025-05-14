@@ -166,8 +166,8 @@ def main(csv_path,folder_out_path):
     for index, row in tqdm(df.iterrows()):
         if index <= -7000:
             continue
-        if index >7000:
-            continue
+        # if index >7000:
+        #     continue
         print(df.shape[0],index)
 
         # 1、lat是“latitude”的缩写，纬度
@@ -224,8 +224,11 @@ def main(csv_path,folder_out_path):
                 option4 = (adjusted_90 - 180) % 360
                 adjusted_180 = min(option3, option4)
 
+                # for index, heading in enumerate([adjusted_90, adjusted_180]):
+                    # Id_ = Id*2 + index
                 for heading in [adjusted_90, adjusted_180]:
                     heading =round(heading, 1)
+
                     # print('heading:',heading)
                     # continue
                     # save_file_path = pic_path + '/' + str(count)+'_'+ str(id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
@@ -244,7 +247,7 @@ def main(csv_path,folder_out_path):
                     down_sv_bool = download_baidu_panorama(
                         save_path=save_file_path,
                         panoid=pano_id,
-                        fovy=125,
+                        fovy=90,
                         heading=heading,
                         pitch=0,
                         width=1000,
@@ -262,15 +265,15 @@ def main(csv_path,folder_out_path):
             # with open(folder_out_path + '/error_data.csv', 'a', encoding='utf-8') as f:
             #     f.write(mistake)
 
-# coordinate_point_category = 1
+coordinate_point_category = 1
 # coordinate_point_category = 5
-coordinate_point_category = 6
+# coordinate_point_category = 6
 # 分辨率 "3 - 2048*1096   4 - 4096*2048"
 resolution_ratio = 4
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'D:\work\sv\points_50m.csv'  # 需要爬取的点
-    folder_out_path = r'D:\work\sv\sv_degrees'  # 保存街景文件
+    csv_path = r'd:\work\sv\single_match_files.csv'  # 需要爬取的点
+    folder_out_path = r'D:\work\sv\sv_degrees01'  # 保存街景文件
 
     main(csv_path,folder_out_path)

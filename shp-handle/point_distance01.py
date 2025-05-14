@@ -70,7 +70,7 @@ def process_points(input_shp, output_shp, min_dist=-0.1, max_dist=50):
     # 6. 保存结果
     print("保存结果...")
     filtered_gdf.to_file(output_shp)
-    filtered_gdf.to_csv(output_shp.replace('.shp',r'.csv') , index=False)
+    filtered_gdf.to_csv(output_csv)
     
     print(f"处理完成 - 原始点数: {len(gdf)}, 处理后点数: {len(filtered_gdf)}, 删除点数: {len(to_remove)}")
 
@@ -78,6 +78,8 @@ def process_points(input_shp, output_shp, min_dist=-0.1, max_dist=50):
 if __name__ == "__main__":
 
     input_shp = r'e:\work\sv_momo\sv_20250512\street_network_50m_unique.shp'  # Replace with your shapefile path
+    input_shp = r'd:\work\sv\points_50m.shp'  # Replace with your shapefile path
     output_shp = input_shp.replace('.shp', '_Spatial_Balance.shp')
+    output_csv = input_shp.replace('.shp', '_Spatial_Balance.csv')
 
     process_points(input_shp, output_shp)

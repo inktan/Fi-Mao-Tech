@@ -2,7 +2,7 @@ import shutil
 from tqdm import tqdm
 import os  
   
-folder_path = r'E:\work\sv_quanzhou\sv_pan01'  
+folder_path = r'D:\work\sv\sv_degrees02'  
   
 try:
     if os.path.exists(folder_path):  
