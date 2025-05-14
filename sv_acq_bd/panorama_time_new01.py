@@ -114,11 +114,11 @@ def main(csv_path,folder_out_path):
     # df['name_2'] = df['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
 
     print(df.shape)
-    count = 0
+    # count = 0
     for index, row in tqdm(df.iterrows()):
-        # if index <= -45003:
+        # if index <= -20:
         #     continue
-        # if index >750000000:
+        # if index >20:
         #     continue
         print(df.shape[0],index)
 
@@ -126,20 +126,21 @@ def main(csv_path,folder_out_path):
         # 2、lng是“longitude”的缩写，经度
         # 中国的经纬度 经度范围:73°33′E至135°05′E。 纬度范围:3°51′N至53°33′N。
         # print(row)
-        id = row['id']
+        index = int(row['index'])
+        id = int(row['id'])
         # osm_id = row['osm_id']
-        lng = row['lon']
-        lat = row['lat']
+        lng = row['longitude']
+        lat = row['latitude']
         # mame_2 = row['name_2']
         
         try:
             tar_lng_lat = coord_convert(lng,lat)
-            print(tar_lng_lat)
+            # print(tar_lng_lat)
             panoidInfos = get_panoid(tar_lng_lat[0],tar_lng_lat[1],str(lng)+'_'+str(lat), str(id),folder_out_path)
             timeLineIds = panoidInfos[0]
             heading = panoidInfos[1]
-            print(panoidInfos)
-            break
+            # print(panoidInfos)
+            # break
 
             panoramas = []
             for timeLineId in timeLineIds:
@@ -167,12 +168,13 @@ def main(csv_path,folder_out_path):
                     os.makedirs(pic_path)
 
                 # save_file_path = pic_path + '/' + str(count)+'_'+ str(id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
-                save_file_path = pic_path + '/' + str(count)+'_' + str(id)+'_' +str(lng)+ '_'+str(lat)+ '_' + str(heading)+ '_' +timeLine+ '.jpg'
+                # save_file_path = pic_path + '/' +str(id)+'_' +str(lng)+ '_'+str(lat)+ '_' + str(heading)+ '_' +timeLine+ '.jpg'
+                save_file_path = pic_path + '/' +str(index)+'_'  +str(id)+'_' +str(lng)+ '_'+str(lat)+ '_' +timeLine+ '.jpg'
                 # save_file_path = pic_path + '/' + str(count)+'_'+ str(id)+ '_' +timeLine+ '.jpg'
-                print(save_file_path,'下载完成')
-                count+=1
-                print('count:',count)
-                break
+                # print(save_file_path,'下载完成')
+                # count+=1
+                # print('count:',count)
+                # break
 
                 if os.path.exists(save_file_path):
                     print(save_file_path,'已存在')
@@ -187,21 +189,21 @@ def main(csv_path,folder_out_path):
                 break
 
         except Exception as e:
+            print(f'error:{e}')
             continue
-            # print(f'error:{e}')
             # mistake = id + ',' + lng+','+lat + ',' + '\n'
             # with open(folder_out_path + '/error_data.csv', 'a', encoding='utf-8') as f:
             #     f.write(mistake)
 
-# coordinate_point_category = 1
+coordinate_point_category = 1
 # coordinate_point_category = 5
-coordinate_point_category = 6
+# coordinate_point_category = 6
 # 分辨率 "3 - 2048*1096   4 - 4096*2048"
-resolution_ratio = 4
+resolution_ratio = 3
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\全景测试\points.csv'  # 需要爬取的点
-    folder_out_path = r'e:\work\sv_pan0'  # 保存街景文件
+    csv_path = r'e:\work\sv_momo\sv_20250512\points.csv'  # 需要爬取的点
+    folder_out_path = r'e:\work\sv_momo\sv_20250512\sv_pan0'  # 保存街景文件
 
     main(csv_path,folder_out_path)

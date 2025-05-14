@@ -48,7 +48,7 @@ def extract_points(line, interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'e:\work\sv_quanzhou\泉州市.shp',
+    r'e:\work\sv_momo\sv_20250512\street_network.shp',
 ]
 
 for file_path in shape_files:
@@ -65,7 +65,7 @@ for file_path in shape_files:
     # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name', 'type', 'oneway', 'bridge', 'tunnel' ])
     # points_df = pd.DataFrame(columns=['id','osm_id', 'longitude', 'latitude', 'name_2'])
     points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude'])
-    interval = 100
+    interval = 50
     print(gdf.shape)
 
     # gdf['name_2'] = gdf['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
@@ -141,7 +141,7 @@ for file_path in shape_files:
     max_dist = interval
         
     # 使用批量查询提高性能
-    batch_size = 10000  # 根据内存调整
+    batch_size = 1000  # 根据内存调整
     for i in tqdm(range(0, len(coords), batch_size), desc="处理进度"):
         batch_indices = range(i, min(i + batch_size, len(coords)))
         # 查询所有点对，距离在max_dist以内的

@@ -1,1 +1,13 @@
-https://map.baidu.com/search/%E9%A1%BE%E6%9D%91%E5%85%AC%E5%9B%AD/@13513844.000000002,3655912.75,21z,87t?querytype=s&da_src=shareurl&wd=%E9%A1%BE%E6%9D%91%E5%85%AC%E5%9B%AD&c=179&src=0&pn=0&sug=0&l=13&b=(13351883,3508462;13406411,3537582)&from=webmap&biz_forward=%7B%22scaler%22:1,%22styles%22:%22pl%22%7D&device_ratio=1#panoid=84a9a3cdf10431f32fb96d58&panotype=inter&heading=263&pitch=0&l=21&tn=B_NORMAL_MAP&sc=0&newmap=1&shareurl=1&pid=0900030001170209145244390IN&iid=84a9a3cdf10431f32fb96d58&psp=%7B%22PanoIndoorPoiModule%22%3A%7B%22uid%22%3A%226f05dad67cfa52b640afe6be%22%7D%7D
+import pandas as pd
+
+input_file_path = r'e:\work\sv_momo\sv_20250512\street_network_50m_unique_Spatial_Balance.csv'
+output_file_path = r'e:\work\sv_momo\sv_20250512\points.csv'
+
+# 加载CSV文件
+df = pd.read_csv(input_file_path)
+
+# 在最左侧添加索引列
+df.insert(0, 'index', range(len(df)))
+
+# 保存修改后的CSV文件
+df.to_csv(output_file_path, index=False)

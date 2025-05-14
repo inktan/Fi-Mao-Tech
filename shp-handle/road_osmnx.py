@@ -5,11 +5,10 @@ from coord_convert import transform
 import matplotlib.pyplot as plt
 # 从google map量去的坐标为gcj-2，需要转为wgs84
 coords = [
-( 27.24446435598791  ,61.67978783208718  ),
-( 27.274580462071643 ,61.6827723121302    ),
-( 27.27906505568591  ,61.696585416621225 ),
-(27.24861661951954   ,61.69329905409698 ),
-(27.240540357417498  ,61.67955630136586  ),
+(120.1172977224243,30.28851773123559),
+(120.13669110872091,30.289839784863418),
+(120.1379159541712,30.276177704885466),
+(120.11801221560363,30.274943616897385),
 ]
 
 # 将 GCJ-02 坐标转换为 WGS84 坐标
@@ -33,6 +32,7 @@ G = ox.graph_from_polygon(polygon, network_type='all')
 gdf = ox.graph_to_gdfs(G, nodes=False)
 
 # 定义保存 SHP 文件的文件路径
-file_path = "E:\work\sv_aaalingnanlizhiwangge\street_network.shp"
+file_path = r"E:\work\sv_momo\street_network.shp"
 gdf.to_file(file_path)
+
 

@@ -1,30 +1,22 @@
 import geopandas as gpd
-import pandas as pd
 
-# 1. 读取SHP文件
-shp_file_path = r'e:\work\sv_daxiangshuaishuai\StreetViewSampling\18_SZParks_300_Rd.shp'  # 替换为你的SHP文件路径
-gdf = gpd.read_file(shp_file_path, encoding='latin1')
-gdf['name_2'] = gdf['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
+# 1. 读取原始 SHP 文件
+input_shp = r"f:\立方数据\202405更新_2024年省市县三级行政区划数据（审图号：GS（2024）0650号）\shp格式的数据（调整过行政区划代码，补全省市县信息）\县.shp"  # 替换为你的输入文件路径
+gdf = gpd.read_file(input_shp)
 
-# 2. 检查name_2列是否存在
-if 'name_2' not in gdf.columns:
-    print("错误：SHP文件中没有'name_2'列")
-    print("可用列名：", gdf.columns.tolist())
-else:
-    # 3. 获取每个唯一值的第一行数据（可改为其他选择逻辑）
-    unique_samples = gdf.drop_duplicates(subset=['name_2'], keep='first')
-    
-    # 4. 保存为CSV（不保存几何列）
-    output_csv = r'E:\work\sv_daxiangshuaishuai\StreetViewSampling\unique_name_2_samples.csv'
-    
-    # 4.1 方法一：保存所有属性列（排除几何列）
-    unique_samples.drop(columns='geometry').to_csv(output_csv, index=False, encoding='utf-8-sig')
-    
-    # 4.2 方法二：只保存name_2和相关列（示例）
-    # selected_cols = ['name_2', 'other_col1', 'other_col2']  # 选择需要的列
-    # unique_samples[selected_cols].to_csv(output_csv, index=False, encoding='utf-8-sig')
-    
-    print(f"提取完成，共找到 {len(unique_samples)} 个唯一值")
-    print(f"结果已保存到: {output_csv}")
-    print("\n示例数据：")
-    print(unique_samples.head().drop(columns='geometry'))
+# 2. 设置筛选条件
+target_counties = ["西湖区", "上城区", "拱墅区","滨江区"]
+target_city = "杭州市"
+
+# 3. 多条件筛选（县名在指定列表中且市名为杭州市）
+# 注意：字段名'县名'和'市名'需要根据实际数据调整
+filtered_gdf = gdf[
+    (gdf['县名'].isin(target_counties)) & 
+    (gdf['市名'] == target_city)
+]
+
+# 4. 保存为新的 SHP 文件
+output_shp = r"e:\work\sv_momo\sv_20250512\sv_20250512.shp"  # 输出文件路径
+filtered_gdf.to_file(output_shp, encoding='utf-8')
+
+print(f"筛选完成，共找到 {len(filtered_gdf)} 条记录，已保存到 {output_shp}")

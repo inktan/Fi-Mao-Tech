@@ -6,7 +6,7 @@ csv_names = []
 accepted_formats = (".csv")
 
 csv_path_list =[
-    r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf',
+    # r'F:\work\sv_ran\ss_rgb_fisheye_shp\sv_points_surrounding_pd_pf',
     ]
 for folder_path in csv_path_list:
     for root, dirs, files in os.walk(folder_path):
@@ -17,7 +17,7 @@ for folder_path in csv_path_list:
                 csv_names.append(file)
                 
 csv_paths = [
-    r'e:\work\sv_shushu\所有指标\ss.csv'
+    r'e:\work\sv_momo\sv_20250512\points.csv'
     ]
 
 total_rows = 0
