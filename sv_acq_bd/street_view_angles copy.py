@@ -224,13 +224,16 @@ def main(csv_path,folder_out_path):
                 option4 = (adjusted_90 - 180) % 360
                 adjusted_180 = min(option3, option4)
 
+                # for index, heading in enumerate([adjusted_90, adjusted_180]):
+                    # Id_ = Id*2 + index
                 for heading in [adjusted_90, adjusted_180]:
                     heading =round(heading, 1)
+
                     # print('heading:',heading)
                     # continue
                     # save_file_path = pic_path + '/' + str(count)+'_'+ str(id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
                     save_file_path = pic_path + '/' + str(Id)+'_' + str(ORIG_FID)+'_'+str(lng)+ '_'+str(lat)+ '_' + str(heading)+ '_' +timeLine+ '.jpg'
-                    # save_file_path = pic_path + '/' + str(count)+'_'+ str(ORIG_FID)+ '_' +timeLine+ '.jpg'
+                        # save_file_path = pic_path + '/' + str(count)+'_'+ str(ORIG_FID)+ '_' +timeLine+ '.jpg'
                     # print(save_file_path,'下载完成')
                     # count+=1
                     # print('count:',count)
@@ -244,7 +247,7 @@ def main(csv_path,folder_out_path):
                     down_sv_bool = download_baidu_panorama(
                         save_path=save_file_path,
                         panoid=pano_id,
-                        fovy=125,
+                        fovy=90,
                         heading=heading,
                         pitch=0,
                         width=1000,
@@ -264,13 +267,13 @@ def main(csv_path,folder_out_path):
 
 # coordinate_point_category = 1
 # coordinate_point_category = 5
-coordinate_point_category = 6
+coordinate_point_category = 1
 # 分辨率 "3 - 2048*1096   4 - 4096*2048"
 resolution_ratio = 4
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'D:\work\sv\points_50m.csv'  # 需要爬取的点
+    csv_path = r'd:\work\sv\points_50m.csv'  # 需要爬取的点
     folder_out_path = r'D:\work\sv\sv_degrees'  # 保存街景文件
 
     main(csv_path,folder_out_path)
