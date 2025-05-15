@@ -116,8 +116,8 @@ def download_images(soup, img_dir, headers, project_name):
 
 # 主程序
 if __name__ == "__main__":
-    csv_path = r'e:\ghzy_hangzhou\project_data_page_1.csv'
-    base_output_dir = r"E:\ghzy_hangzhou\project_data"
+    csv_path = r'd:\ghzy_hangzhou\project_data_page_1.csv'
+    base_output_dir = r"D:\ghzy_hangzhou\project_data"
     
     try:
         df = pd.read_csv(csv_path)
@@ -133,7 +133,7 @@ if __name__ == "__main__":
         for _, row in df.iterrows():
             if process_project_data(row, base_output_dir):
                 success_count += 1
-                break
+                # break
         
         print(f"\n处理完成! 成功处理 {success_count}/{len(df)} 个项目")
     except Exception as e:

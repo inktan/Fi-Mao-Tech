@@ -54,6 +54,6 @@ def extract_data_with_regex(url, output_csv):
 number_of_pages = 1
 for page in range(1, number_of_pages + 1):
     # 构造URL
-    url = f"http://ghzy.hangzhou.gov.cn/col/col1228968050/index.html?uid=6897088"
+    url = f"http://ghzy.hangzhou.gov.cn/col/col1228968050/index.html"
     output_csv = f"project_data_page_{page}.csv"
     extract_data_with_regex(url, output_csv)
