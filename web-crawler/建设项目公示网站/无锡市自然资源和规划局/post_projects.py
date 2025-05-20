@@ -88,10 +88,10 @@ def make_pudong_gov_request():
                     project_dir = os.path.join(base_output_dir, safe_dirname)
                     
                     path = Path(project_dir)
-                    # if path.exists() and path.is_dir():
-                        # print(f"文件夹 {project_dir} 已存在，跳过处理")
+                    if path.exists() and path.is_dir():
+                        print(f"文件夹 {project_dir} 已存在，跳过处理")
                         # return True  # 或者 continue 如果在循环中
-                        # continue
+                        continue
 
                     os.makedirs(project_dir, exist_ok=True)
                     
@@ -101,13 +101,13 @@ def make_pudong_gov_request():
                     os.makedirs(img_dir, exist_ok=True)
                     
                     full_url = r'https://zrzy.wuxi.gov.cn' + project['url']
-                    extract_project_info(full_url, output_file)
+                    extract_project_info(full_url,project_dir, output_file)
 
     except requests.exceptions.RequestException as e:
         print(f"请求失败: {e}")
         return None
 
-def extract_project_info(url, output_file):
+def extract_project_info(url, project_dir, output_file):
     """提取项目信息并下载图片"""
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -131,6 +131,14 @@ def extract_project_info(url, output_file):
         print("未找到id='Zoom'的标签")
         return False
 
+    # 获取所有文本内容（去除多余空白）
+    content = content_div.get_text(separator='\n', strip=True)
+    # 保存到txt文件
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write(content)
+    
+    print(f"内容已保存到 {output_file}")
+
     # 初始化计数器
     image_counter = 1
     pdf_counter = 1
@@ -140,7 +148,7 @@ def extract_project_info(url, output_file):
     links = content_div.find_all('a', href=True)
 
     for link in links:
-        file_url = urljoin(r'https://zrzy.wuxi.gov.cn' + , link['href'])
+        file_url = r'https://zrzy.wuxi.gov.cn' + link['href']
         
         try:
             # 获取文件
@@ -166,18 +174,18 @@ def extract_project_info(url, output_file):
                 image_counter += 1
             elif ext == '.pdf':
                 # PDF 文件保持原名
-                new_filename = filename
+                new_filename = link['title']
                 pdf_counter += 1
             elif ext in ('.doc', '.docx'):
                 # Word 文件保持原名
-                new_filename = filename
+                new_filename = link['title']
                 doc_counter += 1
             else:
                 # 其他类型文件保持原名
-                new_filename = filename
+                new_filename = link['title']
             
             # 保存文件
-            save_path = os.path.join(save_dir, new_filename)
+            save_path = os.path.join(project_dir, new_filename)
             with open(save_path, 'wb') as f:
                 for chunk in response.iter_content(1024):
                     f.write(chunk)
@@ -186,6 +194,8 @@ def extract_project_info(url, output_file):
             
         except Exception as e:
             print(f"下载 {file_url} 失败: {e}")
+
+
 # 使用示例
 if __name__ == "__main__":
     

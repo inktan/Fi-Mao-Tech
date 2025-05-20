@@ -1,9 +1,9 @@
 import csv
 
 # 输入和输出文件路径
-input_file = r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_02-_.csv'
+input_file = r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_04-_.csv'
 
-output_file = r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_03-_.csv'
+output_file = r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_05-_.csv'
 
 with open(input_file, mode='r', encoding='utf-8') as infile, \
      open(output_file, mode='w', encoding='utf-8', newline='') as outfile:
@@ -17,9 +17,9 @@ with open(input_file, mode='r', encoding='utf-8') as infile, \
     
     for row in reader:
         # 分割id列并保留最后一项
-        if 'id' in row and row['id']:
-            parts = row['id'].split('\\')
-            row['id'] = parts[-1]  # 取最后一部分
+        if 'date' in row and row['date']:
+            parts = row['date'].split('.')
+            row['date'] = parts[0]  # 取最后一部分
         
         writer.writerow(row)
 
