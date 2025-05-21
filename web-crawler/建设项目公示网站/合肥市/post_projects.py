@@ -47,10 +47,10 @@ def make_pudong_gov_request(url):
                 safe_dirname = create_safe_dirname(project_name, publish_date)
                 project_dir = os.path.join(base_output_dir, safe_dirname)
                 path = Path(project_dir)
-                if path.exists() and path.is_dir():
-                    print(f"文件夹 {project_dir} 已存在，跳过处理")
+                # if path.exists() and path.is_dir():
+                #     print(f"文件夹 {project_dir} 已存在，跳过处理")
                     # return True  # 或者 continue 如果在循环中
-                    continue
+                    # continue
 
                 os.makedirs(project_dir, exist_ok=True)
 
@@ -90,7 +90,6 @@ def make_pudong_gov_request(url):
                         
                     except Exception as e:
                         print(f"下载 {file_url} 失败: {e}")
-
 
         except Exception as e:
             print(f"发生错误: {e}")
