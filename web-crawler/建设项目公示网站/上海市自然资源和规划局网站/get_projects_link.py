@@ -89,6 +89,6 @@ for page in range(1, number_of_pages + 1):
         # 第一页的URL
         url = r"https://ghzyj.sh.gov.cn/gszqyj/index.html"
 
-    output_csv = f"E:\\建设项目公示信息\\上海\\上海市\\建设项目公示信息表_2025.csv"
+    output_csv = f"Y:\\GOA-项目公示数据\\建设项目公示信息\\上海\\上海市\\建设项目公示信息表_2025.csv"
     extract_project_info(url, output_csv)
     # break

@@ -95,7 +95,8 @@ def extract_project_info(url,output_csv):
 # 使用示例
 for page in [0,140,139,138,137,136,135,134,133,132,131]:
     url = f"https://zwgk.shmh.gov.cn/mh-xxgk-cms/website/mh_xxgk/xxgk_ghj_ywxx_ghglgs/List/list_{page}.htm"
+    print(url)
 
-    output_csv = f"E:\\建设项目公示信息\\上海\\闵行区\\建设项目公示信息表_2025.csv"
+    output_csv = f"Y:\\GOA-项目公示数据\\建设项目公示信息\\上海\\闵行区\\建设项目公示信息表_2025.csv"
     extract_project_info(url, output_csv)
     # break

@@ -6,6 +6,16 @@ from urllib.parse import urljoin
 import re
 from pathlib import Path
 
+def get_deepest_dirs(root_dir):
+    """获取所有嵌套最底层的文件夹路径（没有子文件夹的文件夹）"""
+    deepest_dirs = set()
+
+    for dirpath, dirnames, filenames in os.walk(root_dir):
+        if not dirnames:  # 如果没有子文件夹，说明是底层文件夹
+            dir_name = os.path.basename(dirpath)  # 获取文件夹名（不含路径）
+            deepest_dirs.add(dir_name)
+
+    return deepest_dirs
 def create_safe_dirname(project_name, publish_date):
     """创建安全的文件夹名称"""
     # 移除特殊字符
@@ -20,6 +30,13 @@ def process_project_data(row, base_output_dir):
     # 创建项目特定文件夹
     project_name = row['项目名称']
     publish_date = row['发布日期']
+    
+    root_directory = r"Y:\GOA-项目公示数据\建设项目公示信息\上海\闵行区"  # 替换为你的目标文件夹路径
+    deepest_dir_names = get_deepest_dirs(root_directory)
+
+    if project_name in deepest_dir_names:
+        print(f"'{project_name}' 已存在，跳过处理")
+        return False
     
     try:
         safe_dirname = create_safe_dirname(project_name, publish_date)
@@ -132,8 +149,8 @@ def download_pdf_attachments(soup, save_dir):
 
 # 主程序
 if __name__ == "__main__":
-    csv_path = r'E:\建设项目公示信息\上海\闵行区\建设项目公示信息表_2025.csv'
-    base_output_dir = r"E:\建设项目公示信息\上海\闵行区\未分类项目"
+    csv_path = r'Y:\GOA-项目公示数据\建设项目公示信息\上海\闵行区\建设项目公示信息表_2025.csv'
+    base_output_dir = r"Y:\GOA-项目公示数据\建设项目公示信息\上海\闵行区\未分类项目"
     
     try:
         df = pd.read_csv(csv_path)
