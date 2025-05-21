@@ -16,6 +16,9 @@ def get_deepest_dirs(root_dir):
             deepest_dirs.add(dir_name)
 
     return deepest_dirs
+root_directory = r"Y:\GOA-项目公示数据\建设项目公示信息\上海\闵行区"  # 替换为你的目标文件夹路径
+deepest_dir_names = get_deepest_dirs(root_directory)
+
 def create_safe_dirname(project_name, publish_date):
     """创建安全的文件夹名称"""
     # 移除特殊字符
@@ -30,23 +33,21 @@ def process_project_data(row, base_output_dir):
     # 创建项目特定文件夹
     project_name = row['项目名称']
     publish_date = row['发布日期']
-    
-    root_directory = r"Y:\GOA-项目公示数据\建设项目公示信息\上海\闵行区"  # 替换为你的目标文件夹路径
-    deepest_dir_names = get_deepest_dirs(root_directory)
-
-    if project_name in deepest_dir_names:
-        print(f"'{project_name}' 已存在，跳过处理")
-        return False
-    
+        
     try:
         safe_dirname = create_safe_dirname(project_name, publish_date)
+
+        if safe_dirname in deepest_dir_names:
+            print(f"'{project_name}' 已存在，跳过处理")
+            return False
+        
         project_dir = os.path.join(base_output_dir, safe_dirname)
         
         path = Path(project_dir)
         if path.exists() and path.is_dir():
             print(f"文件夹 {project_dir} 已存在，跳过处理")
             return True  # 或者 continue 如果在循环中
-
+        
         os.makedirs(project_dir, exist_ok=True)
         
         # 设置输出文件路径

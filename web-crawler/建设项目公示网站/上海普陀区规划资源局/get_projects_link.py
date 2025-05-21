@@ -60,7 +60,7 @@ def extract_project_info(url,output_csv):
             except (ValueError, IndexError):
                 year = 0  # 日期格式不符合预期
             
-            if title not in existing_links and year >= 2025:
+            if title not in existing_links and year >= 2025 and '住宅加装电梯' not in title and '公示已到期' not in title:
                 new_data.append({
                     '项目名称': title,
                     '发布日期': clean_date,
@@ -102,6 +102,6 @@ for page in range(1, number_of_pages + 1):
         # 第一页的URL
         url = r"https://www.shpt.gov.cn/gtj-zfbm/fangan-gtj/index.html"
 
-    output_csv = f"E:\\建设项目公示信息\\上海\\普陀区\\建设项目公示信息表_2025.csv"
+    output_csv = f"Y:\\GOA-项目公示数据\\建设项目公示信息\\上海\\普陀区\\建设项目公示信息表_2025.csv"
     extract_project_info(url, output_csv)
     # break

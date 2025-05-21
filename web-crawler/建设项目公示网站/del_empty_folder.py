@@ -68,6 +68,12 @@ def find_and_remove_expired_folders(root_dir, keyword="公示已到期"):
                     shutil.rmtree(dir_path)  # 删除整个文件夹及其内容
                 except Exception as e:
                     print(f"删除失败 {dir_path}: {e}")
+            if is_bottom_level and '住宅加装电梯' in dir_name:
+                try:
+                    print(f"删除文件夹: {dir_path}")
+                    shutil.rmtree(dir_path)  # 删除整个文件夹及其内容
+                except Exception as e:
+                    print(f"删除失败 {dir_path}: {e}")
 
 # 使用示例
 if __name__ == "__main__":

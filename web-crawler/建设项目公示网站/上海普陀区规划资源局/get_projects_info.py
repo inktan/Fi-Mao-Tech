@@ -6,6 +6,19 @@ from urllib.parse import urljoin
 import re
 from pathlib import Path
 
+def get_deepest_dirs(root_dir):
+    """获取所有嵌套最底层的文件夹路径（没有子文件夹的文件夹）"""
+    deepest_dirs = set()
+
+    for dirpath, dirnames, filenames in os.walk(root_dir):
+        if not dirnames:  # 如果没有子文件夹，说明是底层文件夹
+            dir_name = os.path.basename(dirpath)  # 获取文件夹名（不含路径）
+            deepest_dirs.add(dir_name)
+
+    return deepest_dirs
+root_directory = r"Y:\GOA-项目公示数据\建设项目公示信息\上海\普陀区"  # 替换为你的目标文件夹路径
+deepest_dir_names = get_deepest_dirs(root_directory)
+
 def create_safe_dirname(project_name, publish_date):
     """创建安全的文件夹名称"""
     # 移除特殊字符
@@ -23,6 +36,11 @@ def process_project_data(row, base_output_dir):
     
     try:
         safe_dirname = create_safe_dirname(project_name, publish_date)
+        
+        if safe_dirname in deepest_dir_names:
+            print(f"'{project_name}' 已存在，跳过处理")
+            return False
+        
         project_dir = os.path.join(base_output_dir, safe_dirname)
         
         path = Path(project_dir)
@@ -94,7 +112,7 @@ def download_imgs(headers,content_div, save_dir):
     img_tags = content_div.find_all('img')
     if not img_tags:
         print("未找到任何图片")
-        return (os.path.abspath(text_filename), 0)
+        return
     
     print(f"找到 {len(img_tags)} 张图片")
     downloaded_images = 0
@@ -128,8 +146,8 @@ def download_imgs(headers,content_div, save_dir):
 
 # 主程序
 if __name__ == "__main__":
-    csv_path = r'E:\建设项目公示信息\上海\普陀区\建设项目公示信息表_2025.csv'
-    base_output_dir = r"E:\建设项目公示信息\上海\普陀区\未分类项目"
+    csv_path = r'Y:\GOA-项目公示数据\建设项目公示信息\上海\普陀区\建设项目公示信息表_2025.csv'
+    base_output_dir = r"Y:\GOA-项目公示数据\建设项目公示信息\上海\普陀区\未分类项目"
     
     try:
         df = pd.read_csv(csv_path)
