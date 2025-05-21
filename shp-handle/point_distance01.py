@@ -3,8 +3,9 @@ import numpy as np
 from scipy.spatial import cKDTree
 import pyproj
 from tqdm import tqdm  # 用于进度条显示
-
-def process_points(input_shp, output_shp, min_dist=-0.1, max_dist=50):
+import glob
+import os
+def process_points(input_shp,output_shp,output_csv):
     """
     处理点数据，删除距离其他点在0.1m到50m之间的点
     
@@ -41,6 +42,7 @@ def process_points(input_shp, output_shp, min_dist=-0.1, max_dist=50):
     to_remove = set()
     
     # 使用批量查询提高性能
+    max_dist = 15  # 最大距离阈值(米)
     batch_size = 1000  # 根据内存调整
     for i in tqdm(range(0, len(coords), batch_size), desc="处理进度"):
         batch_indices = range(i, min(i + batch_size, len(coords)))
@@ -58,7 +60,7 @@ def process_points(input_shp, output_shp, min_dist=-0.1, max_dist=50):
                     continue
                     
                 dist = np.linalg.norm(coords[idx] - coords[j])
-                if min_dist < dist < max_dist:
+                if -0.1 < dist < max_dist:
                     # 删除其中一个点(这里选择删除索引较大的)
                     to_remove.add(j)
     
@@ -76,10 +78,18 @@ def process_points(input_shp, output_shp, min_dist=-0.1, max_dist=50):
 
 # 使用示例
 if __name__ == "__main__":
+        
+    folder_path = r'E:\work\sv_zhaolu\roads'  # 替换为你的文件夹路径
+    shape_files = glob.glob(os.path.join(folder_path, '*_unique.shp'))
 
-    input_shp = r'e:\work\sv_momo\sv_20250512\street_network_50m_unique.shp'  # Replace with your shapefile path
-    input_shp = r'd:\work\sv\points_50m.shp'  # Replace with your shapefile path
-    output_shp = input_shp.replace('.shp', '_Spatial_Balance.shp')
-    output_csv = input_shp.replace('.shp', '_Spatial_Balance.csv')
+    # shape_files=[
+    #     r'e:\work\sv_momo\sv_20250512\street_network.shp',
+    # ]
 
-    process_points(input_shp, output_shp)
+    for file_path in shape_files:
+        print(file_path)
+
+        output_shp = file_path.replace('_unique.shp', '_unique_Spatial_Balance.shp')
+        output_csv = file_path.replace('_unique.shp', '_unique_Spatial_Balance.csv')
+
+        process_points(file_path, output_shp,output_csv)

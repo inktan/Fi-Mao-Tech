@@ -44,12 +44,12 @@ def extract_points(line, interval):
     return points
 
 
-# folder_path = r'F:\立方数据\2025年道路数据\【立方数据学社】武汉市'  # 替换为你的文件夹路径
-# shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
+folder_path = r'E:\work\sv_zhaolu\roads'  # 替换为你的文件夹路径
+shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
-shape_files=[
-    r'e:\work\sv_momo\sv_20250512\street_network.shp',
-]
+# shape_files=[
+#     r'e:\work\sv_momo\sv_20250512\street_network.shp',
+# ]
 
 for file_path in shape_files:
     print(file_path)
@@ -65,7 +65,7 @@ for file_path in shape_files:
     # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name', 'type', 'oneway', 'bridge', 'tunnel' ])
     # points_df = pd.DataFrame(columns=['id','osm_id', 'longitude', 'latitude', 'name_2'])
     points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude'])
-    interval = 50
+    interval = 20
     print(gdf.shape)
 
     # gdf['name_2'] = gdf['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
@@ -127,55 +127,6 @@ for file_path in shape_files:
     if type(points_df) == pd.core.frame.DataFrame:
         points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude, crs='EPSG:4326'))
     points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_unique.shp') , index=False)
-    
-    # 3. 使用KDTree进行高效空间查询
-    print("构建空间索引...")
-    coords = np.array([(geom.x, geom.y) for geom in points_df.geometry])
-    tree = cKDTree(coords)
-    
-    # 4. 找出需要删除的点
-    print("查找邻近点...")
-    to_remove = set()
-
-    min_dist = -0.1
-    max_dist = interval
-        
-    # 使用批量查询提高性能
-    batch_size = 1000  # 根据内存调整
-    for i in tqdm(range(0, len(coords), batch_size), desc="处理进度"):
-        batch_indices = range(i, min(i + batch_size, len(coords)))
-        # 查询所有点对，距离在max_dist以内的
-        neighbors = tree.query_ball_point(coords[batch_indices], r=max_dist, return_sorted=True)
-        
-        for idx, neighbors_list in zip(batch_indices, neighbors):
-            # 跳过已经标记要删除的点
-            if idx in to_remove:
-                continue
-                
-            # 检查每个邻居
-            for j in neighbors_list:
-                if j <= idx:  # 避免重复检查
-                    continue
-                    
-                dist = np.linalg.norm(coords[idx] - coords[j])
-                if min_dist < dist < max_dist:
-                    # 删除其中一个点(这里选择删除索引较大的)
-                    to_remove.add(j)
-    
-    # 5. 创建过滤后的GeoDataFrame
-    print("创建结果数据集...")
-    mask = [i not in to_remove for i in range(len(points_df))]
-    points_df = points_df[mask]
-    
-    points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_unique_Spatial_Balance.csv') , index=False)
-    # 检查 result_gdf 的类型
-    print(type(points_df))
-    # 如果 result_gdf 是 DataFrame，则将其转换为 GeoDataFrame
-    if type(points_df) == pd.core.frame.DataFrame:
-        points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude, crs='EPSG:4326'))
-    points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_unique_Spatial_Balance.shp') , index=False)
-
-
 
 
 
