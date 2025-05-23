@@ -5,16 +5,19 @@ import os
 from pathlib import Path
 from bs4 import BeautifulSoup
 import re
-import requests
+import os
+from pathlib import Path
+import sys
 
-def create_safe_dirname(project_name, publish_date):
-    """创建安全的文件夹名称"""
-    # 移除特殊字符
-    project_name = re.sub(r'[\\/*?:"<>|]', "", project_name)
-    publish_date = re.sub(r'[\\/*?:"<>|]', "", publish_date)
-    # 合并为文件夹名
-    dirname = f"{project_name}_{publish_date[:10]}"  # 只取日期部分
-    return dirname[:100]  # 限制长度防止路径过长
+# 获取当前文件的父目录的父目录（即上级目录）
+parent_dir = str(Path(__file__).parent.parent)
+sys.path.append(parent_dir)  # 将上级目录加入 Python 路径
+
+# 现在可以直接导入上级目录的模块
+from file_utils import get_deepest_dirs, create_safe_dirname
+
+root_directory = r"Y:\\GOA-项目公示数据\\建设项目公示信息\\宁波\\镇海区"  # 替换为你的目标文件夹路径
+deepest_dir_names = get_deepest_dirs(root_directory)
 
 def make_pudong_gov_request(url):
     # 设置请求头
@@ -35,7 +38,9 @@ def make_pudong_gov_request(url):
             # 提取标题
             title_pattern = r'<a title="(.*?)"'
             project_name = re.search(title_pattern, li).group(1)
-            
+            if any(keyword in project_name for keyword in ['公示已到期','加装电梯','增设电梯']):
+                continue
+
             # 提取链接
             href_pattern = r'href="(.*?)"'
             pro_url = re.search(href_pattern, li).group(1)
@@ -53,36 +58,31 @@ def make_pudong_gov_request(url):
                 year = int(publish_date[:4])  # 假设日期格式为"YYYY年MM月DD日"
             except (ValueError, IndexError):
                 year = 0  # 日期格式不符合预期
-            if int(year) < 2025:
-                date_stop = True
-                break
-
             # 只添加新链接且年份>=2025的数据
-            if year >= 2025:
-                safe_dirname = create_safe_dirname(project_name, publish_date)
-                project_dir = os.path.join(base_output_dir, safe_dirname)
-                path = Path(project_dir)
-                if path.exists() and path.is_dir():
-                    print(f"文件夹 {project_dir} 已存在，跳过处理")
-                    # return True  # 或者 continue 如果在循环中
-                    continue
-                os.makedirs(project_dir, exist_ok=True)
+            if int(year) < 2025:
+                continue
 
-                # print(pro_url)
-                # print(project_name)
-                # print(publish_date)
-                
-                # 设置输出文件路径
-                output_file = os.path.join(project_dir, "项目详情.txt")
-                
-                domain = "https://www.zh.gov.cn/"
-                full_url = domain + pro_url
-                print(f"项目完整URL: {full_url}")
-                
-                extract_project_info(full_url,project_dir, output_file)
+            safe_dirname = create_safe_dirname(project_name, publish_date)
+            if safe_dirname in deepest_dir_names:
+                # print(f"'{safe_dirname}' 已存在，跳过处理")
+                continue
+            project_dir = os.path.join(base_output_dir, safe_dirname)
+            path = Path(project_dir)
+            if path.exists() and path.is_dir():
+                # print(f"文件夹 {project_dir} 已存在，跳过处理")
+                # return True  # 或者 continue 如果在循环中
+                continue
+            os.makedirs(project_dir, exist_ok=True)
+            # 设置输出文件路径
+            output_file = os.path.join(project_dir, "项目详情.txt")
+            
+            domain = "https://www.zh.gov.cn/"
+            full_url = domain + pro_url
+            print(f"项目完整URL: {full_url}")
+            
+            extract_project_info(full_url,project_dir, output_file)
         except Exception as e:
             print(f"发生错误: {e}")
-            return pd.DataFrame()
 
 def extract_project_info(url, project_dir, output_file):
     """提取项目信息并下载图片"""

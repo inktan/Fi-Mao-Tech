@@ -42,7 +42,7 @@ def remove_empty_folders(path):
 import os
 import shutil
 
-def find_and_remove_expired_folders(root_dir, keyword="公示已到期"):
+def find_and_remove_expired_folders(root_dir):
     """
     查找并删除嵌套最底层且名称包含关键字的文件夹
     
@@ -61,19 +61,13 @@ def find_and_remove_expired_folders(root_dir, keyword="公示已到期"):
                     is_bottom_level = False
                     break
             
-            # 如果是底层文件夹且名称包含关键词
-            if is_bottom_level and keyword in dir_name:
-                try:
-                    print(f"删除文件夹: {dir_path}")
-                    shutil.rmtree(dir_path)  # 删除整个文件夹及其内容
-                except Exception as e:
-                    print(f"删除失败 {dir_path}: {e}")
-            if is_bottom_level and '住宅加装电梯' in dir_name:
-                try:
-                    print(f"删除文件夹: {dir_path}")
-                    shutil.rmtree(dir_path)  # 删除整个文件夹及其内容
-                except Exception as e:
-                    print(f"删除失败 {dir_path}: {e}")
+            for keyword in ['公示已到期','加装电梯','增设电梯']:
+                if is_bottom_level and keyword in dir_name:
+                    try:
+                        print(f"删除文件夹: {dir_path}")
+                        shutil.rmtree(dir_path)  # 删除整个文件夹及其内容
+                    except Exception as e:
+                        print(f"删除失败 {dir_path}: {e}")
 
 # 使用示例
 if __name__ == "__main__":

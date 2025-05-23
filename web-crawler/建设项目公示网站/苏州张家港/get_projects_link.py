@@ -1,9 +1,20 @@
-import re
 import requests
 import pandas as pd
-import os
 from pathlib import Path
 from bs4 import BeautifulSoup
+import re
+import os
+import sys
+
+# 获取当前文件的父目录的父目录（即上级目录）
+parent_dir = str(Path(__file__).parent.parent)
+sys.path.append(parent_dir)  # 将上级目录加入 Python 路径
+
+# 现在可以直接导入上级目录的模块
+from file_utils import get_deepest_dirs, create_safe_dirname
+
+root_directory = r"Y:\\GOA-项目公示数据\\建设项目公示信息\\苏州\\张家港市"  # 替换为你的目标文件夹路径
+deepest_dir_names = get_deepest_dirs(root_directory)
 
 def create_safe_dirname(project_name, publish_date):
     """创建安全的文件夹名称"""
@@ -49,31 +60,27 @@ def make_pudong_gov_request(url):
                     except (ValueError, IndexError):
                         year = 0  # 日期格式不符合预期
 
-                    if int(year) < 2025:
-                        date_stop = True
-                        break
-
                     # 只添加新链接且年份>=2025的数据
-                    if year >= 2025:
-                        safe_dirname = create_safe_dirname(project_name, publish_date)
-                        project_dir = os.path.join(base_output_dir, safe_dirname)
-                        path = Path(project_dir)
-                        # if path.exists() and path.is_dir():
-                        #     print(f"文件夹 {project_dir} 已存在，跳过处理")
-                            # return True  # 或者 continue 如果在循环中
-                            # continue
-                        os.makedirs(project_dir, exist_ok=True)
+                    if int(year) < 2025:
+                        continue
 
-                        # print(pro_url)
-                        # print(project_name)
-                        # print(publish_date)
-                        
-                        # 设置输出文件路径
-                        output_file = os.path.join(project_dir, "项目详情.txt")
-                        
-                        full_url = r'https://zrzy.jiangsu.gov.cn/szzjg/gtzx/ghgs' + pro_url[1:]
-                        print(full_url)
-                        extract_project_info(full_url,project_dir, output_file)
+                    safe_dirname = create_safe_dirname(project_name, publish_date)
+                    if safe_dirname in deepest_dir_names:
+                    # print(f"'{safe_dirname}' 已存在，跳过处理")
+                        continue
+                    project_dir = os.path.join(base_output_dir, safe_dirname)
+                    path = Path(project_dir)
+                    if path.exists() and path.is_dir():
+                    #     print(f"文件夹 {project_dir} 已存在，跳过处理")
+                        continue
+                    os.makedirs(project_dir, exist_ok=True)
+
+                    # 设置输出文件路径
+                    output_file = os.path.join(project_dir, "项目详情.txt")
+                    
+                    full_url = r'https://zrzy.jiangsu.gov.cn/szzjg/gtzx/ghgs' + pro_url[1:]
+                    print(full_url)
+                    extract_project_info(full_url,project_dir, output_file)
 
         except Exception as e:
             print(f"发生错误: {e}")
