@@ -8,6 +8,7 @@ import shutil
 from coordinate_converter import transCoordinateSystem, transBmap
 import csv
 from tqdm import tqdm
+import pandas as pd
 
 class Panorama:
     def __init__(self, pano, year_month, year, month):
@@ -82,9 +83,6 @@ def coord_convert(lng1,lat1):
         return transBmap.lnglattopoint(result[0],result[1])
  
 def main(csv_path,folder_out_path):
-    if os.path.exists(folder_out_path) == False:
-        os.mkdir(folder_out_path)
-
     # if(resolution_ratio == 3):
     #     ratio = 8
     # else:
@@ -93,26 +91,9 @@ def main(csv_path,folder_out_path):
     # 分辨率 "3 - 2048*1096   4 - 4096*2048"
     x_count = int(2 ** (resolution_ratio - 2))
     y_count = int(x_count * 2)
-
-# 3 2 2*2 = 8
-# 3 4 4*2 = 32
+    # 3 2 2*2 = 8
+    # 3 4 4*2 = 32
     # 读取经纬度坐标点
-    id_lst = []
-    lng_lst = []
-    lat_lst = []
-    # in__out_lst = []
-    with open(csv_path, 'r') as csv_file:  
-        # 创建CSV阅读器对象  
-        csv_reader = csv.reader(csv_file)
-        # 跳过标题行  
-        next(csv_reader)
-        # 遍历剩余的行  
-        for row in csv_reader:  
-            # 打印行内容  
-            id_lst.append(row[0])
-            lng_lst.append(row[1])
-            lat_lst.append(row[2])
-            # in__out_lst.append(row[3])
 
     #临时文件夹位置
     temp_path = folder_out_path + '/data stream file (can be deleted after crawling)'
@@ -125,25 +106,37 @@ def main(csv_path,folder_out_path):
     # with open(folder_out_path+r'/error_data.csv','w' ,newline='') as f:
     #     writer = csv.writer(f)
     
-    for j in tqdm(range(len(id_lst))):
-        if j<=4000:
+    # df = pd.read_csv(csv_path, encoding='latin1')
+    df = pd.read_csv(csv_path)
+    # df['name_2'] = df['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
+
+    print(df.shape)
+    # count = 0
+    for index, row in tqdm(df.iterrows()):
+        if index <= 1000:
             continue
-        if j>8000:
+        if index >1000000:
             continue
+        print(df.shape[0],index)
 
         # 1、lat是“latitude”的缩写，纬度
         # 2、lng是“longitude”的缩写，经度
         # 中国的经纬度 经度范围:73°33′E至135°05′E。 纬度范围:3°51′N至53°33′N。
-        # id = id_lst[j]
-        id = str(j)
-        lng = lng_lst[j]
-        lat =lat_lst[j]
-        # in__out = in__out_lst[j]
+        # print(row)
+        index = int(row['index'])
+        id = int(row['id'])
+        # osm_id = row['osm_id']
+        lng = row['longitude']
+        lat = row['latitude']
+        # mame_2 = row['name_2']
+        
         try:
-            tar_lng_lat = coord_convert(float(lng),float(lat))
-            panoidInfos = get_panoid(tar_lng_lat[0],tar_lng_lat[1],lng+'_'+lat, id,folder_out_path)
+            tar_lng_lat = coord_convert(lng,lat)
+            # print(tar_lng_lat)
+            panoidInfos = get_panoid(tar_lng_lat[0],tar_lng_lat[1],str(lng)+'_'+str(lat), str(id),folder_out_path)
             timeLineIds = panoidInfos[0]
             heading = panoidInfos[1]
+            # print(panoidInfos)
             # break
 
             panoramas = []
@@ -153,34 +146,33 @@ def main(csv_path,folder_out_path):
             # 筛选2015-2017年中5-9月份的街景
             # 使用列表推导式筛选month大于4小于10的实例
             # filtered_panoramas = [p for p in panoramas  if p.month in [6, 7, 8]]
-
             filtered_panoramas = panoramas
-
-            filtered_panoramas = [p for p in filtered_panoramas if 2014 < p.year < 2018]
+            # filtered_panoramas = [p for p in filtered_panoramas if 2015 < p.year < 2019]
             # if len(filtered_panoramas) == 0:
-                # filtered_panoramas = [p for p in panoramas if 4 < p.month < 10]
-            # if len(filtered_panoramas) == 0:
-            #     filtered_panoramas = [p for p in filtered_panoramas if 2014 < p.year < 2019]
+            #     filtered_panoramas = panoramas
 
             # 是否过滤
-            filtered_panoramas = panoramas
+            # filtered_panoramas = panoramas
             for i in range(len(filtered_panoramas)):
-                # print(filtered_panoramas[i])
-                # break
                 pano_id = filtered_panoramas[i].pano['ID']
                 timeLine = filtered_panoramas[i].pano['TimeLine']
                 year = filtered_panoramas[i].year
                 month = filtered_panoramas[i].month
 
-                # pic_path = folder_out_path +'/sv_pan'  +'/'+id+'_' +str(lng)+'_' +str(lat)
-                pic_path = folder_out_path +'/sv_pan/'
-                if os.path.exists(pic_path) == False:
-                    os.makedirs(pic_path)
+                # folder_out_path = folder_out_path +'/sv_pan'  +'/'+id+'_' +str(lng)+'_' +str(lat)
+                # folder_out_path = folder_out_path +'/sv_pan'
+                if os.path.exists(folder_out_path) == False:
+                    os.makedirs(folder_out_path)
 
-                # save_file_path = pic_path + '/' + str(in__out)+'_'+ str(id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
-                # save_file_path = pic_path + '/' + str(id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
-                save_file_path = pic_path + '/' + str(id)+'_' +str(lng)+'_' +str(lat)+ '/' + str(heading)+ '_' +timeLine+ '.jpg'
-                # save_file_path = pic_path + '/' + str(id)+ '_' +timeLine+ '.jpg'
+                # save_file_path = folder_out_path + '/' + str(count)+'_'+ str(id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
+                # save_file_path = folder_out_path + '/' +str(id)+'_' +str(lng)+ '_'+str(lat)+ '_' + str(heading)+ '_' +timeLine+ '.jpg'
+                # save_file_path = folder_out_path + '/' +str(index)+'_'  +str(id)+'_' +str(lng)+ '_'+str(lat)+ '_' +timeLine+ '.jpg'
+                save_file_path = folder_out_path + '/' +str(index)+'_' +str(lng)+ '_'+str(lat)+ '_' +timeLine+ '.jpg'
+                # print(save_file_path,'下载完成')
+                # count+=1
+                # print('count:',count)
+                # break
+
                 if os.path.exists(save_file_path):
                     print(save_file_path,'已存在')
                     break
@@ -189,29 +181,26 @@ def main(csv_path,folder_out_path):
                 if os.path.exists(result_cache_path) == False:
                     os.makedirs(result_cache_path)
                 get_streetview(result_cache_path ,pano_id ,x_count,y_count)
-
-                folder_path = os.path.dirname(save_file_path)
-                print(foler_path)
-                if not os.path.exists(folder_path):
-                    os.makedirs(folder_path)
-
                 merge_image(result_cache_path, x_count,y_count,save_file_path)
                 print(save_file_path,'下载完成')
-                # break
+                break
 
         except Exception as e:
             print(f'error:{e}')
+            continue
             # mistake = id + ',' + lng+','+lat + ',' + '\n'
             # with open(folder_out_path + '/error_data.csv', 'a', encoding='utf-8') as f:
             #     f.write(mistake)
 
 coordinate_point_category = 1
+# coordinate_point_category = 5
+# coordinate_point_category = 6
 # 分辨率 "3 - 2048*1096   4 - 4096*2048"
 resolution_ratio = 4
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\sv_拉萨_points.csv' # 需要爬取的点
-    folder_out_path = r'e:\work\test\sv_' # 保存街景文件
+    csv_path = r'e:\work\sv_zhaolu\roads\datangbuyecheng_03_network_20m_unique_Spatial_Balance.csv'  # 需要爬取的点
+    folder_out_path = r'e:\work\sv_zhaolu\sv_pan00\datangbuyecheng_03'  # 保存街景文件
 
     main(csv_path,folder_out_path)

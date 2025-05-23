@@ -1,26 +1,30 @@
-import csv
+import os
+import pandas as pd
 
-# 输入和输出文件路径
-input_file = r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_02-_.csv'
+# 指定文件夹路径（替换为你的目标文件夹）
+folder_path = r"E:\work\sv_zhaolu\roads"  # 例如："./data"
 
-output_file = r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_03-_.csv'
-
-with open(input_file, mode='r', encoding='utf-8') as infile, \
-     open(output_file, mode='w', encoding='utf-8', newline='') as outfile:
-    
-    reader = csv.DictReader(infile)
-    
-    # 确保输出文件有相同的字段，只是id列会被修改
-    fieldnames = reader.fieldnames
-    writer = csv.DictWriter(outfile, fieldnames=fieldnames)
-    writer.writeheader()
-    
-    for row in reader:
-        # 分割id列并保留最后一项
-        if 'id' in row and row['id']:
-            parts = row['id'].split('\\')
-            row['id'] = parts[-1]  # 取最后一部分
+# 遍历文件夹中的所有文件
+for filename in os.listdir(folder_path):
+    if filename.endswith("_unique_Spatial_Balance.csv"):
+        file_path = os.path.join(folder_path, filename)
         
-        writer.writerow(row)
+        # 读取 CSV 文件
+        df = pd.read_csv(file_path)
+        
+        # 检查是否有至少一列数据
+        if not df.empty:
+            # 获取当前第一列的列名
+            first_col = df.columns[0]
+            
+            # 修改第一列的列名为 "index"
+            df.rename(columns={first_col: "index"}, inplace=True)
+            
+            # 保存修改后的 CSV 文件（覆盖原文件）
+            df.to_csv(file_path, index=False)
+            
+            print(f"已修改文件: {filename}，第一列 '{first_col}' 改为 'index'")
+        else:
+            print(f"文件 {filename} 无数据，跳过处理")
 
-print(f"处理完成，结果已保存到 {output_file}")
+print("所有 CSV 文件处理完成！")
