@@ -17,13 +17,7 @@ for folder_path in csv_path_list:
                 csv_names.append(file)
                 
 csv_paths = [
-    # r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_01-_.csv',
-    # r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_02-_.csv',
-    # r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_03-_.csv',
-    # r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_04-_.csv',
-    # r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_05-_.csv',
-    # r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_06-_.csv',
-    r'y:\GOA-AIGC\02-Model\安装包\stru\ade_20k_语义分割比例数据_07-_.csv',
+    r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\ss_拉萨.csv',
     ]
 
 total_rows = 0
@@ -32,11 +26,11 @@ for file_path in csv_paths:
     try:
         # df = pd.read_csv(file_path, encoding='GBK')
         df = pd.read_csv(file_path)
-        print(df.shape)
+        # print(df.shape)
         print(df.columns)
         print(df.iloc[0,0])
         # print(df.columns[2])
-        print(df.head(3))
+        # print(df.head(3))
         # print(f"{len(df)}")
         # total_rows += len(df)
     except Exception as e:
