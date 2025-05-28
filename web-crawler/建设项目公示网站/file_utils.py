@@ -19,4 +19,4 @@ def create_safe_dirname(project_name, publish_date):
     publish_date = re.sub(r'[\\/*?:"<>|]', "", publish_date)
     # 合并为文件夹名
     dirname = f"{project_name}_{publish_date[:10]}"  # 只取日期部分
-    return dirname[:100]  # 限制长度防止路径过长
+    return dirname[:180]  # 限制长度防止路径过长

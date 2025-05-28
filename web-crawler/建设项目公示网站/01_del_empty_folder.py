@@ -61,7 +61,7 @@ def find_and_remove_expired_folders(root_dir):
                     is_bottom_level = False
                     break
             
-            for keyword in ['公示已到期','加装电梯','增设电梯']:
+            for keyword in ['公示已到期','加装电梯','增设电梯','轨道交通']:
                 if is_bottom_level and keyword in dir_name:
                     try:
                         print(f"删除文件夹: {dir_path}")

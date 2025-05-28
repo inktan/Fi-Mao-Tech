@@ -53,7 +53,7 @@ def make_pudong_gov_request(url):
             # 只添加新链接且年份>=2025的数据
             if int(year) < 2025:
                 continue
-            if any(keyword in project_name for keyword in ['公示已到期','加装电梯','增设电梯']):
+            if any(keyword in project_name for keyword in ['公示已到期','加装电梯','增设电梯','轨道交通']):
                 continue
 
             safe_dirname = create_safe_dirname(project_name, publish_date)

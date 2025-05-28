@@ -64,7 +64,7 @@ def make_pudong_gov_request():
                     continue
             
                 project_name = project['title']
-                if any(keyword in project_name for keyword in ['公示已到期','加装电梯','增设电梯']):
+                if any(keyword in project_name for keyword in ['公示已到期','加装电梯','增设电梯','轨道交通']):
                     continue
 
                 safe_dirname = create_safe_dirname(project_name, publish_date)

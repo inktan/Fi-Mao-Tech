@@ -6,6 +6,20 @@ from pathlib import Path
 import sys
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
+import time
+
+from datetime import datetime
+print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.service import Service
+import time
 
 # 获取当前文件的父目录的父目录（即上级目录）
 parent_dir = str(Path(__file__).parent.parent)
@@ -19,30 +33,29 @@ deepest_dir_names = get_deepest_dirs(root_directory)
 
 def extract_project_info(url):
     try:
+        
         # 设置请求头
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        html_content = response.text
+
+        # 读取本地 HTML 文件
+        with open('Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\github\Fi-Mao-Tech\web-crawler\建设项目公示网站\上海黄浦区规划与自然资源局\web_document00.html', 'r', encoding='utf-8') as file:
+            html_content = file.read()
+
+        # 使用 BeautifulSoup 解析 HTML
         soup = BeautifulSoup(html_content, 'html.parser')
-        for li in soup.find_all('li'):
-            # 查找日期span
-            date_span = li.find('span', class_='time')
-            if not date_span:
+
+        # 查找所有 class 为 "notice-item-cont" 的 a 标签
+        a_tags = soup.find_all('a', class_='notice-item-cont')
+
+        for a in a_tags:
+            title = a.get('title', '')
+            href = a.get('href', '')
+            date_div = a.find('div', class_='notice-item-date')
+            clean_date = date_div.text.strip() if date_div else ''
+            if not clean_date:
                 continue
-            # 查找链接a标签
-            a_tag = li.find('a', target='_blank')
-            if not a_tag:
-                continue
-            # 提取信息
-            date = date_span.get_text(strip=True)
-            title = a_tag.get('title', '').strip()
-            href = a_tag.get('href', '').strip()
-            
-            clean_date = re.sub(r'\s+', '', date.strip())
-            # 提取年份
             try:
                 year = int(clean_date[:4])  # 假设日期格式为"YYYY年MM月DD日"
             except (ValueError, IndexError):
@@ -54,19 +67,19 @@ def extract_project_info(url):
                 continue
 
             safe_dirname = create_safe_dirname(title, clean_date)
-            if safe_dirname in deepest_dir_names:
+            # if safe_dirname in deepest_dir_names:
             #     print(f"'{safe_dirname}' 已存在，跳过处理")
-                continue
+                # continue
             
             project_dir = os.path.join(base_output_dir, safe_dirname)
-            path = Path(project_dir)
-            if path.exists() and path.is_dir():
+            # path = Path(project_dir)
+            # if path.exists() and path.is_dir():
             #     print(f"文件夹 {project_dir} 已存在，跳过处理")
-                continue
+                # continue
             os.makedirs(project_dir, exist_ok=True)
 
             # 构建完整项目URL
-            full_url = f"https://www.shpt.gov.cn/" + href
+            full_url = f"https://www.shhuangpu.gov.cn/" + href
             print(f"\n处理项目: {safe_dirname}",f"项目URL: {full_url}")
             try:
                 response = requests.get(full_url, headers=headers, timeout=10)
@@ -77,7 +90,7 @@ def extract_project_info(url):
                 continue
 
             soup = BeautifulSoup(response.text, 'html.parser')
-            content_div = soup.find(class_="Article_content")
+            content_div = soup.find(class_="info-hd")
             if content_div:
                 # 获取所有文本内容（去除多余空白）
                 content = content_div.get_text(separator='\n', strip=True)
@@ -131,15 +144,16 @@ def extract_project_info(url):
         print(f"发生错误: {e}")
 
 # 使用示例
-number_of_pages = 10
+number_of_pages = 1
 for page in range(1, number_of_pages + 1):
     if page > 1:
         # 构造URL
-        url = f"https://www.shpt.gov.cn/gtj-zfbm/fangan-gtj/index_{page}.html"
+        url = f"https://www.shhuangpu.gov.cn/yqyw/010001/010001011/010001011001/010001011001003/{page}.html"
     else:
         # 第一页的URL
-        url = r"https://www.shpt.gov.cn/gtj-zfbm/fangan-gtj/index.html"
+        url = r"https://www.shhuangpu.gov.cn/yqyw/010001/010001011/010001011001/010001011001003/network_subpage.html"
 
-    base_output_dir = r"Y:\GOA-项目公示数据\建设项目公示信息\上海\普陀区\未分类项目"
+    base_output_dir = r"Y:\GOA-项目公示数据\建设项目公示信息\上海\黄浦区\未分类项目"
+    print(f"正在处理第 {page} 页: {url}")
     extract_project_info(url)
     # break

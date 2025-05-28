@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import os
 import pickle
 import json
+from selenium.webdriver.chrome.service import Service
 
 from datetime import datetime
 print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -101,7 +102,10 @@ if __name__ == '__main__':
 
     options = webdriver.ChromeOptions()  # 配置 chrome 启动属性
     options.add_experimental_option("excludeSwitches", ['enable-automation'])  # 此步骤很重要，设置为开发者模式，防止被各大网站识别出来使用了Selenium
-    browser = webdriver.Chrome(options=options)
+    # browser = webdriver.Chrome(options=options)
+    chrome_driver_path = r'C:\Users\wang.tan.GOA\.wdm\drivers\chromedriver\win64\136.0.7103.113\chromedriver-win32\chromedriver.exe'
+    service = Service(executable_path=chrome_driver_path)
+    browser = webdriver.Chrome(service=service,options=options)
 
     while True:
         url = 'https://www.archdaily.cn/search/cn/projects'

@@ -43,7 +43,7 @@ def make_pudong_gov_request(url):
         try:
             pro_url = pro_url
             project_name = title.strip()
-            if any(keyword in project_name for keyword in ['公示已到期','加装电梯','增设电梯']):
+            if any(keyword in project_name for keyword in ['公示已到期','加装电梯','增设电梯','轨道交通']):
                 # print(project_name)
                 continue
 

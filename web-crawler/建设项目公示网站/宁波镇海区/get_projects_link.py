@@ -38,7 +38,7 @@ def make_pudong_gov_request(url):
             # 提取标题
             title_pattern = r'<a title="(.*?)"'
             project_name = re.search(title_pattern, li).group(1)
-            if any(keyword in project_name for keyword in ['公示已到期','加装电梯','增设电梯']):
+            if any(keyword in project_name for keyword in ['公示已到期','加装电梯','增设电梯','轨道交通']):
                 continue
 
             # 提取链接
