@@ -12,7 +12,7 @@ parent_dir = str(Path(__file__).parent.parent)
 sys.path.append(parent_dir)  # 将上级目录加入 Python 路径
 
 # 现在可以直接导入上级目录的模块
-from file_utils import get_deepest_dirs, create_safe_dirname
+from file_utils import get_deepest_dirs, create_safe_dirname, PROJECT_KEYWORDS
 
 root_directory = r"Y:\GOA-项目公示数据\建设项目公示信息\上海"  # 替换为你的目标文件夹路径
 deepest_dir_names = get_deepest_dirs(root_directory)
@@ -46,7 +46,7 @@ def extract_project_info(url):
             # 只添加新链接且年份>=2025的数据
             if year < 2025:
                 continue
-            if any(keyword in title for keyword in ['公示已到期','加装电梯','增设电梯','轨道交通']):
+            if any(keyword in title for keyword in PROJECT_KEYWORDS):
                 # print(project_name)
                 continue
             try:
@@ -67,7 +67,7 @@ def extract_project_info(url):
                 print(f"\n处理项目: {safe_dirname}",f"项目URL: {full_url}")
 
                 try:
-                    response = requests.get(url, headers=headers, timeout=10)
+                    response = requests.get(full_url, headers=headers, timeout=10)
                     response.encoding = 'utf-8'
                     response.raise_for_status()
                 except requests.exceptions.RequestException as e:

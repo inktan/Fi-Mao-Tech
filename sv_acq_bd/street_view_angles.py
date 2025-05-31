@@ -16,9 +16,9 @@ from pathlib import Path
 def download_baidu_panorama(
     save_path,          # 保存路径，例如 "C:/images/panorama.jpg"
     panoid,            # 全景ID，例如 "09000300122002141605289265F"
-    fovy=90,           # 垂直视角，默认90
+    fovy=90,           # 镜头远近 10-170°
     heading=0,         # 水平方向角度，默认0
-    pitch=0,           # 垂直方向角度，默认0
+    pitch=0,           # 垂直方向角度，默认0-360
     width=1000,        # 图片宽度，默认1000
     height=500,        # 图片高度，默认500
     max_retries=3,     # 最大重试次数，默认3

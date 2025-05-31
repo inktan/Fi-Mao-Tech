@@ -17,7 +17,7 @@ for folder_path in csv_path_list:
                 csv_names.append(file)
                 
 csv_paths = [
-    r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\ss_拉萨.csv',
+    r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\ss_山南_a01.csv',
     ]
 
 total_rows = 0
@@ -30,7 +30,7 @@ for file_path in csv_paths:
         print(df.columns)
         print(df.iloc[0,0])
         # print(df.columns[2])
-        # print(df.head(3))
+        print(df.head(3))
         # print(f"{len(df)}")
         # total_rows += len(df)
     except Exception as e:

@@ -1,4 +1,5 @@
 import os
+from file_utils import PROJECT_KEYWORDS
 
 def remove_empty_folders(path):
     """
@@ -60,24 +61,7 @@ def find_and_remove_expired_folders(root_dir):
                 if sub_dirs:  # 如果有子文件夹，则不是底层
                     is_bottom_level = False
                     break
-            
-            for keyword in ['公示已到期',
-                            '加装电梯',
-                            '增设电梯',
-                            '轨道交通',
-                            '采购意向',
-                            '报告',
-                            '年度',
-                            '通知',
-                            '商请',
-                            '说明',
-                            '批复',
-                            '请示',
-                            '目录',
-                            '清单',
-                            '工作',
-                            '计划',
-                            '民生实事']:
+            for keyword in PROJECT_KEYWORDS:
                 if is_bottom_level and keyword in dir_name:
                     try:
                         print(f"删除文件夹: {dir_path}")

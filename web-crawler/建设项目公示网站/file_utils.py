@@ -1,5 +1,25 @@
 import os
 import re
+
+# keywords.py
+PROJECT_KEYWORDS =  ['公示已到期',
+                    '加装电梯',
+                    '增设电梯',
+                    '轨道交通',
+                    '采购意向',
+                    '集中反馈',
+                    '报告',
+                    '年度',
+                    '通知',
+                    '商请',
+                    '说明',
+                    '批复',
+                    '请示',
+                    '目录',
+                    '清单',
+                    '计划',
+                    '民生实事']
+
 def get_deepest_dirs(root_dir):
     """获取所有嵌套最底层的文件夹路径（没有子文件夹的文件夹）"""
     deepest_dirs = set()
