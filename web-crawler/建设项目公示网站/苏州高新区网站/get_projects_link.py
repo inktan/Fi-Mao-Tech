@@ -88,6 +88,8 @@ def make_pudong_gov_request():
                     if int(year) < 2025:
                         continue
 
+                    if any(keyword in project_name for keyword in PROJECT_KEYWORDS):
+                        continue
                     safe_dirname = create_safe_dirname(project_name, publish_date)
                     if safe_dirname in deepest_dir_names:
                     # print(f"'{safe_dirname}' 已存在，跳过处理")

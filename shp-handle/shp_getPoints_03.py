@@ -44,17 +44,16 @@ def extract_points(line, interval):
     return points
 
 
-folder_path = r'E:\work\sv_zhaolu\roads'  # 替换为你的文件夹路径
-shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
+# folder_path = r'E:\work\sv_zhaolu\roads'  # 替换为你的文件夹路径
+# shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
-# shape_files=[
-#     r'e:\work\sv_momo\sv_20250512\street_network.shp',
-# ]
+shape_files=[
+    r'e:\work\sv_xiufenganning\road\_network.shp',
+]
 
 for file_path in shape_files:
     print(file_path)
 
-    # shp_file_path = r'e:\work\sv_小丸\福田区面\深圳市.shp'
     shp_file_path = file_path
     gdf = gpd.read_file(shp_file_path)
     # gdf = gpd.read_file(shp_file_path, encoding='latin1')
@@ -62,9 +61,7 @@ for file_path in shape_files:
         gdf = gdf.set_crs(epsg=4326)  # 设置原始 CRS
     gdf = gdf.to_crs(epsg=4326)  # 转换为WGS 84
 
-    # points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude', 'name', 'type', 'oneway', 'bridge', 'tunnel' ])
-    # points_df = pd.DataFrame(columns=['id','osm_id', 'longitude', 'latitude', 'name_2'])
-    points_df = pd.DataFrame(columns=['id', 'longitude', 'latitude'])
+    points_df = pd.DataFrame(columns=['osm_id', 'longitude', 'latitude'])
     interval = 20
     print(gdf.shape)
 

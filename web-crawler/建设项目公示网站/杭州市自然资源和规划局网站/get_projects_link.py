@@ -55,7 +55,7 @@ def make_pudong_gov_request(url):
         # 只添加新链接且年份>=2025的数据
         if int(year) < 2025:
             continue
-        if any(keyword in project_name for keywordin PROJECT_KEYWORDS):
+        if any(keyword in project_name for keyword in PROJECT_KEYWORDS):
             continue
         try:
             safe_dirname = create_safe_dirname(project_name, publish_date[:10])

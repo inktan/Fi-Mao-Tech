@@ -51,7 +51,7 @@ def make_pudong_gov_request():
                 continue
 
             project_name = project['title']
-            if any(keyword in project_name for keywordin PROJECT_KEYWORDS):
+            if any(keyword in project_name for keyword in PROJECT_KEYWORDS):
                 # print(project_name)
                 continue
 

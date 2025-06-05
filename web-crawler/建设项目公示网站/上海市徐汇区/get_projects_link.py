@@ -58,15 +58,15 @@ def extract_project_info(url):
                     continue
                 try:
                     safe_dirname = create_safe_dirname(title, clean_date)
-                    # if safe_dirname in deepest_dir_names:
+                    if safe_dirname in deepest_dir_names:
                     #     # print(f"公示项目文件夹 {safe_dirname} 已存在，跳过处理")
-                    #     continue
+                        continue
                 
                     project_dir = os.path.join(base_output_dir, safe_dirname)
-                    # path = Path(project_dir)
-                    # if path.exists() and path.is_dir():
+                    path = Path(project_dir)
+                    if path.exists() and path.is_dir():
                     #     # print(f"公示项目文件夹 {project_dir} 已存在，跳过处理")
-                    #     continue
+                        continue
                     os.makedirs(project_dir, exist_ok=True)
 
                     # 构建完整URL

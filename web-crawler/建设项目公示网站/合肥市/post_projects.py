@@ -39,7 +39,7 @@ def make_pudong_gov_request(url):
             if int(year) < 2025:
                 continue
             project_name = project['projectname']
-            if any(keyword in project_name for keywordin PROJECT_KEYWORDS):
+            if any(keyword in project_name for keyword in PROJECT_KEYWORDS):
                 # print(project_name)
                 continue
 

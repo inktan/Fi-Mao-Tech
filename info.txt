@@ -1,6 +1,19 @@
+堆叠的楼板，透明玻璃立面，玻璃后有白色结构框架，银色斜柱支撑，开放式底层，广场在前景，银色圆顶，背景有高楼大厦
+
+屋顶下悬着木条，屋顶下是玻璃墙，庭院中央有一棵树，傍晚
+
+一座低层弯曲建筑，大型水平箱形建筑，白色网格线的透明玻璃，白色的长阳台和楼梯，右下角的一个大拱门开口，温暖的室内光线，前景有花的池塘
+
+立面有棕色的木条墙，木框架的高窗，太阳能电池板屋顶，金属栏杆和平台，混凝土台阶的露台，沿着L形座位区的木凳，圆形花盆，周围有树木
+
+玻璃墙，黑色边框，左前浅灰色金属板墙，左侧有白色标志，有草的混凝土小路通向玻璃墙，人，树木
+
+
+
+
+
 1、常用软件
 Snipaste-2.9.1-Beta-x64
-xhzmbq9_5_8    小孩桌面便签9_5_8
 Pointofix
 
 接收验证码
@@ -24,7 +37,6 @@ http://39.98.218.136:8801/
 http://39.98.218.136:8802/
 两个可以放web文件的地址
 
-
 腾讯云服务器
 开方端口 8000-9000
 静态网页路径 /usr/share/nginx/html_work
@@ -35,6 +47,14 @@ df -h
 sudo dnf list installed
 
 配置文件 /etc/nginx/nginx.conf
+
+cd miniconda3/
+cd bin/
+source activate
+cd ..
+cd ..
+cd SV_acq/
+ls
 
 Linux
 ps -ef | grep nginx 查看正在运行的进程
@@ -73,11 +93,6 @@ ssh -T git@gitee.com
 
 高性能服务器
 spbim137
-
-猫非猫
-fk192489-7dCTdBKwtYid3GzzAvy3om3gVEwSRBNU
-王
-fk192612-pLVI3zuqAZCoCaeeDaZqmhia1uHmz4RE
 
 视角传递
 {"ViewType":"View3D","Eye":{"X":-6.5034017557126695,"Y":-10.078965410716567,"Z":16.152319414133874},"Up":{"X":-0.408248290463863,"Y":0.408248290463863,"Z":0.816496580927726},"Forward":{"X":-0.57735026918962573,"Y":0.57735026918962573,"Z":-0.57735026918962573},"ViewCorner1":{"X":9.7748851959486984,"Y":-11.743389132956558,"Z":-1.7903912597674783},"ViewCorner2":{"X":24.155689518559608,"Y":17.182893158605744,"Z":12.755086709183917},"TotalTransform":{"Origin":{"X":0.0,"Y":0.0,"Z":0.0},"BasisX":{"X":1.0,"Y":0.0,"Z":0.0},"BasisY":{"X":0.0,"Y":1.0,"Z":0.0},"BasisZ":{"X":0.0,"Y":0.0,"Z":1.0}},"ElemIds":[]}
@@ -292,17 +307,3 @@ C:\pyrcc5.exe -o image.py image.qrc
 税号：91330106746315340M
 邮箱：32703989@qq.com
 电话：15658812532
-
-https://gpt.fomepay.com/#/pages/cards/index
-
-	cardNumber：5347864234255750
-	cardExpiry：12/25
-	cardCvc：362
-	billingName：wang tan
-	billingCountry：USA
-	billingAddressLine1：20 Barneson ave
-	billingLocality：San Mateo
-	billingPostalCode：94402
-	billingAdministrativeArea：加利福尼亚州 California
-
-

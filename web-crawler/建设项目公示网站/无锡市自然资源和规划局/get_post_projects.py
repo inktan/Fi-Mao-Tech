@@ -64,7 +64,7 @@ def make_pudong_gov_request():
                     continue
             
                 project_name = project['title']
-                if any(keyword in project_name for keywordin PROJECT_KEYWORDS):
+                if any(keyword in project_name for keyword in PROJECT_KEYWORDS):
                     continue
 
                 safe_dirname = create_safe_dirname(project_name, publish_date)
@@ -129,6 +129,45 @@ def extract_project_info(url, project_dir, output_file):
     pdf_counter = 1
     doc_counter = 1
     
+    # 初始化计数器
+    image_counter = 1
+    
+    for img in content_div.find_all('img', src=True):
+        src = img['src']
+        file_url = r'https://zrzy.wuxi.gov.cn' + src
+        try:
+            # 获取文件
+            response = requests.get(file_url,headers=headers,  stream=True)
+            response.raise_for_status()
+            
+            # 获取文件名和扩展名
+            if 'content-disposition' in response.headers:
+                # 从响应头获取文件名
+                filename = response.headers['content-disposition'].split('filename=')[-1].strip('"\'')
+            else:
+                # 从 URL 获取文件名
+                filename = os.path.basename(file_url.split('?')[0])
+            
+            # 获取文件扩展名
+            _, ext = os.path.splitext(filename.lower())
+            ext = ext.lower()
+            
+            # 根据文件类型确定保存文件名
+            if ext in ('.jpg', '.jpeg', '.png', '.gif', '.bmp'):
+                # 图片文件命名为 公示图01, 公示图02...
+                new_filename = f"公示图{image_counter:02d}{ext}"
+                image_counter += 1
+            
+            # 保存文件
+            save_path = os.path.join(project_dir, new_filename)
+            with open(save_path, 'wb') as f:
+                for chunk in response.iter_content(1024):
+                    f.write(chunk)
+            
+            print(f"已下载: {new_filename}")
+            
+        except Exception as e:
+            print(f"下载 {file_url} 失败: {e}")
     # 查找所有 a 标签
     links = content_div.find_all('a', href=True)
 
