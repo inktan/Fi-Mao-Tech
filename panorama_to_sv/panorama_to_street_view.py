@@ -43,7 +43,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
                 
                 image_type = image_path.split('.')[-1]
                 for i in degrees:
-                    img_degree_save = image_path.replace('sv_pan05',f'sv_degree_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
+                    img_degree_save = image_path.replace('sv_pan00',f'街景_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
                     # img_degree_save = image_path.replace('sv_pan_zoom3',f'街景_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
                     # img_degree_save = image_path.replace(r'F:\GoogleDrive\wt282532\我的云端硬盘',r'F:\work\sv_ran\sv_degrees').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
                     # img_degree_save = image_path.replace(r'F:\GoogleDrive\wt282532\我的云端硬盘',r'F:\work\sv_ran\sv_degrees').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
@@ -66,7 +66,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
-    input = r'E:\work\全景测试\sv_pan05'
+    input = r'E:\work\sv_juanjuanmao\20250308\八条路线\sv_pan00'
     
     # fov是镜头的远近关系 水平方向范围，范围[10,360]，fov=360即可显示整幅全是图
     # pitch是仰头，低头关系 垂直视角，范围[0,90]。
@@ -86,10 +86,10 @@ if __name__ == "__main__":
     # 角度街景宽度
     width = 960 # 240*4
     height = 720 # 240*3
-    width = 1920 # 240*4*2
-    height = 1440 # 240*3*2
-    width = 1000
-    height = 1000
+    # width = 1920 # 240*4*2
+    # height = 1440 # 240*3*2
+    # width = 1000
+    # height = 1000
 
     panorama_to_street_view(input ,fov,degree_count,phi,height,width)
     

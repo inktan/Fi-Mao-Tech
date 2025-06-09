@@ -94,7 +94,7 @@ def export_pro_lits_info(project_link):
 
 if __name__ == '__main__':
 
-    folder_path_template = r'D:\Ai-clip-seacher\AiArchLib\archdaily_com-20241012'
+    folder_path_template = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_com-202500605'
     page_index = 1
 
     options = webdriver.ChromeOptions()  # 配置 chrome 启动属性

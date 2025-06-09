@@ -48,7 +48,7 @@ def extract_points(line, interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'e:\work\sv_xiufenganning\road\_network.shp',
+    r'e:\work\sv_guaiyu\范围\范围_netroad.shp',
 ]
 def process_geometry(row,interval):
     geometry = row['geometry']
@@ -82,7 +82,7 @@ for file_path in shape_files:
     gdf = gpd.read_file(shp_file_path)
     
     # 应用函数并创建DataFrame
-    interval = 100
+    interval = 35
     results = gdf.apply(process_geometry, axis=1, interval=interval).explode()
     points_df = pd.DataFrame(list(results), columns=['osm_id', 'longitude', 'latitude'])
 

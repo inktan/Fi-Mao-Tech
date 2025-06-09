@@ -67,20 +67,6 @@ def get_panoid(lng,lat,bound,sv_id,folder_out_path):
          return [timeLineIds,Heading,MoveDir, NorthDir]
     else:
         return []
-
-#经纬度坐标转换
-# 坐标点类别 1-5-6
-
-def coord_convert(lng1,lat1):
-    if coordinate_point_category == 1:
-        result = transCoordinateSystem.wgs84_to_gcj02(lng1, lat1)
-        result = transCoordinateSystem.gcj02_to_bd09(result[0],result[1])
-        return transBmap.lnglattopoint(result[0],result[1])
-    elif coordinate_point_category == 5:
-        return transBmap.lnglattopoint(lng1,lat1)
-    elif coordinate_point_category == 6:
-        result = transCoordinateSystem.gcj02_to_bd09(lng1,lat1)
-        return transBmap.lnglattopoint(result[0],result[1])
  
 def main(csv_path,folder_out_path):
     # if(resolution_ratio == 3):
@@ -111,20 +97,20 @@ def main(csv_path,folder_out_path):
     # df['name_2'] = df['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
 
     print(df.shape)
-    # count = 0
+    count = 0
     for index, row in tqdm(df.iterrows()):
-        if index <= 1000:
-            continue
-        if index >1000000:
-            continue
+        # if index <= 1000:
+        #     continue
+        # if index >1000000:
+        #     continue
         print(df.shape[0],index)
 
         # 1、lat是“latitude”的缩写，纬度
         # 2、lng是“longitude”的缩写，经度
         # 中国的经纬度 经度范围:73°33′E至135°05′E。 纬度范围:3°51′N至53°33′N。
         # print(row)
-        index = int(row['index'])
-        id = int(row['id'])
+        # index = int(row['index'])
+        # id = int(row['id'])
         # osm_id = row['osm_id']
         lng = row['longitude']
         lat = row['latitude']
@@ -164,12 +150,12 @@ def main(csv_path,folder_out_path):
                 if os.path.exists(folder_out_path) == False:
                     os.makedirs(folder_out_path)
 
-                # save_file_path = folder_out_path + '/' + str(count)+'_'+ str(id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
-                # save_file_path = folder_out_path + '/' +str(id)+'_' +str(lng)+ '_'+str(lat)+ '_' + str(heading)+ '_' +timeLine+ '.jpg'
+                # save_file_path = folder_out_path + '/' + str(osm_id)+'_'+ str(osm_id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
+                save_file_path = folder_out_path + '/' +str(index)+'_' +str(lng)+ '_'+str(lat)+ '_' + str(heading)+ '_' +timeLine+ '.jpg'
                 # save_file_path = folder_out_path + '/' +str(index)+'_'  +str(id)+'_' +str(lng)+ '_'+str(lat)+ '_' +timeLine+ '.jpg'
-                save_file_path = folder_out_path + '/' +str(index)+'_' +str(lng)+ '_'+str(lat)+ '_' +timeLine+ '.jpg'
+                # save_file_path = folder_out_path + '/' +str(index)+'_' +str(lng)+ '_'+str(lat)+ '_' +timeLine+ '.jpg'
                 # print(save_file_path,'下载完成')
-                # count+=1
+                count+=1
                 # print('count:',count)
                 # break
 
@@ -177,7 +163,7 @@ def main(csv_path,folder_out_path):
                     print(save_file_path,'已存在')
                     break
 
-                result_cache_path = temp_path + '/'+str(id)+'_'+ pano_id +'_'+ timeLine
+                result_cache_path = temp_path + '/'+str(index)+'_'+ pano_id +'_'+ timeLine
                 if os.path.exists(result_cache_path) == False:
                     os.makedirs(result_cache_path)
                 get_streetview(result_cache_path ,pano_id ,x_count,y_count)
@@ -191,16 +177,44 @@ def main(csv_path,folder_out_path):
             # mistake = id + ',' + lng+','+lat + ',' + '\n'
             # with open(folder_out_path + '/error_data.csv', 'a', encoding='utf-8') as f:
             #     f.write(mistake)
+        # finally:
+        #     try:
+        #         shutil.rmtree(temp_path)
+        #         print(f"已删除文件夹: {temp_path}")
+        #         deleted_folders += 1
+        #     except Exception as e:
+        #         print(f"删除文件夹 {temp_path} 失败: {e}")
 
 coordinate_point_category = 1
 # coordinate_point_category = 5
 # coordinate_point_category = 6
-# 分辨率 "3 - 2048*1096   4 - 4096*2048"
 resolution_ratio = 4
+# 分辨率 "3 - 2048*1096   4 - 4096*2048"
+
+#经纬度坐标转换
+def coord_convert(lng1,lat1):
+    if coordinate_point_category == 1:
+        result = transCoordinateSystem.wgs84_to_gcj02(lng1, lat1)
+        result = transCoordinateSystem.gcj02_to_bd09(result[0],result[1])
+        return transBmap.lnglattopoint(result[0],result[1])
+    elif coordinate_point_category == 5:
+        return transBmap.lnglattopoint(lng1,lat1)
+    elif coordinate_point_category == 6:
+        result = transCoordinateSystem.gcj02_to_bd09(lng1,lat1)
+        return transBmap.lnglattopoint(result[0],result[1])
+    
+# if __name__ == '__main__':
+#     # 文件夹路径
+#     csv_path = r'e:\work\sv_juanjuanmao\20250308\八条路线\T1_50m_.csv'  # 需要爬取的点
+#     folder_out_path = r'e:\work\sv_juanjuanmao\20250308\八条路线\sv_pan00\T1'  # 保存街景文件
+
+#     main(csv_path,folder_out_path)
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\sv_zhaolu\roads\datangbuyecheng_03_network_20m_unique_Spatial_Balance.csv'  # 需要爬取的点
-    folder_out_path = r'e:\work\sv_zhaolu\sv_pan00\datangbuyecheng_03'  # 保存街景文件
+    for i in range(8):
+        csv_path = f'e:\work\sv_juanjuanmao\\20250308\八条路线\T{i+1}_50m_.csv'  # 需要爬取的点
+        folder_out_path = f'e:\work\sv_juanjuanmao\\20250308\八条路线\sv_pan00\T{i+1}'  # 保存街景文件
 
-    main(csv_path,folder_out_path)
+        main(csv_path,folder_out_path)
+

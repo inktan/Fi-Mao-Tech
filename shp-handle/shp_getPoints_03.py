@@ -48,7 +48,7 @@ def extract_points(line, interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'e:\work\sv_xiufenganning\road\_network.shp',
+    r'e:\work\sv_nanjing_qinhuaiqu\lines_on_polygons.shp',
 ]
 
 for file_path in shape_files:
@@ -61,13 +61,18 @@ for file_path in shape_files:
         gdf = gdf.set_crs(epsg=4326)  # 设置原始 CRS
     gdf = gdf.to_crs(epsg=4326)  # 转换为WGS 84
 
-    points_df = pd.DataFrame(columns=['osm_id', 'longitude', 'latitude'])
-    interval = 20
+    points_df = pd.DataFrame(columns=['osm_id', 'longitude', 'latitude', 'name'])
+    interval = 100
     print(gdf.shape)
 
     # gdf['name_2'] = gdf['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
 
     for index, row in tqdm(gdf.iterrows()):
+        if '高速' in row['fclass_cn']:
+            continue
+        if '小路' in row['fclass_cn']:
+            continue
+
         geometry = row['geometry']
         if geometry is None:
             continue
@@ -77,13 +82,13 @@ for file_path in shape_files:
             exterior = geometry.exterior
             points = extract_points(LineString(exterior.coords),interval)
             for point in points:
-                points_df.loc[len(points_df)] = [index,  point.x, point.y]
+                points_df.loc[len(points_df)] = [index,  point.x, point.y,row['name']]
         elif geometry.geom_type == 'MultiPolygon':
             for polygon in geometry.geoms:
                 exterior = polygon.exterior
                 points = extract_points(LineString(exterior.coords),interval)
                 for point in points:
-                    points_df.loc[len(points_df)] = [index,  point.x, point.y]
+                    points_df.loc[len(points_df)] = [index,  point.x, point.y,row['name']]
         # print(geometry)
         # print(geometry.geom_type)
 
@@ -92,14 +97,14 @@ for file_path in shape_files:
             for line in geometry.geoms:
                 points = extract_points(line,interval)
                 for point in points:
-                    points_df.loc[len(points_df)] = [index, point.x, point.y]
+                    points_df.loc[len(points_df)] = [index, point.x, point.y,row['name']]
         elif geometry.geom_type == 'LineString':
             points = extract_points(geometry,interval)
             for point in points:
-                points_df.loc[len(points_df)] = [index,  point.x, point.y]
+                points_df.loc[len(points_df)] = [index,  point.x, point.y,row['name']]
         elif  geometry.geom_type == 'Point':
                 point = Point(geometry.coords[0])
-                points_df.loc[len(points_df)] = [index, point.x, point.y]
+                points_df.loc[len(points_df)] = [index, point.x, point.y,row['name']]
 
     print(points_df)
 

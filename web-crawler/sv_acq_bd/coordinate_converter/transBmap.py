@@ -22,7 +22,6 @@ array4 = [[1.410526172116255e-8, 0.00000898305509648872, -1.9939833816331, 200.9
             [2.890871144776878e-9, 0.000008983055095805407, -3.068298e-8, 7.47137025468032, -0.00000353937994, -0.02145144861037, -0.00001234426596, 0.00010322952773, -0.00000323890364, 826088.5]
         ]
 
-
 def Convertor(x, y, param):
     T = param[0] + param[1] * abs(x)
     cC = abs(y) / param[9]
@@ -64,8 +63,6 @@ def lnglattopoint(lng,lat):
     res = Convertor(lng, lat, arr)
     return [res[0], res[1]]
 
-
-
 ##################################################################
     
 # 平面坐标（pointX, pointY）转瓦片    
@@ -86,27 +83,27 @@ def tile_pixel_to_point(tilex,tiley,pixelx,pixely,zoom=18):
     pointy = (tiley * 256 + pixely) / (2 ** (zoom - 18))
     return [pointx, pointy]
 
-
-
 # 瓦片及像素瓦片转经纬度坐标
 def tile_pixel_to_lnglat(tilex,tiley,pixelx,pixely,zoom=18):
-    pointx = (tilex * 256 + pixelx) / (2 ** (zoom - 18))
-    pointy = (tiley * 256 + pixely) / (2 ** (zoom - 18))
-    return pointtolnglat(pointx,pointy)
+    # pointx = (tilex * 256 + pixelx) / (2 ** (zoom - 18))
+    # pointy = (tiley * 256 + pixely) / (2 ** (zoom - 18))
+    pointx_pointy = tile_pixel_to_point(tilex,tiley,pixelx,pixely,zoom)
+    return pointtolnglat(pointx_pointy[0],pointx_pointy[1])
 
- # 经纬度坐标转瓦片   
-def lnglattotile(lng,lat):
+# 经纬度坐标转瓦片   
+def lnglattotile(lng,lat,zoom=18):
     pointx,pointy = lnglattopoint(lng,lat)
-    return pointtotile(pointx,pointy)
- 
-    
+    return pointtotile(pointx,pointy,zoom)
+
+# 经纬度坐标转像素（pixelX, pixelY）  
+def lnglattopixel(lng,lat,zoom=18):
+    pointx,pointy = lnglattopoint(lng,lat)
+    return pointtopixel(pointx,pointy,zoom)
 
 ##################################################################
 
-
 def main():
     pass
-
 
 if __name__ == "__main__":
     main()

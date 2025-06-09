@@ -42,7 +42,7 @@ def process_points(input_shp,output_shp,output_csv):
     to_remove = set()
     
     # 使用批量查询提高性能
-    max_dist = 15  # 最大距离阈值(米)
+    max_dist = 99.9  # 最大距离阈值(米)
     batch_size = 1000  # 根据内存调整
     for i in tqdm(range(0, len(coords), batch_size), desc="处理进度"):
         batch_indices = range(i, min(i + batch_size, len(coords)))
@@ -82,9 +82,9 @@ if __name__ == "__main__":
     folder_path = r'E:\work\sv_zhaolu\roads'  # 替换为你的文件夹路径
     shape_files = glob.glob(os.path.join(folder_path, '*_unique.shp'))
 
-    # shape_files=[
-    #     r'e:\work\sv_momo\sv_20250512\street_network.shp',
-    # ]
+    shape_files=[
+        r'e:\work\sv_nanjing_qinhuaiqu\lines_on_polygons_100m_unique.shp',
+    ]
 
     for file_path in shape_files:
         print(file_path)

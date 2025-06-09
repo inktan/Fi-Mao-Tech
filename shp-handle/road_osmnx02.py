@@ -4,7 +4,7 @@ import osmnx as ox
 import os
 
 # 1. 读取原始 SHP 文件并合并所有多边形
-input_shp = r"e:\work\sv_momo\sv_20250512\sv_20250512.shp"  # 替换为你的输入文件路径
+input_shp = r"e:\work\sv_guaiyu\范围\范围.shp"  # 替换为你的输入文件路径
 gdf = gpd.read_file(input_shp)
 
 # 确保所有几何体都是多边形
@@ -23,7 +23,7 @@ G = ox.graph_from_polygon(merged_polygon, network_type='all')
 gdf_edges = ox.graph_to_gdfs(G, nodes=False)
 
 # 定义保存路径
-output_shp = r"E:\work\sv_momo\sv_20250512\street_network.shp"  # 替换为你想要的输出路径
+output_shp = input_shp.replace('.shp','_netroad.shp')
 
 # 确保输出目录存在
 os.makedirs(os.path.dirname(output_shp), exist_ok=True)
