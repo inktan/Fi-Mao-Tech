@@ -1,6 +1,6 @@
 import geopandas as gpd
 
-shp_file_path = r'f:\立方数据\2024年我国多属性建筑矢量数据（免费获取）\合并后的数据（一个省份合并为一个shp文件）\西藏自治区\西藏自治区.shp'  # 替换为你的SHP文件路径
+shp_file_path = r'd:\Users\wang.tan.GOA\Document\WXWork\1688853481969789\Cache\File\2025-06\867e0adab8d06fdf24eb0dad641dbf44_1e80b1583668a8bbf8540898561dd23e_8.shp'  # 替换为你的SHP文件路径
 gdf = gpd.read_file(shp_file_path)
 
 print(gdf.columns)
