@@ -226,13 +226,13 @@ def main(csv_path,output_):
     df = pd.read_csv(csv_path)
     print(df.shape)
     for index, row in tqdm(df.iterrows()):
-        if index <= -10:
-            continue
-        if index >750000000:
-            continue
+        # if index <= -10:
+        #     continue
+        # if index >750000000:
+        #     continue
         print(df.shape[0],index)
         try:
-            resp = search_request(float(row['lat']), float(row['long']))
+            resp = search_request(float(row['latitude']), float(row['longitude']))
             panoids = panoids_from_response(resp.text)
             # print(panoids)
         except Exception as e:
@@ -248,13 +248,12 @@ def main(csv_path,output_):
                 year = 0
                 month = 0
             try :
-                img_save_path = output_+f"/{int(row['id'])}_{row['long']}_{row['lat']}_{pano['heading']}_{year}_{month}.jpg"
+                img_save_path = output_+f"/{int(row['osm_id'])}_{row['longitude']}_{row['latitude']}_{pano['heading']}_{year}_{month}.jpg"
                 if os.path.exists(img_save_path):
                   break
-                print(img_save_path)
-
                 image = get_panorama(pano['panoid'],zoom)
                 image.save(img_save_path)
+                print("下载完成==>",img_save_path)
                 break
             except Exception as e :
                 print(f'error:{e}')
@@ -262,13 +261,13 @@ def main(csv_path,output_):
 
 import os
 # 输入经纬度点的csv文件
-points_csv = r'/content/gdrive/MyDrive/sv_points/data_coor_unique.csv'
+points_csv = r'e:\work\sv_gonhoo\_network_40m_unique_Spatial_Balance.csv'
 
 # 输入街景保存文件夹
 # 全景分辨率设置 1-512*1024; 2-1024*2048; 3-2048*4096; 4-4096*8192
 # 全景分辨率设置 1-512*1024; 2-7++*1536; 3-1024*3072; 4-2048*4096; 5-4096*8192
 zoom = 3
-output_ = r'/content/gdrive/MyDrive/sv_points_ori/sv_pan_zoom'+str(zoom)
+output_ = r'e:\work\sv_gonhoo/sv_pan_zoom'+str(zoom)
 
 if os.path.exists(output_) == False:
     os.makedirs(output_)

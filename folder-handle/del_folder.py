@@ -2,8 +2,8 @@ import shutil
 from tqdm import tqdm
 import os  
   
-folder_path = r'D:\work\sv\sv_degrees02'  
-  
+folder_path = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\kmeans'  
+
 try:
     if os.path.exists(folder_path):  
         shutil.rmtree(folder_path)  

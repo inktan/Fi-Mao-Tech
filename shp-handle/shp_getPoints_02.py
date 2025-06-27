@@ -43,13 +43,6 @@ def extract_points(line, interval):
             current_distance += interval
     return points
 
-
-# folder_path = r'E:\work\sv_zhaolu\roads'  # 替换为你的文件夹路径
-# shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
-
-shape_files=[
-    r'e:\work\sv_guaiyu\范围\范围_netroad.shp',
-]
 def process_geometry(row,interval):
     geometry = row['geometry']
     index = row.name  # 获取索引
@@ -75,6 +68,13 @@ def process_geometry(row,interval):
     
     return [(index, point.x, point.y) for point in points]
 
+# folder_path = r'E:\work\sv_zhaolu\roads'  # 替换为你的文件夹路径
+# shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
+
+shape_files=[
+    r'e:\work\sv_qingningmigucheng\主城区\主城区_netroad.shp',
+]
+
 for file_path in shape_files:
     print(file_path)
 
@@ -82,7 +82,7 @@ for file_path in shape_files:
     gdf = gpd.read_file(shp_file_path)
     
     # 应用函数并创建DataFrame
-    interval = 35
+    interval = 100
     results = gdf.apply(process_geometry, axis=1, interval=interval).explode()
     points_df = pd.DataFrame(list(results), columns=['osm_id', 'longitude', 'latitude'])
 
@@ -95,8 +95,8 @@ for file_path in shape_files:
     if type(points_df) == pd.core.frame.DataFrame:
         points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude, crs='EPSG:4326'))
 
-    points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_.shp') , index=False)
-
+    # points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_.shp') , index=False)
+# 
     points_df = points_df.drop_duplicates(subset=['longitude', 'latitude'])
     # df_unique = points_df.drop_duplicates(subset=['id'])
     # 打印去重后的数据行数
@@ -108,7 +108,7 @@ for file_path in shape_files:
     # 如果 result_gdf 是 DataFrame，则将其转换为 GeoDataFrame
     if type(points_df) == pd.core.frame.DataFrame:
         points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude, crs='EPSG:4326'))
-    points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_unique.shp') , index=False)
+    # points_df.to_file(shp_file_path.replace('.shp',f'_{interval}m_unique.shp') , index=False)
 
     gdf = points_df
     # 确保是WGS84 (EPSG:4326)坐标系
@@ -163,8 +163,8 @@ for file_path in shape_files:
     
     # 6. 保存结果
     print("保存结果...")
-    filtered_gdf.to_file(shp_file_path.replace('.shp', f'_{interval}m_unique_Spatial_Balance.shp') , index=False)
-    filtered_gdf.to_csv(shp_file_path.replace('.shp', f'_{interval}m_unique_Spatial_Balance.csv') , index=False)
+    filtered_gdf.to_file(shp_file_path.replace('.shp', f'_{interval}m_Spatial.shp') , index=False)
+    filtered_gdf.to_csv(shp_file_path.replace('.shp', f'_{interval}m_Spatial.csv') , index=False)
     
     print(f"处理完成 - 原始点数: {len(gdf)}, 处理后点数: {len(filtered_gdf)}, 删除点数: {len(to_remove)}")
 

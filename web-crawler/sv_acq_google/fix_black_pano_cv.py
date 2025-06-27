@@ -66,7 +66,7 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'E:\work\sv_yantu\sv_pan_zoom3',
+        r'E:\work\sv_zoudaobuhuang\points\sv_pan_zoom3',
         # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
         ]
     for folder_path in folder_path_list:

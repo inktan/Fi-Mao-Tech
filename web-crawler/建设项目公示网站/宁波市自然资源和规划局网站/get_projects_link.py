@@ -14,7 +14,7 @@ parent_dir = str(Path(__file__).parent.parent)
 sys.path.append(parent_dir)  # 将上级目录加入 Python 路径
 
 # 现在可以直接导入上级目录的模块
-from file_utils import get_deepest_dirs, create_safe_dirname, PROJECT_KEYWORDS
+from file_utils import get_deepest_dirs, create_safe_dirname, PROJECT_KEYWORDS,PageCount
 
 root_directory = r"Y:\\GOA-项目公示数据\\建设项目公示信息\\宁波\\宁波市"  # 替换为你的目标文件夹路径
 deepest_dir_names = get_deepest_dirs(root_directory)
@@ -39,7 +39,7 @@ def make_pudong_gov_request(url):
     matches = li_pattern.findall(html_content)
 
     # 处理并打印结果
-    for i, (pro_url, title, time) in enumerate(matches, 1):
+    for i, (pro_url, title, time) in enumerate(matches[0:20], 1):
         try:
             pro_url = pro_url
             project_name = title.strip()
@@ -154,17 +154,23 @@ base_output_dir = f"Y:\\GOA-项目公示数据\\建设项目公示信息\\宁波
 
 # 使用示例
 # 宁波市公示公告> 规划> 规划批后公示
-number_of_pages = 3
-for page in range(number_of_pages):
-    url = f'https://zgj.ningbo.gov.cn/col//col1229269355//index.html?uid=6258427&pageNum={page+1}'
+url = f'https://zgj.ningbo.gov.cn/col//col1229269355//index.html?uid=6258427'
+print(url)
+make_pudong_gov_request(url)
+# 宁波市公示公告> 规划> 规划批前公示只有十天公示期
+url = f'https://zgj.ningbo.gov.cn//col//col1229880768//index.html?uid=5624005'
+print(url)
+make_pudong_gov_request(url)
 
-    print(url)
-    make_pudong_gov_request(url)
+# for page in range(PageCount):
+#     url = f'https://zgj.ningbo.gov.cn/col//col1229269355//index.html?uid=6258427&pageNum={page+1}'
+
+#     print(url)
+#     make_pudong_gov_request(url)
 
 # 宁波市公示公告> 规划> 规划批前公示只有十天公示期
-number_of_pages = 3
-for page in range(number_of_pages):
-    url = f'https://zgj.ningbo.gov.cn//col//col1229101542//index.html?uid=5624005&pageNum={page+1}'
+# for page in range(PageCount):
+#     url = f'https://zgj.ningbo.gov.cn//col//col1229880768//index.html?uid=5624005&pageNum={page+1}'
 
-    print(url)
-    make_pudong_gov_request(url)
+#     print(url)
+#     make_pudong_gov_request(url)

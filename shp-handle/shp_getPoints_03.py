@@ -48,7 +48,7 @@ def extract_points(line, interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'e:\work\sv_nanjing_qinhuaiqu\lines_on_polygons.shp',
+    r'e:\work\sv_qingyingmigucheng\主城区\主城区_netroad.shp',
 ]
 
 for file_path in shape_files:
@@ -68,10 +68,10 @@ for file_path in shape_files:
     # gdf['name_2'] = gdf['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
 
     for index, row in tqdm(gdf.iterrows()):
-        if '高速' in row['fclass_cn']:
-            continue
-        if '小路' in row['fclass_cn']:
-            continue
+        # if '高速' in row['fclass_cn']:
+        #     continue
+        # if '小路' in row['fclass_cn']:
+        #     continue
 
         geometry = row['geometry']
         if geometry is None:

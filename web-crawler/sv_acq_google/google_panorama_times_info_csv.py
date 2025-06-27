@@ -67,12 +67,12 @@ def panoids_from_response(text, closest=False, disp=False, proxies=None):
     # 2012
     # 2013
     # 2014
-    print("Parsing response...")
-    print('length of text:',len(text))
-    print(text[0:200])
+    # print("Parsing response...")
+    # print('length of text:',len(text))
+    # print(text[0:200])
     pans = re.findall('\[[0-9]+,"(.+?)"\].+?\[\[null,null,(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+).*?\],\s*\[(-?[0-9]+\.[0-9]+).*?\[(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+)\]', text)
     # pans = re.findall('\[[0-9]+,"(.+?)"\].+?\[\[null,null,(-?[0-9]+.[0-9]+),(-?[0-9]+.[0-9]+)', text)
-    print('length of pans:',len(pans))
+    # print('length of pans:',len(pans))
     pans = [{
         "panoid": p[0],
         "lat": float(p[1]),
@@ -138,10 +138,8 @@ def panoids_from_response(text, closest=False, disp=False, proxies=None):
     else:
         return pans
 
-def main(samplesFeatureClass,output_):
+def main(csv_path, sv_infos_path):
 
-    # 创建一个空列表来存储行数据
-    rows = []
     df = pd.read_csv(csv_path)
     print(df.shape)
     
@@ -153,11 +151,10 @@ def main(samplesFeatureClass,output_):
         # if index >16000:
         #     continue
 
-        # print(index,float(row['longitude_circle']),float(row['latitude_circle']))
         print(df.shape)
 
         try:
-            resp = search_request(float(row['latitude_circle']), float(row['longitude_circle']))
+            resp = search_request(float(row['latitude']), float(row['longitude']))
             panoids = panoids_from_response(resp.text)
         except Exception as e:
             print(e)
@@ -175,27 +172,35 @@ def main(samplesFeatureClass,output_):
                 # print(year)
                 # print(month)
 
+            if year < 2021:
+                continue
+
             with open(sv_infos_path,'a' ,newline='') as f:
                 writer = csv.writer(f)
-                writer.writerow([int(row['id']),int(row['id_circle']),
-                float(row['longitude_circle']),
-                float(row['latitude_circle']),
+                writer.writerow([
+                index,
+                int(row['osm_id']),
+                float(row['longitude']),
+                float(row['latitude']),
                 pano['panoid'],
                 pano['pitch'],
                 pano['heading'],
                 pano['fov01'],
                 pano['fov02'],
-                year, month])
+                year,
+                month
+                ])
 
                 print(count)
                 count+=1
-                break
+                # break
 
-csv_path = r'e:\work\sv_j_ran\points\data_coor_unique_500_circle.csv' # 需要爬取的点
-sv_infos_path = csv_path.replace('.csv','_sv_heading_infos_.csv')
+csv_path = r'f:\立方数据\2025年道路数据\【立方数据学社】台湾省\points_20m_unique_Spatial_Balance.csv' # 需要爬取的点
+# sv_infos_path = csv_path.replace('.csv','_sv_heading_infos_.csv')
+sv_infos_path = r'E:\work\sv_zoudaobuhuang\points_sv_heading_infos_.csv'
 
 with open(sv_infos_path,'w' ,newline='') as f:
     writer = csv.writer(f)
-    writer.writerow(['id','id_circle','longitude_circle','latitude_circle','panoid','pitch','heading','fov01','fov02','year','month'])
+    writer.writerow(['id','osm_id','longitude','latitude','panoid','pitch','heading','fov01','fov02','year','month'])
 
 main(csv_path,sv_infos_path)

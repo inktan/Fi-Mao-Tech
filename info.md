@@ -1,12 +1,3 @@
-堆叠的楼板，透明玻璃立面，玻璃后有白色结构框架，银色斜柱支撑，开放式底层，广场在前景，银色圆顶，背景有高楼大厦
-
-屋顶下悬着木条，屋顶下是玻璃墙，庭院中央有一棵树，傍晚
-
-一座低层弯曲建筑，大型水平箱形建筑，白色网格线的透明玻璃，白色的长阳台和楼梯，右下角的一个大拱门开口，温暖的室内光线，前景有花的池塘
-
-立面有棕色的木条墙，木框架的高窗，太阳能电池板屋顶，金属栏杆和平台，混凝土台阶的露台，沿着L形座位区的木凳，圆形花盆，周围有树木
-
-玻璃墙，黑色边框，左前浅灰色金属板墙，左侧有白色标志，有草的混凝土小路通向玻璃墙，人，树木
 
 
 1、常用软件
@@ -27,6 +18,12 @@ Web服务器
 Win10
 taskkill /f /im nginx.exe 杀死nginx服务器进程
 tasklist /fi "imagename eq nginx.exe" 的进程信息
+
+sudo chmod -R 766 /etc/nginx/sites-available
+
+vue 常用语句
+javascript:document.body.setAttribute('contenteditable',true)
+
 
 vue开发服务器启动
 npm run dev -- --host 0.0.0.0 --port 6660
@@ -185,7 +182,6 @@ python常用安装库名
 Pillow pandas tensorflow numpy  matplotlib  easygui fake-useragent pyqt5 pyqt5_tools pyqt5designer openai  torch torchvision torchaudio opencv-python jupyter virtualenv py2app pyshp shapely fasttext gensim requests wxPython pycryptodomex lxml pycryptodome lz4 httpx bs4 scikit-learn tqdm scipy selenium flask flask_cors aiohttp aiofiles
 
 conda install -c conda-forge faiss-gpu
-
 
 python 常用cmd命令
 1.pip show pip	查看指定库名的信息

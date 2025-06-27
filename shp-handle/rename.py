@@ -1,19 +1,12 @@
-import geopandas as gpd
+import os
 
-shp_file_paths=[
-    r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh00.shp',
-    r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh05.shp',
-    r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh10.shp',
-    r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh15.shp',
-    r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh19.shp',
-    r'E:\work\sv_goufu\datatrain\water\length\点数据源\sh22.shp',
-]
+# 设置目标目录
+target_dir = r"e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\sv_pan\output_lines"
 
-for file_path in shp_file_paths:
-    gdf = gpd.read_file(file_path)
-    print(f"Processing file: {file_path}")
-    print(gdf.columns)  # 打印所有列名
-    # if 'RASTERVALU' in gdf.columns:
-    #     # 重命名列
-    #     gdf = gdf.rename(columns={'RASTERVALU': 'lengthwa'})
-    #     gdf.to_file(file_path)  # 保存修改后的文件
+# 遍历目录下的所有文件
+for filename in os.listdir(target_dir):
+
+    os.rename(target_dir + '\\' + filename, target_dir + '\\' + filename.replace('_筛选', ''))
+
+
+print("所有.shp文件及其关联文件已重命名完成！")

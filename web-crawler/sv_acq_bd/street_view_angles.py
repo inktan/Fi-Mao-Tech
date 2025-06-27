@@ -164,8 +164,10 @@ def main(csv_path,folder_out_path):
     print(df.shape)
     count = 0
     for index, row in tqdm(df.iterrows()):
-        if index <= -7000:
+        if index not in [1353,4751,5594,8680]:
             continue
+        # if index <= -7000:
+        #     continue
         # if index >7000:
         #     continue
         print(df.shape[0],index)
@@ -175,17 +177,17 @@ def main(csv_path,folder_out_path):
         # 中国的经纬度 经度范围:73°33′E至135°05′E。 纬度范围:3°51′N至53°33′N。
         # print(row)
         # id = row['id']
-        Id = int(row['Id'])
-        ORIG_FID = int(row['ORIG_FID'])
+        # Id = int(row['Id'])
+        # ORIG_FID = int(row['ORIG_FID'])
         # osm_id = row['osm_id']
-        lng = row['lon']
-        lat = row['lat']
+        lng = row['longitude']
+        lat = row['latitude']
         # mame_2 = row['name_2']
         
         try:
             tar_lng_lat = coord_convert(lng,lat)
             # print(tar_lng_lat)
-            panoidInfos = get_panoid(tar_lng_lat[0],tar_lng_lat[1],str(lng)+'_'+str(lat), str(id),folder_out_path)
+            panoidInfos = get_panoid(tar_lng_lat[0],tar_lng_lat[1],str(lng)+'_'+str(lat), str(index),folder_out_path)
             timeLineIds = panoidInfos[0]
             heading = panoidInfos[1]
             # print(panoidInfos)
@@ -217,22 +219,29 @@ def main(csv_path,folder_out_path):
                 if os.path.exists(pic_path) == False:
                     os.makedirs(pic_path)
 
+                # option1 = (heading + 90) % 360
+                # option2 = (heading - 90) % 360
+                # adjusted_90 = min(option1, option2)
+                # option3 = (adjusted_90 + 180) % 360
+                # option4 = (adjusted_90 - 180) % 360
+                # adjusted_180 = min(option3, option4)
+
                 option1 = (heading + 90) % 360
-                option2 = (heading - 90) % 360
-                adjusted_90 = min(option1, option2)
-                option3 = (adjusted_90 + 180) % 360
-                option4 = (adjusted_90 - 180) % 360
-                adjusted_180 = min(option3, option4)
+                option2 = (heading + 180) % 360
+                option3 = (heading + 270) % 360
+                option4 = (heading + 0) % 360
 
                 # for index, heading in enumerate([adjusted_90, adjusted_180]):
                     # Id_ = Id*2 + index
-                for heading in [adjusted_90, adjusted_180]:
-                    heading =round(heading, 1)
+                # for heading in [adjusted_90, adjusted_180]:
+                for option in [option1, option2, option3, option4]:
+                    option =round(option, 1)
 
                     # print('heading:',heading)
                     # continue
                     # save_file_path = pic_path + '/' + str(count)+'_'+ str(id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
-                    save_file_path = pic_path + '/' + str(Id)+'_' + str(ORIG_FID)+'_'+str(lng)+ '_'+str(lat)+ '_' + str(heading)+ '_' +timeLine+ '.jpg'
+                    # save_file_path = pic_path + '/' + str(Id)+'_' + str(ORIG_FID)+'_'+str(lng)+ '_'+str(lat)+ '_' + str(option)+ '_' +timeLine+ '.jpg'
+                    save_file_path = pic_path + '/' + str(index)+'_'+str(lng)+ '_'+str(lat)+ '_' + str(int(option))+ '_' +timeLine+ '.jpg'
                     # save_file_path = pic_path + '/' + str(count)+'_'+ str(ORIG_FID)+ '_' +timeLine+ '.jpg'
                     # print(save_file_path,'下载完成')
                     # count+=1
@@ -248,10 +257,10 @@ def main(csv_path,folder_out_path):
                         save_path=save_file_path,
                         panoid=pano_id,
                         fovy=90,
-                        heading=heading,
+                        heading=option,
                         pitch=0,
-                        width=1000,
-                        height=500
+                        width=960,
+                        height=720
                     )
 
                     if down_sv_bool:
@@ -273,7 +282,7 @@ resolution_ratio = 4
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'd:\work\sv\single_match_files.csv'  # 需要爬取的点
-    folder_out_path = r'D:\work\sv\sv_degrees01'  # 保存街景文件
+    csv_path = r'e:\work\sv_qingyingmigucheng\主城区\主城区_netroad_100m_unique_Spatial_Balance.csv'  # 需要爬取的点
+    folder_out_path = r'e:\work\sv_qingyingmigucheng\主城区'  # 保存街景文件
 
     main(csv_path,folder_out_path)

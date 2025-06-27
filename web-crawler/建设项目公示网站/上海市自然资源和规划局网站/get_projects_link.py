@@ -12,7 +12,7 @@ parent_dir = str(Path(__file__).parent.parent)
 sys.path.append(parent_dir)  # 将上级目录加入 Python 路径
 
 # 现在可以直接导入上级目录的模块
-from file_utils import get_deepest_dirs, create_safe_dirname, PROJECT_KEYWORDS
+from file_utils import get_deepest_dirs, create_safe_dirname, PROJECT_KEYWORDS,PageCount
 
 root_directory = r"Y:\GOA-项目公示数据\建设项目公示信息\上海"  # 替换为你的目标文件夹路径
 deepest_dir_names = get_deepest_dirs(root_directory)
@@ -121,8 +121,7 @@ def extract_project_info(url):
         print(f"发生错误: {e}")
 
 # 使用示例
-number_of_pages = 10
-for page in range(1, number_of_pages + 1):
+for page in range(1, PageCount + 1):
     if page > 1:
         # 构造URL
         url = f"https://ghzyj.sh.gov.cn/gszqyj/index_{page}.html"

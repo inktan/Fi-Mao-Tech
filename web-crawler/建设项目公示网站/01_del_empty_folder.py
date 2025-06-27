@@ -1,5 +1,6 @@
 import os
 from file_utils import PROJECT_KEYWORDS
+import re
 
 def remove_empty_folders(path):
     """
@@ -62,12 +63,24 @@ def find_and_remove_expired_folders(root_dir):
                     is_bottom_level = False
                     break
             for keyword in PROJECT_KEYWORDS:
+
                 if is_bottom_level and keyword in dir_name:
                     try:
                         print(f"删除文件夹: {dir_path}")
                         shutil.rmtree(dir_path)  # 删除整个文件夹及其内容
                     except Exception as e:
                         print(f"删除失败 {dir_path}: {e}")
+
+            pattern = r'道路.*工程'  # "路"后面任意字符（.*），然后是"工程"
+            if bool(re.search(pattern, dir_name)):
+                if any(keyword in dir_name for keyword in ["住宅", "住房","商业", "公寓", "幼儿园",]):
+                    continue
+
+                try:
+                    print(f"删除文件夹: {dir_path}")
+                    shutil.rmtree(dir_path)  # 删除整个文件夹及其内容
+                except Exception as e:
+                    print(f"删除失败 {dir_path}: {e}")
 
 # 使用示例
 if __name__ == "__main__":

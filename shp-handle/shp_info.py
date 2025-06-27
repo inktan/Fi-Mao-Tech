@@ -1,6 +1,6 @@
 import geopandas as gpd
 
-shp_file_path = r'd:\Users\wang.tan.GOA\Document\WXWork\1688853481969789\Cache\File\2025-06\867e0adab8d06fdf24eb0dad641dbf44_1e80b1583668a8bbf8540898561dd23e_8.shp'  # 替换为你的SHP文件路径
+shp_file_path = r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\sv_pan\ss01.shp'  # 替换为你的SHP文件路径
 gdf = gpd.read_file(shp_file_path)
 
 print(gdf.columns)

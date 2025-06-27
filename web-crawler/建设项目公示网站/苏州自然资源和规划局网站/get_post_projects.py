@@ -11,7 +11,7 @@ parent_dir = str(Path(__file__).parent.parent)
 sys.path.append(parent_dir)  # 将上级目录加入 Python 路径
 
 # 现在可以直接导入上级目录的模块
-from file_utils import get_deepest_dirs, create_safe_dirname, PROJECT_KEYWORDS
+from file_utils import get_deepest_dirs, create_safe_dirname, PROJECT_KEYWORDS,PageCount
 
 root_directory = r"Y:\\GOA-项目公示数据\\建设项目公示信息\\苏州\\苏州市"  # 替换为你的目标文件夹路径
 deepest_dir_names = get_deepest_dirs(root_directory)
@@ -32,7 +32,7 @@ def make_pudong_gov_request():
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
     }
 
-    for i in range(30):
+    for i in range(1):
         data = {
             "currentPage": i + 1,
         }

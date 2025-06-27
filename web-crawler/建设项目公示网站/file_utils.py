@@ -1,6 +1,7 @@
 import os
 import re
 
+PageCount =1
 # keywords.py
 PROJECT_KEYWORDS =  ['公示已到期',
                     '加装电梯',
@@ -9,7 +10,21 @@ PROJECT_KEYWORDS =  ['公示已到期',
                     '采购意向',
                     '集中反馈',
                     '道路工程',
+                    '公园绿地',
+                    '道路新建',
+                    '基础设施',
+                    '河道工程',
+                    '立面改造',
+                    '选址公示',
+                    '停车场',
+                    '车间',
+                    '制造',
+                    '年产',
+                    '扩建',
+                    '经营',
+                    '建议',
                     '报告',
+                    '反馈',
                     '年度',
                     '通知',
                     '商请',
@@ -31,7 +46,6 @@ def get_deepest_dirs(root_dir):
             deepest_dirs.add(dir_name)
 
     return deepest_dirs
-
 
 def create_safe_dirname(project_name, publish_date):
     """创建安全的文件夹名称"""
