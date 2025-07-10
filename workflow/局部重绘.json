@@ -1,0 +1,668 @@
+{
+  "last_node_id": 45,
+  "last_link_id": 109,
+  "nodes": [
+    {
+      "id": 42,
+      "type": "Reroute",
+      "pos": [
+        168,
+        -138
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 102
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "INPAINT_PATCH",
+          "links": [
+            101
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 14,
+      "type": "VAEDecode",
+      "pos": [
+        386,
+        171
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 97
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 107,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            46
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 36,
+      "type": "INPAINT_ApplyFooocusInpaint",
+      "pos": [
+        536,
+        -168
+      ],
+      "size": [
+        209,
+        71
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 60
+        },
+        {
+          "name": "patch",
+          "type": "INPAINT_PATCH",
+          "link": 101
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 91
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            93
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-inpaint-nodes",
+        "ver": "b9039c22de926919f26b7242cfa4da00d8b6fbec",
+        "Node name for S&R": "INPAINT_ApplyFooocusInpaint",
+        "aux_id": "Acly/comfyui-inpaint-nodes"
+      },
+      "widgets_values": [],
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 40,
+      "type": "KSampler",
+      "pos": [
+        805,
+        -167
+      ],
+      "size": [
+        315,
+        474
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 93
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 98
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 105
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 106,
+          "slot_index": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            97
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        654457749124275,
+        "randomize",
+        24,
+        5,
+        "dpmpp_2m_sde_gpu",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 38,
+      "type": "VAEEncodeForInpaint",
+      "pos": [
+        226.51315307617188,
+        -43.08026123046875
+      ],
+      "size": [
+        315,
+        98
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 108
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 81
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 109
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            91,
+            106
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "VAEEncodeForInpaint"
+      },
+      "widgets_values": [
+        8
+      ]
+    },
+    {
+      "id": 19,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        -326,
+        -168
+      ],
+      "size": [
+        431,
+        98
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            60
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            103,
+            104
+          ],
+          "slot_index": 1,
+          "shape": 3
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            81,
+            107
+          ],
+          "slot_index": 2,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "sdxl\\goaXL0.9\\goaXL0.9.safetensors"
+      ]
+    },
+    {
+      "id": 35,
+      "type": "INPAINT_LoadFooocusInpaint",
+      "pos": [
+        -334.24627685546875,
+        9.599495887756348
+      ],
+      "size": [
+        418.0268249511719,
+        87.3501968383789
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INPAINT_PATCH",
+          "type": "INPAINT_PATCH",
+          "links": [
+            102
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-inpaint-nodes",
+        "ver": "b9039c22de926919f26b7242cfa4da00d8b6fbec",
+        "Node name for S&R": "INPAINT_LoadFooocusInpaint",
+        "aux_id": "Acly/comfyui-inpaint-nodes"
+      },
+      "widgets_values": [
+        "fooocus_inpaint_head.pth",
+        "inpaint_v26.fooocus.patch"
+      ],
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 43,
+      "type": "LoadAndResizeImage",
+      "pos": [
+        -318.4801330566406,
+        198.68060302734375
+      ],
+      "size": [
+        315,
+        566
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            108
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [
+            109
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "image_path",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-kjnodes",
+        "ver": "80977db1ea8472a7934de50f3c878aed405e8d73",
+        "Node name for S&R": "LoadAndResizeImage"
+      },
+      "widgets_values": [
+        "clipspace/clipspace-mask-5201425.299999982.png [input]",
+        true,
+        2000,
+        2000,
+        1,
+        true,
+        2,
+        "alpha",
+        "",
+        "image"
+      ]
+    },
+    {
+      "id": 28,
+      "type": "PreviewImage",
+      "pos": [
+        762.1819458007812,
+        343.363525390625
+      ],
+      "size": [
+        460,
+        430
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 46
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 10,
+      "type": "CLIPTextEncode",
+      "pos": [
+        204,
+        512
+      ],
+      "size": [
+        397.5622253417969,
+        76
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 104
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            105
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "empty, nothing,over-saturated"
+      ]
+    },
+    {
+      "id": 9,
+      "type": "CLIPTextEncode",
+      "pos": [
+        200,
+        270
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 103
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            98
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "Modern commercial and office complex, open plaza at ground level, minimalist design, clean lines, stone-paved square, lush green plants, outdoor seating areas, elegant café terraces, large glass façades of surrounding buildings, contemporary architecture, sunny day, soft shadows, highly detailed, photorealistic, 8K rendering"
+      ]
+    }
+  ],
+  "links": [
+    [
+      46,
+      14,
+      0,
+      28,
+      0,
+      "IMAGE"
+    ],
+    [
+      60,
+      19,
+      0,
+      36,
+      0,
+      "MODEL"
+    ],
+    [
+      81,
+      19,
+      2,
+      38,
+      1,
+      "VAE"
+    ],
+    [
+      91,
+      38,
+      0,
+      36,
+      2,
+      "LATENT"
+    ],
+    [
+      93,
+      36,
+      0,
+      40,
+      0,
+      "MODEL"
+    ],
+    [
+      97,
+      40,
+      0,
+      14,
+      0,
+      "LATENT"
+    ],
+    [
+      98,
+      9,
+      0,
+      40,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      101,
+      42,
+      0,
+      36,
+      1,
+      "INPAINT_PATCH"
+    ],
+    [
+      102,
+      35,
+      0,
+      42,
+      0,
+      "*"
+    ],
+    [
+      103,
+      19,
+      1,
+      9,
+      0,
+      "CLIP"
+    ],
+    [
+      104,
+      19,
+      1,
+      10,
+      0,
+      "CLIP"
+    ],
+    [
+      105,
+      10,
+      0,
+      40,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      106,
+      38,
+      0,
+      40,
+      3,
+      "LATENT"
+    ],
+    [
+      107,
+      19,
+      2,
+      14,
+      1,
+      "VAE"
+    ],
+    [
+      108,
+      43,
+      0,
+      38,
+      0,
+      "IMAGE"
+    ],
+    [
+      109,
+      43,
+      1,
+      38,
+      2,
+      "MASK"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.7513148009015777,
+      "offset": [
+        809.8812199704304,
+        320.87788563442206
+      ]
+    },
+    "ue_links": []
+  },
+  "version": 0.4
+}

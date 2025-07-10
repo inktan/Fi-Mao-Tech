@@ -19,7 +19,6 @@ image_array = np.array(image)
 
 # modified_image.save(r'e:\work\苏大-鹌鹑蛋好吃\热力图\contact_transparent_02_L.png')  # 替换为你想保存的路径
 
-
 # 获取图像的宽度和高度
 height, width = image_array.shape
 
@@ -30,7 +29,6 @@ y_min, y_max = 3428347.637084961, 3476996.5552368164
 # 3. 计算 x 和 y 的映射比例
 x_scale = (x_max - x_min) / 10000
 y_scale = (y_max - y_min) / 10000
-
 
 print(x_scale)
 print(y_scale)

@@ -1,0 +1,1154 @@
+{
+  "last_node_id": 45,
+  "last_link_id": 68,
+  "nodes": [
+    {
+      "id": 26,
+      "type": "ControlNetLoader",
+      "pos": {
+        "0": 464,
+        "1": 90
+      },
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": [
+            44
+          ],
+          "slot_index": 0,
+          "label": "ControlNet"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ControlNetLoader"
+      },
+      "widgets_values": [
+        "control_instant_id_sdxl"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 18,
+      "type": "EcomIDFaceAnalysis",
+      "pos": {
+        "0": 458,
+        "1": -40
+      },
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FACEANALYSIS",
+          "type": "FACEANALYSIS",
+          "links": [
+            41
+          ],
+          "slot_index": 0,
+          "label": "FACEANALYSIS"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EcomIDFaceAnalysis"
+      },
+      "widgets_values": [
+        "CPU"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 25,
+      "type": "PulidEvaClipLoader",
+      "pos": {
+        "0": 469,
+        "1": -162
+      },
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "EVA_CLIP",
+          "type": "EVA_CLIP",
+          "links": [
+            40
+          ],
+          "slot_index": 0,
+          "label": "EVA_CLIP"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PulidEvaClipLoader"
+      },
+      "widgets_values": [
+        "EVA02-CLIP-L-14-336"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 29,
+      "type": "EcomID_PulidModelLoader",
+      "pos": {
+        "0": 454,
+        "1": -286
+      },
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "PULID",
+          "type": "PULID",
+          "links": [
+            43
+          ],
+          "slot_index": 0,
+          "label": "PULID"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EcomID_PulidModelLoader"
+      },
+      "widgets_values": [
+        "ip-adapter_pulid_sdxl_fp16.safetensors"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 28,
+      "type": "InstantIDModelLoader",
+      "pos": {
+        "0": 464,
+        "1": -398
+      },
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INSTANTID",
+          "type": "INSTANTID",
+          "links": [
+            42
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InstantIDModelLoader"
+      },
+      "widgets_values": [
+        "ip-adapter_instant_id_sdxl"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 39,
+      "type": "EmptyLatentImage",
+      "pos": {
+        "0": 486,
+        "1": 400
+      },
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            64
+          ],
+          "label": "Latent"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        768,
+        1024,
+        2
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 7,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 873,
+        "1": 271
+      },
+      "size": {
+        "0": 425.27801513671875,
+        "1": 180.6060791015625
+      },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 5,
+          "label": "CLIP"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            49
+          ],
+          "slot_index": 0,
+          "label": "条件"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "Bad quality,worst quality,normal quality,low-res,sketch,poor design,deformed,disfigured,soft,bad composition,simple design,boring,watermark,text,error,cropped,blurry,nsfw,mutated,missing limb,mutated hands and fingers,malformed limbs,"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 30,
+      "type": "ApplyEcomIDAdvanced",
+      "pos": {
+        "0": 881,
+        "1": -209
+      },
+      "size": {
+        "0": 315,
+        "1": 402
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "instantid_ipa",
+          "type": "INSTANTID",
+          "link": 42,
+          "label": "instantid_ipa"
+        },
+        {
+          "name": "pulid",
+          "type": "PULID",
+          "link": 43,
+          "label": "pulid"
+        },
+        {
+          "name": "eva_clip",
+          "type": "EVA_CLIP",
+          "link": 40,
+          "label": "eva_clip"
+        },
+        {
+          "name": "insightface",
+          "type": "FACEANALYSIS",
+          "link": 41,
+          "label": "insightface"
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 44,
+          "label": "control_net"
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 45,
+          "label": "image"
+        },
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 68,
+          "label": "model"
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 48,
+          "label": "positive"
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 49,
+          "label": "negative"
+        },
+        {
+          "name": "image_kps",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "image_kps"
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": null,
+          "shape": 7,
+          "label": "mask"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            50
+          ],
+          "slot_index": 0,
+          "label": "MODEL"
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            51
+          ],
+          "slot_index": 1,
+          "label": "positive"
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            52
+          ],
+          "slot_index": 2,
+          "label": "negative"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ApplyEcomIDAdvanced"
+      },
+      "widgets_values": [
+        "neutral",
+        0.2,
+        1,
+        0.3,
+        0.3,
+        0,
+        "average"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": {
+        "0": 1323,
+        "1": -65
+      },
+      "size": {
+        "0": 301.9334716796875,
+        "1": 69.7906494140625
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 7,
+          "label": "Latent"
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 8,
+          "label": "VAE"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            9,
+            53
+          ],
+          "slot_index": 0,
+          "label": "图像"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": [],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 33,
+      "type": "SUPIR_Upscale",
+      "pos": {
+        "0": 2185.62939453125,
+        "1": -139.55355834960938
+      },
+      "size": {
+        "0": 400,
+        "1": 818
+      },
+      "flags": {},
+      "order": 17,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 53,
+          "label": "图像"
+        },
+        {
+          "name": "captions",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "captions"
+          },
+          "shape": 7,
+          "label": "captions"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "upscaled_image",
+          "type": "IMAGE",
+          "links": [
+            54
+          ],
+          "slot_index": 0,
+          "label": "图像"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SUPIR_Upscale"
+      },
+      "widgets_values": [
+        "SUPIR-v0F_fp16.safetensors",
+        "真境写真XL Apex | 商业电商摄影真实写实大师_真境写真XL_v3.6",
+        367208838376082,
+        "randomize",
+        "lanczos",
+        2,
+        45,
+        5,
+        4,
+        "high quality, detailed",
+        "bad quality, blurry, messy",
+        5,
+        1.003,
+        1,
+        4,
+        0,
+        "Wavelet",
+        true,
+        true,
+        512,
+        64,
+        "",
+        "auto",
+        "auto",
+        1,
+        false,
+        1024,
+        512,
+        false,
+        false,
+        "RestoreEDMSampler"
+      ],
+      "_widget_cache_map": {
+        "真境写真XL Apex | 商业电商摄影真实写实大师_真境写真XL_v3.6": {
+          "name": "真境写真XL Apex | 商业电商摄影真实写实大师_真境写真XL_v3.6",
+          "baseType": 3,
+          "value": "b8324f6370ef4b978bc6cbdb0a2d36a9"
+        }
+      }
+    },
+    {
+      "id": 34,
+      "type": "PreviewImage",
+      "pos": {
+        "0": 2611.62939453125,
+        "1": -139.55355834960938
+      },
+      "size": {
+        "0": 568.3386840820312,
+        "1": 811.0008544921875
+      },
+      "flags": {},
+      "order": 18,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 54,
+          "label": "图像"
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": [],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 9,
+      "type": "SaveImage",
+      "pos": {
+        "0": 1695,
+        "1": -53
+      },
+      "size": {
+        "0": 435.2305908203125,
+        "1": 505.8740234375
+      },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 9,
+          "label": "图像"
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 3,
+      "type": "KSampler",
+      "pos": {
+        "0": 1333,
+        "1": 127
+      },
+      "size": {
+        "0": 315,
+        "1": 262
+      },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 50,
+          "label": "模型"
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 51,
+          "label": "正面条件"
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 52,
+          "label": "负面条件"
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 64,
+          "label": "Latent"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            7
+          ],
+          "slot_index": 0,
+          "label": "Latent"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        931524470605330,
+        "randomize",
+        25,
+        6,
+        "dpmpp_2m",
+        "karras",
+        1
+      ],
+      "_widget_cache_map": {},
+      "color": "#14e0ff",
+      "bgcolor": "#00ccff"
+    },
+    {
+      "id": 31,
+      "type": "Note",
+      "pos": {
+        "0": -169.0094451904297,
+        "1": -99.56925964355469
+      },
+      "size": {
+        "0": 233.89894104003906,
+        "1": 85.47219848632812
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "此处上传面部参考图"
+      ],
+      "_widget_cache_map": {},
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 27,
+      "type": "LoadImage",
+      "pos": {
+        "0": 95.99057006835938,
+        "1": -118.56925964355469
+      },
+      "size": {
+        "0": 315,
+        "1": 314
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            45
+          ],
+          "slot_index": 0,
+          "label": "图像"
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "label": "遮罩"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "170425915-71a429a800553786675120bf01ba7615cc5cb2a2c7aec57790b7e543cd7b1261 (1).png",
+        "image"
+      ],
+      "_widget_cache_map": {
+        "其中包括图片：.jpg": {
+          "value": "img/8d5ade1f022c453089e473c7e39dbb35/a4dc7571b7b51bbd6ec9aa3abf6bcc6a8fb83962208174d8b64c5a5d15cb21fa.jpg",
+          "name": "其中包括图片：.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/8d5ade1f022c453089e473c7e39dbb35/a4dc7571b7b51bbd6ec9aa3abf6bcc6a8fb83962208174d8b64c5a5d15cb21fa.jpg",
+          "width": 660,
+          "height": 660
+        },
+        "170425915-71a429a800553786675120bf01ba7615cc5cb2a2c7aec57790b7e543cd7b1261.png": {
+          "value": "img/8d5ade1f022c453089e473c7e39dbb35/71a429a800553786675120bf01ba7615cc5cb2a2c7aec57790b7e543cd7b1261.png",
+          "name": "170425915-71a429a800553786675120bf01ba7615cc5cb2a2c7aec57790b7e543cd7b1261.png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/8d5ade1f022c453089e473c7e39dbb35/71a429a800553786675120bf01ba7615cc5cb2a2c7aec57790b7e543cd7b1261.png",
+          "width": 768,
+          "height": 1152
+        },
+        "170915116-b9da43fa56524cb3f10d87da3f59f4c4934009b27f68b2c1867e510a98c11655.png": {
+          "value": "img/8d5ade1f022c453089e473c7e39dbb35/b9da43fa56524cb3f10d87da3f59f4c4934009b27f68b2c1867e510a98c11655.png",
+          "name": "170915116-b9da43fa56524cb3f10d87da3f59f4c4934009b27f68b2c1867e510a98c11655.png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/8d5ade1f022c453089e473c7e39dbb35/b9da43fa56524cb3f10d87da3f59f4c4934009b27f68b2c1867e510a98c11655.png",
+          "width": 1024,
+          "height": 1536
+        },
+        "1.jpg": {
+          "value": "img/8d5ade1f022c453089e473c7e39dbb35/4776f312c1e2f85d04080e9bd9a2a28ee82a93eaa9c837207f98a42db78a1653.jpg",
+          "name": "1.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/8d5ade1f022c453089e473c7e39dbb35/4776f312c1e2f85d04080e9bd9a2a28ee82a93eaa9c837207f98a42db78a1653.jpg",
+          "width": 1024,
+          "height": 1536
+        },
+        "170429726-583fde5ccd22c17de127018c5fbb54abe4a70d5ea77154c034e5de72f7545623.png": {
+          "value": "img/8d5ade1f022c453089e473c7e39dbb35/583fde5ccd22c17de127018c5fbb54abe4a70d5ea77154c034e5de72f7545623.png",
+          "name": "170429726-583fde5ccd22c17de127018c5fbb54abe4a70d5ea77154c034e5de72f7545623.png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/8d5ade1f022c453089e473c7e39dbb35/583fde5ccd22c17de127018c5fbb54abe4a70d5ea77154c034e5de72f7545623.png",
+          "width": 736,
+          "height": 1112
+        },
+        "170425915-71a429a800553786675120bf01ba7615cc5cb2a2c7aec57790b7e543cd7b1261 (1).png": {
+          "value": "img/8d5ade1f022c453089e473c7e39dbb35/71a429a800553786675120bf01ba7615cc5cb2a2c7aec57790b7e543cd7b1261.png",
+          "name": "170425915-71a429a800553786675120bf01ba7615cc5cb2a2c7aec57790b7e543cd7b1261 (1).png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/8d5ade1f022c453089e473c7e39dbb35/71a429a800553786675120bf01ba7615cc5cb2a2c7aec57790b7e543cd7b1261.png",
+          "width": 768,
+          "height": 1152
+        },
+        "111 (1).jpg": {
+          "value": "img/8d5ade1f022c453089e473c7e39dbb35/d518b7ac4ff08c6ca4542438e0dd6b9f31c15b06f8ca5ab436ade32b1e5e03a8.jpg",
+          "name": "111 (1).jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/8d5ade1f022c453089e473c7e39dbb35/d518b7ac4ff08c6ca4542438e0dd6b9f31c15b06f8ca5ab436ade32b1e5e03a8.jpg",
+          "width": 1285,
+          "height": 2056
+        }
+      },
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 42,
+      "type": "Note",
+      "pos": {
+        "0": -172.0094451904297,
+        "1": 305.43060302734375
+      },
+      "size": {
+        "0": 233.89894104003906,
+        "1": 85.47219848632812
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "此处可调整正向关键词，"
+      ],
+      "_widget_cache_map": {},
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 6,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 93.99056243896484,
+        "1": 279.43060302734375
+      },
+      "size": {
+        "0": 315.9602966308594,
+        "1": 163.28765869140625
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 3,
+          "label": "CLIP"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            48
+          ],
+          "slot_index": 0,
+          "label": "条件"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "The cute Q-version doll character, C4D, wears cool streetwear, full-length portrait, the character is rendered in ultra high definition against a light purple background with soft lighting, emphasizing the character's lively personality and bold fashion sense."
+      ],
+      "_widget_cache_map": {},
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 44,
+      "type": "Note",
+      "pos": {
+        "0": -740,
+        "1": 108
+      },
+      "size": {
+        "0": 403.8432312011719,
+        "1": 151.56338500976562
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "当您抽到比较满意的图时可以在K采样器节点（蓝色节点）里将运行后操作改成固定以锁定种子在最右侧启用组对此图片开启高清放大修复，开启后运行会较慢，建议抽到满意的图后再开启"
+      ],
+      "_widget_cache_map": {},
+      "color": "#e0ff2d",
+      "bgcolor": "#ccf019"
+    },
+    {
+      "id": 4,
+      "type": "CheckpointLoaderSimple",
+      "pos": {
+        "0": 480,
+        "1": 217
+      },
+      "size": {
+        "0": 315,
+        "1": 98
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            68
+          ],
+          "slot_index": 0,
+          "label": "模型"
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            3,
+            5
+          ],
+          "slot_index": 1,
+          "label": "CLIP"
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            8
+          ],
+          "slot_index": 2,
+          "label": "VAE"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "XL-Real texture 3D _V1"
+      ],
+      "_widget_cache_map": {
+        "AWPainting_v1.3": {
+          "name": "AWPainting_v1.4",
+          "value": "ea3f612759734012bdcc5134780825e4"
+        },
+        "真境写真XL Apex | 商业电商摄影真实写实大师_真境写真XL_v3.6": {
+          "name": "真境写真XL Apex | 商业电商摄影真实写实大师_真境写真XL_v3.6",
+          "baseType": 3,
+          "value": "b8324f6370ef4b978bc6cbdb0a2d36a9"
+        },
+        "helloReal3dXL_v1.0rVAE": {
+          "name": "helloReal3dXL_v1.0rVAE",
+          "baseType": 3,
+          "value": "303bbd34cd0e480ab1633ae5c7654803"
+        },
+        "Adam-Doll.XL丨玩偶盲盒丨3D手办_V2": {
+          "name": "Adam-Doll.XL丨玩偶盲盒丨3D手办_V2",
+          "baseType": 3,
+          "value": "ccb8f27778794da38b44dfb682e89493"
+        },
+        "XL-Real texture 3D _V1": {
+          "name": "XL-Real texture 3D _V1",
+          "baseType": 3,
+          "value": "18fe9e0dfc16400d93d05e01d20c9428"
+        }
+      }
+    }
+  ],
+  "links": [
+    [
+      3,
+      4,
+      1,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      5,
+      4,
+      1,
+      7,
+      0,
+      "CLIP"
+    ],
+    [
+      7,
+      3,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      8,
+      4,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      9,
+      8,
+      0,
+      9,
+      0,
+      "IMAGE"
+    ],
+    [
+      40,
+      25,
+      0,
+      30,
+      2,
+      "EVA_CLIP"
+    ],
+    [
+      41,
+      18,
+      0,
+      30,
+      3,
+      "FACEANALYSIS"
+    ],
+    [
+      42,
+      28,
+      0,
+      30,
+      0,
+      "INSTANTID"
+    ],
+    [
+      43,
+      29,
+      0,
+      30,
+      1,
+      "PULID"
+    ],
+    [
+      44,
+      26,
+      0,
+      30,
+      4,
+      "CONTROL_NET"
+    ],
+    [
+      45,
+      27,
+      0,
+      30,
+      5,
+      "IMAGE"
+    ],
+    [
+      48,
+      6,
+      0,
+      30,
+      7,
+      "CONDITIONING"
+    ],
+    [
+      49,
+      7,
+      0,
+      30,
+      8,
+      "CONDITIONING"
+    ],
+    [
+      50,
+      30,
+      0,
+      3,
+      0,
+      "MODEL"
+    ],
+    [
+      51,
+      30,
+      1,
+      3,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      52,
+      30,
+      2,
+      3,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      53,
+      8,
+      0,
+      33,
+      0,
+      "IMAGE"
+    ],
+    [
+      54,
+      33,
+      0,
+      34,
+      0,
+      "IMAGE"
+    ],
+    [
+      64,
+      39,
+      0,
+      3,
+      3,
+      "LATENT"
+    ],
+    [
+      68,
+      4,
+      0,
+      30,
+      6,
+      "MODEL"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "注意",
+      "bounding": [
+        -770,
+        -101,
+        519,
+        428
+      ],
+      "color": "#3f789e",
+      "font_size": 100,
+      "flags": {}
+    },
+    {
+      "title": "操作区域",
+      "bounding": [
+        -195,
+        -231,
+        637,
+        695
+      ],
+      "color": "#3f789e",
+      "font_size": 50,
+      "flags": {}
+    },
+    {
+      "title": "高清放大修复（右键启用框内节点）",
+      "bounding": [
+        2175,
+        -306,
+        1040,
+        1028
+      ],
+      "color": "#3f789e",
+      "font_size": 66,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.45,
+      "offset": [
+        1179.1666666666665,
+        528.4444444444445
+      ]
+    },
+    "0246.VERSION": [
+      0,
+      0,
+      4
+    ]
+  },
+  "version": 0.4,
+  "seed_widgets": {
+    "3": 0,
+    "33": 2
+  },
+  "widget_idx_map": {
+    "3": {
+      "seed": 0,
+      "sampler_name": 4,
+      "scheduler": 5
+    },
+    "33": {
+      "seed": 2
+    }
+  }
+}

@@ -7,6 +7,18 @@ from datetime import datetime
 import os
 from bs4 import BeautifulSoup
 import re
+import json
+import os
+
+# 获取当前脚本所在的目录路径
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# 构造 params.json 的完整路径
+json_file_path = os.path.join(current_dir, "params.json")
+
+with open(json_file_path, "r", encoding="utf-8") as file:
+    params_data = json.load(file)
+    
+    print(params_data['好房档案']['fakeid'])
 
 def create_safe_dirname(project_name, publish_date):
     """创建安全的文件夹名称"""
@@ -15,10 +27,26 @@ def create_safe_dirname(project_name, publish_date):
     publish_date = re.sub(r'[\\/*?:"<>|]', "", publish_date)
     # 合并为文件夹名
     dirname = f"{publish_date[:10]}_{project_name}"  # 只取日期部分
-    return dirname[:180]  # 限制长度防止路径过长
+    return dirname[:180].replace('、','_')  # 限制长度防止路径过长
 
 main_url = "https://mp.weixin.qq.com/cgi-bin/appmsgpublish"
 
+params = {
+    "sub": "list",
+    "search_field": "null",
+    "begin": "0",
+    "count": "5",
+    "query": "",
+    "fakeid": params_data['好房档案']['fakeid'],
+    "type": "101_1",
+    "free_publish_type": "1",
+    "sub_action": "list_ex",
+    "fingerprint": "fecc8fb315aeea034298afbb5184a19a",
+    "token": params_data['token'],
+    "lang": "zh_CN",
+    "f": "json",
+    "ajax": "1"
+}
 headers = {
     "Authority": "mp.weixin.qq.com",
     "Accept": "*/*",
@@ -39,61 +67,12 @@ headers = {
 }
 
 # cookies、token、fakeid，保存下来，这三者缺一不可
-
-cookies = {
-  "RK": "fCX0tqueWs",
-  "ptcz": "7a473fcf51697bfc8b5f60a985ce8d0b00414a9e51fb375a399958d9fd27688a",
-  "ua_id": "HMV7IE3np8vcDyIHAAAAAIMskFxnuPnsMuGxJzH7XPc=",
-  "wxuin": "40479797108846",
-  "mm_lang": "zh_CN",
-  "pgv_pvid": "1704915140075719",
-  "_t_qbtool_uid": "aaaaz2i556g4ttu1me7sikfqy0mp88cb",
-  "_ga": "GA1.1.28274720.1743177134",
-  "_ga_TPFW0KPXC1": "GS1.1.1743302505.2.0.1743302508.0.0.0",
-  "fqm_pvqid": "adae4afe-e650-4e3c-9495-1592eb46efef",
-  "b-user-id": "288c6bfa-76e7-63a1-0050-8b3cf7dba4f1",
-  "poc_sid": "HH7dU2ijlQ3OrFZNKco8U_N2roQ1dhWy6lPP2jPY",
-  "_qimei_uuid42": "19614103800100c93f8f8e424181aca54cabf3b0cc",
-  "_qimei_fingerprint": "a4815e4bf7ad1377c7fed7fd89ffc136",
-  "_qimei_q36": "",
-  "_qimei_h38": "8f95affb3f8f8e424181aca502000009e19614",
-  "qq_domain_video_guid_verify": "b938daed60480ff9806956192a301bf1",
-  "rewardsn": "",
-  "wxtokenkey": "777",
-  "_clck": "3891696458|1|fx1|0",
-  "uuid": "b6cb4b0105ad3a57101afbec59af22a0",
-  "rand_info": "CAESIP1jP5hxEoC3zc/cwoumr5sI39Cl0wbadDs8iwFJOYUk",
-  "slave_bizuin": "3891696458",
-  "data_bizuin": "3891696458",
-  "bizuin": "3891696458",
-  "data_ticket": "Ocy4NTIWez2VKDsHUm0bfQPuCmG5Z06hqWzkNcvXtTDa0EFUVZ9RttWjJumLchwC",
-  "slave_sid": "SjBkcVh1bmRrSHozN1RrcUZGMThGWWJFeUtfYmZRaTFGSkg5ZHdoNEc5bWJCakNGNk5tNkI4NmJnMlFDVHJtV3VlSzBoZjRzRmp6dUNjS1VrQzFDYUN5OGVOWWdtRE1ZY3B2ZEkxYlFYY2Z4WE40MmwydWlFYmRnaHFyTHhueDhlaVdKUHJzb0xBSW10TUlD",
-  "slave_user": "gh_08417651a0c6",
-  "xid": "376ff687b6cb941e492f502fb8c2eea6",
-  "_clsk": "159jmzf|1750736485313|4|1|mp.weixin.qq.com/weheat-agent/payload/record"
-}
-
-params = {
-    "sub": "list",
-    "search_field": "null",
-    "begin": "0",
-    "count": "5",
-    "query": "",
-    "fakeid": "MjM5NzAwMjk4Mw==",
-    "type": "101_1",
-    "free_publish_type": "1",
-    "sub_action": "list_ex",
-    "fingerprint": "038dd85112e63c99d3900811a884a257",
-    "token": "975399779",
-    "lang": "zh_CN",
-    "f": "json",
-    "ajax": "1"
-}
+cookies=params_data['cookies']
 
 response = requests.get(
     main_url,
     headers=headers,
-    cookies=cookies,
+    cookies=params_data['cookies'],
     params=params
 )
 

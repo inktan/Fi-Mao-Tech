@@ -1,0 +1,916 @@
+{
+  "last_node_id": 123,
+  "last_link_id": 322,
+  "nodes": [
+    {
+      "id": 64,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -401,
+        436
+      ],
+      "size": [
+        435.411376953125,
+        132.6073455810547
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            263
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "(photo:0.3). street (rendering:0.7) of a large horizontal rectilinear building with two large floating box. facade has (concrete vertical fins:1.05) in front of glass wall. thin plate at top and bottom of floating boxes. open ground floor and one round column at front corner. foreground has street with (super sports cars:1.05). trees. pedestrian on sidewalk. other box buildings and hill in distant background. "
+      ]
+    },
+    {
+      "id": 83,
+      "type": "KSampler",
+      "pos": [
+        141,
+        408
+      ],
+      "size": [
+        315,
+        474
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": null
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 263
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 314
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 253
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            141
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        803359329473956,
+        "randomize",
+        20,
+        1,
+        "euler",
+        "normal",
+        0.3
+      ]
+    },
+    {
+      "id": 118,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -364.1728210449219,
+        620.3252563476562
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            314
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 120,
+      "type": "Anything Everywhere3",
+      "pos": [
+        -20,
+        270
+      ],
+      "size": [
+        252,
+        66
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "MODEL",
+          "type": "*",
+          "link": 315,
+          "shape": 7,
+          "color_on": "#B39DDB"
+        },
+        {
+          "name": "CLIP",
+          "type": "*",
+          "link": 316,
+          "shape": 7,
+          "color_on": "#FFD500"
+        },
+        {
+          "name": "VAE",
+          "type": "*",
+          "link": 317,
+          "shape": 7,
+          "color_on": "#FF6E6E"
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Anything Everywhere3",
+        "group_restricted": 0,
+        "color_restricted": 0
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 111,
+      "type": "FS: Load Image And Resize To Fit",
+      "pos": [
+        -377.0281677246094,
+        673.1226196289062
+      ],
+      "size": [
+        415.8000183105469,
+        514
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Latent",
+          "type": "LATENT",
+          "links": [
+            253
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "Image",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 1,
+          "shape": 3
+        },
+        {
+          "name": "Width",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "Height",
+          "type": "INT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "Aspect Ratio",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "Mask",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FS: Load Image And Resize To Fit"
+      },
+      "widgets_values": [
+        "sdxl拼合02a.png",
+        2048,
+        "lanczos",
+        "true",
+        1,
+        0,
+        "image"
+      ]
+    },
+    {
+      "id": 114,
+      "type": "CheckpointLoaderNF4",
+      "pos": [
+        -390,
+        270
+      ],
+      "size": [
+        315,
+        98
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            315
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            316
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            317
+          ],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderNF4"
+      },
+      "widgets_values": [
+        "flux\\flux1-dev-bnb-nf4-v2.safetensors"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [
+        499.7989501953125,
+        400.4745788574219
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 141
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            9
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 9,
+      "type": "SaveImage",
+      "pos": [
+        754.1557006835938,
+        401.0160217285156
+      ],
+      "size": [
+        594.6612548828125,
+        450.4246520996094
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 9
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    }
+  ],
+  "links": [
+    [
+      9,
+      8,
+      0,
+      9,
+      0,
+      "IMAGE"
+    ],
+    [
+      141,
+      83,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      179,
+      74,
+      0,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      180,
+      74,
+      0,
+      63,
+      3,
+      "VAE"
+    ],
+    [
+      181,
+      74,
+      0,
+      76,
+      1,
+      "VAE"
+    ],
+    [
+      182,
+      70,
+      0,
+      83,
+      0,
+      "MODEL"
+    ],
+    [
+      183,
+      74,
+      0,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      184,
+      74,
+      0,
+      63,
+      3,
+      "VAE"
+    ],
+    [
+      185,
+      74,
+      0,
+      76,
+      1,
+      "VAE"
+    ],
+    [
+      186,
+      70,
+      0,
+      83,
+      0,
+      "MODEL"
+    ],
+    [
+      253,
+      111,
+      0,
+      83,
+      3,
+      "LATENT"
+    ],
+    [
+      260,
+      74,
+      0,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      261,
+      74,
+      0,
+      111,
+      0,
+      "VAE"
+    ],
+    [
+      262,
+      74,
+      0,
+      63,
+      3,
+      "VAE"
+    ],
+    [
+      263,
+      64,
+      0,
+      83,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      272,
+      114,
+      1,
+      65,
+      0,
+      "CLIP"
+    ],
+    [
+      273,
+      114,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      274,
+      114,
+      2,
+      111,
+      0,
+      "VAE"
+    ],
+    [
+      275,
+      114,
+      1,
+      64,
+      0,
+      "CLIP"
+    ],
+    [
+      276,
+      114,
+      0,
+      83,
+      0,
+      "MODEL"
+    ],
+    [
+      277,
+      114,
+      1,
+      65,
+      0,
+      "CLIP"
+    ],
+    [
+      278,
+      114,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      279,
+      114,
+      2,
+      111,
+      0,
+      "VAE"
+    ],
+    [
+      280,
+      114,
+      0,
+      83,
+      0,
+      "MODEL"
+    ],
+    [
+      281,
+      114,
+      1,
+      64,
+      0,
+      "CLIP"
+    ],
+    [
+      282,
+      114,
+      1,
+      65,
+      0,
+      "CLIP"
+    ],
+    [
+      283,
+      114,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      284,
+      114,
+      2,
+      111,
+      0,
+      "VAE"
+    ],
+    [
+      285,
+      114,
+      0,
+      83,
+      0,
+      "MODEL"
+    ],
+    [
+      286,
+      114,
+      1,
+      64,
+      0,
+      "CLIP"
+    ],
+    [
+      287,
+      114,
+      1,
+      65,
+      0,
+      "CLIP"
+    ],
+    [
+      288,
+      114,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      289,
+      114,
+      2,
+      111,
+      0,
+      "VAE"
+    ],
+    [
+      290,
+      114,
+      0,
+      83,
+      0,
+      "MODEL"
+    ],
+    [
+      291,
+      114,
+      1,
+      64,
+      0,
+      "CLIP"
+    ],
+    [
+      292,
+      114,
+      1,
+      65,
+      0,
+      "CLIP"
+    ],
+    [
+      293,
+      114,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      294,
+      114,
+      2,
+      111,
+      0,
+      "VAE"
+    ],
+    [
+      295,
+      114,
+      1,
+      64,
+      0,
+      "CLIP"
+    ],
+    [
+      296,
+      114,
+      0,
+      83,
+      0,
+      "MODEL"
+    ],
+    [
+      297,
+      114,
+      1,
+      65,
+      0,
+      "CLIP"
+    ],
+    [
+      298,
+      114,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      299,
+      114,
+      2,
+      111,
+      0,
+      "VAE"
+    ],
+    [
+      300,
+      114,
+      1,
+      64,
+      0,
+      "CLIP"
+    ],
+    [
+      301,
+      114,
+      0,
+      83,
+      0,
+      "MODEL"
+    ],
+    [
+      302,
+      114,
+      1,
+      65,
+      0,
+      "CLIP"
+    ],
+    [
+      303,
+      114,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      304,
+      114,
+      2,
+      111,
+      0,
+      "VAE"
+    ],
+    [
+      305,
+      114,
+      1,
+      64,
+      0,
+      "CLIP"
+    ],
+    [
+      306,
+      114,
+      0,
+      83,
+      0,
+      "MODEL"
+    ],
+    [
+      314,
+      118,
+      0,
+      83,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      315,
+      114,
+      0,
+      120,
+      0,
+      "MODEL"
+    ],
+    [
+      316,
+      114,
+      1,
+      120,
+      1,
+      "CLIP"
+    ],
+    [
+      317,
+      114,
+      2,
+      120,
+      2,
+      "VAE"
+    ],
+    [
+      318,
+      114,
+      1,
+      64,
+      0,
+      "CLIP"
+    ],
+    [
+      319,
+      114,
+      0,
+      83,
+      0,
+      "MODEL"
+    ],
+    [
+      320,
+      114,
+      1,
+      118,
+      0,
+      "CLIP"
+    ],
+    [
+      321,
+      114,
+      2,
+      111,
+      0,
+      "VAE"
+    ],
+    [
+      322,
+      114,
+      2,
+      8,
+      1,
+      "VAE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.6934334949442204,
+      "offset": [
+        1263.1209679248054,
+        -51.38847919929118
+      ]
+    },
+    "node_versions": {
+      "comfy-core": "0.3.14",
+      "cg-use-everywhere": "ce510b97d10e69d5fd0042e115ecd946890d2079",
+      "ComfyUI_bnb_nf4_fp4_Loaders": "359f0d47ab9a1731e5ac09a40c024e07e7a5c75d"
+    },
+    "ue_links": [
+      {
+        "downstream": 64,
+        "downstream_slot": 0,
+        "upstream": "114",
+        "upstream_slot": 1,
+        "controller": 120,
+        "type": "CLIP"
+      },
+      {
+        "downstream": 83,
+        "downstream_slot": 0,
+        "upstream": "114",
+        "upstream_slot": 0,
+        "controller": 120,
+        "type": "MODEL"
+      },
+      {
+        "downstream": 118,
+        "downstream_slot": 0,
+        "upstream": "114",
+        "upstream_slot": 1,
+        "controller": 120,
+        "type": "CLIP"
+      },
+      {
+        "downstream": 111,
+        "downstream_slot": 0,
+        "upstream": "114",
+        "upstream_slot": 2,
+        "controller": 120,
+        "type": "VAE"
+      },
+      {
+        "downstream": 8,
+        "downstream_slot": 1,
+        "upstream": "114",
+        "upstream_slot": 2,
+        "controller": 120,
+        "type": "VAE"
+      }
+    ]
+  },
+  "version": 0.4
+}

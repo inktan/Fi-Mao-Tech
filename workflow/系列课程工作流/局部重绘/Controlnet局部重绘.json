@@ -1,0 +1,762 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "revision": 0,
+  "last_node_id": 15,
+  "last_link_id": 24,
+  "nodes": [
+    {
+      "id": 10,
+      "type": "VAEEncode",
+      "pos": [
+        1317.828857421875,
+        1090.670654296875
+      ],
+      "size": [
+        393.7773132324219,
+        50.88030242919922
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 9
+        },
+        {
+          "label": "VAE",
+          "name": "vae",
+          "type": "VAE",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "label": "Latent",
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            16
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "Node name for S&R": "VAEEncode",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 2,
+      "type": "ControlNetLoader",
+      "pos": [
+        1764.2415771484375,
+        832.3712158203125
+      ],
+      "size": [
+        295.6666564941406,
+        71.93335723876953
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "ControlNet",
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "Node name for S&R": "ControlNetLoader",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "control_v11p_sd15_inpaint.pth"
+      ]
+    },
+    {
+      "id": 9,
+      "type": "SixGodPrompts",
+      "pos": [
+        1313.61669921875,
+        842.5421142578125
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "id": "77664f30-1f15-e3f6-cbf4-893d22341b6b"
+      },
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "label": "CONDITIONING",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            21
+          ]
+        },
+        {
+          "label": "STRING",
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "INT",
+          "name": "INT",
+          "type": "INT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "aux_id": "thisjam/comfyui-sixgod_prompt",
+        "ver": "1929057b0854e83d448b440b5d344d574f47b203",
+        "Node name for S&R": "SixGodPrompts",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "bad proportions, low resolution,worst quality, low quality, normal quality, lowres,  inaccurate limb, bad, ugly, terrible,  extra fingers, fewer fingers, missing fingers, extra arms, extra legs, inaccurate eyes, bad composition, bad anatomy, error, extra digit, fewer digits, cropped, low res, jpeg artifacts, trademark,artist's name, username, watermarksignature, watermark,text, words​,nsfw​,BadDream,badhandv4,EasyNegative,ng_deepnegative_v1_75t,rev2-badprompt,verybadimagenegative_v1.3,negative_hand-neg,bad-picture-chill-75v​,mutated hands and fingers​,deformed​,ugly​,poorly drawn hands​,disfigured​,poorly drawn face​,lowres",
+        718391131944184,
+        "randomize"
+      ]
+    },
+    {
+      "id": 1,
+      "type": "ControlNetApplySD3",
+      "pos": [
+        1772.23291015625,
+        587.7978515625
+      ],
+      "size": [
+        270,
+        186
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "正面条件",
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 20
+        },
+        {
+          "label": "负面条件",
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 21
+        },
+        {
+          "label": "ControlNet",
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 1
+        },
+        {
+          "label": "VAE",
+          "name": "vae",
+          "type": "VAE",
+          "link": 24
+        },
+        {
+          "label": "图像",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "label": "正面条件",
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            22
+          ]
+        },
+        {
+          "label": "负面条件",
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            23
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "Node name for S&R": "ControlNetApplySD3",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        1,
+        0,
+        1
+      ]
+    },
+    {
+      "id": 15,
+      "type": "KSampler",
+      "pos": [
+        2090.192138671875,
+        582.5484619140625
+      ],
+      "size": [
+        357.66534423828125,
+        655.4888305664062
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "模型",
+          "name": "model",
+          "type": "MODEL",
+          "link": 13
+        },
+        {
+          "label": "正面条件",
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 22
+        },
+        {
+          "label": "负面条件",
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 23
+        },
+        {
+          "label": "Latent",
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 16
+        }
+      ],
+      "outputs": [
+        {
+          "label": "Latent",
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "Node name for S&R": "KSampler",
+        "widget_ue_connectable": {
+          "seed": true,
+          "steps": true,
+          "cfg": true,
+          "sampler_name": true,
+          "scheduler": true,
+          "denoise": true
+        }
+      },
+      "widgets_values": [
+        460141876842785,
+        "randomize",
+        20,
+        7,
+        "dpmpp_2m",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [
+        2473.2861328125,
+        581.582763671875
+      ],
+      "size": [
+        140,
+        46
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "Latent",
+          "name": "samples",
+          "type": "LATENT",
+          "link": 6
+        },
+        {
+          "label": "VAE",
+          "name": "vae",
+          "type": "VAE",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "label": "图像",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "Node name for S&R": "VAEDecode",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 14,
+      "type": "SaveImage",
+      "pos": [
+        2640.75390625,
+        580.1765747070312
+      ],
+      "size": [
+        413.1523132324219,
+        479.5056457519531
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 12
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "LoadImage",
+      "pos": [
+        994.83740234375,
+        761.4509887695312
+      ],
+      "size": [
+        270,
+        314.00006103515625
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "图像",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            9,
+            18
+          ]
+        },
+        {
+          "label": "遮罩",
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "Node name for S&R": "LoadImage",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "clipspace/clipspace-mask-8515870.5.png [input]",
+        "image"
+      ]
+    },
+    {
+      "id": 13,
+      "type": "SixGodPrompts",
+      "pos": [
+        1312.5699462890625,
+        591.4547119140625
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "id": "77664f30-1f15-e3f6-cbf4-893d22341b6b"
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "label": "CONDITIONING",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            20
+          ]
+        },
+        {
+          "label": "STRING",
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "INT",
+          "name": "INT",
+          "type": "INT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "aux_id": "thisjam/comfyui-sixgod_prompt",
+        "ver": "1929057b0854e83d448b440b5d344d574f47b203",
+        "Node name for S&R": "SixGodPrompts",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "粉色头发",
+        1121057090663294,
+        "randomize"
+      ]
+    },
+    {
+      "id": 12,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        996.3364868164062,
+        595.7286376953125
+      ],
+      "size": [
+        270,
+        98
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "模型",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            13
+          ]
+        },
+        {
+          "label": "CLIP",
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            8,
+            11
+          ]
+        },
+        {
+          "label": "VAE",
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            7,
+            10,
+            24
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "Node name for S&R": "CheckpointLoaderSimple",
+        "widget_ue_connectable": {
+          "ckpt_name": true
+        }
+      },
+      "widgets_values": [
+        "写实摄影\\majicMIX realistic 麦橘写实_v7.safetensors"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "InpaintPreprocessor",
+      "pos": [
+        1764.2420654296875,
+        962.7506103515625
+      ],
+      "size": [
+        298.068359375,
+        78
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 18
+        },
+        {
+          "label": "遮罩",
+          "name": "mask",
+          "type": "MASK",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "label": "图像",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            17
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_controlnet_aux",
+        "ver": "83463c2e4b04e729268e57f638b4212e0da4badc",
+        "Node name for S&R": "InpaintPreprocessor",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        false
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      2,
+      0,
+      1,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      6,
+      15,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      7,
+      12,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      8,
+      12,
+      1,
+      9,
+      0,
+      "CLIP"
+    ],
+    [
+      9,
+      11,
+      0,
+      10,
+      0,
+      "IMAGE"
+    ],
+    [
+      10,
+      12,
+      2,
+      10,
+      1,
+      "VAE"
+    ],
+    [
+      11,
+      12,
+      1,
+      13,
+      0,
+      "CLIP"
+    ],
+    [
+      12,
+      8,
+      0,
+      14,
+      0,
+      "IMAGE"
+    ],
+    [
+      13,
+      12,
+      0,
+      15,
+      0,
+      "MODEL"
+    ],
+    [
+      16,
+      10,
+      0,
+      15,
+      3,
+      "LATENT"
+    ],
+    [
+      17,
+      6,
+      0,
+      1,
+      4,
+      "IMAGE"
+    ],
+    [
+      18,
+      11,
+      0,
+      6,
+      0,
+      "IMAGE"
+    ],
+    [
+      19,
+      11,
+      1,
+      6,
+      1,
+      "MASK"
+    ],
+    [
+      20,
+      13,
+      0,
+      1,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      21,
+      9,
+      0,
+      1,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      22,
+      1,
+      0,
+      15,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      23,
+      1,
+      1,
+      15,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      24,
+      12,
+      2,
+      1,
+      3,
+      "VAE"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Controlnet局部重绘",
+      "bounding": [
+        1745.8702392578125,
+        491.9834289550781,
+        329.8892822265625,
+        708.2319946289062
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ue_links": [],
+    "ds": {
+      "scale": 0.7513148009015782,
+      "offset": [
+        -928.6359661685127,
+        -395.70780661213183
+      ]
+    },
+    "links_added_by_ue": [],
+    "frontendVersion": "1.19.9",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}

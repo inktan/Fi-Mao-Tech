@@ -1,34 +1,21 @@
-import asyncio
-from pydoll.browser import Chrome
+import requests
 
-async def element_finding_examples():
-    async with Chrome() as browser:
-        tab = await browser.start()
-        await tab.go_to('https://example.com')
+def download_image(url, save_path):
+    try:
+        # 发送 HTTP GET 请求
+        response = requests.get(url, stream=True)
+        response.raise_for_status()  # 检查请求是否成功
+        
+        # 以二进制写入模式打开文件
+        with open(save_path, 'wb') as file:
+            for chunk in response.iter_content(1024):
+                file.write(chunk)
+        print(f"图片已成功下载到: {save_path}")
+    except Exception as e:
+        print(f"下载图片时出错: {e}")
 
-        # Find by attributes (most intuitive)
-        submit_btn = await tab.find(
-            tag_name='button',
-            class_name='btn-primary',
-            text='Submit'
-        )
-        # Find by ID
-        username_field = await tab.find(id='username')
-        # Find multiple elements
-        all_links = await tab.find(tag_name='a', find_all=True)
-        # CSS selectors and XPath
-        nav_menu = await tab.query('nav.main-menu')
-        specific_item = await tab.query('//div[@data-testid="item-123"]')
-        # With timeout and error handling
-        delayed_element = await tab.find(
-            class_name='dynamic-content',
-            timeout=10,
-            raise_exc=False  # Returns None if not found
-        )
-        # Advanced: Custom attributes
-        custom_element = await tab.find(
-            data_testid='submit-button',
-            aria_label='Submit form'
-        )
+# 示例用法
+image_url = "https://streetviewpixels-pa.googleapis.com/v1/tile?cb_client=maps_sv.tactile&panoid=VmZCTNWG8b5fFVUbucXU9g&x=2&y=2&zoom=3&nbt=1&fover=2"  # 替换为你要下载的图片地址
+save_location = "downloaded_image.jpg"      # 保存的文件名
 
-asyncio.run(element_finding_examples())
+download_image(image_url, save_location)

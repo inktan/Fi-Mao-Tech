@@ -1,0 +1,2593 @@
+{
+  "last_node_id": 219,
+  "last_link_id": 355,
+  "nodes": [
+    {
+      "id": 188,
+      "type": "LoraLoader",
+      "pos": {
+        "0": -997.4039306640625,
+        "1": 2644.166748046875
+      },
+      "size": {
+        "0": 661.3282470703125,
+        "1": 199.4164581298828
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 314,
+          "label": "模型"
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 315,
+          "label": "CLIP"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            298
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "模型"
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            311,
+            313
+          ],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "CLIP"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoader"
+      },
+      "widgets_values": [
+        "宠物时尚拍摄Vol.01 | 英短蓝猫篇 SDXL_v1.0",
+        1,
+        1
+      ],
+      "_widget_cache_map": {
+        "Skin Tone Slider（肤色调节器）_1.0": {
+          "name": "Skin Tone Slider（肤色调节器）_1.0",
+          "value": 27692
+        },
+        "冰淇淋质感/冰淇淋球_冰淇淋球": {
+          "name": "冰淇淋质感/冰淇淋球_冰淇淋球",
+          "value": 1955554
+        },
+        "muse冰淇淋_v1.0": {
+          "name": "muse冰淇淋_v1.0",
+          "value": 2146513
+        },
+        "PetArtistic l 宠物艺术-中世纪_v1.0": {
+          "name": "PetArtistic l 宠物艺术-中世纪_v1.0",
+          "baseType": 3,
+          "value": "73980050ad27416fbcdb3ebd4772391a"
+        },
+        "宠物时尚拍摄Vol.01 | 英短蓝猫篇 SDXL_v1.0": {
+          "name": "宠物时尚拍摄Vol.01 | 英短蓝猫篇 SDXL_v1.0",
+          "baseType": 3,
+          "value": "013d13b693df4ff0a0266cb2d3ddbf89"
+        },
+        "蔚蓝-『贵胄』主题猫狗宠物摄影模型_贵胄v1": {
+          "name": "蔚蓝-『贵胄』主题猫狗宠物摄影模型_贵胄v1",
+          "baseType": 3,
+          "value": "703d8adfd66641faaa003073aed436f0"
+        }
+      }
+    },
+    {
+      "id": 186,
+      "type": "BNK_CLIPTextEncodeAdvanced",
+      "pos": {
+        "0": -293,
+        "1": 3193
+      },
+      "size": {
+        "0": 616.3302001953125,
+        "1": 244.50009155273438
+      },
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 311,
+          "label": "CLIP"
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 312,
+          "widget": {
+            "name": "text"
+          },
+          "label": "文本"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            323
+          ],
+          "shape": 3,
+          "label": "条件"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BNK_CLIPTextEncodeAdvanced"
+      },
+      "widgets_values": [
+        "Anthropomorphic,A gray british shorthair cat,an anthropomorphic A gray british shorthair cat wearing white and pink gradient Louis Vuitton on-trend fashion outfit,wearing pink sunglasses,at the event of Milan Fashion Week,unreal engine 5,medium shot,highly detailed,ultra-high resolutions,32K UHD,sharp focus,best quality,masterpiece,",
+        "none",
+        "comfy"
+      ],
+      "_widget_cache_map": {},
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 205,
+      "type": "Text Concatenate",
+      "pos": {
+        "0": -290,
+        "1": 3478
+      },
+      "size": {
+        "0": 616.4688110351562,
+        "1": 165.73681640625
+      },
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_a",
+          "type": "STRING",
+          "link": 334,
+          "widget": {
+            "name": "text_a"
+          },
+          "shape": 7,
+          "label": "文本_A"
+        },
+        {
+          "name": "text_b",
+          "type": "STRING",
+          "link": 335,
+          "widget": {
+            "name": "text_b"
+          },
+          "shape": 7,
+          "label": "文本_B"
+        },
+        {
+          "name": "text_c",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text_c"
+          },
+          "shape": 7,
+          "label": "文本_C"
+        },
+        {
+          "name": "text_d",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "text_d"
+          },
+          "shape": 7,
+          "label": "文本_d"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            312
+          ],
+          "slot_index": 0,
+          "label": "字符串"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Concatenate"
+      },
+      "widgets_values": [
+        ", ",
+        "true",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 182,
+      "type": "CheckpointLoaderSimple",
+      "pos": {
+        "0": -995,
+        "1": 2319
+      },
+      "size": {
+        "0": 662.75390625,
+        "1": 285.8536071777344
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            314
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "模型"
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            315
+          ],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "CLIP"
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            299,
+            310
+          ],
+          "slot_index": 2,
+          "shape": 3,
+          "label": "VAE"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "DreamShaper XL v2 Turbo DPMpp _v2 Turbo DPMpp "
+      ],
+      "_widget_cache_map": {
+        "realisticVision V6.0 B1_V6.0 B1": {
+          "name": "realisticVision V6.0 B1_V6.0 B1",
+          "value": 575082
+        },
+        "ReVAnimated_v122_V122": {
+          "name": "ReVAnimated_v122_V122",
+          "value": 22914
+        },
+        "DreamShaper XL v2 Turbo DPMpp _v2 Turbo DPMpp ": {
+          "name": "DreamShaper XL v2 Turbo DPMpp _v2 Turbo DPMpp ",
+          "baseType": 3,
+          "value": "42ed1bdee639420aa0753b05e0b31a47"
+        },
+        "真实感Crystal Clear XL_CCXL": {
+          "name": "真实感Crystal Clear XL_CCXL",
+          "value": "32975cd1127841dfb86377a424f62e1b"
+        }
+      }
+    },
+    {
+      "id": 195,
+      "type": "ControlNetLoader",
+      "pos": {
+        "0": -257,
+        "1": 2547
+      },
+      "size": {
+        "0": 647.7733154296875,
+        "1": 58
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": [
+            325
+          ],
+          "shape": 3,
+          "label": "ControlNet"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ControlNetLoader"
+      },
+      "widgets_values": [
+        "mistoLine_softedge_sdxl_fp16"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 194,
+      "type": "CannyEdgePreprocessor",
+      "pos": {
+        "0": -255,
+        "1": 2639
+      },
+      "size": {
+        "0": 644.286865234375,
+        "1": 190.16505432128906
+      },
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 343,
+          "slot_index": 0,
+          "label": "图像"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            326
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "图像"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CannyEdgePreprocessor"
+      },
+      "widgets_values": [
+        100,
+        200,
+        1024
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 198,
+      "type": "ControlNetLoader",
+      "pos": {
+        "0": 522,
+        "1": 2548
+      },
+      "size": {
+        "0": 650.6387939453125,
+        "1": 73.06397247314453
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": [
+            321
+          ],
+          "shape": 3,
+          "label": "ControlNet"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ControlNetLoader"
+      },
+      "widgets_values": [
+        "sai_xl_depth_256lora"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 183,
+      "type": "BrushNet",
+      "pos": {
+        "0": 1351,
+        "1": 2619
+      },
+      "size": {
+        "0": 649.9483642578125,
+        "1": 241.69981384277344
+      },
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 298,
+          "label": "模型"
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 299,
+          "slot_index": 1,
+          "label": "VAE"
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 352,
+          "slot_index": 2,
+          "label": "图像"
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 301,
+          "label": "遮罩"
+        },
+        {
+          "name": "brushnet",
+          "type": "BRMODEL",
+          "link": 302,
+          "slot_index": 4,
+          "label": "BrushNet"
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 303,
+          "slot_index": 5,
+          "label": "正面条件"
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 304,
+          "slot_index": 6,
+          "label": "负面条件"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "links": [
+            305
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "模型"
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            306
+          ],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "正面条件"
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            307
+          ],
+          "slot_index": 2,
+          "shape": 3,
+          "label": "负面条件"
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            308
+          ],
+          "slot_index": 3,
+          "shape": 3,
+          "label": "Latent"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BrushNet"
+      },
+      "widgets_values": [
+        1,
+        0,
+        10000
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 197,
+      "type": "Zoe_DepthAnythingPreprocessor",
+      "pos": {
+        "0": 522,
+        "1": 2658
+      },
+      "size": {
+        "0": 641.3491821289062,
+        "1": 179.59786987304688
+      },
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 342,
+          "slot_index": 0,
+          "label": "图像"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            322
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "图像"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Zoe_DepthAnythingPreprocessor"
+      },
+      "widgets_values": [
+        "indoor",
+        1024
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 184,
+      "type": "KSampler",
+      "pos": {
+        "0": 2219,
+        "1": 2337
+      },
+      "size": {
+        "0": 632.4736938476562,
+        "1": 263.5285339355469
+      },
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 305,
+          "label": "模型"
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 306,
+          "label": "正面条件"
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 307,
+          "label": "负面条件"
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 308,
+          "slot_index": 3,
+          "label": "Latent"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            309
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "Latent"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        697764111512923,
+        "randomize",
+        7,
+        2,
+        "dpmpp_sde",
+        "karras",
+        1
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 185,
+      "type": "VAEDecode",
+      "pos": {
+        "0": 2219,
+        "1": 2632
+      },
+      "size": {
+        "0": 634.310546875,
+        "1": 99.5657958984375
+      },
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 309,
+          "label": "Latent"
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 310,
+          "label": "VAE"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            330
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "图像"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": [],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 202,
+      "type": "LayerColor: ColorAdapter",
+      "pos": {
+        "0": 2218,
+        "1": 2765
+      },
+      "size": {
+        "0": 634.0820922851562,
+        "1": 100.46791076660156
+      },
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 330,
+          "label": "图像"
+        },
+        {
+          "name": "color_ref_image",
+          "type": "IMAGE",
+          "link": 344,
+          "label": "参考图像"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            332,
+            339
+          ],
+          "slot_index": 0,
+          "label": "图像"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerColor: ColorAdapter"
+      },
+      "widgets_values": [
+        20
+      ],
+      "_widget_cache_map": {},
+      "color": "rgba(27, 89, 123, 0.7)"
+    },
+    {
+      "id": 203,
+      "type": "PreviewImage",
+      "pos": {
+        "0": 2867,
+        "1": 2338
+      },
+      "size": {
+        "0": 340.8059387207031,
+        "1": 524.1756591796875
+      },
+      "flags": {},
+      "order": 32,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 332,
+          "label": "图像"
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": [],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 212,
+      "type": "ConstrainImage|pysssss",
+      "pos": {
+        "0": 933.6840209960938,
+        "1": 3216.5146484375
+      },
+      "size": {
+        "0": 638.0380249023438,
+        "1": 172.18258666992188
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 349,
+          "label": "图像"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            350,
+            351,
+            352
+          ],
+          "slot_index": 0,
+          "shape": 6,
+          "label": "图像"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ConstrainImage|pysssss"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        0,
+        0,
+        "no"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 176,
+      "type": "DownloadAndLoadFlorence2Model",
+      "pos": {
+        "0": 932.6840209960938,
+        "1": 3422.5146484375
+      },
+      "size": {
+        "0": 636.341064453125,
+        "1": 244.75161743164062
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "lora",
+          "type": "PEFTLORA",
+          "link": null,
+          "label": "LoRA",
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "florence2_model",
+          "type": "FL2MODEL",
+          "links": [
+            290
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "Florence2"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DownloadAndLoadFlorence2Model"
+      },
+      "widgets_values": [
+        "HuggingFaceM4/Florence-2-DocVQA",
+        "fp16",
+        "eager"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 175,
+      "type": "Florence2Run",
+      "pos": {
+        "0": 1575.684814453125,
+        "1": 3210.5146484375
+      },
+      "size": {
+        "0": 412.4197082519531,
+        "1": 463.9855041503906
+      },
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 350,
+          "slot_index": 0,
+          "label": "图像"
+        },
+        {
+          "name": "florence2_model",
+          "type": "FL2MODEL",
+          "link": 290,
+          "slot_index": 1,
+          "label": "Florence2"
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "seed"
+          },
+          "label": "随机种"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            286,
+            342,
+            343
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "图像"
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": null,
+          "shape": 3,
+          "label": "遮罩"
+        },
+        {
+          "name": "caption",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 2,
+          "shape": 3,
+          "label": "caption"
+        },
+        {
+          "name": "data",
+          "type": "JSON",
+          "links": [
+            287
+          ],
+          "slot_index": 3,
+          "shape": 3,
+          "label": "json数据"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Florence2Run"
+      },
+      "widgets_values": [
+        "head",
+        "caption_to_phrase_grounding",
+        true,
+        true,
+        1024,
+        1,
+        false,
+        "",
+        187880164038954,
+        "randomize"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 171,
+      "type": "DownloadAndLoadSAM2Model",
+      "pos": {
+        "0": 2288.685791015625,
+        "1": 3218.5146484375
+      },
+      "size": {
+        "0": 313.5418701171875,
+        "1": 211.54067993164062
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "sam2_model",
+          "type": "SAM2MODEL",
+          "links": [
+            291
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "SAM2"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DownloadAndLoadSAM2Model"
+      },
+      "widgets_values": [
+        "sam2_hiera_base_plus.safetensors",
+        "single_image",
+        "cuda",
+        "fp16"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 173,
+      "type": "Florence2toCoordinates",
+      "pos": {
+        "0": 2288.685791015625,
+        "1": 3466.5146484375
+      },
+      "size": {
+        "0": 312.055419921875,
+        "1": 196.91116333007812
+      },
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "data",
+          "type": "JSON",
+          "link": 287,
+          "label": "数据"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "center_coordinates",
+          "type": "STRING",
+          "links": [
+            294
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "中心坐标"
+        },
+        {
+          "name": "bboxes",
+          "type": "BBOX",
+          "links": [
+            293
+          ],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "BBox"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Florence2toCoordinates"
+      },
+      "widgets_values": [
+        "",
+        false
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 177,
+      "type": "Sam2Segmentation",
+      "pos": {
+        "0": 2610.685791015625,
+        "1": 3215.5146484375
+      },
+      "size": {
+        "0": 403.2846984863281,
+        "1": 440.4789733886719
+      },
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "sam2_model",
+          "type": "SAM2MODEL",
+          "link": 291,
+          "label": "SAM2"
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 351,
+          "label": "图像"
+        },
+        {
+          "name": "bboxes",
+          "type": "BBOX",
+          "link": 293,
+          "label": "BBox",
+          "shape": 7
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": null,
+          "label": "遮罩",
+          "shape": 7
+        },
+        {
+          "name": "coordinates_positive",
+          "type": "STRING",
+          "link": 294,
+          "widget": {
+            "name": "coordinates_positive"
+          },
+          "label": "正面坐标",
+          "shape": 7
+        },
+        {
+          "name": "coordinates_negative",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "coordinates_negative"
+          },
+          "label": "负面坐标",
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [
+            347
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "遮罩"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Sam2Segmentation"
+      },
+      "widgets_values": [
+        true,
+        "",
+        "",
+        true
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 187,
+      "type": "BNK_CLIPTextEncodeAdvanced",
+      "pos": {
+        "0": 335,
+        "1": 3207
+      },
+      "size": {
+        "0": 529.3092041015625,
+        "1": 425.9525146484375
+      },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 313,
+          "label": "CLIP"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            324
+          ],
+          "shape": 3,
+          "label": "条件"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BNK_CLIPTextEncodeAdvanced"
+      },
+      "widgets_values": [
+        "",
+        "none",
+        "comfy"
+      ],
+      "_widget_cache_map": {},
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 189,
+      "type": "GrowMaskWithBlur",
+      "pos": {
+        "0": 3318,
+        "1": 3220
+      },
+      "size": {
+        "0": 348.7226257324219,
+        "1": 424.62042236328125
+      },
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 347,
+          "label": "遮罩"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "遮罩"
+        },
+        {
+          "name": "mask_inverted",
+          "type": "MASK",
+          "links": [
+            301
+          ],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "反转遮罩"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GrowMaskWithBlur"
+      },
+      "widgets_values": [
+        0,
+        0,
+        true,
+        false,
+        0,
+        1,
+        1,
+        false
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 210,
+      "type": "Note",
+      "pos": {
+        "0": 3293,
+        "1": 2890
+      },
+      "size": {
+        "0": 311.6138610839844,
+        "1": 116.5693130493164
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "SUPIR-v0Q.ckpt：质量较高大模型  比较慢\nSUPIR-v0F.ckpt：快速小模型\n\n步数越高 质量越好 速度越慢 偶尔会出鬼图\n\n建议取中间值"
+      ],
+      "_widget_cache_map": {},
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 208,
+      "type": "SUPIR_Upscale",
+      "pos": {
+        "0": 3742,
+        "1": 2342
+      },
+      "size": {
+        "0": 595.4317016601562,
+        "1": 1309.749267578125
+      },
+      "flags": {},
+      "order": 34,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 338,
+          "label": "图像"
+        },
+        {
+          "name": "captions",
+          "type": "STRING",
+          "link": null,
+          "widget": {
+            "name": "captions"
+          },
+          "label": "captions",
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "upscaled_image",
+          "type": "IMAGE",
+          "links": [
+            336,
+            340
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "图像"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SUPIR_Upscale"
+      },
+      "widgets_values": [
+        "SUPIR-v0F_fp16.safetensors",
+        "juggernautXL_v8Rundiffusion_V8",
+        225218894843984,
+        "randomize",
+        "lanczos",
+        2,
+        45,
+        -1,
+        5,
+        "high quality, detailed",
+        "bad quality, blurry, messy",
+        5,
+        1.003,
+        1,
+        4,
+        0,
+        "None",
+        true,
+        true,
+        512,
+        64,
+        "",
+        "auto",
+        "auto",
+        1,
+        false,
+        1024,
+        512,
+        false,
+        false,
+        "RestoreEDMSampler"
+      ],
+      "_widget_cache_map": {
+        "realisticVision V6.0 B1_V6.0 B1": {
+          "name": "realisticVision V6.0 B1_V6.0 B1",
+          "value": 575082
+        },
+        "juggernautXL_v9_V9 + RDPhoto 2": {
+          "name": "juggernautXL_v9_V9 + RDPhoto 2",
+          "value": 1107768
+        },
+        "juggernautXL_v8Rundiffusion_V8": {
+          "name": "juggernautXL_v8Rundiffusion_V8",
+          "value": 827118
+        }
+      }
+    },
+    {
+      "id": 207,
+      "type": "Image Comparer (rgthree)",
+      "pos": {
+        "0": 4353,
+        "1": 2342
+      },
+      "size": {
+        "0": 861.0853881835938,
+        "1": 1319.8037109375
+      },
+      "flags": {},
+      "order": 35,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image_a",
+          "type": "IMAGE",
+          "link": 336,
+          "label": "图像_A",
+          "dir": 3
+        },
+        {
+          "name": "image_b",
+          "type": "IMAGE",
+          "link": 345,
+          "label": "图像_B",
+          "dir": 3
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "comparer_mode": "Slide"
+      },
+      "widgets_values": [
+        [
+          {
+            "name": "A",
+            "selected": true,
+            "url": "https://liblibai-tmp-image.liblib.cloud/sd-images/fbae2c25ef5a0679b783449762c6337857c3f873e1cc26b01aa4c722363e813d.png?filename=sd-images/fbae2c25ef5a0679b783449762c6337857c3f873e1cc26b01aa4c722363e813d.png&type=output&rand=0.2119664758424955"
+          },
+          {
+            "name": "B",
+            "selected": true,
+            "url": "https://liblibai-tmp-image.liblib.cloud/sd-images/f72c3acb9836d44e2d9d9b14d407ae7f5ec9b5641e79eff7a1eac7be8fa1fba8.png?filename=sd-images/f72c3acb9836d44e2d9d9b14d407ae7f5ec9b5641e79eff7a1eac7be8fa1fba8.png&type=output&rand=0.6300490024580749"
+          }
+        ]
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 209,
+      "type": "DF_Image_scale_to_side",
+      "pos": {
+        "0": 3254,
+        "1": 2348
+      },
+      "size": {
+        "0": 430.00347900390625,
+        "1": 508.32232666015625
+      },
+      "flags": {},
+      "order": 33,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 339,
+          "label": "image"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            338
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "IMAGE"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image scale to side"
+      },
+      "widgets_values": [
+        1024,
+        "Longest",
+        "nearest-exact",
+        "disabled"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 199,
+      "type": "LoraLoader",
+      "pos": {
+        "0": -907,
+        "1": 2890
+      },
+      "size": {
+        "0": 426.7781677246094,
+        "1": 162.86331176757812
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": null,
+          "label": "模型"
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": null,
+          "label": "CLIP"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "模型"
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "CLIP"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoader"
+      },
+      "widgets_values": [
+        "PetArtistic l 宠物艺术-中世纪_v1.0",
+        1,
+        1
+      ],
+      "_widget_cache_map": {
+        "Skin Tone Slider（肤色调节器）_1.0": {
+          "name": "Skin Tone Slider（肤色调节器）_1.0",
+          "value": 27692
+        },
+        "冰淇淋质感/冰淇淋球_冰淇淋球": {
+          "name": "冰淇淋质感/冰淇淋球_冰淇淋球",
+          "value": 1955554
+        },
+        "muse冰淇淋_v1.0": {
+          "name": "muse冰淇淋_v1.0",
+          "value": 2146513
+        },
+        "PetArtistic l 宠物艺术-中世纪_v1.0": {
+          "name": "PetArtistic l 宠物艺术-中世纪_v1.0",
+          "baseType": 3,
+          "value": "73980050ad27416fbcdb3ebd4772391a"
+        },
+        "宠物时尚拍摄Vol.01 | 英短蓝猫篇 SDXL_v1.0": {
+          "name": "宠物时尚拍摄Vol.01 | 英短蓝猫篇 SDXL_v1.0",
+          "value": "013d13b693df4ff0a0266cb2d3ddbf89"
+        }
+      }
+    },
+    {
+      "id": 204,
+      "type": "WD14Tagger|pysssss",
+      "pos": {
+        "0": -981,
+        "1": 3202
+      },
+      "size": {
+        "0": 631.2307739257812,
+        "1": 187.78475952148438
+      },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 346,
+          "label": "图像"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            335
+          ],
+          "slot_index": 0,
+          "shape": 6,
+          "label": "字符串"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "WD14Tagger|pysssss"
+      },
+      "widgets_values": [
+        "wd-v1-4-moat-tagger-v2",
+        0.35,
+        0.85,
+        false,
+        false,
+        ""
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 179,
+      "type": "LoadImage",
+      "pos": {
+        "0": -2227.9990234375,
+        "1": 2326.171875
+      },
+      "size": {
+        "0": 964.964599609375,
+        "1": 1317.8831787109375
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            344,
+            345,
+            346,
+            349
+          ],
+          "slot_index": 0,
+          "label": "图像"
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "label": "遮罩"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "广州网红证件照 _ 看看哪只长颈鹿拍得好！_1_长隆_来自小红书网页版.jpg",
+        "image"
+      ],
+      "_widget_cache_map": {
+        "+1351215.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/f046d4069b2dfa8f1dbd03c8ec046218406314d4998fc3cd2a6713333b212116.jpg",
+          "name": "+1351215.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/f046d4069b2dfa8f1dbd03c8ec046218406314d4998fc3cd2a6713333b212116.jpg",
+          "width": 1080,
+          "height": 1456
+        },
+        "+46513513版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/82574f4e06488d0f245ca5b3d304111016b1a58d4faaede3d063cc28db988c2b.jpg",
+          "name": "+46513513版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/82574f4e06488d0f245ca5b3d304111016b1a58d4faaede3d063cc28db988c2b.jpg",
+          "width": 1080,
+          "height": 1440
+        },
+        "绘画素材1000篇—兔子素材_1_小仙女de绘画素材_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/24880e9863aad4353490dfaf935301d13ac4b10bb0b6f7e2e0b41c63c5e8e455.jpg",
+          "name": "绘画素材1000篇—兔子素材_1_小仙女de绘画素材_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/24880e9863aad4353490dfaf935301d13ac4b10bb0b6f7e2e0b41c63c5e8e455.jpg",
+          "width": 1080,
+          "height": 1434
+        },
+        "绘画素材：英俊的马_3_不忘初心_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/dead8bbad858d359728cd1ba42653aeec25940a9285e66faba660b1df55c2d44.jpg",
+          "name": "绘画素材：英俊的马_3_不忘初心_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/dead8bbad858d359728cd1ba42653aeec25940a9285e66faba660b1df55c2d44.jpg",
+          "width": 768,
+          "height": 1024
+        },
+        "长这样能做姨姨的保镖吗？_1_超级皮-_-_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/78260371cf96af217263d426583a6626bbbea900685349165ca9dc934f2ee5d3.jpg",
+          "name": "长这样能做姨姨的保镖吗？_1_超级皮-_-_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/78260371cf96af217263d426583a6626bbbea900685349165ca9dc934f2ee5d3.jpg",
+          "width": 1080,
+          "height": 1440
+        },
+        "🦁 一些正脸大头贴（上）_1_奶凶小狮子_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/4099494a2b398461a10b05d85f0bea017db9870bc397bbff4a32466b1fb59a81.jpg",
+          "name": "🦁 一些正脸大头贴（上）_1_奶凶小狮子_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/4099494a2b398461a10b05d85f0bea017db9870bc397bbff4a32466b1fb59a81.jpg",
+          "width": 1080,
+          "height": 1350
+        },
+        "绘画素材__跳舞的青蛙🐸_1_兰心De生活分享_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/1e5caa988e41a06ae2348547bdd17857d6513510e60c55a0a8fd5a4401351fef.jpg",
+          "name": "绘画素材__跳舞的青蛙🐸_1_兰心De生活分享_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/1e5caa988e41a06ae2348547bdd17857d6513510e60c55a0a8fd5a4401351fef.jpg",
+          "width": 1080,
+          "height": 1440
+        },
+        "bear_1_Vimalakirti_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/a25b6a9d460b2e6e369fdd136e1274fb0e045411802e9b8ffc1ca98d472ea7d3.jpg",
+          "name": "bear_1_Vimalakirti_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/a25b6a9d460b2e6e369fdd136e1274fb0e045411802e9b8ffc1ca98d472ea7d3.jpg",
+          "width": 804,
+          "height": 804
+        },
+        "每天盘点一款IP_熊二《熊出没》_1_IP盘点机_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/863e23759e5ff40c74a5965bc6606dc942c6df7898503df273c5e0d4bd9f56d0.jpg",
+          "name": "每天盘点一款IP_熊二《熊出没》_1_IP盘点机_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/863e23759e5ff40c74a5965bc6606dc942c6df7898503df273c5e0d4bd9f56d0.jpg",
+          "width": 640,
+          "height": 800
+        },
+        "midjourney｜宠物摄影_1_喵十一的ai灵感库_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/e93ec175fd8eb6acaddbf1a4a2c7b63e0994fdf54443c7db46ee44f769075e73.jpg",
+          "name": "midjourney｜宠物摄影_1_喵十一的ai灵感库_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/e93ec175fd8eb6acaddbf1a4a2c7b63e0994fdf54443c7db46ee44f769075e73.jpg",
+          "width": 928,
+          "height": 1232
+        },
+        "超酷的老鹰高清素材🦅_1_Peanut_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/fd3f6da2ff0717989051724ae1ecece2706381f159a5374db6a17d71a002848f.jpg",
+          "name": "超酷的老鹰高清素材🦅_1_Peanut_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/fd3f6da2ff0717989051724ae1ecece2706381f159a5374db6a17d71a002848f.jpg",
+          "width": 1080,
+          "height": 1446
+        },
+        "当地有名的美高鸭-美式小鸭上线！_3_小方叽里呱啦求好运🌳_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/3c1dc25b52e7bf70f1b905fa2aa3057a09f2656a0d30662a24e1537588d70615.jpg",
+          "name": "当地有名的美高鸭-美式小鸭上线！_3_小方叽里呱啦求好运🌳_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/3c1dc25b52e7bf70f1b905fa2aa3057a09f2656a0d30662a24e1537588d70615.jpg",
+          "width": 1080,
+          "height": 1623
+        },
+        "广州网红证件照 _ 看看哪只长颈鹿拍得好！_1_长隆_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/0a89a30d8250df78e52023854dbba9be56a6dfe164a3cfa6ec4681d1791e8799.jpg",
+          "name": "广州网红证件照 _ 看看哪只长颈鹿拍得好！_1_长隆_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/0a89a30d8250df78e52023854dbba9be56a6dfe164a3cfa6ec4681d1791e8799.jpg",
+          "width": 1080,
+          "height": 1440
+        },
+        "Safari PortrAIts动物肖像_1_鸡芳谢Jimmy_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/970deb0f4f48bd9ea6994708b1f5202158a77afdac15f16fd5aa4d705d40a343.jpg",
+          "name": "Safari PortrAIts动物肖像_1_鸡芳谢Jimmy_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/970deb0f4f48bd9ea6994708b1f5202158a77afdac15f16fd5aa4d705d40a343.jpg",
+          "width": 1080,
+          "height": 1080
+        },
+        "🐅 长老虎的霸气瞬间，森林之王_1_AI动物园_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/6cb9821a5376e1b19cf651db70b4a10dc8461025e5a276e78ed7abb70d9e0572.jpg",
+          "name": "🐅 长老虎的霸气瞬间，森林之王_1_AI动物园_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/6cb9821a5376e1b19cf651db70b4a10dc8461025e5a276e78ed7abb70d9e0572.jpg",
+          "width": 1008,
+          "height": 1344
+        },
+        "24.03.13长隆大熊猫🐼国庆_1_爱自由的Min.R_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/1261d977e257a55cf57011d74235c2d3161cb1bb413dd55bdaa67ecd294d66b2.jpg",
+          "name": "24.03.13长隆大熊猫🐼国庆_1_爱自由的Min.R_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/1261d977e257a55cf57011d74235c2d3161cb1bb413dd55bdaa67ecd294d66b2.jpg",
+          "width": 1080,
+          "height": 1434
+        },
+        "Safari照进现实，现实版的狮子王优雅威严_1_野奢旅行_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/456ce3320d9b6672fd7402e6fa31fcc8df5ca590ec231ca8df13416543f214fc.jpg",
+          "name": "Safari照进现实，现实版的狮子王优雅威严_1_野奢旅行_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/456ce3320d9b6672fd7402e6fa31fcc8df5ca590ec231ca8df13416543f214fc.jpg",
+          "width": 1013,
+          "height": 1350
+        },
+        "要豹豹？要抱抱………_1_自然博物馆_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/dab49e2452052fa70f5e70579003387df4cd64a1f4a5362f90d95f1abc04a430.jpg",
+          "name": "要豹豹？要抱抱………_1_自然博物馆_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/dab49e2452052fa70f5e70579003387df4cd64a1f4a5362f90d95f1abc04a430.jpg",
+          "width": 1080,
+          "height": 1247
+        },
+        "气宇轩昂的大公鸡-家禽绘画素材_4_碧罗之春（专供绘画素材）_来自小红书网页版.jpg": {
+          "value": "img/46987de339ac47e0965172f7ccd1b939/e3fbe51c48c05f0f1c4359866484b639efc842c4f434a94e8527bea8b3802b3b.jpg",
+          "name": "气宇轩昂的大公鸡-家禽绘画素材_4_碧罗之春（专供绘画素材）_来自小红书网页版.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/46987de339ac47e0965172f7ccd1b939/e3fbe51c48c05f0f1c4359866484b639efc842c4f434a94e8527bea8b3802b3b.jpg",
+          "width": 1080,
+          "height": 1620
+        }
+      }
+    },
+    {
+      "id": 181,
+      "type": "BrushNetLoader",
+      "pos": {
+        "0": 1346,
+        "1": 2339
+      },
+      "size": {
+        "0": 650.6756591796875,
+        "1": 239.83944702148438
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "brushnet",
+          "type": "BRMODEL",
+          "links": [
+            302
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "BrushNet"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BrushNetLoader"
+      },
+      "widgets_values": [
+        "segmentation_mask_brushnet_ckpt_sdxl_v1.safetensors",
+        "float16"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 206,
+      "type": "TextInput_",
+      "pos": {
+        "0": -981,
+        "1": 3438
+      },
+      "size": {
+        "0": 631.3644409179688,
+        "1": 224.24732971191406
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            334
+          ],
+          "slot_index": 0,
+          "label": "字符串"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "TextInput_"
+      },
+      "widgets_values": [
+        "A whimsical tea party with talking animals scenes, HD, Goldeneast, illustration, Chinese ink painting, Chinese style, Eastern artistic conception, hyper detailed, emitting a sense of destruction. Wearing azure color of tuxedo and suit. Surrealism, anthropopathic."
+      ],
+      "_widget_cache_map": {},
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 218,
+      "type": "Note",
+      "pos": {
+        "0": -980,
+        "1": 3798
+      },
+      "size": {
+        "0": 630.0025634765625,
+        "1": 124.27659606933594
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "\nA whimsical tea party with talking animals scenes, HD, Goldeneast, illustration, Chinese ink painting, Chinese style, Eastern artistic conception, hyper detailed, emitting a sense of destruction. Wearing azure color of tuxedo and suit. Surrealism, anthropopathic.\n\n带有会说话动物场景的奇幻茶会，高清，Goldeneast，插画，中国水墨画，中国风格，东方意境，超精细，散发着一种毁灭感。穿着天蓝色的燕尾服和西装。超现实主义，拟人化。\n"
+      ],
+      "_widget_cache_map": {},
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 211,
+      "type": "PreviewImage",
+      "pos": {
+        "0": 5230,
+        "1": 2329
+      },
+      "size": {
+        "0": 829.1709594726562,
+        "1": 1341.76123046875
+      },
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 340,
+          "label": "图像"
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": [],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 216,
+      "type": "Note",
+      "pos": {
+        "0": -1411,
+        "1": 771
+      },
+      "size": {
+        "0": 1253.4224853515625,
+        "1": 308.48455810546875
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "\n   使用方法及注意事项：\n                         图片上传区点击 choose file to upload  上传图片\n\n                 \n                   上传图片后点击生成即可。默认用的风格LORA 是宠物时尚风格，如果你对此LORA的风格不喜欢可以到哩布上找或者自己训练一个也可以。\n        \n                 像这种宠物猫、狗之类的可以做写真，（前提条件是LORA的风格质量要好）淘宝上一张写真20-30不等。如何接单？  把做好的图片发布到各大 小红书 抖音博取流量 自然会有人找你定制图片。\n                                                           \n                                                                                该工作流生成的图片可以商用（仅工作流，不包涵模型，有些模型作者设置了不能商用这种情况你需要找模型作者，或者自己训练一个LORA即可，大模型是老外的 也查不到你。）\n                                                                                \n                                     这个工作流如果需要搬运请保留该工作流主页地址：https://www.liblib.art/modelinfo/e4dbc41073ae4d62a67489678ffb148e?from=personal_page&versionUuid=eb04c25048bb4f49b5034c70198a79fc\n\n\n              该工作流可以对任何动物的头部进行提取然后 到BrushNet重绘 最后高清放大出图。\n                  \n\n    如果最终出图效果觉得动物头部颜色有差异 请到PS 刷一下即可\n\n   个人出图经验总结：\n\n                    偶尔一两个会识别不到动物头部  解决办法是你给宠物拍照的时候 尽量把头部和脖子部分弄成有明显的区分 这样AI 容易识别。"
+      ],
+      "_widget_cache_map": {},
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 193,
+      "type": "ControlNetApplyAdvanced",
+      "pos": {
+        "0": -263,
+        "1": 2321
+      },
+      "size": {
+        "0": 656.7461547851562,
+        "1": 190.06768798828125
+      },
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 323,
+          "slot_index": 0,
+          "label": "正面条件"
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 324,
+          "slot_index": 1,
+          "label": "负面条件"
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 325,
+          "slot_index": 2,
+          "label": "ControlNet"
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 326,
+          "label": "图像"
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            319
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "正面条件"
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            320
+          ],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "负面条件"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ControlNetApplyAdvanced"
+      },
+      "widgets_values": [
+        0.1,
+        0,
+        0.5
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 192,
+      "type": "ControlNetApplyAdvanced",
+      "pos": {
+        "0": 520,
+        "1": 2326
+      },
+      "size": {
+        "0": 648.286865234375,
+        "1": 186
+      },
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 319,
+          "label": "正面条件"
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 320,
+          "label": "负面条件"
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 321,
+          "slot_index": 2,
+          "label": "ControlNet"
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 322,
+          "slot_index": 3,
+          "label": "图像"
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            303
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "正面条件"
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            304
+          ],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "负面条件"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ControlNetApplyAdvanced"
+      },
+      "widgets_values": [
+        0.1,
+        0,
+        0.5
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 219,
+      "type": "Note",
+      "pos": {
+        "0": 271,
+        "1": 2077
+      },
+      "size": {
+        "0": 469.8464050292969,
+        "1": 171.84461975097656
+      },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "下面的两个 ControlNet应用（旧版高级） 结束时间可以为0-0.8"
+      ],
+      "_widget_cache_map": {},
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 172,
+      "type": "PreviewImage",
+      "pos": {
+        "0": 1996,
+        "1": 3217
+      },
+      "size": {
+        "0": 285.76788330078125,
+        "1": 454.4339294433594
+      },
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 286,
+          "label": "图像"
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": [],
+      "_widget_cache_map": {}
+    }
+  ],
+  "links": [
+    [
+      286,
+      175,
+      0,
+      172,
+      0,
+      "IMAGE"
+    ],
+    [
+      287,
+      175,
+      3,
+      173,
+      0,
+      "JSON"
+    ],
+    [
+      290,
+      176,
+      0,
+      175,
+      1,
+      "FL2MODEL"
+    ],
+    [
+      291,
+      171,
+      0,
+      177,
+      0,
+      "SAM2MODEL"
+    ],
+    [
+      293,
+      173,
+      1,
+      177,
+      2,
+      "BBOX"
+    ],
+    [
+      294,
+      173,
+      0,
+      177,
+      4,
+      "STRING"
+    ],
+    [
+      298,
+      188,
+      0,
+      183,
+      0,
+      "MODEL"
+    ],
+    [
+      299,
+      182,
+      2,
+      183,
+      1,
+      "VAE"
+    ],
+    [
+      301,
+      189,
+      1,
+      183,
+      3,
+      "MASK"
+    ],
+    [
+      302,
+      181,
+      0,
+      183,
+      4,
+      "BRMODEL"
+    ],
+    [
+      303,
+      192,
+      0,
+      183,
+      5,
+      "CONDITIONING"
+    ],
+    [
+      304,
+      192,
+      1,
+      183,
+      6,
+      "CONDITIONING"
+    ],
+    [
+      305,
+      183,
+      0,
+      184,
+      0,
+      "MODEL"
+    ],
+    [
+      306,
+      183,
+      1,
+      184,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      307,
+      183,
+      2,
+      184,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      308,
+      183,
+      3,
+      184,
+      3,
+      "LATENT"
+    ],
+    [
+      309,
+      184,
+      0,
+      185,
+      0,
+      "LATENT"
+    ],
+    [
+      310,
+      182,
+      2,
+      185,
+      1,
+      "VAE"
+    ],
+    [
+      311,
+      188,
+      1,
+      186,
+      0,
+      "CLIP"
+    ],
+    [
+      312,
+      205,
+      0,
+      186,
+      1,
+      "STRING"
+    ],
+    [
+      313,
+      188,
+      1,
+      187,
+      0,
+      "CLIP"
+    ],
+    [
+      314,
+      182,
+      0,
+      188,
+      0,
+      "MODEL"
+    ],
+    [
+      315,
+      182,
+      1,
+      188,
+      1,
+      "CLIP"
+    ],
+    [
+      319,
+      193,
+      0,
+      192,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      320,
+      193,
+      1,
+      192,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      321,
+      198,
+      0,
+      192,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      322,
+      197,
+      0,
+      192,
+      3,
+      "IMAGE"
+    ],
+    [
+      323,
+      186,
+      0,
+      193,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      324,
+      187,
+      0,
+      193,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      325,
+      195,
+      0,
+      193,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      326,
+      194,
+      0,
+      193,
+      3,
+      "IMAGE"
+    ],
+    [
+      330,
+      185,
+      0,
+      202,
+      0,
+      "IMAGE"
+    ],
+    [
+      332,
+      202,
+      0,
+      203,
+      0,
+      "IMAGE"
+    ],
+    [
+      334,
+      206,
+      0,
+      205,
+      0,
+      "STRING"
+    ],
+    [
+      335,
+      204,
+      0,
+      205,
+      1,
+      "STRING"
+    ],
+    [
+      336,
+      208,
+      0,
+      207,
+      0,
+      "IMAGE"
+    ],
+    [
+      338,
+      209,
+      0,
+      208,
+      0,
+      "IMAGE"
+    ],
+    [
+      339,
+      202,
+      0,
+      209,
+      0,
+      "IMAGE"
+    ],
+    [
+      340,
+      208,
+      0,
+      211,
+      0,
+      "IMAGE"
+    ],
+    [
+      342,
+      175,
+      0,
+      197,
+      0,
+      "IMAGE"
+    ],
+    [
+      343,
+      175,
+      0,
+      194,
+      0,
+      "IMAGE"
+    ],
+    [
+      344,
+      179,
+      0,
+      202,
+      1,
+      "IMAGE"
+    ],
+    [
+      345,
+      179,
+      0,
+      207,
+      1,
+      "IMAGE"
+    ],
+    [
+      346,
+      179,
+      0,
+      204,
+      0,
+      "IMAGE"
+    ],
+    [
+      347,
+      177,
+      0,
+      189,
+      0,
+      "MASK"
+    ],
+    [
+      349,
+      179,
+      0,
+      212,
+      0,
+      "IMAGE"
+    ],
+    [
+      350,
+      212,
+      0,
+      175,
+      0,
+      "IMAGE"
+    ],
+    [
+      351,
+      212,
+      0,
+      177,
+      1,
+      "IMAGE"
+    ],
+    [
+      352,
+      212,
+      0,
+      183,
+      2,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "XL  动物风格转绘",
+      "bounding": [
+        -2599,
+        1495,
+        8873,
+        2406
+      ],
+      "color": "#3f789e",
+      "font_size": 300,
+      "flags": {}
+    },
+    {
+      "title": "👆这边填写LORA触发词以及模型作者推荐用词",
+      "bounding": [
+        -978,
+        3686,
+        628,
+        78
+      ],
+      "color": "#a1309b",
+      "font_size": 30,
+      "flags": {}
+    },
+    {
+      "title": "图片上传区",
+      "bounding": [
+        -2360,
+        2040,
+        1201,
+        1691
+      ],
+      "color": "#3f789e",
+      "font_size": 150,
+      "flags": {}
+    },
+    {
+      "title": "👇使用前请查看",
+      "bounding": [
+        -1405,
+        508,
+        1245,
+        215
+      ],
+      "color": "#3f789e",
+      "font_size": 150,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.45,
+      "offset": [
+        -68.88394165039062,
+        -2536.439186943902
+      ]
+    },
+    "0246.VERSION": [
+      0,
+      0,
+      4
+    ]
+  },
+  "version": 0.4,
+  "widget_idx_map": {
+    "184": {
+      "seed": 0,
+      "sampler_name": 4,
+      "scheduler": 5
+    },
+    "208": {
+      "seed": 2
+    }
+  },
+  "seed_widgets": {
+    "184": 0,
+    "208": 2
+  }
+}

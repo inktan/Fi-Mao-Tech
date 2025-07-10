@@ -72,7 +72,7 @@ def process_geometry(row,interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'e:\work\sv_qingningmigucheng\主城区\主城区_netroad.shp',
+    r'E:\work\sv_michinen\_network.shp',
 ]
 
 for file_path in shape_files:
@@ -90,7 +90,7 @@ for file_path in shape_files:
 
     unique_count = points_df.shape[0]
     print(f'原数据有 {points_df.shape} 行数据')
-    points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_.csv') , index=False)
+    # points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_.csv') , index=False)
     # 如果 result_gdf 是 DataFrame，则将其转换为 GeoDataFrame
     if type(points_df) == pd.core.frame.DataFrame:
         points_df = gpd.GeoDataFrame(points_df, geometry=gpd.points_from_xy(points_df.longitude, points_df.latitude, crs='EPSG:4326'))
@@ -102,7 +102,7 @@ for file_path in shape_files:
     # 打印去重后的数据行数
     print(f'去重后共有 {points_df.shape} 行数据')
 
-    points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_unique.csv') , index=False)
+    # points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_unique.csv') , index=False)
     # 检查 result_gdf 的类型
     print(type(points_df))
     # 如果 result_gdf 是 DataFrame，则将其转换为 GeoDataFrame
@@ -164,13 +164,9 @@ for file_path in shape_files:
     # 6. 保存结果
     print("保存结果...")
     filtered_gdf.to_file(shp_file_path.replace('.shp', f'_{interval}m_Spatial.shp') , index=False)
-    filtered_gdf.to_csv(shp_file_path.replace('.shp', f'_{interval}m_Spatial.csv') , index=False)
+
+    filtered_gdf["index"] = range(len(filtered_gdf))  # 新增 0,1,2... 列
+    filtered_gdf.drop(columns=['geometry']).to_csv(shp_file_path.replace('.shp', f'_{interval}m_Spatial.csv') , index=False)
     
     print(f"处理完成 - 原始点数: {len(gdf)}, 处理后点数: {len(filtered_gdf)}, 删除点数: {len(to_remove)}")
-
-
-
-
-
-
 

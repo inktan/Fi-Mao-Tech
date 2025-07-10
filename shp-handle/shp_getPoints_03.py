@@ -62,7 +62,7 @@ for file_path in shape_files:
     gdf = gdf.to_crs(epsg=4326)  # 转换为WGS 84
 
     points_df = pd.DataFrame(columns=['osm_id', 'longitude', 'latitude', 'name'])
-    interval = 100
+    interval = 80
     print(gdf.shape)
 
     # gdf['name_2'] = gdf['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk

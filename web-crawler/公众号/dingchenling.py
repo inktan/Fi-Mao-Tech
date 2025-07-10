@@ -15,14 +15,24 @@ import requests
 import io
 from PIL import Image
 
+# 获取当前脚本所在的目录路径
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# 构造 params.json 的完整路径
+json_file_path = os.path.join(current_dir, "params.json")
+
+with open(json_file_path, "r", encoding="utf-8") as file:
+    params_data = json.load(file)
+    
+    print(params_data['好房档案']['fakeid'])
+
 def create_safe_dirname(project_name, publish_date):
     """创建安全的文件夹名称"""
     # 移除特殊字符
     project_name = re.sub(r'[\\/*?:"<>|]', "", project_name)
     publish_date = re.sub(r'[\\/*?:"<>|]', "", publish_date)
     # 合并为文件夹名
-    dirname = f"{project_name[:100]}_{publish_date[:10]}"  # 只取日期部分
-    return dirname[:180]  # 限制长度防止路径过长
+    dirname = f"{publish_date[:10]}_{project_name}"  # 只取日期部分
+    return dirname[:180].replace('、','_')  # 限制长度防止路径过长
 
 main_url = "https://mp.weixin.qq.com/cgi-bin/appmsgpublish"
 
@@ -47,50 +57,25 @@ headers = {
 
 # cookies、token、fakeid，保存下来，这三者缺一不可
 
-cookies = {
-    "RK": "fCX0tqueWs",
-    "ptcz": "7a473fcf51697bfc8b5f60a985ce8d0b00414a9e51fb375a399958d9fd27688a",
-    "ua_id": "HMV7IE3np8vcDyIHAAAAAIMskFxnuPnsMuGxJzH7XPc=",
-    "wxuin": "40479797108846",
-    "mm_lang": "zh_CN",
-    "pgv_pvid": "1704915140075719",
-    "_t_qbtool_uid": "aaaaz2i556g4ttu1me7sikfqy0mp88cb",
-    "_ga": "GA1.1.28274720.1743177134",
-    "_ga_TPFW0KPXC1": "GS1.1.1743302505.2.0.1743302508.0.0.0",
-    "fqm_pvqid": "adae4afe-e650-4e3c-9495-1592eb46efef",
-    "b-user-id": "288c6bfa-76e7-63a1-0050-8b3cf7dba4f1",
-    "rewardsn": "",
-    "wxtokenkey": "777",
-    "poc_sid": "HH7dU2ijlQ3OrFZNKco8U_N2roQ1dhWy6lPP2jPY",
-    "_clck": "hwsk3d|1|fww|0",
-    "uuid": "80372cee90a3620ec5d86e584e93f982",
-    "rand_info": "CAESIEJabpaOLuLdqP1lKj6OCvh6MI8hOekRagQ5f5/j6cjI",
-    "slave_bizuin": "3891696458",
-    "data_bizuin": "3891696458",
-    "bizuin": "3891696458",
-    "data_ticket": "yKc64NjfsvUfqI5xB40bVWwrm8MII+tFPWwC9vDqtUjQi7GqUesf72T/RZcvHflF",
-    "slave_sid": "blBnb1ZUZUtTeFFaeHdwb1JyOUhJamowS19sb3ZzbVlTSWhDc242N0NudDdJWnRnTVVBN1FFWFZ2bDF4bE0xaUtVQ1duN2hmbVZETjlvZE1oa2FobzFBeFBlTzBtaFZsOWk4bVA4TjJvTEV4OWFYTXJkYWVrekphbmQ5cnlFVmZPVzhhUVJCMHQyenVNTTFW",
-    "slave_user": "gh_08417651a0c6",
-    "xid": "fa399642748836c8c79799fdd487db89",
-    "_clsk": "1h22fl8|1750328919743|3|1|mp.weixin.qq.com/weheat-agent/payload/record"
-}
-
 params = {
     "sub": "list",
     "search_field": "null",
     "begin": "0",
     "count": "5",
     "query": "",
+    "fakeid": params_data['丁辰灵']['fakeid'],
     "fakeid": "MjM5Njg1OTQ3Mg==",
     "type": "101_1",
     "free_publish_type": "1",
     "sub_action": "list_ex",
     "fingerprint": "038dd85112e63c99d3900811a884a257",
-    "token": "1825166898",
+    "token": params_data['token'],
     "lang": "zh_CN",
     "f": "json",
     "ajax": "1"
 }
+
+cookies=params_data['cookies']
 
 response = requests.get(
     main_url,
@@ -106,7 +91,7 @@ publish_page_data = json.loads(publish_page_str)
 print(publish_page_data['total_count'])
 masssend_count = publish_page_data['masssend_count']
 
-for i in range(1045, masssend_count, 5):
+for i in range(0, masssend_count, 5):
     print(i)
     print(f"正在处理第{i//5 + 1}页数据...")
     
@@ -159,12 +144,12 @@ for i in range(1045, masssend_count, 5):
             title = title.replace(char, "_")
 
         # 创建附图文件夹
-        base_output_dir = r'Y:\GOA-项目公示数据\公众号\建筑芝士'
+        # base_output_dir = r'Y:\GOA-项目公示数据\公众号\建筑芝士'
         safe_dirname = create_safe_dirname(title, publish_date)
-        project_dir = os.path.join(base_output_dir, safe_dirname)
-        image_folder = os.path.join(project_dir, '附图')
+        # project_dir = os.path.join(base_output_dir, safe_dirname)
+        # image_folder = os.path.join(project_dir, '附图')
 
-        text_path = os.path.join(project_dir, '内容.txt')
+        # text_path = os.path.join(project_dir, '内容.txt')
 
         # 获取网页内容
         url = link
@@ -186,8 +171,8 @@ for i in range(1045, masssend_count, 5):
             if os.path.exists(output_path_img):
                 continue  # 任一文件存在则跳过
 
-            if not os.path.exists(image_folder):
-                os.makedirs(image_folder)
+            # if not os.path.exists(image_folder):
+            #     os.makedirs(image_folder)
 
             # 创建Word文档
             doc = Document()

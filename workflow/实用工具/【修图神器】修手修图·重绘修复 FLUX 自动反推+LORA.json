@@ -1,0 +1,1614 @@
+{
+  "last_node_id": 116,
+  "last_link_id": 223,
+  "nodes": [
+    {
+      "id": 18,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 147.56700134277344,
+        "1": 844.790771484375
+      },
+      "size": {
+        "0": 316.5668640136719,
+        "1": 163.27908325195312
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 140,
+          "label": "CLIP"
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 200,
+          "widget": {
+            "name": "text"
+          },
+          "label": "文本"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            184,
+            186
+          ],
+          "slot_index": 0,
+          "label": "条件"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "Photorealistic conker the short anthropomorphic cartoon squirrel in real life conker, wearing a blue hoodie .  highly detailed, realistic lighting with highly detailed fur. \nHe is lying on a fancy bed in a sexy pose, looking seductive and has a speech bubble with the text \"I Love AIXWZ\""
+      ],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 20,
+      "type": "VAEDecode",
+      "pos": {
+        "0": 454.6688537597656,
+        "1": 762.3935546875
+      },
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 182,
+          "label": "Latent"
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 122,
+          "label": "VAE"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            202
+          ],
+          "slot_index": 0,
+          "label": "图像"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 99,
+      "type": "LoadImage",
+      "pos": {
+        "0": -1311,
+        "1": 441
+      },
+      "size": {
+        "0": 456.9092102050781,
+        "1": 872.0072631835938
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            203,
+            214,
+            216
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "图像"
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "shape": 3,
+          "label": "遮罩"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "wt (41).jpg",
+        "image"
+      ],
+      "_widget_cache_map": {
+        "catinkleinsv5229_A_conceptual_art_photo_of_a_Chinese_girl_weari_f498d650-ac7e-469c-81d6-86f545f07469.png": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/e8551de01c126373adb838bc5072775a4e2554cfe1d7628c2e21c6e4dcbb4119.png",
+          "name": "catinkleinsv5229_A_conceptual_art_photo_of_a_Chinese_girl_weari_f498d650-ac7e-469c-81d6-86f545f07469.png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/e8551de01c126373adb838bc5072775a4e2554cfe1d7628c2e21c6e4dcbb4119.png",
+          "width": 1632,
+          "height": 2912
+        },
+        "nelson767887_A_woman_wearing_a_fashionable_white_tight_fitting__ab17dd01-b067-4e66-a9ca-9156a15e4c52.png": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/af21635859c6d23a66733e41a766147591dc4b5ebb1e3741f17083edbe1cfa6f.png",
+          "name": "nelson767887_A_woman_wearing_a_fashionable_white_tight_fitting__ab17dd01-b067-4e66-a9ca-9156a15e4c52.png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/af21635859c6d23a66733e41a766147591dc4b5ebb1e3741f17083edbe1cfa6f.png",
+          "width": 1792,
+          "height": 2688
+        },
+        "13378894874870347.php.jpeg": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/3962c80535f376320dc05247139450e47fa019f49eab3a8c374843ecb6f49ca9.jpeg",
+          "name": "13378894874870347.php.jpeg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/3962c80535f376320dc05247139450e47fa019f49eab3a8c374843ecb6f49ca9.jpeg",
+          "width": 928,
+          "height": 1232
+        },
+        "13378896176747519.php.jpeg": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/397d33de413e1af054d879775b6d8d2611b3ce9533c2ecc33869317053d72cc8.jpeg",
+          "name": "13378896176747519.php.jpeg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/397d33de413e1af054d879775b6d8d2611b3ce9533c2ecc33869317053d72cc8.jpeg",
+          "width": 896,
+          "height": 1344
+        },
+        "13378896178975976.php.jpeg": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/51dcaf47d17fe54ac0ee6dbbdc176b00db02660a1c8f3b4d83fc0f87aa745afa.jpeg",
+          "name": "13378896178975976.php.jpeg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/51dcaf47d17fe54ac0ee6dbbdc176b00db02660a1c8f3b4d83fc0f87aa745afa.jpeg",
+          "width": 896,
+          "height": 1344
+        },
+        "0ee91447199e796aa8f735941c5502255ebae333748a22c85bcabc358009fe02.png": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/0ee91447199e796aa8f735941c5502255ebae333748a22c85bcabc358009fe02.png",
+          "name": "0ee91447199e796aa8f735941c5502255ebae333748a22c85bcabc358009fe02.png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/0ee91447199e796aa8f735941c5502255ebae333748a22c85bcabc358009fe02.png",
+          "width": 1024,
+          "height": 1536
+        },
+        "微信截图_20250118002251.png": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/b693e648de258e21a239c0b99e82edf33a7042e5673febe0867ed5e6d4e6daf5.png",
+          "name": "微信截图_20250118002251.png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/b693e648de258e21a239c0b99e82edf33a7042e5673febe0867ed5e6d4e6daf5.png",
+          "width": 1207,
+          "height": 1933
+        },
+        "封面.jpg": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/b10edc969a1909a99aaadbf5d9e84302890ab9bb9f6cc1973d1b81361f2b36bb.jpg",
+          "name": "封面.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/b10edc969a1909a99aaadbf5d9e84302890ab9bb9f6cc1973d1b81361f2b36bb.jpg",
+          "width": 2048,
+          "height": 1144
+        },
+        "微信截图_20250207155104.png": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/e0ae0af3554d92cc0d71891ccb7912e2b85f0d37168b71b4242d1c6b1d843312.png",
+          "name": "微信截图_20250207155104.png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/e0ae0af3554d92cc0d71891ccb7912e2b85f0d37168b71b4242d1c6b1d843312.png",
+          "width": 1851,
+          "height": 1069
+        },
+        "wt (10).jpg": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/c1052c9f4cccbf82b3c1155079974ae34fe51166e8c65ba7952cb8befea1b83c.jpg",
+          "name": "wt (10).jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/c1052c9f4cccbf82b3c1155079974ae34fe51166e8c65ba7952cb8befea1b83c.jpg",
+          "width": 1536,
+          "height": 2048
+        },
+        "wt (51).jpg": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/59cbb8be7dbe1bbf7c8bd3082251138c9dd6b48963f8ebf5d978a7b6b43a3874.jpg",
+          "name": "wt (51).jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/59cbb8be7dbe1bbf7c8bd3082251138c9dd6b48963f8ebf5d978a7b6b43a3874.jpg",
+          "width": 1536,
+          "height": 2048
+        },
+        "3c47fddd3f923659ce768dc3276319b192cfa6813241a06bb486619fd1eab1e5.png": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/3c47fddd3f923659ce768dc3276319b192cfa6813241a06bb486619fd1eab1e5.png",
+          "name": "3c47fddd3f923659ce768dc3276319b192cfa6813241a06bb486619fd1eab1e5.png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/3c47fddd3f923659ce768dc3276319b192cfa6813241a06bb486619fd1eab1e5.png",
+          "width": 1024,
+          "height": 1536
+        },
+        "wt (41).jpg": {
+          "value": "img/2e4c4a5e05e3465b84e986f062934d09/193ebb8cf0272ed87b4843c986a35f54de691e7c9ecc7a8e3bd48dd447494aca.jpg",
+          "name": "wt (41).jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/2e4c4a5e05e3465b84e986f062934d09/193ebb8cf0272ed87b4843c986a35f54de691e7c9ecc7a8e3bd48dd447494aca.jpg",
+          "width": 1536,
+          "height": 2048
+        }
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 95,
+      "type": "UNETLoader",
+      "pos": {
+        "0": -778.3310546875,
+        "1": 529.3935546875
+      },
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            181
+          ],
+          "label": "模型"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "基础算法_F.1",
+        "fp8_e4m3fn"
+      ],
+      "_widget_cache_map": {
+        "kimVixen_v1": {
+          "name": "kimVixen_v1",
+          "baseType": 19,
+          "value": "e878dcbb61004f21919d224e163c0760"
+        },
+        "基础算法_F.1": {
+          "name": "基础算法_F.1",
+          "baseType": 19,
+          "value": "412b427ddb674b4dbab9e5abd5ae6057"
+        }
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 14,
+      "type": "DualCLIPLoader",
+      "pos": {
+        "0": -778.3310546875,
+        "1": 731.3935546875
+      },
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            129
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "CLIP"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DualCLIPLoader",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "t5xxl_fp8_e4m3fn",
+        "clip_l",
+        "flux"
+      ],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 65,
+      "type": "VAELoader",
+      "pos": {
+        "0": -778.3310546875,
+        "1": 960.6024169921875
+      },
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            122,
+            195
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "VAE"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "ae.sft"
+      ],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 71,
+      "type": "LoraLoader",
+      "pos": {
+        "0": -357.3312072753906,
+        "1": 1191.394287109375
+      },
+      "size": {
+        "0": 315,
+        "1": 126
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 133,
+          "label": "模型"
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 135,
+          "label": "CLIP"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            137
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "模型"
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            138
+          ],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "CLIP"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoader",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "majicFlus天启幻世_V3.0",
+        0.3,
+        1
+      ],
+      "_widget_cache_map": {
+        "F.1 | 美感滤镜_v3.0": {
+          "name": "F.1 | 美感滤镜_v3.0",
+          "baseType": 19,
+          "value": "574f0b87aedc48fab05db239d14a66ed"
+        },
+        "侠骨柔情 | BRairt.F1_v1.0": {
+          "name": "侠骨柔情 | BRairt.F1_v1.0",
+          "baseType": 19,
+          "value": "caddee75c5ba4d329a30c659d1eb6d1a"
+        },
+        "AWPortrait CN_1.0": {
+          "name": "AWPortrait CN_1.0",
+          "baseType": 19,
+          "value": "f6fc8ec6e6cf4b91ac84bfbdccccdae5"
+        },
+        "武侠素描 | BRairt.F1_v1.0": {
+          "name": "武侠素描 | BRairt.F1_v1.0",
+          "baseType": 19,
+          "value": "caddee75c5ba4d329a30c659d1eb6d1a"
+        },
+        "幻系列_多模态摄影_幻系V1": {
+          "name": "幻系列_多模态摄影_幻系V1",
+          "baseType": 19,
+          "value": "562f51a23cf242468bef58992c7fe298"
+        },
+        "majicFlus天启幻世_V3.0": {
+          "name": "majicFlus天启幻世_V3.0",
+          "baseType": 19,
+          "value": "2601048d422c48c89a4178978f8f406c"
+        }
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 70,
+      "type": "LoraLoader",
+      "pos": {
+        "0": -753.3310546875,
+        "1": 1191.394287109375
+      },
+      "size": {
+        "0": 315,
+        "1": 126
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 181,
+          "label": "模型"
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 129,
+          "label": "CLIP"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            133
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "模型"
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            135
+          ],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "CLIP"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoader",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "AWPortrait CN_1.0",
+        0.6,
+        1
+      ],
+      "_widget_cache_map": {
+        "undefined_0008": {
+          "name": "undefined_0008"
+        },
+        "AWPortrait CN_1.0": {
+          "name": "AWPortrait CN_1.0",
+          "baseType": 19,
+          "value": "f6fc8ec6e6cf4b91ac84bfbdccccdae5"
+        },
+        "CGPortrait  l CG人像-FLUX_CG硬质感人像_CG硬质感人像_v1.0": {
+          "name": "CGPortrait  l CG人像-FLUX_CG硬质感人像_CG硬质感人像_v1.0",
+          "baseType": 19,
+          "value": "7b7c52909dfe4b158b14b68fa4faca3f"
+        },
+        "山姜-2.5D写实画风_V1.5": {
+          "name": "山姜-2.5D写实画风_V1.5",
+          "baseType": 19,
+          "value": "2ec9261bc2c94990bbe16e85bfb2198e"
+        },
+        "水墨立绘 | BRairt.F1_V1": {
+          "name": "水墨立绘 | BRairt.F1_V1",
+          "baseType": 19,
+          "value": "b2c3af94d5cb46528572d9ce8e19373b"
+        },
+        "游戏3D环境CG渲染风格_暗黑系电影感3DGame_v.1": {
+          "name": "游戏3D环境CG渲染风格_暗黑系电影感3DGame_v.1",
+          "baseType": 19,
+          "value": "b7060a179ad840b3aef871ae9d3267fc"
+        },
+        "动作增强 | BRairt.F1_v1.0": {
+          "name": "动作增强 | BRairt.F1_v1.0",
+          "baseType": 19,
+          "value": "723ef0bcfaa740c386cd5870c229cce1"
+        }
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 72,
+      "type": "LoraLoader",
+      "pos": {
+        "0": 27.668825149536133,
+        "1": 1188.394287109375
+      },
+      "size": {
+        "0": 315,
+        "1": 126
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 137,
+          "label": "模型"
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 138,
+          "label": "CLIP"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            183
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "模型"
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            140
+          ],
+          "slot_index": 1,
+          "shape": 3,
+          "label": "CLIP"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoader",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "FLUX手部优化--手部修复细腻写实_F.1",
+        0.4,
+        1
+      ],
+      "_widget_cache_map": {
+        "水墨立绘 | BRairt.F1_V1": {
+          "name": "水墨立绘 | BRairt.F1_V1",
+          "baseType": 19,
+          "value": "b2c3af94d5cb46528572d9ce8e19373b"
+        },
+        "魔法漩涡 | BRairt.F1_v2.0": {
+          "name": "魔法漩涡 | BRairt.F1_v2.0",
+          "baseType": 19,
+          "value": "de99a9e8f85b458f843fc696b517655d"
+        },
+        "武侠素描 | BRairt.F1_v1.0": {
+          "name": "武侠素描 | BRairt.F1_v1.0",
+          "baseType": 19,
+          "value": "caddee75c5ba4d329a30c659d1eb6d1a"
+        },
+        "majicFlus天启幻世_V3.0": {
+          "name": "majicFlus天启幻世_V3.0",
+          "baseType": 19,
+          "value": "2601048d422c48c89a4178978f8f406c"
+        },
+        "FLUX手部优化--手部修复细腻写实_F.1": {
+          "name": "FLUX手部优化--手部修复细腻写实_F.1",
+          "baseType": 19,
+          "value": "75483872565641dd8e2e99004919b0a6"
+        }
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 107,
+      "type": "Image Comparer (rgthree)",
+      "pos": {
+        "0": 433.6687927246094,
+        "1": 438.39373779296875
+      },
+      "size": {
+        "0": 689.5305786132812,
+        "1": 897.6015625
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image_a",
+          "type": "IMAGE",
+          "link": 203,
+          "label": "图像_A",
+          "dir": 3
+        },
+        {
+          "name": "image_b",
+          "type": "IMAGE",
+          "link": 202,
+          "label": "图像_B",
+          "dir": 3
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "comparer_mode": "Slide"
+      },
+      "widgets_values": [
+        [
+          {
+            "name": "A",
+            "selected": true,
+            "url": "https://liblibai-tmp-image.liblib.cloud/sd-images/bf32da6b328e9760ca1b9ff3602af5b6a0e40277607fb1891f0d9ae8a03768b2.png?filename=sd-images/bf32da6b328e9760ca1b9ff3602af5b6a0e40277607fb1891f0d9ae8a03768b2.png&type=output&rand=0.49171721938621205"
+          },
+          {
+            "name": "B",
+            "selected": true,
+            "url": "https://liblibai-tmp-image.liblib.cloud/sd-images/0b4180475edc6a29f03b98b65874ee31cd7c91f6140ce20a0717af46b7e65d96.png?filename=sd-images/0b4180475edc6a29f03b98b65874ee31cd7c91f6140ce20a0717af46b7e65d96.png&type=output&rand=0.29298237172698083"
+          }
+        ]
+      ],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 106,
+      "type": "Text Concatenate",
+      "pos": {
+        "0": 183,
+        "1": 747
+      },
+      "size": {
+        "0": 315,
+        "1": 178
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_a",
+          "type": "STRING",
+          "link": 201,
+          "widget": {
+            "name": "text_a"
+          },
+          "label": "文本_A",
+          "shape": 7
+        },
+        {
+          "name": "text_b",
+          "type": "STRING",
+          "link": 199,
+          "widget": {
+            "name": "text_b"
+          },
+          "label": "文本_B",
+          "shape": 7
+        },
+        {
+          "name": "text_c",
+          "type": "STRING",
+          "widget": {
+            "name": "text_c"
+          },
+          "label": "文本_C",
+          "shape": 7
+        },
+        {
+          "name": "text_d",
+          "type": "STRING",
+          "widget": {
+            "name": "text_d"
+          },
+          "label": "文本_d",
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            200
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "字符串"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Concatenate",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        ", ",
+        "true",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 103,
+      "type": "Joy_caption_two_load",
+      "pos": {
+        "0": -1664,
+        "1": 441
+      },
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "JoyTwoPipeline",
+          "type": "JoyTwoPipeline",
+          "links": [
+            218
+          ],
+          "label": "JoyTwoPipeline"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Joy_caption_two_load",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "unsloth/Meta-Llama-3.1-8B-Instruct-bnb-4bit"
+      ],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 114,
+      "type": "Joy_caption_two_advanced",
+      "pos": {
+        "0": -1664,
+        "1": 641
+      },
+      "size": {
+        "0": 315,
+        "1": 242
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "joy_two_pipeline",
+          "type": "JoyTwoPipeline",
+          "link": 218,
+          "label": "joy_two_pipeline"
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 216,
+          "label": "image"
+        },
+        {
+          "name": "extra_options",
+          "type": "Extra_Options",
+          "link": 219,
+          "label": "extra_options"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            217
+          ],
+          "slot_index": 0,
+          "label": "STRING"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Joy_caption_two_advanced",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "Descriptive (Informal)",
+        "long",
+        "",
+        "",
+        false,
+        0.9,
+        0.6
+      ],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 115,
+      "type": "Joy_extra_options",
+      "pos": {
+        "0": -2652,
+        "1": 441
+      },
+      "size": {
+        "0": 922.3461303710938,
+        "1": 442
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "Extra_Options",
+          "type": "Extra_Options",
+          "links": [
+            219
+          ],
+          "label": "Extra_Options"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Joy_extra_options",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 96,
+      "type": "KSampler",
+      "pos": {
+        "0": 29,
+        "1": 529.3935546875
+      },
+      "size": {
+        "0": 333.80474853515625,
+        "1": 489.2088928222656
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 183,
+          "label": "模型"
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 184,
+          "label": "正面条件"
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 186,
+          "label": "负面条件"
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 223,
+          "label": "Latent"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            182
+          ],
+          "slot_index": 0,
+          "label": "Latent"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        270459766575088,
+        "randomize",
+        30,
+        1,
+        "euler",
+        "simple",
+        0.49
+      ],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 109,
+      "type": "Note",
+      "pos": {
+        "0": -2644,
+        "1": 941
+      },
+      "size": {
+        "0": 894.74658203125,
+        "1": 408.3351135253906
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "FLUX-自动反推+LORA 图生图工作流\n哩布哩布在线运行版 \n\n1·这是一个根据图像反推提示词，再进行图生图重绘的工作流。还配有3个lora节点，方便重绘不同风格。\n\n2·反推提示词框可以选择不同类型。\nDescriptive 描述\nDescriptive (Informal)-描述(非正式)\nTraining Prompt -训练用提示（适合训练模型用） \nMidJourney - MJ的提示词反推\nBooru -Booru标签列表 单词式\nBooru-like -类似Booru标签列表 单词式\nArtCritic -艺术评论家 以艺术角度描述\nProduct Listing -产品清单 以产品角度描述图像\nSocial Media Post -社交媒体帖子\n具体效果自行测试。\n\n3·lora节点默认关闭，ctrl+B开关。\n\n\n\n\n反推插件官方下载地址https://github.com/EvilBT/ComfyUI_SLK_joy_caption_two?tab=readme-ov-file\n\n反推模型打包网盘下载地址\nhttps://pan.quark.cn/s/37b31d9f0d3a\n\n我的主页-不定期更新更多实用工作流\nhttps://www.liblib.art/userpage/2e4c4a5e05e3465b84e986f062934d09/publish/workflow"
+      ],
+      "_widget_cache_map": {},
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 104,
+      "type": "ShowText|pysssss",
+      "pos": {
+        "0": -1664,
+        "1": 999
+      },
+      "size": {
+        "0": 322.0647888183594,
+        "1": 234.4990997314453
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 217,
+          "widget": {
+            "name": "text"
+          },
+          "label": "文本"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            201
+          ],
+          "shape": 6,
+          "label": "字符串"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        "A stunning digital artwork by artist \"Tang Zhi\" features a beautiful Asian woman with long, dark hair, adorned with gold hairpins. She's wearing a white, intricately designed, revealing outfit with gold accents, showing off her ample cleavage and slim waist. The background is pitch black, highlighting her fair skin and delicate features. The lighting is soft and artificial, creating a gentle glow on her face and body. The composition uses symmetry and leading lines, drawing attention to her face and upper body. This image is suggestive and has a watermark in the bottom right corner.",
+        "A stunning digital artwork by artist \"Tang Zhi\" features a beautiful Asian woman with long, dark hair, adorned with gold hairpins. She's wearing a white, intricately designed, revealing outfit with gold accents, showing off her ample cleavage and slim waist. The background is pitch black, highlighting her fair skin and delicate features. The lighting is soft and artificial, creating a gentle glow on her face and body. The composition uses symmetry and leading lines, drawing attention to her face and upper body. This image is suggestive and has a watermark in the bottom right corner."
+      ],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 100,
+      "type": "VAEEncode",
+      "pos": {
+        "0": -283,
+        "1": 653
+      },
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 220,
+          "label": "图像"
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 195,
+          "label": "VAE"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            223
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "Latent"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEEncode",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 113,
+      "type": "ConstrainImage|pysssss",
+      "pos": {
+        "0": -387,
+        "1": 865
+      },
+      "size": {
+        "0": 372.6941223144531,
+        "1": 154
+      },
+      "flags": {
+        "collapsed": false,
+        "pinned": true
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 214,
+          "label": "图像"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            220
+          ],
+          "slot_index": 0,
+          "shape": 6,
+          "label": "图像"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ConstrainImage|pysssss",
+        "ttNbgOverride": {
+          "color": "#222",
+          "bgcolor": "#000",
+          "groupcolor": "#444"
+        }
+      },
+      "widgets_values": [
+        2048,
+        2048,
+        0,
+        0,
+        "no"
+      ],
+      "_widget_cache_map": {},
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 105,
+      "type": "easy positive",
+      "pos": {
+        "0": -388,
+        "1": 526
+      },
+      "size": {
+        "0": 373.6941223144531,
+        "1": 276.80255126953125
+      },
+      "flags": {
+        "pinned": true
+      },
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "STRING",
+          "links": [
+            199
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "label": "正面提示词"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "easy positive"
+      },
+      "widgets_values": [
+        "Super detailed, very realistic, photographic works, real images.（（From the fantasy world））"
+      ],
+      "_widget_cache_map": {},
+      "color": "#232",
+      "bgcolor": "#353"
+    }
+  ],
+  "links": [
+    [
+      122,
+      65,
+      0,
+      20,
+      1,
+      "VAE"
+    ],
+    [
+      129,
+      14,
+      0,
+      70,
+      1,
+      "CLIP"
+    ],
+    [
+      133,
+      70,
+      0,
+      71,
+      0,
+      "MODEL"
+    ],
+    [
+      135,
+      70,
+      1,
+      71,
+      1,
+      "CLIP"
+    ],
+    [
+      137,
+      71,
+      0,
+      72,
+      0,
+      "MODEL"
+    ],
+    [
+      138,
+      71,
+      1,
+      72,
+      1,
+      "CLIP"
+    ],
+    [
+      140,
+      72,
+      1,
+      18,
+      0,
+      "CLIP"
+    ],
+    [
+      181,
+      95,
+      0,
+      70,
+      0,
+      "MODEL"
+    ],
+    [
+      182,
+      96,
+      0,
+      20,
+      0,
+      "LATENT"
+    ],
+    [
+      183,
+      72,
+      0,
+      96,
+      0,
+      "MODEL"
+    ],
+    [
+      184,
+      18,
+      0,
+      96,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      186,
+      18,
+      0,
+      96,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      195,
+      65,
+      0,
+      100,
+      1,
+      "VAE"
+    ],
+    [
+      199,
+      105,
+      0,
+      106,
+      1,
+      "STRING"
+    ],
+    [
+      200,
+      106,
+      0,
+      18,
+      1,
+      "STRING"
+    ],
+    [
+      201,
+      104,
+      0,
+      106,
+      0,
+      "STRING"
+    ],
+    [
+      202,
+      20,
+      0,
+      107,
+      1,
+      "IMAGE"
+    ],
+    [
+      203,
+      99,
+      0,
+      107,
+      0,
+      "IMAGE"
+    ],
+    [
+      214,
+      99,
+      0,
+      113,
+      0,
+      "IMAGE"
+    ],
+    [
+      216,
+      99,
+      0,
+      114,
+      1,
+      "IMAGE"
+    ],
+    [
+      217,
+      114,
+      0,
+      104,
+      0,
+      "STRING"
+    ],
+    [
+      218,
+      103,
+      0,
+      114,
+      0,
+      "JoyTwoPipeline"
+    ],
+    [
+      219,
+      115,
+      0,
+      114,
+      2,
+      "Extra_Options"
+    ],
+    [
+      220,
+      113,
+      0,
+      100,
+      0,
+      "IMAGE"
+    ],
+    [
+      223,
+      100,
+      0,
+      96,
+      3,
+      "LATENT"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "提示词反推模块（上传图片选模型）",
+      "bounding": [
+        -1699,
+        276,
+        872,
+        1120
+      ],
+      "color": "#8A8",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "FLUX+LORA 图生图工作流",
+      "bounding": [
+        -812,
+        277,
+        1983,
+        1124
+      ],
+      "color": "#88A",
+      "font_size": 24,
+      "flags": {
+        "pinned": true
+      }
+    },
+    {
+      "title": "最多设置3个lora（ctrl+B开关）",
+      "bounding": [
+        -786,
+        1113,
+        1174,
+        221
+      ],
+      "color": "#b58b2a",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "提示词（只填起手式）+图片尺寸+重绘幅度（降噪）",
+      "bounding": [
+        -413,
+        410,
+        800,
+        666
+      ],
+      "color": "#b58b2a",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "高级反推约束（可以不管）",
+      "bounding": [
+        -2677,
+        274,
+        962,
+        1120
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.45,
+      "offset": [
+        2718.997911160371,
+        515.3966359727315
+      ]
+    },
+    "workspace_info": {
+      "id": "LJJmW2yx0I2fW9D4NkEVn",
+      "saveLock": false
+    },
+    "0246.VERSION": [
+      0,
+      0,
+      4
+    ]
+  },
+  "version": 0.4,
+  "seed_widgets": {
+    "96": 0
+  },
+  "widget_idx_map": {
+    "96": {
+      "seed": 0,
+      "sampler_name": 4,
+      "scheduler": 5
+    }
+  }
+}

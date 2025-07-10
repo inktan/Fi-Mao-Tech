@@ -164,9 +164,9 @@ def main(csv_path,folder_out_path):
     print(df.shape)
     count = 0
     for index, row in tqdm(df.iterrows()):
-        if index not in [1353,4751,5594,8680]:
-            continue
-        # if index <= -7000:
+        # if index not in [1353,4751,5594,8680]:
+        #     continue
+        # if index <= 25:
         #     continue
         # if index >7000:
         #     continue
@@ -180,8 +180,8 @@ def main(csv_path,folder_out_path):
         # Id = int(row['Id'])
         # ORIG_FID = int(row['ORIG_FID'])
         # osm_id = row['osm_id']
-        lng = row['longitude']
-        lat = row['latitude']
+        lng = row['lon']
+        lat = row['lat']
         # mame_2 = row['name_2']
         
         try:
@@ -214,8 +214,8 @@ def main(csv_path,folder_out_path):
                 # year = filtered_panoramas[i].year
                 # month = filtered_panoramas[i].month
 
-                # pic_path = folder_out_path +'/sv_degrees'  +'/'+id+'_' +str(lng)+'_' +str(lat)
-                pic_path = folder_out_path +'/sv_degrees'
+                # pic_path = folder_out_path +'/svi_degrees'  +'/'+id+'_' +str(lng)+'_' +str(lat)
+                pic_path = folder_out_path +'/svi_degrees'
                 if os.path.exists(pic_path) == False:
                     os.makedirs(pic_path)
 
@@ -282,7 +282,7 @@ resolution_ratio = 4
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\sv_qingyingmigucheng\主城区\主城区_netroad_100m_unique_Spatial_Balance.csv'  # 需要爬取的点
-    folder_out_path = r'e:\work\sv_qingyingmigucheng\主城区'  # 保存街景文件
+    csv_path = r'e:\work\sv_yqrqy\points.csv'  # 需要爬取的点
+    folder_out_path = r'e:\work\sv_yqrqy'  # 保存街景文件
 
     main(csv_path,folder_out_path)

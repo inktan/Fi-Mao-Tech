@@ -1,0 +1,623 @@
+{
+  "last_node_id": 160,
+  "last_link_id": 283,
+  "nodes": [
+    {
+      "id": 148,
+      "type": "VAEDecode",
+      "pos": [
+        3120,
+        740
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 249
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            273
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 149,
+      "type": "EmptyLatentImage",
+      "pos": [
+        2435,
+        1266
+      ],
+      "size": [
+        315,
+        106
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            251
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        1400,
+        904,
+        1
+      ]
+    },
+    {
+      "id": 157,
+      "type": "SaveImage",
+      "pos": [
+        3223.703857421875,
+        867.90771484375
+      ],
+      "size": [
+        594.535400390625,
+        477.3031311035156
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 273
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    },
+    {
+      "id": 142,
+      "type": "CLIPTextEncode",
+      "pos": [
+        2260,
+        830
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            248
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "a street photorealistic rendering of three round corner glass box buildings. facade has stacked silver floor plates. transparent glass wall \n between floor plates has large glass panes and thin vertical lines. setback terraces on top floors. transparent ground floor has dim interior lighting. foreground has cars on asphalt road, people and trees on concrete sidewalk,grass at lower right corne,.cloudy"
+      ]
+    },
+    {
+      "id": 159,
+      "type": "Anything Everywhere3",
+      "pos": [
+        2698.6748046875,
+        651.3184814453125
+      ],
+      "size": [
+        252,
+        66
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "MODEL",
+          "type": "*",
+          "link": 277,
+          "shape": 7,
+          "color_on": "#B39DDB"
+        },
+        {
+          "name": "CLIP",
+          "type": "*",
+          "link": 278,
+          "shape": 7,
+          "color_on": "#FFD500"
+        },
+        {
+          "name": "VAE",
+          "type": "*",
+          "link": 279,
+          "shape": 7,
+          "color_on": "#FF6E6E"
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Anything Everywhere3",
+        "group_restricted": 0,
+        "color_restricted": 0
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 160,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        2324.179443359375,
+        647.7671508789062
+      ],
+      "size": [
+        315,
+        98
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            277
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            278
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            279
+          ],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "sdxl\\goaXL0.9\\goaXL0.9.safetensors"
+      ]
+    },
+    {
+      "id": 143,
+      "type": "CLIPTextEncode",
+      "pos": [
+        2257,
+        1084
+      ],
+      "size": [
+        395.6593933105469,
+        88.7998275756836
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            243
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 141,
+      "type": "KSampler",
+      "pos": [
+        2870,
+        860
+      ],
+      "size": [
+        315,
+        474
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": null
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 248
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 243
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 251
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            249
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        35515614370630,
+        "randomize",
+        20,
+        7,
+        "euler",
+        "normal",
+        1
+      ]
+    }
+  ],
+  "links": [
+    [
+      144,
+      93,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      145,
+      93,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      166,
+      93,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      167,
+      93,
+      0,
+      102,
+      0,
+      "VAE"
+    ],
+    [
+      194,
+      93,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      195,
+      93,
+      0,
+      102,
+      0,
+      "VAE"
+    ],
+    [
+      196,
+      93,
+      0,
+      118,
+      0,
+      "VAE"
+    ],
+    [
+      197,
+      96,
+      0,
+      115,
+      0,
+      "MODEL"
+    ],
+    [
+      198,
+      93,
+      0,
+      115,
+      1,
+      "VAE"
+    ],
+    [
+      230,
+      93,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      231,
+      93,
+      0,
+      125,
+      2,
+      "VAE"
+    ],
+    [
+      232,
+      96,
+      0,
+      121,
+      0,
+      "MODEL"
+    ],
+    [
+      233,
+      93,
+      0,
+      129,
+      0,
+      "VAE"
+    ],
+    [
+      234,
+      93,
+      0,
+      118,
+      0,
+      "VAE"
+    ],
+    [
+      235,
+      93,
+      0,
+      130,
+      3,
+      "VAE"
+    ],
+    [
+      243,
+      143,
+      0,
+      141,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      248,
+      142,
+      0,
+      141,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      249,
+      141,
+      0,
+      148,
+      0,
+      "LATENT"
+    ],
+    [
+      251,
+      149,
+      0,
+      141,
+      3,
+      "LATENT"
+    ],
+    [
+      270,
+      145,
+      0,
+      148,
+      1,
+      "VAE"
+    ],
+    [
+      273,
+      148,
+      0,
+      157,
+      0,
+      "IMAGE"
+    ],
+    [
+      276,
+      145,
+      0,
+      148,
+      1,
+      "VAE"
+    ],
+    [
+      277,
+      160,
+      0,
+      159,
+      0,
+      "MODEL"
+    ],
+    [
+      278,
+      160,
+      1,
+      159,
+      1,
+      "CLIP"
+    ],
+    [
+      279,
+      160,
+      2,
+      159,
+      2,
+      "VAE"
+    ],
+    [
+      280,
+      160,
+      2,
+      148,
+      1,
+      "VAE"
+    ],
+    [
+      281,
+      160,
+      1,
+      142,
+      0,
+      "CLIP"
+    ],
+    [
+      282,
+      160,
+      1,
+      143,
+      0,
+      "CLIP"
+    ],
+    [
+      283,
+      160,
+      0,
+      141,
+      0,
+      "MODEL"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.7627768444385747,
+      "offset": [
+        -1650.4454106782566,
+        -460.67458728964493
+      ]
+    },
+    "node_versions": {
+      "comfy-core": "0.3.14",
+      "cg-use-everywhere": "ce510b97d10e69d5fd0042e115ecd946890d2079"
+    },
+    "ue_links": [
+      {
+        "downstream": 148,
+        "downstream_slot": 1,
+        "upstream": "160",
+        "upstream_slot": 2,
+        "controller": 159,
+        "type": "VAE"
+      },
+      {
+        "downstream": 142,
+        "downstream_slot": 0,
+        "upstream": "160",
+        "upstream_slot": 1,
+        "controller": 159,
+        "type": "CLIP"
+      },
+      {
+        "downstream": 143,
+        "downstream_slot": 0,
+        "upstream": "160",
+        "upstream_slot": 1,
+        "controller": 159,
+        "type": "CLIP"
+      },
+      {
+        "downstream": 141,
+        "downstream_slot": 0,
+        "upstream": "160",
+        "upstream_slot": 0,
+        "controller": 159,
+        "type": "MODEL"
+      }
+    ]
+  },
+  "version": 0.4
+}

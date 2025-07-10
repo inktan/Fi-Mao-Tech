@@ -1,0 +1,1075 @@
+{
+  "id": "b9f045b4-c789-4dd8-b35b-1ed1e97b7c1a",
+  "revision": 0,
+  "last_node_id": 51,
+  "last_link_id": 111,
+  "nodes": [
+    {
+      "id": 48,
+      "type": "ImageResize+",
+      "pos": {
+        "0": 1957.8201904296875,
+        "1": -430.7647399902344
+      },
+      "size": {
+        "0": 394.6108703613281,
+        "1": 218
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 105
+        }
+      ],
+      "outputs": [
+        {
+          "label": "图像",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            106
+          ]
+        },
+        {
+          "label": "宽度",
+          "name": "width",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "label": "高度",
+          "name": "height",
+          "type": "INT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageResize+"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        "nearest",
+        "keep proportion",
+        "always",
+        0
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 31,
+      "type": "UNETLoader",
+      "pos": {
+        "0": 1960.8201904296875,
+        "1": -160.7648162841797
+      },
+      "size": {
+        "0": 387.9377746582031,
+        "1": 84.33736419677734
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "模型",
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            85
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "F.1-Fill-fp16_Inpaint&Outpaint_1.0",
+        "default"
+      ],
+      "_widget_cache_map": {
+        "Flux扩图_v1": {
+          "name": "Flux扩图_v1",
+          "baseType": 19,
+          "value": "4b0c155a28ee4e6fb42f0324130e2f28"
+        },
+        "F.1-Fill-fp16_Inpaint&Outpaint_1.0": {
+          "name": "F.1-Fill-fp16_Inpaint&Outpaint_1.0",
+          "baseType": 19,
+          "value": "392758d84cda4029b047ede905087547"
+        }
+      }
+    },
+    {
+      "id": 39,
+      "type": "DifferentialDiffusion",
+      "pos": {
+        "0": 1961.8201904296875,
+        "1": -23.764724731445312
+      },
+      "size": {
+        "0": 384.1829528808594,
+        "1": 28.145444869995117
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "模型",
+          "name": "model",
+          "type": "MODEL",
+          "link": 85
+        }
+      ],
+      "outputs": [
+        {
+          "label": "模型",
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            86
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DifferentialDiffusion"
+      },
+      "widgets_values": [],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 26,
+      "type": "FluxGuidance",
+      "pos": {
+        "0": 1966.8201904296875,
+        "1": 57.23537826538086
+      },
+      "size": {
+        "0": 378.2646789550781,
+        "1": 61.929649353027344
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "条件",
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 41
+        }
+      ],
+      "outputs": [
+        {
+          "label": "条件",
+          "name": "CONDITIONING",
+          "shape": 3,
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            80
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FluxGuidance"
+      },
+      "widgets_values": [
+        30
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 23,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 1965.8201904296875,
+        "1": 170.2352752685547
+      },
+      "size": {
+        "0": 375.5915832519531,
+        "1": 88
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "CLIP",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 62
+        }
+      ],
+      "outputs": [
+        {
+          "label": "条件",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            41
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "beautiful scenery"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 38,
+      "type": "InpaintModelConditioning",
+      "pos": {
+        "0": 2387.821533203125,
+        "1": 177.23526000976562
+      },
+      "size": {
+        "0": 368.98516845703125,
+        "1": 138
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "正面条件",
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 80
+        },
+        {
+          "label": "负面条件",
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 81
+        },
+        {
+          "label": "VAE",
+          "name": "vae",
+          "type": "VAE",
+          "link": 82
+        },
+        {
+          "label": "图像",
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 103
+        },
+        {
+          "label": "遮罩",
+          "name": "mask",
+          "type": "MASK",
+          "link": 104
+        }
+      ],
+      "outputs": [
+        {
+          "label": "正面条件",
+          "name": "positive",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            77
+          ]
+        },
+        {
+          "label": "负面条件",
+          "name": "negative",
+          "type": "CONDITIONING",
+          "slot_index": 1,
+          "links": [
+            78
+          ]
+        },
+        {
+          "label": "Latent",
+          "name": "latent",
+          "type": "LATENT",
+          "slot_index": 2,
+          "links": [
+            88
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InpaintModelConditioning"
+      },
+      "widgets_values": [
+        false
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 34,
+      "type": "DualCLIPLoader",
+      "pos": {
+        "0": 1964.8201904296875,
+        "1": 298.2353515625
+      },
+      "size": {
+        "0": 377.1230773925781,
+        "1": 151.69248962402344
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "CLIP",
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            62,
+            63
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DualCLIPLoader"
+      },
+      "widgets_values": [
+        "t5xxl_fp8_e4m3fn",
+        "clip_l",
+        "flux",
+        "default"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 9,
+      "type": "SaveImage",
+      "pos": {
+        "0": -30.010900497436523,
+        "1": -432.9822082519531
+      },
+      "size": {
+        "0": 1025.7509765625,
+        "1": 954.4114379882812
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 95
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 7,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 2386.540771484375,
+        "1": 366.87567138671875
+      },
+      "size": {
+        "0": 370.4916687011719,
+        "1": 112.131103515625
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "CLIP",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 63
+        }
+      ],
+      "outputs": [
+        {
+          "label": "条件",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            81
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": {
+        "0": 2229.821533203125,
+        "1": 511.2353515625
+      },
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "Latent",
+          "name": "samples",
+          "type": "LATENT",
+          "link": 7
+        },
+        {
+          "label": "VAE",
+          "name": "vae",
+          "type": "VAE",
+          "link": 60
+        }
+      ],
+      "outputs": [
+        {
+          "label": "图像",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            95,
+            107
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": [],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 32,
+      "type": "VAELoader",
+      "pos": {
+        "0": 1969.8201904296875,
+        "1": 505.235595703125
+      },
+      "size": {
+        "0": 210,
+        "1": 59.70909881591797
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "slot_index": 0,
+          "links": [
+            60,
+            82,
+            108
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "ae.sft"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 50,
+      "type": "PreviewImage",
+      "pos": {
+        "0": 1018.8543701171875,
+        "1": -432.20263671875
+      },
+      "size": {
+        "0": 917.5419311523438,
+        "1": 959.1351318359375
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 109
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 3,
+      "type": "KSampler",
+      "pos": {
+        "0": 2387.821533203125,
+        "1": -426.7647399902344
+      },
+      "size": {
+        "0": 366.17767333984375,
+        "1": 262
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "模型",
+          "name": "model",
+          "type": "MODEL",
+          "link": 86
+        },
+        {
+          "label": "正面条件",
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 77
+        },
+        {
+          "label": "负面条件",
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 78
+        },
+        {
+          "label": "Latent",
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 88
+        }
+      ],
+      "outputs": [
+        {
+          "label": "Latent",
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        212932921893788,
+        "randomize",
+        20,
+        1,
+        "euler",
+        "normal",
+        1
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 49,
+      "type": "easy hiresFix",
+      "pos": {
+        "0": 2390.398193359375,
+        "1": -115.9715347290039
+      },
+      "size": {
+        "0": 362.65264892578125,
+        "1": 454
+      },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "节点束",
+          "name": "pipe",
+          "shape": 7,
+          "type": "PIPE_LINE",
+          "link": null
+        },
+        {
+          "label": "图像",
+          "name": "image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 107
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": 108
+        }
+      ],
+      "outputs": [
+        {
+          "label": "节点束",
+          "name": "pipe",
+          "type": "PIPE_LINE"
+        },
+        {
+          "label": "图像",
+          "name": "image",
+          "type": "IMAGE",
+          "slot_index": 1,
+          "links": [
+            109
+          ]
+        },
+        {
+          "label": "Latent",
+          "name": "latent",
+          "type": "LATENT"
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "easy hiresFix"
+      },
+      "widgets_values": [
+        "4x_NMKD-Siax_200k",
+        false,
+        "nearest-exact",
+        "by percentage",
+        100,
+        1024,
+        1024,
+        1024,
+        "disabled",
+        "Preview",
+        0,
+        "ComfyUI"
+      ],
+      "_widget_cache_map": {}
+    },
+    {
+      "id": 17,
+      "type": "LoadImage",
+      "pos": {
+        "0": -461.184326171875,
+        "1": -140.08981323242188
+      },
+      "size": {
+        "0": 409.3497009277344,
+        "1": 666.3443603515625
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "图像",
+          "name": "IMAGE",
+          "shape": 3,
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            105
+          ]
+        },
+        {
+          "label": "遮罩",
+          "name": "MASK",
+          "shape": 3,
+          "type": "MASK",
+          "slot_index": 1,
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "output (18).jpg",
+        "image",
+        ""
+      ],
+      "_widget_cache_map": {
+        "output - 2024-11-24T114251.498 (1).png": {
+          "value": "img/ab7d75d067294d3b84a7583f9d551f71/e6de0227c6d3c906b24390b3182c183bf1765368b3e74ec21e3babcc746e9790.png",
+          "name": "output - 2024-11-24T114251.498 (1).png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/ab7d75d067294d3b84a7583f9d551f71/e6de0227c6d3c906b24390b3182c183bf1765368b3e74ec21e3babcc746e9790.png",
+          "width": 1640,
+          "height": 1424
+        },
+        "output - 2024-11-24T114251.498.png": {
+          "value": "img/ab7d75d067294d3b84a7583f9d551f71/95680b1485cd8f7f7c243e80d53b3ee25859f5bed7636296fe7d8b0eaee1746d.png",
+          "name": "output - 2024-11-24T114251.498.png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/ab7d75d067294d3b84a7583f9d551f71/95680b1485cd8f7f7c243e80d53b3ee25859f5bed7636296fe7d8b0eaee1746d.png",
+          "width": 842,
+          "height": 1024
+        },
+        "微信图片_20241122165456.jpg": {
+          "value": "img/ab7d75d067294d3b84a7583f9d551f71/ddf24927376d1ea6134b90736b88142cfdb2cff1d4efbc2c35ff3b10c55a907a.jpg",
+          "name": "微信图片_20241122165456.jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/ab7d75d067294d3b84a7583f9d551f71/ddf24927376d1ea6134b90736b88142cfdb2cff1d4efbc2c35ff3b10c55a907a.jpg",
+          "width": 928,
+          "height": 1232
+        },
+        "微信截图_20250426131152.png": {
+          "value": "img/84cd9ecbef5b4333afb1125200e50242/72d0407009fefeb0265f4de463736f37a52b363b017bdbbc5b41115102a45a39.png",
+          "name": "微信截图_20250426131152.png",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/84cd9ecbef5b4333afb1125200e50242/72d0407009fefeb0265f4de463736f37a52b363b017bdbbc5b41115102a45a39.png",
+          "width": 1247,
+          "height": 1125
+        },
+        "output (18).jpg": {
+          "value": "img/84cd9ecbef5b4333afb1125200e50242/ddf24927376d1ea6134b90736b88142cfdb2cff1d4efbc2c35ff3b10c55a907a.jpg",
+          "name": "output (18).jpg",
+          "url": "https://liblibai-tmp-image.liblib.cloud/img/84cd9ecbef5b4333afb1125200e50242/ddf24927376d1ea6134b90736b88142cfdb2cff1d4efbc2c35ff3b10c55a907a.jpg",
+          "width": 928,
+          "height": 1232
+        }
+      }
+    },
+    {
+      "id": 44,
+      "type": "ImagePadForOutpaint",
+      "pos": {
+        "0": -461.7322998046875,
+        "1": -424.866455078125
+      },
+      "size": {
+        "0": 407.1777648925781,
+        "1": 198.19480895996094
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 106
+        }
+      ],
+      "outputs": [
+        {
+          "label": "图像",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            103
+          ]
+        },
+        {
+          "label": "遮罩",
+          "name": "MASK",
+          "type": "MASK",
+          "slot_index": 1,
+          "links": [
+            104
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImagePadForOutpaint"
+      },
+      "widgets_values": [
+        400,
+        0,
+        400,
+        400,
+        24
+      ],
+      "_widget_cache_map": {}
+    }
+  ],
+  "links": [
+    [
+      7,
+      3,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      41,
+      23,
+      0,
+      26,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      60,
+      32,
+      0,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      62,
+      34,
+      0,
+      23,
+      0,
+      "CLIP"
+    ],
+    [
+      63,
+      34,
+      0,
+      7,
+      0,
+      "CLIP"
+    ],
+    [
+      77,
+      38,
+      0,
+      3,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      78,
+      38,
+      1,
+      3,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      80,
+      26,
+      0,
+      38,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      81,
+      7,
+      0,
+      38,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      82,
+      32,
+      0,
+      38,
+      2,
+      "VAE"
+    ],
+    [
+      85,
+      31,
+      0,
+      39,
+      0,
+      "MODEL"
+    ],
+    [
+      86,
+      39,
+      0,
+      3,
+      0,
+      "MODEL"
+    ],
+    [
+      88,
+      38,
+      2,
+      3,
+      3,
+      "LATENT"
+    ],
+    [
+      95,
+      8,
+      0,
+      9,
+      0,
+      "IMAGE"
+    ],
+    [
+      103,
+      44,
+      0,
+      38,
+      3,
+      "IMAGE"
+    ],
+    [
+      104,
+      44,
+      1,
+      38,
+      4,
+      "MASK"
+    ],
+    [
+      105,
+      17,
+      0,
+      48,
+      0,
+      "IMAGE"
+    ],
+    [
+      106,
+      48,
+      0,
+      44,
+      0,
+      "IMAGE"
+    ],
+    [
+      107,
+      8,
+      0,
+      49,
+      1,
+      "IMAGE"
+    ],
+    [
+      108,
+      32,
+      0,
+      49,
+      2,
+      "VAE"
+    ],
+    [
+      109,
+      49,
+      1,
+      50,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "上传-扩图照片",
+      "bounding": [
+        -471,
+        -214,
+        426,
+        746
+      ],
+      "color": "#3f789e",
+      "font_size": 30,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "此处输入扩图像素",
+      "bounding": [
+        -471,
+        -507,
+        425,
+        290
+      ],
+      "color": "#3f789e",
+      "font_size": 30,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "图像生成",
+      "bounding": [
+        -41,
+        -507,
+        1046,
+        1038
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "工作区域",
+      "bounding": [
+        1948.4044189453125,
+        -505.2214050292969,
+        824,
+        1039
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "高清修复",
+      "bounding": [
+        1008.8543090820312,
+        -505.8025817871094,
+        936.2875366210938,
+        1037.717529296875
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.7247295000000004,
+      "offset": [
+        1152.6727348485783,
+        815.2192696108932
+      ]
+    },
+    "0246.VERSION": [
+      0,
+      0,
+      4
+    ],
+    "ue_links": [],
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}

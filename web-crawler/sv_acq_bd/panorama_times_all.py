@@ -112,8 +112,10 @@ def main(csv_path,folder_out_path):
         # index = int(row['index'])
         # id = int(row['id'])
         # osm_id = row['osm_id']
-        lng = row['longitude']
-        lat = row['latitude']
+        # lng = row['longitude']
+        # lat = row['latitude']
+        lng = row['lon']
+        lat = row['lat']
         # mame_2 = row['name_2']
         
         try:
@@ -145,10 +147,7 @@ def main(csv_path,folder_out_path):
                 year = filtered_panoramas[i].year
                 month = filtered_panoramas[i].month
 
-                # folder_out_path = folder_out_path +'/sv_pan'  +'/'+id+'_' +str(lng)+'_' +str(lat)
-                # folder_out_path = folder_out_path +'/sv_pan'
-                if os.path.exists(folder_out_path) == False:
-                    os.makedirs(folder_out_path)
+                # folder_out_path = folder_out_path +'/'+id+'_' +str(lng)+'_' +str(lat)
 
                 # save_file_path = folder_out_path + '/' + str(osm_id)+'_'+ str(osm_id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
                 save_file_path = folder_out_path + '/' +str(index)+'_' +str(lng)+ '_'+str(lat)+ '_' + str(heading)+ '_' +timeLine+ '.jpg'
@@ -203,18 +202,21 @@ def coord_convert(lng1,lat1):
         result = transCoordinateSystem.gcj02_to_bd09(lng1,lat1)
         return transBmap.lnglattopoint(result[0],result[1])
     
-# if __name__ == '__main__':
-#     # 文件夹路径
-#     csv_path = r'e:\work\sv_juanjuanmao\20250308\八条路线\T1_50m_.csv'  # 需要爬取的点
-#     folder_out_path = r'e:\work\sv_juanjuanmao\20250308\八条路线\sv_pan00\T1'  # 保存街景文件
-
-#     main(csv_path,folder_out_path)
-
 if __name__ == '__main__':
     # 文件夹路径
-    for i in range(8):
-        csv_path = f'e:\work\sv_juanjuanmao\\20250308\八条路线\T{i+1}_50m_.csv'  # 需要爬取的点
-        folder_out_path = f'e:\work\sv_juanjuanmao\\20250308\八条路线\sv_pan00\T{i+1}'  # 保存街景文件
+    csv_path = r'e:\work\sv_yqrqy\points.csv'  # 需要爬取的点
+    folder_out_path = r'e:\work\sv_yqrqy'  # 保存街景文件
+    folder_out_path = folder_out_path +'/sv_panorama'
+    if os.path.exists(folder_out_path) == False:
+        os.makedirs(folder_out_path)
 
-        main(csv_path,folder_out_path)
+    main(csv_path,folder_out_path)
+
+# if __name__ == '__main__':
+#     # 文件夹路径
+#     for i in range(8):
+#         csv_path = f'e:\work\sv_juanjuanmao\\20250308\八条路线\T{i+1}_50m_.csv'  # 需要爬取的点
+#         folder_out_path = f'e:\work\sv_juanjuanmao\\20250308\八条路线\sv_pan00\T{i+1}'  # 保存街景文件
+
+#         main(csv_path,folder_out_path)
 

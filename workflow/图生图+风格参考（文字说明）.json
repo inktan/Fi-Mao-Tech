@@ -1,0 +1,1993 @@
+{
+  "last_node_id": 180,
+  "last_link_id": 327,
+  "nodes": [
+    {
+      "id": 69,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -43.31871032714844,
+        1126.91650390625
+      ],
+      "size": [
+        407.7053527832031,
+        139.5579376220703
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            150
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 105,
+      "type": "ControlNetApplyAdvanced",
+      "pos": [
+        810,
+        940
+      ],
+      "size": [
+        340.20001220703125,
+        186
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 149
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 150
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 256
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 161
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            174
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            175
+          ],
+          "slot_index": 1,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "ControlNetApplyAdvanced"
+      },
+      "widgets_values": [
+        0.4,
+        0,
+        0.55
+      ]
+    },
+    {
+      "id": 113,
+      "type": "ControlNetApplyAdvanced",
+      "pos": [
+        1590,
+        930
+      ],
+      "size": [
+        315,
+        186
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 174
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 175
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 176
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 250
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            178
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            179
+          ],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "ControlNetApplyAdvanced"
+      },
+      "widgets_values": [
+        0.5,
+        0,
+        0.9500000000000001
+      ]
+    },
+    {
+      "id": 70,
+      "type": "VAEDecode",
+      "pos": [
+        2390,
+        900
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 106
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            284
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 162,
+      "type": "SaveImage",
+      "pos": [
+        2633.13720703125,
+        905.3475341796875
+      ],
+      "size": [
+        429.41448974609375,
+        448.91619873046875
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 284
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    },
+    {
+      "id": 170,
+      "type": "Note",
+      "pos": [
+        2028.54833984375,
+        1511.8504638671875
+      ],
+      "size": [
+        332.07904052734375,
+        85.56336212158203
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：生成过程预览",
+      "properties": {},
+      "widgets_values": [
+        "\n可以看到扩散模型一步步消除噪点的过程。靠前的步骤控制图面大关系，包括色调明暗体量等；靠后的步骤控制肌理和细节。观察每一步的结果可以帮助调节ControlNet开始/结束时间。"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 169,
+      "type": "Note",
+      "pos": [
+        2027.3095703125,
+        645.9898071289062
+      ],
+      "size": [
+        333.04754638671875,
+        210.3982391357422
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：扩散模型生图",
+      "properties": {},
+      "widgets_values": [
+        "\n种子：底层计算中使用的随机整数，造成每次生成的图不一样。将control after generate 设置为 fixed，会固定住种子。想要复现某一张图的结果，需要相同的种子和其它设置。\n\n步数：扩散模型降噪的步数，20 - 30之间。\n\ncfg：默认为7。如果图特别浓艳，降低cfg，一般不低于4。\n\n采样器：默认euler，速度快。可以尝试其它，步数和调度器可能需要相应调整。\n\n降噪：控制图生图时原图的保留程度。降噪越高，在原图上增加的噪点越多，原图保留的越少。和底图配合使用。\n\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 151,
+      "type": "LineArtPreprocessor",
+      "pos": [
+        1229.150146484375,
+        1168.34814453125
+      ],
+      "size": [
+        315,
+        82
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 252
+        },
+        {
+          "name": "resolution",
+          "type": "INT",
+          "link": 249,
+          "widget": {
+            "name": "resolution"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            250,
+            251
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LineArtPreprocessor"
+      },
+      "widgets_values": [
+        "disable",
+        512
+      ]
+    },
+    {
+      "id": 116,
+      "type": "PreviewImage",
+      "pos": [
+        1599.8807373046875,
+        1173.82470703125
+      ],
+      "size": [
+        303.6131591796875,
+        238.6737518310547
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 251
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 171,
+      "type": "Note",
+      "pos": [
+        1230.3046875,
+        1299.9464111328125
+      ],
+      "size": [
+        317.4580078125,
+        77.09457397460938
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：线稿预处理",
+      "properties": {},
+      "widgets_values": [
+        "\n预处理默认使用Realistic Lineart,也可以尝试其它，比如Canny"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 112,
+      "type": "PreviewImage",
+      "pos": [
+        817.7896118164062,
+        1178.2523193359375
+      ],
+      "size": [
+        332.91815185546875,
+        263.0945739746094
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 171
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 99,
+      "type": "ControlNetLoader",
+      "pos": [
+        436.1614990234375,
+        1063.1368408203125
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": [
+            256
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "ControlNetLoader"
+      },
+      "widgets_values": [
+        "sdxl\\xinsir\\controlnetxlCNXL_xinsirDepth.safetensors"
+      ]
+    },
+    {
+      "id": 108,
+      "type": "DepthAnythingV2Preprocessor",
+      "pos": [
+        431.8597412109375,
+        1187.669677734375
+      ],
+      "size": [
+        352.79998779296875,
+        82
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 159
+        },
+        {
+          "name": "resolution",
+          "type": "INT",
+          "link": 248,
+          "widget": {
+            "name": "resolution"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            161,
+            171
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DepthAnythingV2Preprocessor"
+      },
+      "widgets_values": [
+        "depth_anything_v2_vitl.pth",
+        1600
+      ]
+    },
+    {
+      "id": 172,
+      "type": "Note",
+      "pos": [
+        438.2560119628906,
+        1321.1116943359375
+      ],
+      "size": [
+        317.4580078125,
+        77.09457397460938
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：深度图预处理",
+      "properties": {},
+      "widgets_values": [
+        "\n默认depth anything。不需要尝试其它，除非出现明显问题。"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 102,
+      "type": "FS: Load Image And Resize To Fit",
+      "pos": [
+        -52.8360595703125,
+        1356.93017578125
+      ],
+      "size": [
+        415.8000183105469,
+        514
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Latent",
+          "type": "LATENT",
+          "links": [
+            286
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "Image",
+          "type": "IMAGE",
+          "links": [
+            159,
+            252
+          ],
+          "slot_index": 1,
+          "shape": 3
+        },
+        {
+          "name": "Width",
+          "type": "INT",
+          "links": [],
+          "slot_index": 2,
+          "shape": 3
+        },
+        {
+          "name": "Height",
+          "type": "INT",
+          "links": [
+            248,
+            249
+          ],
+          "slot_index": 3,
+          "shape": 3
+        },
+        {
+          "name": "Aspect Ratio",
+          "type": "FLOAT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "Mask",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FS: Load Image And Resize To Fit"
+      },
+      "widgets_values": [
+        "底图 (9).png",
+        2000,
+        "lanczos",
+        "false",
+        1,
+        0,
+        "image"
+      ]
+    },
+    {
+      "id": 155,
+      "type": "Anything Everywhere3",
+      "pos": [
+        328.4948425292969,
+        717.7779541015625
+      ],
+      "size": [
+        252,
+        66
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "MODEL",
+          "type": "*",
+          "link": 280,
+          "shape": 7,
+          "color_on": "#B39DDB"
+        },
+        {
+          "name": "CLIP",
+          "type": "*",
+          "link": 281,
+          "shape": 7,
+          "color_on": "#FFD500"
+        },
+        {
+          "name": "VAE",
+          "type": "*",
+          "link": 282,
+          "shape": 7,
+          "color_on": "#FF6E6E"
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "cg-use-everywhere",
+        "ver": "8017bc6b063f45db6b986d9fc8bb76bd3234b838",
+        "Node name for S&R": "Anything Everywhere3",
+        "group_restricted": 0,
+        "color_restricted": 0
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 68,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -54.988101959228516,
+        878.8858032226562
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            149
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "(photo:0.3). street (rendering:0.7) of a large horizontal rectilinear building with two large floating box. facade has (concrete vertical fins:1.05) in front of glass wall. thin plate at top and bottom of floating boxes. open ground floor and one round column at front corner. foreground has street with (super sports cars:1.05). trees. pedestrian on sidewalk. other box buildings and hill in distant background. "
+      ]
+    },
+    {
+      "id": 166,
+      "type": "Note",
+      "pos": [
+        -407.3984375,
+        1169.334228515625
+      ],
+      "size": [
+        338.10284423828125,
+        105.91405487060547
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：反向提示词",
+      "properties": {},
+      "widgets_values": [
+        "\n不希望图中出现的内容/风格/要素，通过反向提示词控制。对全图影响较大， 建议尽量少用。\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 115,
+      "type": "ControlNetLoader",
+      "pos": [
+        1231.254150390625,
+        1033.406982421875
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": [
+            176
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "ControlNetLoader"
+      },
+      "widgets_values": [
+        "sdxl\\xinsir\\controlnetxlCNXL_xinsirCannyv2.safetensors"
+      ]
+    },
+    {
+      "id": 160,
+      "type": "Note",
+      "pos": [
+        817.2378540039062,
+        737.0023803710938
+      ],
+      "size": [
+        326.7064514160156,
+        157.19778442382812
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：深度图ControlNet",
+      "properties": {},
+      "widgets_values": [
+        "\n控制空间关系和形体\n\n强度不宜超过0.6，否则质量可能明显下降。\n强度太低会失去控制力。需要找到一个平衡点。\n\n开始 < 0.1\n0.5 < 结束 < 1.0 \n\n\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 175,
+      "type": "Note",
+      "pos": [
+        433.7066955566406,
+        933.5122680664062
+      ],
+      "size": [
+        314.78826904296875,
+        86.7721939086914
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：ControlNet的选择",
+      "properties": {},
+      "widgets_values": [
+        "\nSDXL的ControlNet中，xinsir版本是公认比较好的。union 和 union pro 通用模型虽然速度快（一个模型当多个用），但不如专用模型效果好，不建议使用。"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 156,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        -46.00022506713867,
+        714.2266235351562
+      ],
+      "size": [
+        315,
+        98
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            280
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            281
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            282
+          ],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "sdxl\\goaXL0.9\\goaXL0.9.safetensors"
+      ]
+    },
+    {
+      "id": 168,
+      "type": "Note",
+      "pos": [
+        -398.5846862792969,
+        676.5194091796875
+      ],
+      "size": [
+        331.59063720703125,
+        145.80140686035156
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：模型选择",
+      "properties": {},
+      "widgets_values": [
+        "\n大部分情况下推荐使用goaXL，控制力比其它开源模型更强。\n\n开源模型有时会有更好的配景和细节发挥，可以作为补充。经测试效果较好的开源模型可以增加到服务器上。\n\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 174,
+      "type": "Note",
+      "pos": [
+        -389.765380859375,
+        1358.6845703125
+      ],
+      "size": [
+        306.91314697265625,
+        309.0283508300781
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：底图",
+      "properties": {},
+      "widgets_values": [
+        "\n图生图可以将底图的明暗和颜色传递给成图。方案模型截图一般够用。\n\n截图的分辨率不应过低或过高，建议总像素在150-300万，否则影响出图速度和质量。\n\nmax_size: 长边不超过这个值，否则缩小图片\n\nupscale: 如果设为true，会扩大长边到max_size。一般不扩图，会导致模糊。\n\nbatch_size: 控制输出latent的数量，即同时生成多少张图。迭代提示词/设置时建议一次1-2张，如需大量刷图也不要超过8张，会影响其他同事使用。\n\nadd_noise: 一般不用。注意不要和扩散模型的“降噪”混淆。\n\n技巧提示：调整扩散模型的“降噪”，找到控制力和成图质量的平衡点。图面上会有些难控制的地方，不用追求一步到位，可以针对性的调整底图（增加玻璃亮度，打开阴影等）再尝试。\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 79,
+      "type": "KSampler",
+      "pos": [
+        2020,
+        910
+      ],
+      "size": [
+        347.75921630859375,
+        548.7809448242188
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 311
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 178
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 179
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 286
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            106
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        235314893555139,
+        "randomize",
+        20,
+        7,
+        "euler",
+        "normal",
+        1
+      ]
+    },
+    {
+      "id": 176,
+      "type": "CLIPVisionLoader",
+      "pos": [
+        1146.3153076171875,
+        507.9053649902344
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP_VISION",
+          "type": "CLIP_VISION",
+          "links": [
+            310
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.13",
+        "Node name for S&R": "CLIPVisionLoader"
+      },
+      "widgets_values": [
+        "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+      ]
+    },
+    {
+      "id": 177,
+      "type": "IPAdapterModelLoader",
+      "pos": [
+        1138.3779296875,
+        -185.71282958984375
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IPADAPTER",
+          "type": "IPADAPTER",
+          "links": [
+            308
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_ipadapter_plus",
+        "ver": "b188a6cb39b512a9c6da7235b880af42c78ccd0d",
+        "Node name for S&R": "IPAdapterModelLoader"
+      },
+      "widgets_values": [
+        "ip-adapter-plus_sdxl_vit-h.safetensors"
+      ]
+    },
+    {
+      "id": 178,
+      "type": "FS: Load Image And Resize To Fit",
+      "pos": [
+        1044.992431640625,
+        -65.13764953613281
+      ],
+      "size": [
+        415.8000183105469,
+        514
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Latent",
+          "type": "LATENT",
+          "links": null,
+          "slot_index": 0
+        },
+        {
+          "name": "Image",
+          "type": "IMAGE",
+          "links": [
+            309
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "Width",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "Height",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "Aspect Ratio",
+          "type": "FLOAT",
+          "links": null
+        },
+        {
+          "name": "Mask",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FS: Load Image And Resize To Fit"
+      },
+      "widgets_values": [
+        "cce25f0ca2737d9b2b051b6ba8208d4.jpg",
+        1504,
+        "lanczos",
+        "false",
+        1,
+        0,
+        "image"
+      ]
+    },
+    {
+      "id": 179,
+      "type": "IPAdapterAdvanced",
+      "pos": [
+        1573.216064453125,
+        258.3134460449219
+      ],
+      "size": [
+        315,
+        278
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": null
+        },
+        {
+          "name": "ipadapter",
+          "type": "IPADAPTER",
+          "link": 308
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 309
+        },
+        {
+          "name": "image_negative",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "attn_mask",
+          "type": "MASK",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "clip_vision",
+          "type": "CLIP_VISION",
+          "link": 310,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            311
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui_ipadapter_plus",
+        "ver": "b188a6cb39b512a9c6da7235b880af42c78ccd0d",
+        "Node name for S&R": "IPAdapterAdvanced"
+      },
+      "widgets_values": [
+        0.35000000000000003,
+        "linear",
+        "norm average",
+        0,
+        0.8,
+        "V only"
+      ]
+    },
+    {
+      "id": 164,
+      "type": "Note",
+      "pos": [
+        1586.1700439453125,
+        726.957275390625
+      ],
+      "size": [
+        326.7064514160156,
+        157.19778442382812
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：线稿图ControlNet",
+      "properties": {},
+      "widgets_values": [
+        "\n控制细节\n\n强度不宜超过0.6，否则质量可能明显下降。\n强度太低会失去控制力。需要找到一个平衡点。\n\n开始 < 0.5\n0.3 < 结束 < 1.0 \n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 180,
+      "type": "Note",
+      "pos": [
+        1575.820068359375,
+        -141.27647399902344
+      ],
+      "size": [
+        322.31414794921875,
+        354.8512878417969
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：风格参考",
+      "properties": {},
+      "widgets_values": [
+        "\n会把参考图中的视觉元素揉碎之后贴到成图上，包括色调，明暗等大关系，也包括形状细节。\n\nweight:控制权重，不宜过高，和controlnet权重叠加太高会影响质量。\n\nstart_at/end_at: 开始/结束控制的步数。如果控制范围在0.0-0.5，则只控制大关系，如果在0.5-1.0则只控制细节。\n\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 167,
+      "type": "Note",
+      "pos": [
+        -407.703857421875,
+        886.345947265625
+      ],
+      "size": [
+        341.8225402832031,
+        242.62237548828125
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "说明：正向提示词",
+      "properties": {},
+      "widgets_values": [
+        "AI生成提示词：\nhttp://inspirego.goa.com.cn/\n\n不支持中文，需翻译成英文后使用。\n\n使用自然语言或者标签语言。描述顺序：\n\n角度（鸟瞰？）-> 照片/渲染 -> 主体建筑尺度和形态 -> 立面设计元素，从主要到次要，从上到下，从左到右 -> 地面层设计 -> 前景 -> 背景/远景 -> 时间/天气/云量\n\n立面设计语汇参考企业微信表格。\n\n模型不听话时，可以小幅调整提示词权重，观察效果。选择文字后 ctrl + 上下箭头。如果还是不行，则尝试对提示词做较大幅度改动。\n\n遇到问题时，不要一直刷同一个提示词，如果十张图刷出不来，大概率一百张也出不来。改一改提示词，很可能顿时海阔天空。AI玄学都在这里了。\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      106,
+      79,
+      0,
+      70,
+      0,
+      "LATENT"
+    ],
+    [
+      144,
+      93,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      145,
+      93,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      149,
+      68,
+      0,
+      105,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      150,
+      69,
+      0,
+      105,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      159,
+      102,
+      1,
+      108,
+      0,
+      "IMAGE"
+    ],
+    [
+      161,
+      108,
+      0,
+      105,
+      3,
+      "IMAGE"
+    ],
+    [
+      166,
+      93,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      167,
+      93,
+      0,
+      102,
+      0,
+      "VAE"
+    ],
+    [
+      171,
+      108,
+      0,
+      112,
+      0,
+      "IMAGE"
+    ],
+    [
+      174,
+      105,
+      0,
+      113,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      175,
+      105,
+      1,
+      113,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      176,
+      115,
+      0,
+      113,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      178,
+      113,
+      0,
+      79,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      179,
+      113,
+      1,
+      79,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      193,
+      93,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      194,
+      93,
+      0,
+      102,
+      0,
+      "VAE"
+    ],
+    [
+      195,
+      93,
+      0,
+      105,
+      4,
+      "VAE"
+    ],
+    [
+      196,
+      93,
+      0,
+      113,
+      4,
+      "VAE"
+    ],
+    [
+      204,
+      93,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      205,
+      93,
+      0,
+      102,
+      0,
+      "VAE"
+    ],
+    [
+      206,
+      93,
+      0,
+      105,
+      4,
+      "VAE"
+    ],
+    [
+      207,
+      93,
+      0,
+      113,
+      4,
+      "VAE"
+    ],
+    [
+      248,
+      102,
+      3,
+      108,
+      1,
+      "INT"
+    ],
+    [
+      249,
+      102,
+      3,
+      151,
+      1,
+      "INT"
+    ],
+    [
+      250,
+      151,
+      0,
+      113,
+      3,
+      "IMAGE"
+    ],
+    [
+      251,
+      151,
+      0,
+      116,
+      0,
+      "IMAGE"
+    ],
+    [
+      252,
+      102,
+      1,
+      151,
+      0,
+      "IMAGE"
+    ],
+    [
+      256,
+      99,
+      0,
+      105,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      273,
+      93,
+      0,
+      102,
+      0,
+      "VAE"
+    ],
+    [
+      274,
+      93,
+      0,
+      105,
+      4,
+      "VAE"
+    ],
+    [
+      275,
+      93,
+      0,
+      113,
+      4,
+      "VAE"
+    ],
+    [
+      276,
+      93,
+      0,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      280,
+      156,
+      0,
+      155,
+      0,
+      "MODEL"
+    ],
+    [
+      281,
+      156,
+      1,
+      155,
+      1,
+      "CLIP"
+    ],
+    [
+      282,
+      156,
+      2,
+      155,
+      2,
+      "VAE"
+    ],
+    [
+      284,
+      70,
+      0,
+      162,
+      0,
+      "IMAGE"
+    ],
+    [
+      286,
+      102,
+      0,
+      79,
+      3,
+      "LATENT"
+    ],
+    [
+      287,
+      156,
+      1,
+      69,
+      0,
+      "CLIP"
+    ],
+    [
+      288,
+      156,
+      2,
+      105,
+      4,
+      "VAE"
+    ],
+    [
+      289,
+      156,
+      2,
+      113,
+      4,
+      "VAE"
+    ],
+    [
+      290,
+      156,
+      2,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      291,
+      156,
+      0,
+      79,
+      0,
+      "MODEL"
+    ],
+    [
+      292,
+      156,
+      2,
+      102,
+      0,
+      "VAE"
+    ],
+    [
+      293,
+      156,
+      1,
+      68,
+      0,
+      "CLIP"
+    ],
+    [
+      294,
+      156,
+      1,
+      69,
+      0,
+      "CLIP"
+    ],
+    [
+      295,
+      156,
+      2,
+      105,
+      4,
+      "VAE"
+    ],
+    [
+      296,
+      156,
+      2,
+      113,
+      4,
+      "VAE"
+    ],
+    [
+      297,
+      156,
+      2,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      298,
+      156,
+      0,
+      79,
+      0,
+      "MODEL"
+    ],
+    [
+      299,
+      156,
+      2,
+      102,
+      0,
+      "VAE"
+    ],
+    [
+      300,
+      156,
+      1,
+      68,
+      0,
+      "CLIP"
+    ],
+    [
+      301,
+      156,
+      1,
+      69,
+      0,
+      "CLIP"
+    ],
+    [
+      302,
+      156,
+      2,
+      105,
+      4,
+      "VAE"
+    ],
+    [
+      303,
+      156,
+      2,
+      113,
+      4,
+      "VAE"
+    ],
+    [
+      304,
+      156,
+      2,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      305,
+      156,
+      2,
+      102,
+      0,
+      "VAE"
+    ],
+    [
+      306,
+      156,
+      1,
+      68,
+      0,
+      "CLIP"
+    ],
+    [
+      307,
+      156,
+      0,
+      79,
+      0,
+      "MODEL"
+    ],
+    [
+      308,
+      177,
+      0,
+      179,
+      1,
+      "IPADAPTER"
+    ],
+    [
+      309,
+      178,
+      1,
+      179,
+      2,
+      "IMAGE"
+    ],
+    [
+      310,
+      176,
+      0,
+      179,
+      5,
+      "CLIP_VISION"
+    ],
+    [
+      311,
+      179,
+      0,
+      79,
+      0,
+      "MODEL"
+    ],
+    [
+      312,
+      156,
+      1,
+      69,
+      0,
+      "CLIP"
+    ],
+    [
+      313,
+      156,
+      2,
+      105,
+      4,
+      "VAE"
+    ],
+    [
+      314,
+      156,
+      2,
+      113,
+      4,
+      "VAE"
+    ],
+    [
+      315,
+      156,
+      2,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      316,
+      156,
+      2,
+      102,
+      0,
+      "VAE"
+    ],
+    [
+      317,
+      156,
+      1,
+      68,
+      0,
+      "CLIP"
+    ],
+    [
+      318,
+      156,
+      2,
+      178,
+      0,
+      "VAE"
+    ],
+    [
+      319,
+      156,
+      0,
+      179,
+      0,
+      "MODEL"
+    ],
+    [
+      320,
+      156,
+      1,
+      69,
+      0,
+      "CLIP"
+    ],
+    [
+      321,
+      156,
+      2,
+      105,
+      4,
+      "VAE"
+    ],
+    [
+      322,
+      156,
+      2,
+      113,
+      4,
+      "VAE"
+    ],
+    [
+      323,
+      156,
+      2,
+      70,
+      1,
+      "VAE"
+    ],
+    [
+      324,
+      156,
+      2,
+      102,
+      0,
+      "VAE"
+    ],
+    [
+      325,
+      156,
+      1,
+      68,
+      0,
+      "CLIP"
+    ],
+    [
+      326,
+      156,
+      2,
+      178,
+      0,
+      "VAE"
+    ],
+    [
+      327,
+      156,
+      0,
+      179,
+      0,
+      "MODEL"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.43056764313424634,
+      "offset": [
+        1326.0028245005938,
+        211.52438679482933
+      ]
+    },
+    "node_versions": {
+      "comfy-core": "0.3.14",
+      "cg-use-everywhere": "ce510b97d10e69d5fd0042e115ecd946890d2079"
+    },
+    "ue_links": [
+      {
+        "downstream": 69,
+        "downstream_slot": 0,
+        "upstream": "156",
+        "upstream_slot": 1,
+        "controller": 155,
+        "type": "CLIP"
+      },
+      {
+        "downstream": 105,
+        "downstream_slot": 4,
+        "upstream": "156",
+        "upstream_slot": 2,
+        "controller": 155,
+        "type": "VAE"
+      },
+      {
+        "downstream": 113,
+        "downstream_slot": 4,
+        "upstream": "156",
+        "upstream_slot": 2,
+        "controller": 155,
+        "type": "VAE"
+      },
+      {
+        "downstream": 70,
+        "downstream_slot": 1,
+        "upstream": "156",
+        "upstream_slot": 2,
+        "controller": 155,
+        "type": "VAE"
+      },
+      {
+        "downstream": 102,
+        "downstream_slot": 0,
+        "upstream": "156",
+        "upstream_slot": 2,
+        "controller": 155,
+        "type": "VAE"
+      },
+      {
+        "downstream": 68,
+        "downstream_slot": 0,
+        "upstream": "156",
+        "upstream_slot": 1,
+        "controller": 155,
+        "type": "CLIP"
+      },
+      {
+        "downstream": 178,
+        "downstream_slot": 0,
+        "upstream": "156",
+        "upstream_slot": 2,
+        "controller": 155,
+        "type": "VAE"
+      },
+      {
+        "downstream": 179,
+        "downstream_slot": 0,
+        "upstream": "156",
+        "upstream_slot": 0,
+        "controller": 155,
+        "type": "MODEL"
+      }
+    ]
+  },
+  "version": 0.4
+}

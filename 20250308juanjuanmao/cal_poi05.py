@@ -6,16 +6,33 @@ from shapely.geometry import Point, LineString
 
 # Define the POI shapefile paths with their categories
 poi_categories = {
-    '餐饮服务': r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\澳门特别行政区_餐饮服务_20220103_145738.shp',
-    '购物服务': r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\澳门特别行政区_购物服务_20220103_145740.shp',
-    '金融保险服务': r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\澳门特别行政区_金融保险服务_20220103_145744.shp',
-    '摩托车服务': r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\澳门特别行政区_摩托车服务_20220103_145738.shp',
-    '汽车服务': r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\澳门特别行政区_汽车服务_20220103_145737.shp',
-    '汽车维修': r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\澳门特别行政区_汽车维修_20220103_145737.shp',
-    '汽车销售': r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\澳门特别行政区_汽车销售_20220103_145737.shp',
-    '生活服务': r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\澳门特别行政区_生活服务_20220103_145740.shp',
-    '体育休闲服务': r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\澳门特别行政区_体育休闲服务_20220103_145741.shp',
-    '医疗保健服务': r'e:\work\sv_juanjuanmao\澳门POI2022\ShapeFile\澳门特别行政区_医疗保健服务_20220103_145741.shp'
+    '餐饮服务': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_餐饮服务.shp',
+    '购物服务': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_购物服务.shp',
+    '生活服务': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_生活服务.shp',
+    '体育休闲服务': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_体育休闲服务.shp',
+    '医疗保健服务': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_医疗保健服务.shp',
+    '住宿服务': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_住宿服务.shp',
+    '金融保险服务': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_金融保险服务.shp',
+    # '教育培训': r'',
+    # '文化传媒机构': r'',
+    '交通设施': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_交通设施服务.shp',
+    '政府机构及社会团体': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_政府机构及社会团体.shp', 
+    '公司企业': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_公司企业.shp',
+    '汽车服务': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_汽车服务.shp',
+    # '房地产': r'',
+    # '自然地理': r'',
+    '公共设施': r'e:\work\sv_kaixindian\长春市2020\shp\长春市_公共设施.shp',
+
+    '道路附属设施':r'e:\work\sv_kaixindian\长春市2020\shp\长春市_道路附属设施.shp',
+    '地名地址信息':r'e:\work\sv_kaixindian\长春市2020\shp\长春市_地名地址信息.shp',
+    '风景名胜':r'e:\work\sv_kaixindian\长春市2020\shp\长春市_风景名胜.shp',
+    '科教文化服务':r'e:\work\sv_kaixindian\长春市2020\shp\长春市_科教文化服务.shp',
+    '摩托车服务':r'e:\work\sv_kaixindian\长春市2020\shp\长春市_摩托车服务.shp',
+    '汽车维修':r'e:\work\sv_kaixindian\长春市2020\shp\长春市_汽车维修.shp',
+    '汽车销售':r'e:\work\sv_kaixindian\长春市2020\shp\长春市_汽车销售.shp',
+    '商务住宅':r'e:\work\sv_kaixindian\长春市2020\shp\长春市_商务住宅.shp',
+    '室内设施':r'e:\work\sv_kaixindian\长春市2020\shp\长春市_室内设施.shp',
+    '通行设施':r'e:\work\sv_kaixindian\长春市2020\shp\长春市_通行设施.shp',
 }
 
 # Load all POI data with their categories

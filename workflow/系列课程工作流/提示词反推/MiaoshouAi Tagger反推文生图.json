@@ -1,0 +1,723 @@
+{
+  "id": "11d7a237-eb6e-4067-a5e6-e0a9027a8672",
+  "revision": 0,
+  "last_node_id": 33,
+  "last_link_id": 27,
+  "nodes": [
+    {
+      "id": 9,
+      "type": "VAEDecode",
+      "pos": [
+        1231.5413818359375,
+        241.53184509277344
+      ],
+      "size": [
+        140,
+        46
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "Latent",
+          "name": "samples",
+          "type": "LATENT",
+          "link": 9
+        },
+        {
+          "label": "VAE",
+          "name": "vae",
+          "type": "VAE",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "label": "图像",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "Node name for S&R": "VAEDecode",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 8,
+      "type": "EmptyLatentImage",
+      "pos": [
+        360.3359375,
+        752.7740478515625
+      ],
+      "size": [
+        395.14373779296875,
+        142.06736755371094
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "Latent",
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "Node name for S&R": "EmptyLatentImage",
+        "widget_ue_connectable": {
+          "width": true,
+          "height": true,
+          "batch_size": true
+        }
+      },
+      "widgets_values": [
+        512,
+        768,
+        1
+      ]
+    },
+    {
+      "id": 18,
+      "type": "SixGodPrompts",
+      "pos": [
+        346.9492492675781,
+        503.3795166015625
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "id": "77664f30-1f15-e3f6-cbf4-893d22341b6b"
+      },
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "label": "CONDITIONING",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            16
+          ]
+        },
+        {
+          "label": "STRING",
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "INT",
+          "name": "INT",
+          "type": "INT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "aux_id": "thisjam/comfyui-sixgod_prompt",
+        "ver": "1929057b0854e83d448b440b5d344d574f47b203",
+        "Node name for S&R": "SixGodPrompts",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "bad proportions, low resolution,worst quality, low quality, normal quality, lowres,  inaccurate limb, bad, ugly, terrible,  extra fingers, fewer fingers, missing fingers, extra arms, extra legs, inaccurate eyes, bad composition, bad anatomy, error, extra digit, fewer digits, cropped, low res, jpeg artifacts, trademark,artist's name, username, watermarksignature, watermark,text, words​,nsfw​,BadDream,badhandv4,EasyNegative,ng_deepnegative_v1_75t,rev2-badprompt,verybadimagenegative_v1.3,negative_hand-neg,bad-picture-chill-75v​,mutated hands and fingers​,deformed​,ugly​,poorly drawn hands​,disfigured​,poorly drawn face​,lowres",
+        733339342738268,
+        "randomize",
+        [
+          false,
+          true
+        ]
+      ]
+    },
+    {
+      "id": 1,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        11.659112930297852,
+        402.0881652832031
+      ],
+      "size": [
+        270,
+        98
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "模型",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            3
+          ]
+        },
+        {
+          "label": "CLIP",
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            13,
+            14
+          ]
+        },
+        {
+          "label": "VAE",
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "Node name for S&R": "CheckpointLoaderSimple",
+        "widget_ue_connectable": {
+          "ckpt_name": true
+        }
+      },
+      "widgets_values": [
+        "卡通二次元\\Dream_and_Fantasy 梦与幻想（更精美的二次元）.safetensors"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "KSampler",
+      "pos": [
+        832.4757080078125,
+        241.6101531982422
+      ],
+      "size": [
+        357.66534423828125,
+        655.4888305664062
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "模型",
+          "name": "model",
+          "type": "MODEL",
+          "link": 3
+        },
+        {
+          "label": "正面条件",
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 15
+        },
+        {
+          "label": "负面条件",
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 16
+        },
+        {
+          "label": "Latent",
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "label": "Latent",
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "Node name for S&R": "KSampler",
+        "widget_ue_connectable": {
+          "seed": true,
+          "steps": true,
+          "cfg": true,
+          "sampler_name": true,
+          "scheduler": true,
+          "denoise": true
+        }
+      },
+      "widgets_values": [
+        155744463096881,
+        "randomize",
+        30,
+        7,
+        "euler_ancestral",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 17,
+      "type": "SixGodPrompts",
+      "pos": [
+        345.9025573730469,
+        252.29135131835938
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "id": "77664f30-1f15-e3f6-cbf4-893d22341b6b"
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 13
+        },
+        {
+          "label": "text",
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 27
+        }
+      ],
+      "outputs": [
+        {
+          "label": "CONDITIONING",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            15
+          ]
+        },
+        {
+          "label": "STRING",
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "INT",
+          "name": "INT",
+          "type": "INT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "aux_id": "thisjam/comfyui-sixgod_prompt",
+        "ver": "1929057b0854e83d448b440b5d344d574f47b203",
+        "Node name for S&R": "SixGodPrompts",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "（（杰作））,（（（最好的质量）））,（（超详细））,（（插图））,（（蓬乱的头发））,（（褶边））,（1个女孩）,（个展） , 动态角度, 大上袖, 漂浮, 美丽细致的天空, 美丽细致的水面, 美丽细致的眼睛, 过度曝光, (拳头), 面无表情, 侧钝的刘海, 眼睛之间的毛发, 丝带, 领结, 纽扣, 裸露的肩膀, (( （小胸）））,详细的湿衣服,空白凝视,百褶裙,花朵",
+        488298310439965,
+        "randomize",
+        [
+          false,
+          true
+        ]
+      ]
+    },
+    {
+      "id": 23,
+      "type": "Miaoshouai_Tagger",
+      "pos": [
+        -402.06793212890625,
+        273.2117919921875
+      ],
+      "size": [
+        400,
+        420
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "images",
+          "name": "images",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 25
+        },
+        {
+          "label": "filenames",
+          "name": "filenames",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "label": "captions",
+          "name": "captions",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "label": "images",
+          "name": "images",
+          "shape": 6,
+          "type": "IMAGE",
+          "links": []
+        },
+        {
+          "label": "filenames",
+          "name": "filenames",
+          "shape": 6,
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "captions",
+          "name": "captions",
+          "shape": 6,
+          "type": "STRING",
+          "links": [
+            27
+          ]
+        },
+        {
+          "label": "folder_path",
+          "name": "folder_path",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "label": "batch_size",
+          "name": "batch_size",
+          "type": "INT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "ComfyUI-Miaoshouai-Tagger",
+        "ver": "bb92078e2f8ac524539d0e30a9321453e4b8fab8",
+        "Node name for S&R": "Miaoshouai_Tagger",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "promptgen_large_v2.0",
+        "Path to your image folder",
+        "tags",
+        1024,
+        4,
+        "never",
+        "",
+        "",
+        "replace_tags eg:search1:replace1;search2:replace2",
+        [
+          false,
+          true
+        ],
+        [
+          false,
+          true
+        ],
+        [
+          false,
+          true
+        ]
+      ]
+    },
+    {
+      "id": 13,
+      "type": "SaveImage",
+      "pos": [
+        1389.6048583984375,
+        241.01292419433594
+      ],
+      "size": [
+        327.2585144042969,
+        547.8302612304688
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "图像",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 12
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.35",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    },
+    {
+      "id": 32,
+      "type": "LoadImage",
+      "pos": [
+        -691.5357666015625,
+        273.0846252441406
+      ],
+      "size": [
+        270,
+        314
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "label": "图像",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            25
+          ]
+        },
+        {
+          "label": "遮罩",
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.40",
+        "Node name for S&R": "LoadImage",
+        "widget_ue_connectable": {}
+      },
+      "widgets_values": [
+        "OIP-C.jpg",
+        "image"
+      ]
+    }
+  ],
+  "links": [
+    [
+      3,
+      1,
+      0,
+      7,
+      0,
+      "MODEL"
+    ],
+    [
+      4,
+      1,
+      2,
+      9,
+      1,
+      "VAE"
+    ],
+    [
+      9,
+      7,
+      0,
+      9,
+      0,
+      "LATENT"
+    ],
+    [
+      10,
+      8,
+      0,
+      7,
+      3,
+      "LATENT"
+    ],
+    [
+      12,
+      9,
+      0,
+      13,
+      0,
+      "IMAGE"
+    ],
+    [
+      13,
+      1,
+      1,
+      17,
+      0,
+      "CLIP"
+    ],
+    [
+      14,
+      1,
+      1,
+      18,
+      0,
+      "CLIP"
+    ],
+    [
+      15,
+      17,
+      0,
+      7,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      16,
+      18,
+      0,
+      7,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      25,
+      32,
+      0,
+      23,
+      0,
+      "IMAGE"
+    ],
+    [
+      27,
+      23,
+      2,
+      17,
+      1,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.6830134553650706,
+      "offset": [
+        720.1216041147842,
+        -88.16872092883659
+      ]
+    },
+    "reroutes": [
+      {
+        "id": 4,
+        "parentId": 5,
+        "pos": [
+          735.330078125,
+          199.480224609375
+        ],
+        "linkIds": [
+          3
+        ]
+      },
+      {
+        "id": 5,
+        "pos": [
+          309.6361999511719,
+          198.86904907226562
+        ],
+        "linkIds": [
+          3
+        ]
+      },
+      {
+        "id": 6,
+        "parentId": 8,
+        "pos": [
+          1198.6700439453125,
+          926.5202026367188
+        ],
+        "linkIds": [
+          4
+        ]
+      },
+      {
+        "id": 7,
+        "pos": [
+          301.5657043457031,
+          925.291748046875
+        ],
+        "linkIds": [
+          4
+        ]
+      },
+      {
+        "id": 8,
+        "parentId": 7,
+        "pos": [
+          748.3209228515625,
+          926.3552856445312
+        ],
+        "linkIds": [
+          4
+        ]
+      },
+      {
+        "id": 9,
+        "pos": [
+          800.7667846679688,
+          766.7052612304688
+        ],
+        "linkIds": [
+          10
+        ]
+      }
+    ],
+    "ue_links": [],
+    "links_added_by_ue": [],
+    "linkExtensions": [
+      {
+        "id": 3,
+        "parentId": 4
+      },
+      {
+        "id": 4,
+        "parentId": 6
+      },
+      {
+        "id": 10,
+        "parentId": 9
+      }
+    ],
+    "frontendVersion": "1.21.7",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}
