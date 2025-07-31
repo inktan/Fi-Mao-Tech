@@ -2,7 +2,7 @@ import shutil
 from tqdm import tqdm
 import os  
   
-folder_path = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\kmeans'  
+folder_path = r'E:\work\sv_huang_g\街景全景图'  
 
 try:
     if os.path.exists(folder_path):  

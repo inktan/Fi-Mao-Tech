@@ -256,7 +256,9 @@ for i,shp_path in enumerate(tqdm(shp_paths)):
     month = int(infos[-1].split('.')[0])
     try:
         gdf_ss = read_shp_ss(shp_path)
+        # 计算太阳直射
         PD = cal_pd(gdf_ss,longitude,latitude,year,month)
+        # 计算太阳散射
         PF = cal_pf(gdf_ss)
 
         # print('PD',PD,'PF',PF)

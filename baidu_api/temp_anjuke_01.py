@@ -89,17 +89,18 @@ def get_info(address):
 
 if __name__ == '__main__':
     
-    csv_path = r'e:\work\sv_yueliang\备份小区名_lng_lat_住宅区_别墅区.csv'
-    # df = pd.read_csv(csv_path, encoding='gbk')
-    df = pd.read_csv(csv_path)
+    csv_path = r'e:\work\sv_kkkkatrina\殷行_住宅小区-基本信息.csv'
+    df = pd.read_csv(csv_path, encoding='gbk')
+    # df = pd.read_csv(csv_path)
 
     points_df = pd.DataFrame(columns=['id','address','address_01','lng','lat','所属商圈', '开发商', '物业公司', '小区名称', '物业类型', '竣工时间', '绿化率', '容积率', '建筑面积', '总户数', '小区地址', '停车位', '物业费', '挂牌均价'])
+    print(points_df.shape)
     for i,row in enumerate(tqdm(df.iterrows())):
         # if i<1997:
         #     continue
         # if i>=20000:
         #     continue
-        print(i)
+        print(points_df.shape[0],i)
 
         id = row[1]['id']
         address = row[1]['name']
@@ -157,7 +158,7 @@ if __name__ == '__main__':
         points_df.loc[len(points_df)] = rate_list
         
         if i%100 == 0:
-            points_df.to_csv(r'e:\work\sv_yueliang\备份小区名_lng_lat_anjuke_01.csv', index=False)
+            points_df.to_csv(r'e:\work\sv_kkkkatrina\备份小区名_lng_lat_anjuke_01.csv', index=False)
 
-points_df.to_csv(r'e:\work\sv_yueliang\备份小区名_lng_lat_anjuke_01.csv', index=False)
+points_df.to_csv(r'e:\work\sv_kkkkatrina\备份小区名_lng_lat_anjuke_01.csv', index=False)
 

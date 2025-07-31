@@ -56,7 +56,7 @@ def safe_read_csv(file_path):
     raise ValueError("无法确定文件编码，请手动指定正确的编码")
 
 # 使用示例
-file_path = r'e:\work\sv_xiufenganning\地理数据\ade_20k_语义00分割比例数据_04-_.csv'  # 替换为你的实际文件路径
+file_path = r'f:\立方数据\2025年道路数据\【立方数据学社】北京市\北京市_50m_Spatial_infos.csv'  # 替换为你的实际文件路径
 
 try:
     # 读取文件前5行
@@ -64,16 +64,17 @@ try:
 
     # 输出结果
     # print("\n文件前5行内容:")
-    # print(df.head())
+    print(df.head())
     # print(df)
     print(df.columns.to_list())
-    # print(df.shape)
+    print(df.shape)
     # print(df.iloc[:1, :1])  # 
 
     # for i in range(15):
     #     print(df.iloc[i, 0])
     
     # first_element = df.values[0, 0]
+    print(df.values[0, 0])
     # print(df.values[0, 1])
     # print(df.values[1, 0])
     # print(df.values[2, 0])

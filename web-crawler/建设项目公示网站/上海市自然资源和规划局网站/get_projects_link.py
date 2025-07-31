@@ -113,6 +113,33 @@ def extract_project_info(url):
                     
                     print(f"共下载 {img_count} 张图片")
 
+
+                # 查找所有class="xx_attach"的元素
+                attachments = soup.find_all(id = "xsfj")
+                for i, attachment in enumerate(attachments, 1):
+                    # 查找PDF链接
+                    pdf_links = attachment.find_all('a', href=lambda x: x and x.lower().endswith('.pdf'))
+                    for link in pdf_links:
+                        pdf_url = link.get('href')
+                        pdf_download_name = link.get('title')
+                        if not pdf_url:
+                            continue
+                        # 构建完整URL
+                        full_pdf_url = urljoin(r'https://ghzyj.sh.gov.cn/', pdf_url)
+                        save_path = os.path.join(project_dir, pdf_download_name)
+                        try:
+                            # 下载PDF文件
+                            response = requests.get(full_pdf_url, headers=headers, stream=True)
+                            response.raise_for_status()
+                            with open(save_path, 'wb') as f:
+                                for chunk in response.iter_content(chunk_size=8192):
+                                    if chunk:
+                                        f.write(chunk)
+                            print(f"已下载: {pdf_download_name} (来自: {full_pdf_url})")
+                            
+                        except Exception as e:
+                            print(f"下载 {pdf_url} 失败: {e}")
+
             except Exception as e:
                 print(f"发生错误: {e}")
                 continue

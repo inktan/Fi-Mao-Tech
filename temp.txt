@@ -1,22 +1,19 @@
-研究区域：拉萨、山南、林芝三个城市的主城区
+1. ResNet50 (经典CNN代表)
+2. EfficientNet-B7 (高效缩放模型代表)
+3. ViT-B/16 (Transformer代表)
+4. Swin-B (分层Transformer代表)
+5. RegNet-Y-16GF (规则化设计代表)
 
-研究目标：得到三个主城区各个街道空间的功能类别，如
-Mixed 相对均衡的混合功能空间类型
-Mxed-Business 以商业功能为主的混合功能空间类型
-Mixed-Office 以办公功能为主的混合功能空间类型
-Mixed-Other 以其他功能为主的混合功能空间类型
-Mixed-Public service 以公共服务为主的混合功能空间类型
-Mixed-Residence  以住宅功能为主的混合功能空间类型
-Office 办公功能街道空间
-Other 其他功能街道空间
-Public service 公共服务设施功能街道空间
-Residence 居住功能街道空间
-Traffic 交通功能类型
+ConvNeXt-Large的核心优势
+性能领先：在ImageNet-1K上达到85%+准确率，超越同规模CNN/Transformer。
+训练友好：无需大量数据预训练（对比ViT）或复杂注意力机制（对比Swin）。
+架构简洁：仅用标准卷积模块即可模拟Transformer的优势（如全局上下文建模）。
+硬件兼容：纯卷积结构在部署时比Transformer更高效（支持TensorRT等优化）。
 
-可以用来分析的数据：
-1、三个城市主城内的osm道路网
-2、基于道路网上的经纬度信息，批量获取道路街景
-3、三个城市的poi点
-4、三个城市的建筑底层占地斑块gis数据，每个斑块包含建筑功能属性，如Business、Office、Other、Public service、Residence、Office、Traffic
-5、对街景进行语义分割，得到建筑、天空，等各个语义元素的占比
-6、城市六维感知"美丽（Beauty）、安全（Safety）、繁华（Liveliness）、富裕（Wealth）、独特性（Unique）、无聊（Boring）"六维感知指标
+referecne https://arxiv.org/abs/2201.03545
+
+
+
+
+
+

@@ -35,7 +35,7 @@ def match_shp_to_json(shp_path, json_path, output_json_path):
             
             # 转换为Web墨卡托投影计算精确距离
             x1, y1 = transformer.transform(json_lon, json_lat)
-            
+
             # 在SHP文件中查找距离小于10米的点
             for idx, row in gdf.iterrows():
                 shp_point = row.geometry

@@ -41,11 +41,10 @@ def remove_files(img_paths):
 def main():
     img_paths = []
     img_names = []
-    accepted_formats = (".ini")
+    accepted_formats = (".jpg")
 
     folder_path_list =[
-        r'D:\BaiduNetdiskDownload\sv_roadpoints_50m\sv_degrees_02\sv_pan_01\sv_degrees_01',
-        # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
+        r'E:\work\sv_michinen\sv_pan\_05_sv_extracted_cluster_colors',
         ]
     for folder_path in folder_path_list:
         for root, dirs, files in os.walk(folder_path):

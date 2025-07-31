@@ -24,12 +24,25 @@ sudo chmod -R 766 /etc/nginx/sites-available
 vue 常用语句
 javascript:document.body.setAttribute('contenteditable',true)
 
-
 vue开发服务器启动
 npm run dev -- --host 0.0.0.0 --port 6660
 http://39.98.218.136:8801/
 http://39.98.218.136:8802/
 两个可以放web文件的地址
+
+洛阳钼业
+华友钴业
+芯原股份
+中广核矿业
+
+锐捷网络+
+
+百度全景 街景
+99元 腾讯云服务器 三个下载窗口 20s/it 24*60*60/20*3=12960 24小时，爬取百度地图全景12960张，4320/h
+
+地理坐标系
+EPSG:4326	WGS84	最常用的全球经纬度坐标系，Google Earth、GPS 使用，单位是 度（°）。
+EPSG:3857	Web Mercator	Google Maps、OpenStreetMap 等在线地图使用的投影，单位是 米，但会严重变形（高纬度地区放大）。
 
 腾讯云服务器
 开方端口 8000-9000
@@ -199,9 +212,11 @@ python -m pip install --upgrade setuptools -i https://pypi.douban.com/simple
 11.pipreqs . --encoding=utf8 --force	将依赖库输出txt文件
 12.pip install -r requirements.txt	一键安装多个依赖库，根据版本号进行安装
 13.pip uninstall -r requirements.txt -y	一键删除多个依赖库
-14.pip install --upgrade -r requirements.txt	-i https://pypi.douban.com/simple一键安装多个依赖库，会自动更新旧版本的库
+
 15.pip install *****.whl 离线安装python库
-16.pip freeze>requirements.txt	导出现有库列表
+16.pip freeze>requirements.txt	导出现有库列表进行更新
+    pip install --upgrade -r requirements.txt  -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+
 17.jupyter notebook  （可在空格后指定de存储运行路径）
 18.virtualenv ***(***为虚拟环境名字，会在cmd运行路径下新建以***为名的文件夹)
 19.***env\Scripts\activate (激活指定python虚拟环境)

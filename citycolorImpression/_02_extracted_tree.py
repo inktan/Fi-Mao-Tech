@@ -2,7 +2,6 @@
 
 import os, scipy.io
 import numpy as np
-from mit_semseg.models import ModelBuilder, SegmentationModule
 from PIL import Image
 from tqdm import tqdm
 import numpy as np  
@@ -35,7 +34,7 @@ def extracted_arch(img_paths,img_names,extracted_ss_folder,extracted_sv_folder):
         elif ".jpeg" in img_path:
             img_path = img_path.replace(".jpeg",".png")
 
-        ss_rgb_path = img_path.replace('_01_sv_example','_02_ss_rgb')
+        ss_rgb_path = img_path.replace('sv_pan00','ade_20k_语义分析_色块图')
         ss_pil_image = Image.open(ss_rgb_path)
         # 将图像转换为NumPy数组  
         ss_rgb_array = np.array(ss_pil_image)
@@ -62,11 +61,11 @@ def extracted_arch(img_paths,img_names,extracted_ss_folder,extracted_sv_folder):
         sv_result_image.save(tmp)
 
 if __name__ == "__main__":
-    image_folder =r'.\_01_sv_example'
-    extracted_ss_folder = image_folder.replace('_01_sv_example','_04_ss_extracted')
+    image_folder =r'E:\work\sv_michinen\sv_pan\sv_pan00'
+    extracted_ss_folder = image_folder.replace('sv_pan00','_04_ss_extracted')
     if not os.path.exists(extracted_ss_folder):
         os.makedirs(extracted_ss_folder)
-    extracted_sv_folder = image_folder.replace('_01_sv_example','_05_sv_extracted')
+    extracted_sv_folder = image_folder.replace('sv_pan00','_05_sv_extracted')
     if not os.path.exists(extracted_sv_folder):
         os.makedirs(extracted_sv_folder)
         
@@ -85,10 +84,12 @@ if __name__ == "__main__":
                 img_paths.append(file_path)
 
     color_list = []
-    colors = scipy.io.loadmat('data/color150.mat')['colors']
+    colors = scipy.io.loadmat(r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\github\Fi-Mao-Tech\citycolorImpression\data\color150.mat')['colors']
 
-    # 在for循环列表中，将5、18、67替换为你想要的语义分割的颜色索引编号
-    for i in [5,18,67]:
+    # 在for循环列表中，将5、18、67 植物 替换为你想要的语义分割的颜色索引编号
+    # 在for循环列表中，将2 建筑
+    # for i in [5,18,67]:
+    for i in [2]:
         color_list.append(colors[i-1])
 
     extracted_arch(img_paths,img_names,extracted_ss_folder,extracted_sv_folder)

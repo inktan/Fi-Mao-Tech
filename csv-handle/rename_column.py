@@ -1,10 +1,10 @@
 import pandas as pd
 
 # 读取csv文件
-df = pd.read_csv(r'e:\work\sv_j_ran\points\data_coor_unique_500_circle.csv')
+df = pd.read_csv(r'e:\work\sv_xiufenganning\地理数据\harmony_results_01.csv')
 
 # 修改列名
-df.rename(columns={'longitude_circle.1': 'latitude_circle'}, inplace=True)
+df.rename(columns={'Hue STD (Normalized)': 'FacCol_Vis'}, inplace=True)
 
 # 保存修改后的DataFrame到新的csv文件
-df.to_csv(r'e:\work\sv_j_ran\points\data_coor_unique_500_circle.csv', index=False)
+df.to_csv(r'e:\work\sv_xiufenganning\地理数据\harmony_results_01.csv', index=False)

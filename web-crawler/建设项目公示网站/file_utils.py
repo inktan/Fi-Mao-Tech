@@ -1,7 +1,7 @@
 import os
 import re
 
-PageCount =1
+PageCount =2
 # keywords.py
 PROJECT_KEYWORDS =  ['公示已到期',
                     '加装电梯',
@@ -17,6 +17,10 @@ PROJECT_KEYWORDS =  ['公示已到期',
                     '立面改造',
                     '选址公示',
                     '停车场',
+                    '变电站',
+                    '路桥',
+                    '匝道',
+                    '河桥',
                     '车间',
                     '制造',
                     '年产',

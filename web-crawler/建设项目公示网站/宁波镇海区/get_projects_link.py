@@ -27,7 +27,12 @@ def make_pudong_gov_request(url):
     # 获取网页内容
     response = requests.get(url, headers=headers)
     response.raise_for_status()
-    html_content = response.text.encode('latin-1').decode('utf-8')
+
+    try:
+        # Try to decode the content
+        html_content = response.text.encode('latin-1').decode('utf-8')
+    except Exception as e:
+        html_content = response.text
     
     # 匹配所有符合格式的li标签
     li_pattern = r'<li style="margin-bottom: 10px;">.*?</li>'

@@ -62,22 +62,23 @@ def main(folder_path,Level_Diversity_csv):
         writer.writerow(['image_name', 'cri'])
 
     # 读取Excel文件
-    df = pd.read_excel('e:\work\sv_renleihuoshifen\研究-指标.xlsx', engine='openpyxl')
+    # df = pd.read_excel('e:\work\sv_renleihuoshifen\研究-指标.xlsx', engine='openpyxl')
 
     # 打印id列的每一行数据
-    for index, row in df.iterrows():
-        print(row['name'])
+    # for index, row in df.iterrows():
+    #     print(row['name'])
         # print(f"ID: {row['id']}, Data: {row}")
 
     # 获取文件夹中所有图片文件的路径
-    # for index, image_name in  enumerate(tqdm([file for file in os.listdir(folder_path) if file.endswith(('png', 'jpg', 'jpeg'))])):
+    for index, image_name in  enumerate(tqdm([file for file in os.listdir(folder_path) if file.endswith(('png', 'jpg', 'jpeg'))])):
         # if index >= 1305:
         #     continue
         # 计算并打印每张图片的CRI
-        path=os.path.join(folder_path, row['name']) 
+        # path=os.path.join(folder_path, row['name']) 
+        path=os.path.join(folder_path, image_name) 
         cri = image_colorfulness(path)
         
-        rate_list = [row['name'],cri]
+        rate_list = [image_name,cri]
 
         with open('%s' % Level_Diversity_csv ,'a' ,newline='') as f:
             writer = csv.writer(f)
@@ -88,8 +89,8 @@ if __name__ == "__main__":
     空间色彩丰富度
     '''
     # folder_path = os.path.join(r"F:\BaiduNetdiskDownload\sv_renleiluoshifen\sv_澳门_degree_960_720\sv_degree_960_720")
-    folder_path = os.path.join(r"E:\work\sv_renleihuoshifen\sv_degree_960_720")
-    Level_Diversity_csv = os.path.join(r"E:\work\sv_renleihuoshifen\色彩丰富度-cri.csv")
+    folder_path = os.path.join(r"E:\work\sv_michinen\sv_pan\_05_sv_extracted")
+    Level_Diversity_csv = os.path.join(r"E:\work\sv_michinen\sv_pan\色彩丰富度-cri.csv")
 
     main(folder_path,Level_Diversity_csv)
     

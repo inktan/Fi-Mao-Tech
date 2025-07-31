@@ -166,9 +166,9 @@ def main(csv_path,folder_out_path):
     for index, row in tqdm(df.iterrows()):
         # if index not in [1353,4751,5594,8680]:
         #     continue
-        # if index <= 25:
+        # if index <= 2400:
         #     continue
-        # if index >7000:
+        # if index >3200:
         #     continue
         print(df.shape[0],index)
 
@@ -282,7 +282,7 @@ resolution_ratio = 4
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\sv_yqrqy\points.csv'  # 需要爬取的点
-    folder_out_path = r'e:\work\sv_yqrqy'  # 保存街景文件
+    csv_path = r'e:\work\sv_kkkkatrina\points.csv'  # 需要爬取的点
+    folder_out_path = r'e:\work\sv_kkkkatrina'  # 保存街景文件
 
     main(csv_path,folder_out_path)

@@ -86,7 +86,7 @@ def cluster_main_colors(img_path, n_clusters):
     # plt.show()
     plt.tight_layout()
 
-    out_name = img_path.replace('sv_林芝', 'sv_林芝_cluster_colors')
+    out_name = img_path.replace('_05_sv_extracted', '_05_sv_extracted_cluster_colors').replace('.jpg', '.png').replace('.JPG', '.png').replace('.jpeg', '.png')
     
     # 保存图像
     folder_path = os.path.dirname(out_name)
@@ -98,8 +98,8 @@ def cluster_main_colors(img_path, n_clusters):
 
 if __name__ == "__main__":
     
-    iamges_folder_path = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\sv_林芝'
-    results_csv = r'E:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\街景\sv_林芝_cluster_colors.csv'
+    iamges_folder_path = r'E:\work\sv_michinen\sv_pan\_05_sv_extracted'
+    results_csv = r'E:\work\sv_michinen\sv_pan\sv_林芝_cluster_colors.csv'
     
     img_paths = []
     img_names = []

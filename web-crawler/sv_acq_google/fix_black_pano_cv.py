@@ -17,7 +17,10 @@ def remove_black_borders(image):
 
 def load_image(path, target_size):
     try:
-        e_img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
+        # 以二进制模式读取文件
+        img_data = np.fromfile(path, dtype=np.uint8)
+        # 解码图像
+        e_img = cv2.imdecode(img_data, cv2.IMREAD_UNCHANGED)
         if e_img is None:
             raise ValueError(f"Error loading image at path: {path}")
         
@@ -66,7 +69,7 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'E:\work\sv_zoudaobuhuang\points\sv_pan_zoom3',
+        r'C:\Users\wang.tan.GOA\Pictures\金门\sv_pan_zoom3',
         # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
         ]
     for folder_path in folder_path_list:

@@ -2,10 +2,10 @@ import pandas as pd
 
 try:
     # 读取CSV文件
-    df = pd.read_csv(r'e:\work\sv_xiufenganning\地理数据\ade_20k_语义00分割比例数据_02-_.csv')
+    df = pd.read_csv(r'e:\work\sv_xiufenganning\地理数据\harmony_results.csv')
     
     # 分割ID列
-    split_data = df['id'].str.split('_', expand=True)
+    split_data = df['Filename'].str.split('_', expand=True)
     
     # 检查是否成功分割出足够列
     if split_data.shape[1] < 4:
@@ -26,7 +26,7 @@ try:
     # df = df.drop(columns=['id'])
     
     # 保存结果
-    df.to_csv(r'e:\work\sv_xiufenganning\地理数据\ade_20k_语义00分割比例数据_03-_.csv', index=False)
+    df.to_csv(r'e:\work\sv_xiufenganning\地理数据\harmony_results_01.csv', index=False)
 
 except Exception as e:
     print(f"处理过程中发生错误: {str(e)}")
