@@ -1,88 +1,64 @@
-import torch
-import torch.nn.functional as F
-from torchvision import models, transforms
-from PIL import Image
-import numpy as np
-import matplotlib.pyplot as plt
 import cv2
+import numpy as np
 
-# 加载预训练的ResNet50模型
-model = models.resnet50(pretrained=True)
-model.eval()  # 设置为评估模式
-
-# 定义图像预处理
-preprocess = transforms.Compose([
-    transforms.Resize(256),
-    transforms.CenterCrop(224),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-])
-
-# 加载并预处理图像
-image_path = r'e:\work\sv_zhoujunling\澳门历史建筑装饰纹样-clip_kmeans_20\8\decorate_77.png'  # 替换为你的图片路径
-image = Image.open(image_path)
-input_tensor = preprocess(image)
-input_batch = input_tensor.unsqueeze(0)  # 创建batch维度
-
-# 注册hook来获取特征图和梯度
-features = None
-gradients = None
-
-def feature_hook(module, input, output):
-    global features
-    features = output
+def create_cylindrical_projection(image_path, output_size=(800, 400), f=300):
+    """
+    创建圆柱投影的2D图像
     
-def gradient_hook(module, grad_input, grad_output):
-    global gradients
-    gradients = grad_output[0]
-
-# 获取最后一个卷积层
-target_layer = model.layer4[-1].conv3
-target_layer.register_forward_hook(feature_hook)
-target_layer.register_backward_hook(gradient_hook)
-
-# 前向传播
-output = model(input_batch)
-
-# 选择最高分的类别进行反向传播
-predicted_class = output.argmax(dim=1)
-model.zero_grad()
-one_hot = torch.zeros_like(output)
-one_hot[0][predicted_class] = 1
-output.backward(gradient=one_hot)
-
-# 计算Grad-CAM
-pooled_gradients = torch.mean(gradients, dim=[0, 2, 3])
-for i in range(features.size()[1]):
-    features[:, i, :, :] *= pooled_gradients[i]
+    参数:
+        image_path: 输入全景图路径
+        output_size: 输出图像尺寸 (宽, 高)
+        f: 虚拟焦距，控制变形程度
+    """
+    # 读取图像
+    img = cv2.imread(image_path)
+    if img is None:
+        raise ValueError("无法读取图像")
     
-heatmap = torch.mean(features, dim=1).squeeze()
-heatmap = F.relu(heatmap)  # 应用ReLU
-heatmap /= torch.max(heatmap)  # 归一化
+    h, w = img.shape[:2]
+    out_w, out_h = output_size
+    
+    # 创建输出图像
+    result = np.zeros((out_h, out_w, 3), dtype=np.uint8)
+    
+    # 中心点
+    cx = w / 2
+    cy = h / 2
+    
+    # 生成输出图像的坐标
+    for y_out in range(out_h):
+        for x_out in range(out_w):
+            # 归一化坐标
+            x_norm = (x_out - out_w/2) / f
+            y_norm = (y_out - out_h/2) / f
+            
+            # 计算对应的全景图坐标
+            theta = np.arctan(x_norm)
+            x_img = cx + (theta / np.pi) * cx
+            y_img = cy + y_norm * f
+            
+            # 边界检查
+            if 0 <= x_img < w and 0 <= y_img < h:
+                result[y_out, x_out] = img[int(y_img), int(x_img)]
+    
+    return result
 
-# 转换为numpy数组
-heatmap = heatmap.detach().numpy()
-
-# 调整热力图大小以匹配原始图像
-img = cv2.imread(image_path)
-heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
-heatmap = np.uint8(255 * heatmap)
-heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
-
-# 叠加热力图到原始图像
-superimposed_img = heatmap * 0.4 + img * 0.6
-superimposed_img = np.clip(superimposed_img, 0, 255).astype(np.uint8)
-
-# 显示结果
-plt.figure(figsize=(10, 5))
-plt.subplot(1, 2, 1)
-plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-plt.title('Original Image')
-plt.axis('off')
-
-plt.subplot(1, 2, 2)
-plt.imshow(cv2.cvtColor(superimposed_img, cv2.COLOR_BGR2RGB))
-plt.title('Grad-CAM Heatmap')
-plt.axis('off')
-
-plt.show()
+# 使用示例
+cylindrical_img = create_cylindrical_projection(r"e:\work\sv_huang_g\test\results\10512.jpg")
+cv2.imshow("Cylindrical Projection", cylindrical_img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+# 使用示例
+# if __name__ == "__main__":
+#     # 读取输入图像
+#     input_img = cv2.imread(r"e:\work\sv_huang_g\test\results\10512.jpg")
+    
+#     if input_img is not None:
+#         # 转换为等距圆柱投影
+#         equirect_img = panorama_to_equirectangular(input_img)
+        
+#         # 保存结果
+#         cv2.imwrite(r'e:\work\sv_huang_g\test\results\10512_cylin_02.png', equirect_img)
+#         print("等距圆柱投影图像已保存为 equirectangular_output.jpg")
+#     else:
+#         print("无法读取输入图像")

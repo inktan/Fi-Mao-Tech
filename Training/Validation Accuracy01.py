@@ -39,6 +39,16 @@ models = {
     'ConvNeXt-L': simulate_model_training(0.82, epochs)
 }
 
+# 将上面的模型修改为 ResNet50
+# 将上面的模型修改为 RegNet-Y-16GF
+# 将上面的模型修改为 ViT-B/16
+# 将上面的模型修改为 EfficientNet-B7
+# 将上面的模型修改为 Swin-B
+# 将上面的模型修改为 ConvNeXt-L
+# 将上面的模型修改为 ConvNeXt-B
+# 将上面的模型修改为 ConvNeXt-S
+# 将上面的模型修改为 ConvNeXt-T 
+
 plt.figure(figsize=(24, 14), dpi=200)
 
 linestyles = [':', '-.', '--', '-', (0, (3, 1, 1, 1)), (0, (5, 5))]  # 最后两种是自定义虚线模式

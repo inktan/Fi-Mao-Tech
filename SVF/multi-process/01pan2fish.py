@@ -12,7 +12,7 @@ import functools
 
 def create_fisheye_single(args):
     file_n, overwrite = args
-    out_name = file_n.replace('ade_20k_语义分析_色块图', '半球_fisheye')
+    out_name = file_n.replace('ade_20k_rgb', '半球_fisheye')
     
     if not overwrite and os.path.exists(out_name):
         return
@@ -65,7 +65,7 @@ def create_fisheye_single(args):
 
 def process_images_multiprocess(img_paths, num_processes=None, overwrite=False):
     if num_processes is None:
-        num_processes = cpu_count()
+        num_processes = cpu_count()-2
     
     print(f"Using {num_processes} processes")
     
@@ -89,7 +89,7 @@ def main():
     image_types = ('.png', '.jpg', '.jpeg', '.bmp', '.gif')
     img_paths = []
     
-    root_dir = r'D:\Ai\sv\ade_20k_语义分析_色块图'
+    root_dir = r'e:\work\sv_huang_g\街景全景图\ade_20k_rgb'
     
     for root, dirs, files in os.walk(root_dir):
         for file in files:

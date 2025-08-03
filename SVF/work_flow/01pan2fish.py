@@ -11,7 +11,7 @@ import os
 from tqdm import tqdm
 
 def create_fisheye(file_n):
-    out_name = file_n.replace(r'sv_pan', r'sv_pan_fisheye')
+    out_name = file_n.replace(r'results', r'sv_pan_fisheye')
     if os.path.exists(out_name):
         return
     # 使用Pillow打开图片
@@ -47,7 +47,7 @@ def create_fisheye(file_n):
     result = cv2.bitwise_and(img_hemi, mask)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    out_name = file_n.replace('全景_pan', '半球_fisheye')
+    out_name = file_n.replace('results', '半球_fisheye')
     folder_path = os.path.dirname(out_name)
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
@@ -61,7 +61,7 @@ img_paths = []
 roots = []
 img_names = []
 
-for root, dirs, files in os.walk(r'F:\work\sv_ran\sv_pan\sv_points_ori\sv_pan_zoom3'):
+for root, dirs, files in os.walk(r'E:\work\sv_huang_g\test\results'):
     for file in files:
         if file.endswith(".jpg") or file.endswith(".JPG") or file.endswith(".png") or file.endswith(".jpeg"):
             file_path = os.path.join(root, file)
@@ -70,10 +70,10 @@ for root, dirs, files in os.walk(r'F:\work\sv_ran\sv_pan\sv_points_ori\sv_pan_zo
             roots.append(root)
 
 for i,image_path in enumerate(tqdm(img_paths)): 
-    if i<=10000:
-        continue
-    if i>8000000:
-        continue
+    # if i<=10000:
+    #     continue
+    # if i>8000000:
+    #     continue
     create_fisheye(image_path)
     
     

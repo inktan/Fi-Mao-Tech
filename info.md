@@ -7,9 +7,6 @@ Pointofix
 接收验证码
 https://jiemahao.com/sms/?phone=95#smslist
 +1 加拿大 加拿大 临时虚拟手机号码接收短信验证码
-+1 8255085888
-+1 5066165999
-+1 7789100888
 
 密码：wt282532
 
@@ -118,12 +115,11 @@ spbim137
 软件著作权登记系统
 个人
 inktan@163.com
-Lovetan1313.
+Lt1314.
 
 企业-管理员
-maofeimao
-Lovetan1314.
-327039389@qq.com
+13770682398
+maofeimao2024..
 
 苏州猫非猫科技有限公司
 统一社会信用代码 	91320505MA271T3863
