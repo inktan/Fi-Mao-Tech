@@ -228,9 +228,9 @@ def main(csv_path,output_):
     for index, row in tqdm(df.iterrows()):
         index = row['index']
         
-        if index <= 90000:
+        if index <= 40000:
             continue
-        if index > 100000:
+        if index > 50000:
             continue
         
         print(df.shape[0],index)
@@ -270,13 +270,13 @@ def main(csv_path,output_):
 
 import os
 # 输入经纬度点的csv文件
-points_csv = r'/content/gdrive/MyDrive/work_fimo/svi_taiwan/台湾省_15m_Spatial.csv'
+points_csv = r'f:\work\work_fimo\svi_taiwan\台湾省_15m_Spatial.csv'
 
 # 输入街景保存文件夹
 # 全景分辨率设置 1-512*1024; 2-1024*2048; 3-2048*4096; 4-4096*8192
 # 全景分辨率设置 1-512*1024; 2-7++*1536; 3-1024*3072; 4-2048*4096; 5-4096*8192
 zoom = 3
-output_ = r'/content/gdrive/MyDrive/work_fimo/svi_taiwan/sv_pano_90000_100000'
+output_ = r'f:\work\work_fimo\svi_taiwan\sv_pano_40000_50000'
 
 if os.path.exists(output_) == False:
     os.makedirs(output_)
