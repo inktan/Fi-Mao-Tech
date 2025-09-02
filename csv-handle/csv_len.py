@@ -1,5 +1,12 @@
 import pandas as pd
 
+# 设置显示选项
+pd.set_option('display.max_columns', None)  # 显示所有列
+pd.set_option('display.max_rows', None)     # 显示所有行
+pd.set_option('display.float_format', '{:.10f}'.format)  # 设置浮点数显示精度
+pd.set_option('display.width', None)        # 自动调整显示宽度
+pd.set_option('display.max_colwidth', None) # 显示完整的列内容
+
 # 从你之前的代码生成的路径
 # csv_path = r'f:\立方数据\2025年道路数据\【立方数据学社】北京市\北京市_50m_Spatial_infos.csv'
 
@@ -19,7 +26,15 @@ import pandas as pd
 import pandas as pd
 
 # 读取CSV文件（替换为你的文件路径）
-csv_path = r'e:\work\sv_zhoujunling\20250713\data\广州.csv'
+csv_path = r'f:\立方数据\2025年道路数据\【立方数据学社】台湾省\台湾省_15m_unique01.csv'
+df = pd.read_csv(csv_path)
+
+print(csv_path)
+print(df.columns)
+print(df.head())
+print(df.shape)
+
+csv_path = r'f:\立方数据\2025年道路数据\【立方数据学社】台湾省\台湾省_15m_Spatial.csv'
 df = pd.read_csv(csv_path)
 
 # 筛选目标年份（2016, 2019, 2021, 2023）
@@ -45,4 +60,9 @@ df = pd.read_csv(csv_path)
 # )
 
 # print(pivot_table)
-print(df)
+
+print(csv_path)
+
+print(df.columns)
+print(df.head())
+print(df.shape)

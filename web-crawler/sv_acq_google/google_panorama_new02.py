@@ -170,12 +170,12 @@ def panoids_from_response(text, closest=False, disp=False, proxies=None):
 
         # The last date belongs to the first panorama
         year, month = dates.pop(-1)
-        pans[0].update({'year': year, "month": month})
+        pans[0].update({'year']=year, "month": month})
 
         # The dates then apply in reverse order to the bottom panoramas
         dates.reverse()
         for i, (year, month) in enumerate(dates):
-            pans[-1-i].update({'year': year, "month": month})
+            pans[-1-i].update({'year']=year, "month": month})
 
     # # Make the first value of the dates the index
     # if len(dates) > 0 and dates[-1][0] == '':
@@ -184,7 +184,7 @@ def panoids_from_response(text, closest=False, disp=False, proxies=None):
     #
     # # Merge the dates into the panorama dictionaries
     # for i, year, month in dates:
-    #     pans[i].update({'year': year, "month": month})
+    #     pans[i].update({'year']=year, "month": month})
 
     # Sort the pans array
     def func(x):
@@ -225,17 +225,20 @@ def get_panorama(pano_id: str, zoom: int = 1) -> Image.Image:
 def main(csv_path,output_):
     df = pd.read_csv(csv_path)
     print(df.shape)
+
+    all_data = []
+    
     for index, row in tqdm(df.iterrows()):
-        index = row['index']
+        # index = row['index']
         
-        if index <= 110000:
-            continue
-        if index > 120000:
-            continue
+        # if index <= 90000:
+        #     continue
+        # if index > 100000:
+        #     continue
         
         print(df.shape[0],index)
         try:
-            resp = search_request(float(row['latitude']), float(row['longitude']))
+            resp = search_request(float(row['lon']), float(row['lat']))
             panoids = panoids_from_response(resp.text)
             # print(panoids)
         except Exception as e:
@@ -251,32 +254,52 @@ def main(csv_path,output_):
                 year = 0
                 month = 0
             try :
-                if year<2022:
-                    break
+                # if year<2022:
+                #     break
           
                 # img_save_path = output_+f"/{int(row['osm_id'])}_{row['longitude']}_{row['latitude']}_{pano['heading']}_{year}_{month}.jpg"
-                img_save_path = output_+f"/{int(index)}_{int(row['osm_id'])}_{row['longitude']}_{row['latitude']}_{pano['heading']}_{year}_{month}.jpg"
+                # img_save_path = output_+f"/{int(index)}_{int(row['osm_id'])}_{row['lat']}_{row['lon']}_{pano['heading']}_{year}_{month}.jpg"
+                img_save_path = output_+f"/{int(row['doitt_id'])}_{int(row['categories'])}_{pano['panoid']}.jpg"
                 
                 if os.path.exists(img_save_path):
                   break
                 image = get_panorama(pano['panoid'],zoom)
                 image.save(img_save_path)
                 print("下载完成==>",img_save_path)
+
+                info={}
+                info['panoid']= pano['panoid']
+                info['lat']= row['lon']
+                info['lon']= row['lat']
+                info['heading_gl']= pano['heading']
+                info['pitch']= pano['pitch']
+                info['fov01']= pano['fov01']
+                info['fov02']= pano['fov02']
+                info['year']= year
+                info['month']= month
+
+                all_data.append(info)
+
                 # continue
-                # break
+                break
             except Exception as e :
                 print(f'error:{e}')
                 # continue
+    
+    df = pd.DataFrame(all_data)
+    df.to_csv(r'e:\work\sv_YJ_20240924\20250818\0530_5_NY_info.csv', index=False, encoding='utf_8_sig')
 
 import os
 # 输入经纬度点的csv文件
-points_csv = r'f:\work\work_fimo\svi_taiwan\台湾省_15m_Spatial.csv'
+points_csv = r'e:\work\sv_YJ_20240924\20250818\0530_5_NY_standpoint_final.csv'
 
 # 输入街景保存文件夹
 # 全景分辨率设置 1-512*1024; 2-1024*2048; 3-2048*4096; 4-4096*8192
 # 全景分辨率设置 1-512*1024; 2-7++*1536; 3-1024*3072; 4-2048*4096; 5-4096*8192
-zoom = 3
-output_ = r'f:\work\work_fimo\svi_taiwan\sv_pano_110000_120000'
+# zoom = 3
+# zoom = 4
+zoom = 5
+output_ = r'e:\work\sv_YJ_20240924\20250818\sv_pano'
 
 if os.path.exists(output_) == False:
     os.makedirs(output_)

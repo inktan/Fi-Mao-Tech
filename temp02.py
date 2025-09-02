@@ -1,68 +1,202 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import requests
+import base64
+import yaml
+import json
+from urllib.parse import urlparse, unquote
+import sys
 
-url = "https://m.lianjia.com/sh/ershoufang/rs%E9%B9%8F%E7%A8%8B%E8%8B%91/?ticket=ST-16449581-Om98LpVV9eLNmq63gHb6Kzk0KqU-ke.com"
+def decode_base64(data):
+    """解码base64数据"""
+    try:
+        # 添加padding如果必要
+        missing_padding = len(data) % 4
+        if missing_padding:
+            data += '=' * (4 - missing_padding)
+        return base64.b64decode(data).decode('utf-8')
+    except Exception as e:
+        print(f"Base64解码失败: {e}")
+        return None
 
-headers = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "Accept-Encoding": "gzip, deflate, br, zstd",
-    "Accept-Language": "zh-CN,zh;q=0.9",
-    "Cache-Control": "no-cache",
-    "Connection": "keep-alive",
-    "Host": "m.lianjia.com",
-    "Pragma": "no-cache",
-    "Referer": "https://clogin.lianjia.com/",
-    "Sec-Ch-Ua": '"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"',
-    "Sec-Ch-Ua-Mobile": "?0",
-    "Sec-Ch-Ua-Platform": '"Windows"',
-    "Sec-Fetch-Dest": "document",
-    "Sec-Fetch-Mode": "navigate",
-    "Sec-Fetch-Site": "same-site",
-    "Sec-Fetch-User": "?1",
-    "Upgrade-Insecure-Requests": "1",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
-}
+def parse_subscription(url):
+    """解析订阅链接"""
+    try:
+        headers = {
+            'User-Agent': 'Clash/1.0'
+        }
+        
+        print(f"正在下载订阅内容: {url}")
+        response = requests.get(url, headers=headers, timeout=30)
+        response.raise_for_status()
+        
+        # 尝试解码base64
+        content = response.text.strip()
+        decoded_content = decode_base64(content)
+        
+        if decoded_content:
+            return decoded_content
+        else:
+            # 如果不是base64，直接返回内容
+            return content
+            
+    except Exception as e:
+        print(f"订阅解析失败: {e}")
+        return None
 
-cookies = {
-    "lianjia_uuid": "61a30485-75d4-403f-a8cb-8949008e9ed6",
-    "Hm_lvt_46bf127ac9b856df503ec2dbf942b67e": "1753933225",
-    "HMACCOUNT": "2E252058C691871B",
-    "_jzqa": "1.578712360721580200.1753933227.1753933227.1753933227.1",
-    "_jzqc": "1",
-    "_jzqy": "1.1753933227.1753933227.1.jzqsr=baidu|jzqct=%E9%93%BE%E5%AE%B6.-",
-    "_jzqckmp": "1",
-    "sajssdk_2015_cross_new_user": "1",
-    "_ga": "GA1.2.354374190.1753933238",
-    "_gid": "GA1.2.20226284.1753933238",
-    "select_city": "310000",
-    "crosSdkDT2019DeviceId": "rn5hdx--i8b8r9-fgqi6xr6g7i7ghp-ahf83ns5f",
-    "ftkrc_": "6f59bc5a-c285-4b04-908b-b4a128c42997",
-    "lfrc_": "a48c927c-70ba-44cd-b965-19055926137f",
-    "_ga_LRLL77SF11": "GS2.2.s1753933316$o1$g1$t1753933321$j55$l0$h0",
-    "_ga_GVYN2J1PCG": "GS2.2.s1753933316$o1$g1$t1753933321$j55$l0$h0",
-    "Hm_lpvt_46bf127ac9b856df503ec2dbf942b67e": "1753933448",
-    "sensorsdata2015jssdkcross": "%7B%22distinct_id%22%3A%221985e912e85266-0cb66a1141ab3c8-26011151-2073600-1985e912e86a9f%22%2C%22%24device_id%22%3A%221985e912e85266-0cb66a1141ab3c8-26011151-2073600-1985e912e86a9f%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_referrer%22%3A%22%22%2C%22%24latest_referrer_host%22%3A%22%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_utm_source%22%3A%22baidu%22%2C%22%24latest_utm_medium%22%3A%22pinzhuan%22%2C%22%24latest_utm_campaign%22%3A%22wyhz%22%2C%22%24latest_utm_content%22%3A%22biaotimiaoshu%22%2C%22%24latest_utm_term%22%3A%22biaoti%22%7D%7D",
-    "Hm_lvt_28b65c68923b952bf94c102598920ce0": "1753933531",
-    "session_id": "2ca8cbb6-6602-866d-abf9-cae34a149803",
-    "srcid": "eyJ0Ijoie1wiZGF0YVwiOlwiMmQwNTJlN2UxNWJiZGQ2MTcwMzRkOWNmZmUwNGJjNzc2NTAxZjAyMDc3Yzg5ODgxMTQ5ODU4NzlkM2JlMzdhNjFhYTc3ZjBiNTViYWUyMzRhMjE3YzdkYmIyZjE5MDhkZmY2ZTA0NDQ5ZjQyZTlhNDgzODI4MTY4YzdkYWFjZDY4NzllMWJlYTg2NGI2NGRjNmJlYjYwMjk5NDQ2Zjc1NWJlMmI2MGYwMjQ0MjNkN2NhMTY2ODk1MTIwYjQzM2U0N2VmY2E1ZjcwYjdmNDcwOTE4NjAzNTgzYmQ2NTNmY2I0NTE2NzAwN2U0MTVkMTBlNmU5ODMxYjViMmZlZjQwMFwiLFwia2V5X2lkXCI6XCIxXCIsXCJzaWduXCI6XCI4Y2E3YmUyNFwifSIsInIiOiJodHRwczovL20ubGlhbmppYS5jb20vc2gvZXJzaG91ZmFuZy9zZWFyY2gvIiwib3MiOiJ3ZWIiLCJ2IjoiMC4xIn0=",
-    "_ga_XRDEC2G0T9": "GS2.2.s1753933532$o1$g1$t1753933796$j60$l0$h0",
-    "_ga_XGP5EDPZTV": "GS2.2.s1753933532$o1$g1$t1753933796$j60$l0$h0",
-    "_ga_SNG6R1B3VY": "GS2.2.s1753933532$o1$g1$t1753933796$j60$l0$h0",
-    "digData": "%7B%22key%22%3A%22m_pages_ershoufangSearch%22%7D",
-    "lianjia_ssid": "e2293963-4ec9-4268-97e2-e16037416b2c",
-    "login_ucid": "2000000133679582",
-    "lianjia_token": "2.001385d4e5711770d70228fdd46ff758fc",
-    "lianjia_token_secure": "2.001385d4e5711770d70228fdd46ff758fc",
-    "security_ticket": "mQtstzFmrTO9JO3+TwbIjhyCkK69hlVgpWjsBfe9wOyx1P7ra9uK5VsobVga1SqEOd6XUSHkknMNLcovZ1NgRJWGcyachc713heLZmWGr02jNfnZVRjIF3zj0/GRjq3e6QSRj72EXnUJ3RgLpgpWF8A9rW8smkqGiuWsIEY4/gk=",
-    "Hm_lpvt_28b65c68923b952bf94c102598920ce0": "1753950334",
-    "beikeBaseData": "%7B%22parentSceneId%22%3A%22%22%7D"
-}
+def ss_to_clash(ss_url, name):
+    """将SS链接转换为Clash格式"""
+    try:
+        # 移除 ss:// 前缀
+        if ss_url.startswith('ss://'):
+            ss_url = ss_url[5:]
+        
+        # 处理可能存在的@符号
+        if '@' in ss_url:
+            # 格式: method:password@server:port
+            auth_part, server_part = ss_url.split('@', 1)
+            server, port = server_part.split(':', 1)
+        else:
+            # 格式: base64(method:password)@server:port
+            # 先解码base64部分
+            encoded_part, server_part = ss_url.split('@', 1)
+            auth_part = decode_base64(encoded_part)
+            server, port = server_part.split(':', 1)
+        
+        if ':' in auth_part:
+            method, password = auth_part.split(':', 1)
+        else:
+            # 如果auth_part已经是解码后的，可能包含#备注
+            if '#' in auth_part:
+                auth_part = auth_part.split('#')[0]
+            method, password = auth_part.split(':', 1)
+        
+        # 处理可能的URL编码
+        password = unquote(password)
+        
+        return {
+            'name': name,
+            'type': 'ss',
+            'server': server,
+            'port': int(port),
+            'cipher': method,
+            'password': password
+        }
+        
+    except Exception as e:
+        print(f"SS链接解析失败 {ss_url}: {e}")
+        return None
 
-response = requests.get(url, headers=headers, cookies=cookies)
+def create_clash_config(proxies):
+    """创建Clash配置文件"""
+    config = {
+        'port': 7890,
+        'socks-port': 7891,
+        'redir-port': 7892,
+        'allow-lan': True,
+        'mode': 'Rule',
+        'log-level': 'info',
+        'external-controller': '0.0.0.0:9090',
+        'proxies': proxies,
+        'proxy-groups': [
+            {
+                'name': '🚀 Auto',
+                'type': 'url-test',
+                'proxies': [proxy['name'] for proxy in proxies],
+                'url': 'http://www.gstatic.com/generate_204',
+                'interval': 300
+            },
+            {
+                'name': '🌍 Global',
+                'type': 'select',
+                'proxies': ['🚀 Auto'] + [proxy['name'] for proxy in proxies]
+            },
+            {
+                'name': '📱 Domestic',
+                'type': 'select',
+                'proxies': ['DIRECT', '🚀 Auto']
+            }
+        ],
+        'rules': [
+            'DOMAIN-SUFFIX,google.com,🌍 Global',
+            'DOMAIN-SUFFIX,youtube.com,🌍 Global',
+            'DOMAIN-SUFFIX,gstatic.com,🌍 Global',
+            'DOMAIN-SUFFIX,facebook.com,🌍 Global',
+            'DOMAIN-SUFFIX,twitter.com,🌍 Global',
+            'DOMAIN-SUFFIX,instagram.com,🌍 Global',
+            'DOMAIN-SUFFIX,github.com,🌍 Global',
+            'DOMAIN-SUFFIX,githubusercontent.com,🌍 Global',
+            'DOMAIN-KEYWORD,google,🌍 Global',
+            'DOMAIN-KEYWORD,blogspot,🌍 Global',
+            'DOMAIN-SUFFIX,cn,DIRECT',
+            'DOMAIN-KEYWORD,china,DIRECT',
+            'IP-CIDR,127.0.0.0/8,DIRECT',
+            'IP-CIDR,192.168.0.0/16,DIRECT',
+            'IP-CIDR,10.0.0.0/8,DIRECT',
+            'IP-CIDR,172.16.0.0/12,DIRECT',
+            'GEOIP,CN,DIRECT',
+            'MATCH,🌍 Global'
+        ]
+    }
+    return config
 
-print(f"Status Code: {response.status_code}")
-print("Response Headers:")
-for header, value in response.headers.items():
-    print(f"{header}: {value}")
+def main():
+    # if len(sys.argv) < 2:
+    #     print("使用方法: python3 subscribe_to_clash.py <订阅链接> [输出文件]")
+    #     print("示例: python3 subscribe_to_clash.py https://your-subscribe-url.com ~/.config/clash/config.yaml")
+    #     sys.exit(1)
+    
+    subscribe_url = r'https://no10-svip.urlapi-dodo.cyou/s?t=202f0fc6ee8960c4148ef10fd10a0907'
+    output_file = './config.yaml'
+    
+    # 解析订阅
+    content = parse_subscription(subscribe_url)
+    if not content:
+        print("无法获取订阅内容")
+        sys.exit(1)
+    
+    print("订阅内容获取成功，开始解析节点...")
+    
+    # 分割行并解析节点
+    lines = content.split('\n')
+    proxies = []
+    
+    for i, line in enumerate(lines):
+        line = line.strip()
+        if not line:
+            continue
+            
+        # 解析节点名称（如果有#注释）
+        name = f"Node-{i+1}"
+        if '#' in line:
+            url_part, name_part = line.split('#', 1)
+            name = name_part.strip()
+            line = url_part.strip()
+        
+        # 根据协议类型解析
+        if line.startswith('ss://'):
+            proxy = ss_to_clash(line, name)
+            if proxy:
+                proxies.append(proxy)
+                print(f"✓ 解析成功: {name}")
+        else:
+            print(f"⚠ 跳过不支持的协议: {line[:50]}...")
+    
+    if not proxies:
+        print("没有找到可用的节点")
+        sys.exit(1)
+    
+    # 创建Clash配置
+    clash_config = create_clash_config(proxies)
+    
+    # 保存配置文件
+    with open(output_file, 'w', encoding='utf-8') as f:
+        yaml.dump(clash_config, f, allow_unicode=True, sort_keys=False)
+    
+    print(f"✅ Clash配置文件已生成: {output_file}")
+    print(f"📊 共解析 {len(proxies)} 个节点")
+    print("🎯 使用方法: clash -f {}".format(output_file))
 
-# To see the response content (HTML)
-# print(response.text)
+if __name__ == "__main__":
+    main()

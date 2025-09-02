@@ -17,7 +17,7 @@ for root, dirs, files in os.walk(r'E:\work\sv_hukejia\sv\handle\points01_panoid0
             shp_paths.append(file_path)
 
 shp_paths =[
-    r'e:\work\sv_xiufenganning\地理数据\Export_Output_4_svi_data_gcj_05.shp'
+    r'e:\work\sv_xiufenganning\20250819\街景视觉-类别情感.shp'
 ]
 
 # for shp_path in tqdm(shp_paths):

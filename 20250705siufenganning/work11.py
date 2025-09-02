@@ -32,8 +32,8 @@ def calculate_green_visibility(input_shp, output_shp):
     
     # 定义要处理的植被相关列（不区分大小写）
     # 计算绿色可视率（所有植被列的和）
-    # type_vis = 'Green_Vis'
-    # vegetation_columns = ['grass', 'tree', 'plant;flor', 'flower', 'palm;palm;']
+    type_vis = 'Green_Vis'
+    vegetation_columns = ['grass', 'tree', 'plant;flor', 'flower', 'palm;palm;']
     # type_vis = 'Sky_Vis'
     # vegetation_columns = ['sky']
     # type_vis = 'River_Vis'
@@ -46,8 +46,8 @@ def calculate_green_visibility(input_shp, output_shp):
     #                       'plaything;','apparel;we','chair','stool','barrel;cas','bicycle;bi']
     # type_vis = 'PubArt_Vis'
     # vegetation_columns = ['sculpture','painting;p','fountain','vase']
-    type_vis = 'Arch_Vis'
-    vegetation_columns = ['building','skyscraper','windowpane','glass','tower']
+    # type_vis = 'Arch_Vis'
+    # vegetation_columns = ['building','skyscraper','windowpane','glass','tower']
 
     # type_vis = 'FacCol_Vis'
     
@@ -78,49 +78,16 @@ def calculate_green_visibility(input_shp, output_shp):
     print(gdf[type_vis].describe())
 
 # 使用示例
-# if __name__ == "__main__":
-    # input_file = "e:\work\sv_xiufenganning\地理数据\Export_Output_4_svi_data_gcj.shp"  # 替换为你的输入SHP文件路径
-    # input_file = "e:\work\sv_xiufenganning\地理数据\Export_Output_4_svi_data_gcj_01.shp"  # 输出文件路径
-    # output_file = "e:\work\sv_xiufenganning\地理数据\Export_Output_4_svi_data_gcj_01.shp"  # 输出文件路径
-    
-    # calculate_green_visibility(input_file, output_file)
-
-def filter_and_save_visibility_columns(input_shp, output_shp):
-    gdf = gpd.read_file(input_shp)
-    
-    # 定义要保留的列（不区分大小写）
-    columns_to_keep = ['no', 'Green_Vis', 'Sky_Vis', 'River_Vis', 'BLR_Vis', 'ID_Vis', 'PubArt_Vis','Arch_Vis']
-    
-    # 查找实际存在于数据中的列（不区分大小写）
-    existing_cols = []
-    for col in columns_to_keep:
-        # 检查列是否存在（不区分大小写）
-        matching_cols = [c for c in gdf.columns if c.lower() == col.lower()]
-        if matching_cols:
-            existing_cols.extend(matching_cols)
-        else:
-            print(f"警告: 列 '{col}' 不存在于数据中")
-    
-    # 确保至少保留几何列
-    if not existing_cols:
-        raise ValueError("错误: 数据中未找到任何指定的可视率列")
-    
-    # 添加几何列到保留列中
-    existing_cols.append(gdf.geometry.name)
-    
-    # 只保留指定列
-    gdf_filtered = gdf[existing_cols]
-    
-    # 保存结果到新SHP文件
-    gdf_filtered.to_file(output_shp, encoding='utf-8')
-    
-    print(f"处理完成！结果已保存到: {output_shp}")
-    print("保留的列:", list(gdf_filtered.columns))
-
 if __name__ == "__main__":
-    input_file = "e:\work\sv_xiufenganning\地理数据\Export_Output_4_svi_data_gcj_01.shp"  # 输出文件路径
-    output_file = "e:\work\sv_xiufenganning\地理数据\Export_Output_4_svi_data_gcj_02.shp"  # 输出文件路径
-    filter_and_save_visibility_columns(input_file, output_file)
+    input_file = r"e:\work\sv_xiufenganning\20250819\buffer_analysis_result.shp"  # 输出文件路径
+    input_file = r"e:\work\sv_xiufenganning\20250819\buffer_analysis_result_01.shp"  # 输出文件路径
+    input_file = r"e:\work\sv_xiufenganning\20250819\buffer_analysis_result_02.shp"  # 输出文件路径
+    input_file = r"e:\work\sv_xiufenganning\20250819\buffer_analysis_result_03.shp"  # 输出文件路径
+    input_file = r"e:\work\sv_xiufenganning\20250819\buffer_analysis_result_04.shp"  # 输出文件路径
+    input_file = r"e:\work\sv_xiufenganning\20250819\buffer_analysis_result_05.shp"  # 输出文件路径
+    input_file = r"e:\work\sv_xiufenganning\20250819\buffer_analysis_result_06.shp"  # 输出文件路径
+    input_file = r"e:\work\sv_xiufenganning\20250819\buffer_analysis_result_07.shp"  # 输出文件路径
+    output_file = r"e:\work\sv_xiufenganning\20250819\buffer_analysis_result_08.shp"  # 输出文件路径
+    
+    calculate_green_visibility(input_file, output_file)
 
-# 莫拉指数分析
-# 地理加权回归分析

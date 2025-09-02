@@ -18,7 +18,6 @@ class TileInfo:
     y: int
     fileurl: str
 
-
 @dataclass
 class Tile:
     x: int
@@ -228,9 +227,9 @@ def main(csv_path,output_):
     for index, row in tqdm(df.iterrows()):
         index = row['index']
         
-        if index <= 100000:
+        if index <= start01:
             continue
-        if index > 110000:
+        if index > end:
             continue
         
         print(df.shape[0],index)
@@ -252,17 +251,19 @@ def main(csv_path,output_):
                 month = 0
             try :
                 if year<2022:
-                    break
+                    continue
+                    # break
           
                 # img_save_path = output_+f"/{int(row['osm_id'])}_{row['longitude']}_{row['latitude']}_{pano['heading']}_{year}_{month}.jpg"
                 img_save_path = output_+f"/{int(index)}_{int(row['osm_id'])}_{row['longitude']}_{row['latitude']}_{pano['heading']}_{year}_{month}.jpg"
                 
                 if os.path.exists(img_save_path):
-                  break
+                    continue
+                #   break
                 image = get_panorama(pano['panoid'],zoom)
                 image.save(img_save_path)
                 print("下载完成==>",img_save_path)
-                # continue
+                continue
                 # break
             except Exception as e :
                 print(f'error:{e}')
@@ -270,13 +271,20 @@ def main(csv_path,output_):
 
 import os
 # 输入经纬度点的csv文件
-points_csv = r'f:\work\work_fimo\svi_taiwan\台湾省_15m_Spatial.csv'
+points_csv = r'/root/autodl-tmp/20250815_sv_taiwan/台湾省_15m_unique01.csv'
 
 # 输入街景保存文件夹
 # 全景分辨率设置 1-512*1024; 2-1024*2048; 3-2048*4096; 4-4096*8192
 # 全景分辨率设置 1-512*1024; 2-7++*1536; 3-1024*3072; 4-2048*4096; 5-4096*8192
 zoom = 3
-output_ = r'f:\work\work_fimo\svi_taiwan\sv_pano_100000_110000'
+# zoom = 4
+# zoom = 5
+
+start = 884*10000
+start01 = 884*10000
+
+end = 895*10000
+output_ = f'/root/autodl-tmp/20250815_sv_taiwan/svi_/sv_pano_{start}_{end}'
 
 if os.path.exists(output_) == False:
     os.makedirs(output_)
