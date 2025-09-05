@@ -19,7 +19,7 @@ import pandas as pd
 import pandas as pd
 
 # 读取CSV文件（替换为你的文件路径）
-csv_path = r'e:\work\sv_zhoujunling\20250713\data\广州.csv'
+csv_path = r'd:\work\sv_yj\0530_5_NY_standpoint_final.csv'
 df = pd.read_csv(csv_path)
 
 # 筛选目标年份（2016, 2019, 2021, 2023）
@@ -46,3 +46,4 @@ df = pd.read_csv(csv_path)
 
 # print(pivot_table)
 print(df)
+print(df.head())

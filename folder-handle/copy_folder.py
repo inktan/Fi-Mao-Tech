@@ -2,8 +2,8 @@ import shutil
 import os
 
 # 定义源文件夹和目标文件夹路径
-source_folder = r'd:\Ai-clip-seacher\AiArchLib\archdaily_com-20241012'
-destination_folder = r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\archdaily_com-20241012'
+source_folder = r'e:\GoogleDrive\我的云端硬盘\work_fimo\svi_taiwan\sv_pano_410000_420000'
+destination_folder = r'e:\svi_panorama\sv_pano_410000_420000'
 
 # 确保目标文件夹存在，如果不存在则创建
 os.makedirs(destination_folder, exist_ok=True)

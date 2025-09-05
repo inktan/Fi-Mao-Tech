@@ -19,6 +19,7 @@ def count_files_in_subfolders(root_dir):
         print(f"在 '{root_dir}' 中未找到任何子文件夹")
         return
     
+    all_file_count = 0
     # 统计每个子文件夹中的文件数量
     print(f"根目录: {root_dir}\n")
     print("子文件夹文件数量统计:")
@@ -30,10 +31,13 @@ def count_files_in_subfolders(root_dir):
         file_count = len([f for f in os.listdir(folder_path) 
                          if os.path.isfile(os.path.join(folder_path, f))])
         
+        all_file_count+=file_count
+        
         print(f"{folder}: {file_count} 个文件")
     
     print("-" * 50)
     print(f"总计 {len(subfolders)} 个子文件夹")
+    print(f"总计 {all_file_count} 个文件")
 
 if __name__ == "__main__":
     # 目标根目录

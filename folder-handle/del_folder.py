@@ -2,16 +2,32 @@ import shutil
 from tqdm import tqdm
 import os  
   
-folder_path = r'E:\work\sv_huang_g\街景全景图'  
+base_destination = r'f:\temp\115416875443580499938'
 
-try:
-    if os.path.exists(folder_path):  
-        shutil.rmtree(folder_path)  
-        print(f"文件夹 '{folder_path}' 已成功删除。")
-    else:  
-        print(f"文件夹 '{folder_path}' 不存在。")
-except Exception as e:
-    print(f"删除文件时出错: {e}")
+# 生成所有文件夹名称
+# folders = []
+# for i in range(490000, 2340001, 10000):
+#     folders.append(f"sv_pano_{i}_{i + 10000}")
+
+# folder_paths = []
+
+# for index, folder in enumerate(folders, 1):
+#     dest_path = os.path.join(base_destination, folder)
+#     folder_paths.append(dest_path)
+    
+folder_paths = [
+   r'',
+]
+
+for folder_path in folder_paths:
+    try:
+        if os.path.exists(folder_path):  
+            shutil.rmtree(folder_path)  
+            print(f"文件夹 '{folder_path}' 已成功删除。")
+        else:  
+            print(f"文件夹 '{folder_path}' 不存在。")
+    except Exception as e:
+        print(f"删除文件时出错: {e}")
     
 # try:
 #     if os.path.exists(folder_path):  

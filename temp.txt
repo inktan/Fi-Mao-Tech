@@ -1,19 +1,2 @@
-1. ResNet50 (经典CNN代表)
-2. EfficientNet-B7 (高效缩放模型代表)
-3. ViT-B/16 (Transformer代表)
-4. Swin-B (分层Transformer代表)
-5. RegNet-Y-16GF (规则化设计代表)
-
-ConvNeXt-Large的核心优势
-性能领先：在ImageNet-1K上达到85%+准确率，超越同规模CNN/Transformer。
-训练友好：无需大量数据预训练（对比ViT）或复杂注意力机制（对比Swin）。
-架构简洁：仅用标准卷积模块即可模拟Transformer的优势（如全局上下文建模）。
-硬件兼容：纯卷积结构在部署时比Transformer更高效（支持TensorRT等优化）。
-
-referecne https://arxiv.org/abs/2201.03545
-
-
-
-
 
 
