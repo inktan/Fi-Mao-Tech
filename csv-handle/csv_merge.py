@@ -32,10 +32,10 @@ combined_df = pd.DataFrame()
     # combined_df = pd.concat([combined_df, df[need_columns]], axis=1)
 
 csv_paths=[
-    r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\sv_pan\语义分割比例数据_0-_.csv',
-    r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\sv_pan\语义分割比例数据_01-_.csv',
-    r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\sv_pan\语义分割比例数据_02-_.csv',
+    r'e:\work\sv_xiufenganning\20250819\ade_20k_语义00分割比例数据_03-_.csv',
+    r'e:\work\sv_xiufenganning\20250819\ade_20k_语义分割比例数据_01-_.csv',
 ]
+
 for file in csv_paths:
     df = pd.read_csv(file)
     # df = pd.read_csv(file, encoding='GBK')
@@ -46,7 +46,7 @@ for file in csv_paths:
 # combined_df = combined_df.drop_duplicates(subset='img_path')
 
 # # 保存合并后的 DataFrame 到新的 CSV 文件
-output_file_path = r'e:\work\spatio_evo_urbanvisenv_svi_leo371\街道分类\sv_pan\ss01.csv'
+output_file_path = r'e:\work\sv_xiufenganning\20250819\ade_20k_语义分割比例数据.csv'
 combined_df.to_csv(output_file_path, index=False)
 
 # print(f"合并后的文件已保存到 {output_file_path}")

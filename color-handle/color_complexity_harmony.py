@@ -114,18 +114,20 @@ img_paths = []
 img_names = []
 accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
-for root, dirs, files in os.walk(r'E:\work\sv_michinen\sv_pan\_05_sv_extracted'):
+for root, dirs, files in os.walk(r'E:\work\sv_lntano1802\75补'):
     for file in files:
         if file.endswith(accepted_formats):
             file_path = os.path.join(root, file)
             img_paths.append(file_path)
             img_names.append(file)
 
-color_complexity_harmony_csv = r'E:\work\sv_michinen\sv_pan\_05_sv_extracted\色彩协调度.csv'
+# color_complexity_harmony_csv = r'e:\work\sv_mubibai\图片分析792\色彩协调度.csv'
+color_complexity_harmony_csv = r'E:\work\sv_lntano1802\色彩复杂度.csv'
 with open(color_complexity_harmony_csv,'w' ,newline='') as f:
     writer = csv.writer(f)
     # writer.writerow(['img_path','complexity','harmony'])
-    writer.writerow(['img_path','色彩协调度'])
+    # writer.writerow(['img_path','色彩协调度'])
+    writer.writerow(['img_path','色彩复杂度'])
 
 for i,img_path in enumerate(tqdm(img_paths)):
     try:
@@ -140,16 +142,17 @@ for i,img_path in enumerate(tqdm(img_paths)):
         colors = kmeans.cluster_centers_  # 主色彩
         labels = kmeans.labels_  # 每个像素的标签
 
-        # complexity = calculate_color_complexity(image,kmeans, 10)
-        harmony = calculate_color_harmony(image,kmeans, 10)
+        complexity = calculate_color_complexity(image,kmeans, 10)
+        # harmony = calculate_color_harmony(image,kmeans, 10)
         # print(complexity,harmony)
-        # print(f"色彩复杂度: {complexity:.4f}")
-        print(f"色彩协调度: {harmony:.4f}")
+        print(f"色彩复杂度: {complexity:.4f}")
+        # print(f"色彩协调度: {harmony:.4f}")
         # break
         with open(color_complexity_harmony_csv,'a' ,newline='') as f:
             writer = csv.writer(f)
             # writer.writerow([img_path,complexity,harmony])
-            writer.writerow([img_path,harmony])
+            # writer.writerow([img_path,harmony])
+            writer.writerow([img_path, complexity])
     except Exception as e:
         print(f"Error processing image {img_path}: {e}")
         continue

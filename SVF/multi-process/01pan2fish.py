@@ -89,7 +89,7 @@ def main():
     image_types = ('.png', '.jpg', '.jpeg', '.bmp', '.gif')
     img_paths = []
     
-    root_dir = r'e:\work\sv_huang_g\街景全景图\ade_20k_rgb'
+    root_dir = r'E:\work\sv_huang_g\test - 副本\ade_20k_rgb'
     
     for root, dirs, files in os.walk(root_dir):
         for file in files:

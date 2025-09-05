@@ -27,7 +27,8 @@ def make_pudong_gov_request(url):
     # 获取网页内容
     response = requests.get(url, headers=headers)
     response.raise_for_status()
-    html_content = response.text.encode('latin-1').decode('utf-8')
+    # html_content = response.text.encode('latin-1').decode('utf-8')
+    html_content = response.text
     
     # 正则表达式匹配<li>标签并提取href、title和span内容
     pattern = re.compile(

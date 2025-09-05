@@ -1,13 +1,13 @@
 import geopandas as gpd
 
-shp_file_path = r'e:\work\sv_xiufenganning\地理数据\Export_Output_4_svi_data_gcj_05.shp'  # 替换为你的SHP文件路径
+shp_file_path = r'e:\work\sv_pangpang\4_tree_species_deeplearning\GIS_data\CoS_GSV_30m_points.shp'  # 替换为你的SHP文件路径
 gdf = gpd.read_file(shp_file_path)
 
-print(gdf.columns)
+# print(gdf.columns)
 print(gdf.columns.tolist())
-# print(gdf.shape)
-# print(gdf.head())
-print(gdf)
+print(gdf.shape)
+print(gdf.head())
+# print(gdf)
 # print(gdf.crs)
 # print(gdf['geometry'].head())
 

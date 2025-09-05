@@ -6,7 +6,8 @@ from tqdm import tqdm
 def extracted_arch(ss_rgb_img_paths,ss_rgb_image_folder,sv_image_folder,sv_tree_folder):
     for i,ss_rgb_image_path in enumerate(tqdm(ss_rgb_img_paths)):
 
-        sv_image_path = ss_rgb_image_path.replace(ss_rgb_image_folder,sv_image_folder).replace('png','jpg')
+        # sv_image_path = ss_rgb_image_path.replace(ss_rgb_image_folder,sv_image_folder).replace('png','jpg')
+        sv_image_path = ss_rgb_image_path.replace(ss_rgb_image_folder,sv_image_folder)
         if not os.path.isfile(sv_image_path):
             continue
 
@@ -58,7 +59,7 @@ if __name__ == "__main__":
     ss_rgb_img_paths = []
     ss_rgb_img_names = []
     # 语义分割色块路径
-    ss_rgb_image_folder =r'D:\ProgramData\GitHub\Fi-Mao-Tech\citycolorImpression\ss_rgb'
+    ss_rgb_image_folder =r'e:\work\sv_pangpang\test\ade_20k\ade_20k_语义分析_色块图'
 
     for root, dirs, files in os.walk(ss_rgb_image_folder):
         for file in files:
@@ -68,8 +69,9 @@ if __name__ == "__main__":
                 ss_rgb_img_names.append(file)
                 
     # 街景图像文件路径
-    sv_image_folder =r'D:\ProgramData\GitHub\Fi-Mao-Tech\citycolorImpression\images-0'
-    sv_tree_folder =r'D:\ProgramData\GitHub\Fi-Mao-Tech\citycolorImpression\images-0_tree_out'
+    # sv_image_folder =r'e:\work\sv_pangpang\test\svi_pano'
+    sv_image_folder =r'e:\work\sv_pangpang\CoS_30m_pano_cut'
+    sv_tree_folder =r'e:\work\sv_pangpang\test\tree_out'
 
     extracted_arch(ss_rgb_img_paths,ss_rgb_image_folder,sv_image_folder,sv_tree_folder)
 

@@ -73,11 +73,11 @@ def project_image_to_cylinder(image_path, output_path='cylinder_projection.png',
 
 # 示例使用
 if __name__ == "__main__":
-    input_image = r"D:\Users\mslne\Documents\GitHub\Fi-Mao-Tech\sviPan2Cyli\temp\10512.jpg"
+    input_image = r"e:\work\sv_huang_g\test\cylinder_sphere\10512_ss_svf_mask.png"
    
     start_time = time.perf_counter()
     for azimuth in [0,90,180,270]:
-        output_image = f'D:/Users/mslne/Documents/GitHub/Fi-Mao-Tech/sviPan2Cyli/temp/custom_cylinder_{azimuth}.png'
+        output_image = f'e:/work/sv_huang_g/test/cylinder_sphere/10512_ss_svf_mask_cylinder_{azimuth}.png'
         project_image_to_cylinder(input_image, output_image,azimuth=azimuth, elevation=20,height=3.5, radius=1.45)
     
     # 结束计时
