@@ -14,7 +14,7 @@ def move_folders_to_parent(source_path):
         return
     
     # 获取上一级目录路径
-    parent_path = r'g:\stree_view\tar_0334'
+    parent_path = r'g:\stree_view'
     
     # 获取源目录下的所有项目
     items = os.listdir(source_path)
@@ -87,7 +87,7 @@ def merge_folders(source_dir, target_dir):
 # 使用示例
 if __name__ == "__main__":
     # 指定源目录路径
-    source_directory = r"g:\stree_view\tar_04410"
+    source_directory = r"E:\stree_view\tar_08815"
     
     move_folders_to_parent(source_directory)
     

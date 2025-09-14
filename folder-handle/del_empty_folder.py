@@ -41,7 +41,7 @@ def remove_empty_folders(path):
 
 # 使用示例
 if __name__ == "__main__":
-    folder_path = r'Y:\GOA-项目公示数据\建设项目公示信息'
+    folder_path = r'E:'
     if os.path.isdir(folder_path):
         remove_empty_folders(folder_path)
         print("操作完成")

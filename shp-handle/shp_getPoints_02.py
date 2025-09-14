@@ -72,7 +72,7 @@ def process_geometry(row,interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'f:\立方数据\2025年道路数据\【立方数据学社】台湾省\台湾省.shp',
+    r'd:\work\shanghai\_network.shp',
 ]
 
 for file_path in shape_files:

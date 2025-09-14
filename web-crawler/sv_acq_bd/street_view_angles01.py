@@ -166,11 +166,11 @@ def main(csv_path,folder_out_path):
     for index, row in tqdm(df.iterrows()):
         # if index not in [1353,4751,5594,8680]:
         #     continue
-        if index <= 2333:
-            continue
-        if index >2400:
-            continue
-        print(df.shape[0],index)
+        # if index <= 2333:
+        #     continue
+        # if index >2400:
+        #     continue
+        # print(df.shape[0],index)
 
         # 1、lat是“latitude”的缩写，纬度
         # 2、lng是“longitude”的缩写，经度
@@ -237,7 +237,8 @@ def main(csv_path,folder_out_path):
                     # save_file_path = pic_path + '/' + str(count)+'_'+ str(id)+'_' +str(lng)+'_' +str(lat)+ '_' +timeLine+ '.jpg'
                     # save_file_path = pic_path + '/' + str(Id)+'_' + str(ORIG_FID)+'_'+str(lng)+ '_'+str(lat)+ '_' + str(option)+ '_' +timeLine+ '.jpg'
                     # save_file_path = pic_path + '/' + str(index)+'_'+str(lng)+ '_'+str(lat)+ '_' + str(int(option))+ '_' +timeLine+ '.jpg'
-                    save_file_path = pic_path + '/' + str(int(row['index']))+'_'+str(lng)+ '_'+str(lat)+ '_' + str(int(option))+ '_' +timeLine+ '.jpg'
+                    # save_file_path = pic_path + '/' + str(int(row['index']))+'_'+str(lng)+ '_'+str(lat)+ '_' + str(int(option))+ '_' +timeLine+ '.jpg'
+                    save_file_path = pic_path + '/' + str(['index'])+'_'+str(lng)+ '_'+str(lat)+ '_' + str(int(option))+ '_' +timeLine+ '.jpg'
                     # save_file_path = pic_path + '/' + str(count)+'_'+ str(ORIG_FID)+ '_' +timeLine+ '.jpg'
                     # print(save_file_path,'下载完成')
                     # count+=1
@@ -278,7 +279,7 @@ resolution_ratio = 4
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\sv_zanmeitaiyang\_netroad_100m_Spatial.csv'  # 需要爬取的点
-    folder_out_path = r'e:\work\sv_zanmeitaiyang'  # 保存街景文件
+    csv_path = r'd:\work\shanghai\_network_10m_unique.csv'  # 需要爬取的点
+    folder_out_path = r'd:\work\shanghai\sv_degrees'  # 保存街景文件
 
     main(csv_path,folder_out_path)

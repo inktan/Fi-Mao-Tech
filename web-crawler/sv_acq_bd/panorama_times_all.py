@@ -103,10 +103,12 @@ def main(csv_path,folder_out_path):
 
     print(df.shape)
     for index, row in tqdm(df.iterrows()):
-        if index <= 1400:
+        if index%20!=0:
             continue
-        if index > 3000:
-            continue
+        # if index <= 1400:
+        #     continue
+        # if index > 3000:
+        #     continue
         print(df.shape[0],index)
 
         # 1、lat是“latitude”的缩写，纬度
@@ -115,10 +117,10 @@ def main(csv_path,folder_out_path):
         # print(row)
         # id = int(row['id'])
         # osm_id = row['osm_id']
-        # lng = row['longitude']
-        # lat = row['latitude']
-        lng = row['lon']
-        lat = row['lat']
+        lng = row['longitude']
+        lat = row['latitude']
+        # lng = row['lon']
+        # lat = row['lat']
         # mame_2 = row['name_2']
         
         try:
@@ -181,7 +183,7 @@ resolution_ratio = 4
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'e:\work\sv_kkkkatrina\街景数据点位（0723）\points.csv'  # 需要爬取的点
-    folder_out_path = r'e:\work\sv_kkkkatrina\sv_pan00'  # 保存街景文件
+    csv_path = r'd:\work\shanghai\_network_10m_unique.csv'  # 需要爬取的点
+    folder_out_path = r'd:\work\shanghai\sv_pan00'  # 保存街景文件
 
     main(csv_path,folder_out_path)
