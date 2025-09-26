@@ -72,7 +72,7 @@ def process_geometry(row,interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'f:\立方数据\2025年道路数据\【立方数据学社】台湾省\台湾省.shp',
+    r'e:\work\sv_huammengmaomao\冲绳\_network01.shp',
 ]
 
 for file_path in shape_files:
@@ -82,7 +82,7 @@ for file_path in shape_files:
     gdf = gpd.read_file(shp_file_path)
     
     # 应用函数并创建DataFrame
-    interval = 10
+    interval = 20
     results = gdf.apply(process_geometry, axis=1, interval=interval).explode()
     points_df = pd.DataFrame(list(results), columns=['osm_id', 'longitude', 'latitude'])
     # points_df = points_df.drop(columns=['geometry'])
@@ -101,8 +101,11 @@ for file_path in shape_files:
     # df_unique = points_df.drop_duplicates(subset=['id'])
     # 打印去重后的数据行数
     print(f'去重后共有 {points_df.shape} 行数据')
+    df = df.drop(columns=['geometry'])
+
     points_df.to_csv(shp_file_path.replace('.shp',f'_{interval}m_unique.csv') , index=False)
-    raise('程序中断，检查数据')
+    continue
+    # raise('程序中断，检查数据')
 
     # 检查 result_gdf 的类型
     print(type(points_df))

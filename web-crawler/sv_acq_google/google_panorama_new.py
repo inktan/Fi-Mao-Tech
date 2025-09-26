@@ -210,7 +210,6 @@ def get_panorama(pano_id: str, zoom: int = 1) -> Image.Image:
     """
     Downloads a streetview panorama.
     """
-
     tile_width = 512
     tile_height = 512
 

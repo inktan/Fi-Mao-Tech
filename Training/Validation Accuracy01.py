@@ -31,23 +31,13 @@ def simulate_model_training(base_acc, num_epochs=300):
 
 epochs = 500
 models = {
-    'ResNet50': simulate_model_training(0.70, epochs),
-    'RegNet-Y-16GF': simulate_model_training(0.71, epochs),
-    'ViT-B/16': simulate_model_training(0.73, epochs),
-    'EfficientNet-B7': simulate_model_training(0.75, epochs),
-    'Swin-B': simulate_model_training(0.78, epochs),
-    'ConvNeXt-L': simulate_model_training(0.82, epochs)
+    'ResNet50': simulate_model_training(0.581, epochs),
+    'RegNet-Y-16GF': simulate_model_training(0.593, epochs),
+    'ViT-B/16': simulate_model_training(0.61, epochs),
+    'EfficientNet-B7': simulate_model_training(0.63, epochs),
+    'Swin-B': simulate_model_training(0.65, epochs),
+    'ConvNeXt-L': simulate_model_training(0.697, epochs)
 }
-
-# 将上面的模型修改为 ResNet50
-# 将上面的模型修改为 RegNet-Y-16GF
-# 将上面的模型修改为 ViT-B/16
-# 将上面的模型修改为 EfficientNet-B7
-# 将上面的模型修改为 Swin-B
-# 将上面的模型修改为 ConvNeXt-L
-# 将上面的模型修改为 ConvNeXt-B
-# 将上面的模型修改为 ConvNeXt-S
-# 将上面的模型修改为 ConvNeXt-T 
 
 plt.figure(figsize=(24, 14), dpi=200)
 
@@ -95,7 +85,7 @@ plt.xlabel('Training Epochs', fontsize=24)  # 坐标轴标签放大
 plt.ylabel('Accuracy', fontsize=24)
 
 plt.xlim(1, epochs)
-plt.ylim(0.6, 0.85)
+plt.ylim(0.30, 0.75)
 plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
 plt.gca().yaxis.set_major_formatter('{x:.0%}')
 

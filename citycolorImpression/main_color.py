@@ -45,7 +45,7 @@ def rgb2hsv(rgb):
     return (h, s, v)
 
 def getPixData(img_path):
-    image = Image.open(img_path)
+    image = Image.open(img_path).convert('RGB')
     pixels = np.array(image)
     pixData = pixels.reshape(pixels.shape[0] * pixels.shape[1], -1)
     pixData = [row for row in pixData if int(row[0])+int(row[1])+int(row[2]) < 759]
@@ -58,7 +58,7 @@ def getPixData(img_path):
     return pixData
 
 def classify_pixels(image_path, colors):
-    image = Image.open(image_path)
+    image = Image.open(image_path).convert('RGB')
     pixels = np.array(image)
     height, width, _ = pixels.shape
     pixels = pixels.reshape(height * width, -1)
@@ -70,7 +70,7 @@ def classify_pixels(image_path, colors):
     return color_ratios
 
 def color_range(image_path):
-    image = Image.open(image_path)
+    image = Image.open(image_path).convert('RGB')
     pixels = np.array(image)
     height, width, _ = pixels.shape
     min_value = 0
@@ -128,7 +128,7 @@ def cityColorThemes(imgPaths,imgNames):
     
 def show_cityColor_impression(image_path,imgName,quantize,ratios,counts):
     fig = plt.figure(figsize=(15, 5))
-    grid = plt.GridSpec(1, 4, hspace=0, wspace=0,width_ratios=[1,0.104, 3.2, 1])
+    grid = plt.GridSpec(1, 4, hspace=0, wspace=0,width_ratios=[1,0.104, 4.82, 1])
     ax1 = fig.add_subplot(grid[0, 0])
     colors = ['#000000', '#4a4a4a', '#707070', '#8a8a8a', '#adadad', '#c2c2c2', '#cfcfcf', '#f0f0f0']
     rects1 = ax1.barh(range(len(counts)), [x/sum(counts) for x in counts], height=0.6,color=colors)
@@ -140,10 +140,10 @@ def show_cityColor_impression(image_path,imgName,quantize,ratios,counts):
     ax1.spines['right'].set_visible(False)
     ax1.spines['left'].set_visible(False)
     ax2 = fig.add_subplot(grid[0, 1])
-    ax2.imshow(plt.imread('./colors.png'))
+    ax2.imshow(plt.imread(r'Y:\GOA-AIGC\98-goaTrainingData\ArchOctopus\github\Fi-Mao-Tech\citycolorImpression\colors.png'))
     ax2.axis('off')
     ax3 = fig.add_subplot(grid[0, 2])
-    image = Image.open(image_path)  
+    image = Image.open(image_path).convert('RGB')
     image_np = np.array(image)  
     ax3.imshow(image_np)
     ax3.axis('off')
@@ -161,7 +161,7 @@ def show_cityColor_impression(image_path,imgName,quantize,ratios,counts):
     ax1.set_anchor('E')
     ax4.set_anchor('W')
 
-    tmp = image_path.replace('sv_pan_01','color_analy')
+    tmp = image_path.replace('svi','color_analy')
     folder_path = os.path.dirname(tmp)
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
@@ -179,8 +179,8 @@ def show_cityColor_impression(image_path,imgName,quantize,ratios,counts):
 if __name__ == "__main__":
     
     # 文件夹路径
-    folder_path = r'E:\work\sv_123\sv_pan_01' # 需要分析的文件夹路径
-    image_ss_csv = r'E:\work\sv_123\main_color_sv_pan_color.csv'
+    folder_path = r'e:\work\sv_jiaman\原住民200\svi' # 需要分析的文件夹路径
+    image_ss_csv = r'e:\work\sv_jiaman\原住民200\svi\main_color_sv_pan_color.csv'
 
     img_paths = []
     img_names = []

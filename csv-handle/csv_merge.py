@@ -31,9 +31,8 @@ combined_df = pd.DataFrame()
     # 按照列方向进行排序
     # combined_df = pd.concat([combined_df, df[need_columns]], axis=1)
 
-csv_paths=[
-    r'e:\work\sv_xiufenganning\20250819\ade_20k_语义00分割比例数据_03-_.csv',
-    r'e:\work\sv_xiufenganning\20250819\ade_20k_语义分割比例数据_01-_.csv',
+csv_paths=[ r'f:\立方数据\2025年道路数据\【立方数据学社】台湾省\台湾省_15m_Spatial.csv',
+            r'f:\立方数据\2025年道路数据\【立方数据学社】台湾省\台湾省_15m_unique01.csv'
 ]
 
 for file in csv_paths:
