@@ -5,14 +5,14 @@ from coord_convert import transform
 import matplotlib.pyplot as plt
 # 从google map量去的坐标为gcj-2，需要转为wgs84
 coords = [
-(127.0425641373654,27.222612386621773),
-(128.97800117631277,27.212343057322926),
-(128.8186394153493,25.757087779323715),
-(127.09568472435322,25.769567845488016),
+(121.47477118290327,31.230798566555656),
+(121.47970246225134,31.23052036436087),
+(121.47851589309386,31.22636359873264),
+(121.47224493889054,31.227874675106683),
 ]
-# 在google map上获取的国内经纬度点需要从 GCJ-02 坐标转换为 WGS84
-# coords = [transform.gcj2wgs(lng, lat) for lng, lat in coords]
-polygon = Polygon(coords)
+# 将 GCJ-02 坐标转换为 WGS84 坐标
+wgs_coords = [transform.gcj2wgs(lng, lat) for lng, lat in coords]
+polygon = Polygon(wgs_coords)
 fig, ax = plt.subplots(figsize=(10, 8))
 x, y = polygon.exterior.xy
 ax.fill(x, y, alpha=0.5, fc='blue', ec='black')
@@ -31,5 +31,5 @@ G = ox.graph_from_polygon(polygon, network_type='all')
 gdf = ox.graph_to_gdfs(G, nodes=False)
 
 # 定义保存 SHP 文件的文件路径
-file_path = r"E:\work\sv_huammengmaomao\冲绳\_network01.shp"
+file_path = r"D:\work\shanghai\_network.shp"
 gdf.to_file(file_path)

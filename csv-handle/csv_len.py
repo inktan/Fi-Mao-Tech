@@ -25,14 +25,9 @@ pd.set_option('display.max_colwidth', None) # 显示完整的列内容
 
 import pandas as pd
 
-csv_path = r'e:\work\sv_huammengmaomao\冲绳\points.csv'
+# 读取CSV文件（替换为你的文件路径）
+csv_path = r'e:\work\sv_zhoujunling\20250713\data\广州.csv'
 df = pd.read_csv(csv_path)
-
-print(csv_path)
-
-print(df.columns)
-print(df.head())
-print(df.shape)
 
 # 筛选目标年份（2016, 2019, 2021, 2023）
 # target_years = [2016, 2019, 2021, 2023]
@@ -57,4 +52,4 @@ print(df.shape)
 # )
 
 # print(pivot_table)
-
+print(df)

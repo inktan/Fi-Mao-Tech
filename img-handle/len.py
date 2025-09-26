@@ -1,31 +1,31 @@
 import os
 import csv
 
-img_paths = []
+# img_paths = []
 img_names = []
 accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
-folder_path = r'E:\work\sv_quanzhou\sv_pan'
+folder_path = r'E:\stree_view'
 
-rate_list = ['index','osm_id','longitude','latitude','angle','date']
-image_ss_csv = r'E:\work\sv_quanzhou\sv_pan_names.csv'
-with open('%s' % image_ss_csv ,'w',encoding='utf-8' ,newline='') as f:
-    writer = csv.writer(f)
-    writer.writerow(rate_list)
+# rate_list = ['index','osm_id','longitude','latitude','angle','date']
+# image_ss_csv = r'E:\work\sv_quanzhou\sv_pan_names.csv'
+# with open('%s' % image_ss_csv ,'w',encoding='utf-8' ,newline='') as f:
+#     writer = csv.writer(f)
+#     writer.writerow(rate_list)
 
 for root, dirs, files in os.walk(folder_path):
     for filename in files:
         if filename.endswith(accepted_formats):
             file_path = os.path.join(root, filename)
-            img_paths.append(file_path)
+            # img_paths.append(file_path)
             img_names.append(filename)
             
-            rate_list = filename.split('_')
-            rate_list[-1] = rate_list[-1].split('.')[0]
+            # rate_list = filename.split('_')
+            # rate_list[-1] = rate_list[-1].split('.')[0]
 
-            with open('%s' % image_ss_csv ,'a',encoding='utf-8' ,newline='') as f:
-                writer = csv.writer(f)
-                writer.writerow(rate_list)
+            # with open('%s' % image_ss_csv ,'a',encoding='utf-8' ,newline='') as f:
+            #     writer = csv.writer(f)
+            #     writer.writerow(rate_list)
 
 print(len(img_names))
 # for i in img_paths:
