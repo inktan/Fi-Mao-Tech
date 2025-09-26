@@ -53,8 +53,9 @@ def remove_black_images(img_paths):
 
             black_pixel_ratio = num_black_pixels / total_pixels
             # 判断黑色像素比例是否大于0.28
-            if black_pixel_ratio > 0.12:
+            if black_pixel_ratio > 0.30:
                 os.remove(file_path)
+                print(file_path)
 
         except Exception as e:
             continue
@@ -68,8 +69,7 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'D:\BaiduNetdiskDownload\sv_j_ran\sv_google_20240903\sv_pan',
-        # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
+        r'E:\stree_view',
         ]
     for folder_path in folder_path_list:
         for root, dirs, files in os.walk(folder_path):

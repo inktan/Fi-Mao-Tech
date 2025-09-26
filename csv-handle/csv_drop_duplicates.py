@@ -1,6 +1,6 @@
 import pandas as pd
 
-ids_csv_path = r'e:\建设项目公示信息\上海\闵行区\建设项目公示信息表_2025.csv'
+ids_csv_path = r'd:\work\sv_yj\sv_phoenix\merged_data_03.csv'
 
 ids_df = pd.read_csv(ids_csv_path)
 print(ids_df)
@@ -9,12 +9,12 @@ unique_count = ids_df.shape[0]
 print(f'原数据有 {ids_df.shape} 行数据')
 
 # df_unique = ids_df.drop_duplicates(subset=['longitude', 'latitude'])
-# df_unique = ids_df.drop_duplicates(subset=['shp_path'])
-df_unique = ids_df.drop_duplicates(subset=['项目名称'])
+df_unique = ids_df.drop_duplicates(subset=['img_id'])
+# df_unique = ids_df.drop_duplicates(subset=['项目名称'])
 # 打印去重后的数据行数
 print(f'去重后共有 {df_unique.shape} 行数据')
 
-output_csv_path =  r'e:\建设项目公示信息\上海\闵行区\建设项目公示信息表_2025.csv'
+output_csv_path = r'd:\work\sv_yj\sv_phoenix\merged_data_04.csv'
 df_unique.to_csv(output_csv_path, index=False)
 
 # ids_csv_path = r'Y:\GOA-AIGC\02-Model\安装包\stru\sv_拉萨_brightness_saturation.csv'

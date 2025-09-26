@@ -4,7 +4,7 @@ import glob
 
 def extract_tar_files(pattern="*.tar"):
     tar_files = []
-    for root, dirs, files in os.walk(r'f:'):
+    for root, dirs, files in os.walk(r'E:\street_view'):
     # for root, dirs, files in os.walk(r'e:\stree_view'):
         if 'sv_pano' in root:
             continue
