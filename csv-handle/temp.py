@@ -1,30 +1,27 @@
-import os
 import pandas as pd
 
-# 指定文件夹路径（替换为你的目标文件夹）
-folder_path = r"E:\work\sv_zhaolu\roads"  # 例如："./data"
+# 读取数据
+df = pd.read_csv(r'd:\work\sv_yj\0920\0530_5_NY_standpoint_final_with_image_id_02.csv')
 
-# 遍历文件夹中的所有文件
-for filename in os.listdir(folder_path):
-    if filename.endswith("_unique_Spatial_Balance.csv"):
-        file_path = os.path.join(folder_path, filename)
-        
-        # 读取 CSV 文件
-        df = pd.read_csv(file_path)
-        
-        # 检查是否有至少一列数据
-        if not df.empty:
-            # 获取当前第一列的列名
-            first_col = df.columns[0]
-            
-            # 修改第一列的列名为 "index"
-            df.rename(columns={first_col: "index"}, inplace=True)
-            
-            # 保存修改后的 CSV 文件（覆盖原文件）
-            df.to_csv(file_path, index=False)
-            
-            print(f"已修改文件: {filename}，第一列 '{first_col}' 改为 'index'")
-        else:
-            print(f"文件 {filename} 无数据，跳过处理")
+# 获取所有列名
+all_columns = df.columns.tolist()
 
-print("所有 CSV 文件处理完成！")
+# 要移动的列
+columns_to_move = ['image_id', 'image_name', 'image_path', 'panoid']
+
+# 从原列名列表中移除要移动的列
+remaining_columns = [col for col in all_columns if col not in columns_to_move]
+
+# 重新排列列顺序：其他列在前，要移动的列在后
+new_column_order = remaining_columns + columns_to_move
+
+# 重新排列列
+df_reordered = df[new_column_order]
+
+# 显示结果
+print("原始列顺序:", all_columns)
+print("新的列顺序:", new_column_order)
+print("\n处理后的数据前5行:")
+print(df_reordered.head())
+
+df_reordered.to_csv(r'd:\work\sv_yj\0920\0530_5_NY_standpoint_final_with_image_id_03.csv', index=False)
