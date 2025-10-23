@@ -227,25 +227,21 @@ def get_panorama(pano_id: str, zoom: int = 1) -> Image.Image:
 
 def main(output_):
 
-    gcj02_coords = [
-        [24.449373718777235, 118.33608852113734],
-        [24.442107045386212, 118.31471668061162],
-        [24.438512621978788, 118.32003818307183],
-        [24.42460280081694, 118.30682025760612],
-        [24.427291621427187, 118.30026423951662],
+    _coords = [
+        [33.24442144304853,-111.615594],
 
 ]
     # 转换为 WGS-84 坐标系
-    wgs84_coords = [gcj2wgs(lon,lat) for lat, lon in gcj02_coords]
-    count = len(wgs84_coords)
-    for index, row in tqdm(enumerate(wgs84_coords)):
+    # _coords = [gcj2wgs(lon,lat) for lat, lon in _coords]
+    count = len(_coords)
+    for index, row in tqdm(enumerate(_coords)):
         # if index <= -10:
         #     continue
         # if index >750000000:
         #     continue
         print(count, index)
         try:
-            resp = search_request(float(row[1]), float(row[0]))
+            resp = search_request(float(row[0]), float(row[1]))
             panoids = panoids_from_response(resp.text)
             # print(panoids)
         except Exception as e:
@@ -271,6 +267,8 @@ def main(output_):
             except Exception as e :
                 print(f'error:{e}')
                 continue
+            
+                img_save_path = output_+f"/{int(row('index'))}_{int(row['osm_id'])}_{row['longitude']}_{row['latitude']}_{int(pano['heading'])}_{year}_{month}.jpg"
 
 import os
 

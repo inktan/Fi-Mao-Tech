@@ -291,7 +291,7 @@ def merge_tiles(
         (int(min(cropped2.width, cropped2.height)), int(min(cropped2.width, cropped2.height)))
     )
 
-
+    os.makedirs(os.path.dirname(output), exist_ok=True)
     cropped2.save(output)
     # result.save(output)
 
@@ -358,7 +358,7 @@ if __name__ == '__main__':
 
     rotation = 0
     # size = 200
-    size = 300
+    size = 5000
     from_center = True
     show_progress = True
     
@@ -368,6 +368,9 @@ if __name__ == '__main__':
         # 杭州天目里
         lon = 120.0946157506
         lat = 30.2688266736
+
+        lon = 118.05929726762608
+        lat = 24.455599238321398
         # 从google map量去的坐标为gcj-2，需要转为wgs84
         coords = [
         (lon,lat),

@@ -1,14 +1,6 @@
 import geopandas as gpd
 
-shp_file_path = r'e:\work\sv_pangpang\4_tree_species_deeplearning\GIS_data_32633\CoS_GSV_30m_points.shp'  # 替换为你的SHP文件路径
-gdf = gpd.read_file(shp_file_path)
-
-# print(gdf.columns)
-print(gdf.columns.tolist())
-print(gdf.shape)
-print(gdf.head(20))
-
-shp_file_path = r'e:\work\sv_pangpang\4_tree_species_deeplearning\GIS_data\CoS_streettree_data.shp'  # 替换为你的SHP文件路径
+shp_file_path = r'f:\立方数据\【3】乡镇数据集\2023年全国乡镇行政边界（不分省）\乡镇级行政区划合集.shp'  # 替换为你的SHP文件路径
 gdf = gpd.read_file(shp_file_path)
 
 # print(gdf.columns)
@@ -31,3 +23,7 @@ print(gdf.head())
 #     print("唯一 fclass 值:", unique_fclasses)
 # else:
 #     print("该 Shapefile 没有 'fclass' 字段！")
+
+
+
+

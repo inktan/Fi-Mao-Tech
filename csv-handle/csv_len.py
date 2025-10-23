@@ -72,7 +72,7 @@ csv_names = []
 accepted_formats = (".csv")
 
 csv_path_list =[
-    r'd:\work\sv_yj\sv_phoenix\merged_data_02.csv',
+    r'E:\work\sv_YJ\sv_20250901',
     ]
 for folder_path in csv_path_list:
     for root, dirs, files in os.walk(folder_path):
@@ -83,15 +83,16 @@ for folder_path in csv_path_list:
                 csv_names.append(file)
                 
 csv_paths = [
-    r'd:\work\sv_yj\sv_phoenix\phoenix_with_gl.csv',
-    ]        
+    r'e:\work\20250709_sv_michinen\20251021\points_suply01.csv',
+    ]
                 
 for csv_path in csv_paths:
-    df = pd.read_csv(csv_path)         
+    df = pd.read_csv(csv_path)
     print(csv_path)
-    print(df.columns)
+    # print(df.columns)
     print(df.shape)
     print(df.head())
+    print(df.tail())
     
     
     

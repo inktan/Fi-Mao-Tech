@@ -20,8 +20,7 @@ def split_csv_into_chunks(csv_file, num_chunks=24):
     remainder = total_rows % num_chunks
     
     # 创建目标文件夹
-    base_name = os.path.splitext(os.path.basename(csv_file))[0]
-    output_dir = f"{base_name}_chunks"
+    output_dir = r'/content/gdrive/MyDrive/temp/sv_chongsheng/split_csv'
     os.makedirs(output_dir, exist_ok=True)
     
     print(f"原始文件总行数: {total_rows}")
@@ -41,7 +40,7 @@ def split_csv_into_chunks(csv_file, num_chunks=24):
         chunk_df = df.iloc[start_idx:end_idx]
         
         # 生成输出文件名
-        output_file = os.path.join(output_dir, f"{base_name}_chunk_{i+1:02d}.csv")
+        output_file = output_dir +'/'+ f"_chunk_{i+1:02d}.csv"
         
         # 保存CSV文件（不包含索引）
         chunk_df.to_csv(output_file, index=False)
@@ -52,7 +51,7 @@ def split_csv_into_chunks(csv_file, num_chunks=24):
 # 使用示例
 if __name__ == "__main__":
     # 替换为你的CSV文件路径
-    csv_file_path = "your_large_file.csv"  # 修改为实际文件路径
+    csv_file_path = r"/content/gdrive/MyDrive/temp/sv_chongsheng/_network01_25m_unique.csv"  # 修改为实际文件路径
     
     # 调用函数分割文件
     split_csv_into_chunks(csv_file_path, num_chunks=24)

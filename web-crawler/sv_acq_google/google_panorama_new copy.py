@@ -255,7 +255,7 @@ def main(csv_path,output_):
                     # break
           
                 # img_save_path = output_+f"/{int(row['osm_id'])}_{row['longitude']}_{row['latitude']}_{pano['heading']}_{year}_{month}.jpg"
-                img_save_path = output_+f"/{int(index)}_{int(row['osm_id'])}_{row['longitude']}_{row['latitude']}_{pano['heading']}_{year}_{month}.jpg"
+                img_save_path = output_+f"/{int(index)}_{int(row['osm_id'])}_{row['longitude']}_{row['latitude']}_{int(pano['heading'])}_{year}_{month}.jpg"
                 
                 if os.path.exists(img_save_path):
                     continue

@@ -2,7 +2,7 @@ import shutil
 from tqdm import tqdm
 import os  
   
-base_destination = r'f:\temp\115416875443580499938'
+base_destination = r'D:\work'
 
 # 生成所有文件夹名称
 # folders = []
@@ -16,7 +16,7 @@ base_destination = r'f:\temp\115416875443580499938'
 #     folder_paths.append(dest_path)
     
 folder_paths = [
-   r'',
+   r'D:\work',
 ]
 
 for folder_path in folder_paths:

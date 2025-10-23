@@ -42,7 +42,7 @@ def download_and_merge_streetview(timeLineId, x_count, y_count, save_file_path):
                 print(f"Failed to download image at ({x}, {y}), status code: {response.status_code}")
     
     os.makedirs(os.path.dirname(save_file_path), exist_ok=True)
-    final_img.save(save_file_path) 
+    final_img.save(save_file_path)
     
 #获取街景对应ID
 def get_panoid(lng,lat):
@@ -82,9 +82,6 @@ def coord_convert(lng1,lat1):
         return transBmap.lnglattopoint(result[0],result[1])
  
 def main(csv_path,folder_out_path):
-    if os.path.exists(folder_out_path) == False:
-        os.mkdir(folder_out_path)
-
     # if(resolution_ratio == 3):
     #     ratio = 8
     # else:
@@ -102,9 +99,9 @@ def main(csv_path,folder_out_path):
     # df['name_2'] = df['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
 
     print(df.shape)
-    for index, row in tqdm(df.iterrows()):
-        if index%20!=0:
-            continue
+    for index, row in tqdm(df.iterrows(),total=df.shape[0]):
+        # if index%20!=0:
+        #     continue
         # if index <= 1400:
         #     continue
         # if index > 3000:
@@ -141,7 +138,7 @@ def main(csv_path,folder_out_path):
             # filtered_panoramas = [p for p in panoramas  if p.month in [6, 7, 8]]
             # filtered_panoramas = [p for p in filtered_panoramas if 2015 < p.year < 2019]
             filtered_panoramas = panoramas
-            filtered_panoramas = [p for p in filtered_panoramas if p.year == 2021]
+            # filtered_panoramas = [p for p in filtered_panoramas if p.year == 2021]
             # if len(filtered_panoramas) == 0:
             #     filtered_panoramas = panoramas
 
@@ -152,21 +149,21 @@ def main(csv_path,folder_out_path):
                 year = filtered_panoramas[i].year
                 month = filtered_panoramas[i].month
 
-                save_file_path = folder_out_path +'/sv_pan01/' + str(int(index)) + '_'+ str(lng) + '_'+ str(lat) +'_'+ str(heading) +'_'+ str(year) +'_'+ str(month) + '.jpg'
+                save_file_path = folder_out_path +'/' + str(int(index)) + '_'+ str(lng) + '_'+ str(lat) +'_'+ str(heading) +'_'+ str(year) +'_'+ str(month) + '.jpg'
                 # print(save_file_path,'下载完成')
                 # print('count:',count)
                 # break
 
-                if os.path.exists(save_file_path):
-                    print(save_file_path,'已存在')
-                    continue
+                # if os.path.exists(save_file_path):
+                #     print(save_file_path,'已存在')
+                    # continue
                     # break
                                 
                 download_and_merge_streetview(pano_id,x_count,y_count,save_file_path)
 
                 print(save_file_path,'下载完成')
-                continue
-                # break
+                # continue
+                break
 
         except Exception as e:
             print(f'error:{e}')
@@ -175,15 +172,24 @@ def main(csv_path,folder_out_path):
             # with open(folder_out_path + '/error_data.csv', 'a', encoding='utf-8') as f:
             #     f.write(mistake)
 
+    
+# 1 wgs84
 coordinate_point_category = 1
+
+# 5 bd09
 # coordinate_point_category = 5
+
+# 6 gcj02
 # coordinate_point_category = 6
-# 分辨率 "3 - 2048*1096   4 - 4096*2048"
+
+# 分辨率 "3 - 2048*1096   4 - 4096*2048   4 - 8192*4096"
+# resolution_ratio = 3
 resolution_ratio = 4
+# resolution_ratio = 5
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'd:\work\shanghai\_network_10m_unique.csv'  # 需要爬取的点
-    folder_out_path = r'd:\work\shanghai\sv_pan00'  # 保存街景文件
+    csv_path = r'e:\work\20250709_sv_michinen\20251021\points_suply01.csv'  # 需要爬取的点
+    folder_out_path = r'e:\work\20250709_sv_michinen\20251021\svi\svi_pan03'  # 保存街景文件
 
     main(csv_path,folder_out_path)
