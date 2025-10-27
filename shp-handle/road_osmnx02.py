@@ -13,15 +13,16 @@ import math
 import time
 import os
 import pandas as pd
+from shapely.ops import unary_union
 
 # 1. 读取原始 SHP 文件并合并所有多边形
-input_shp = r"f:\立方数据\202405更新_2024年省市县三级行政区划数据（审图号：GS（2024）0650号）\shp格式的数据（调整过行政区划代码，补全省市县信息）\县.shp"  # 替换为你的输入文件路径
+input_shp = r"e:\work\20250709_sv_michinen\20251021\乡镇级行政区划合集02.shp"  # 替换为你的输入文件路径
 gdf = gpd.read_file(input_shp)
 
 # 基本绘图
-gdf.plot()
-plt.title("SHP文件几何图形")
-plt.show()
+# gdf.plot()
+# plt.title("SHP文件几何图形")
+# plt.show()
 
 # 确保是WGS84 (EPSG:4326)坐标系
 if gdf.crs != 'EPSG:4326':
@@ -36,11 +37,15 @@ if not all(gdf.geometry.type.isin(['Polygon', 'MultiPolygon'])):
 # merged_polygon = gdf.unary_union
 
 # 2. 筛选 "县名列" 为 "蒸湘区" 的行
-filtered_gdf = gdf[gdf["县名"] == "蒸湘区"]
+# filtered_gdf = gdf[gdf["县名"] == "锦江区"]
+filtered_gdf = gdf
+
+# 合并所有几何体为一个多边形
+merged_polygon = unary_union(filtered_gdf.geometry)
 
 # 3. 获取筛选后的 Polygon 数据
-if not filtered_gdf.empty:
-    merged_polygon = filtered_gdf.geometry.iloc[0]  # 获取第一个匹配的 Polygon
+# if not filtered_gdf.empty:
+#     merged_polygon = filtered_gdf.geometry.iloc[0]  # 获取第一个匹配的 Polygon
 
 # 可选：可视化
 filtered_gdf.plot()  # 使用 matplotlib 绘制图形
@@ -55,7 +60,7 @@ G = ox.graph_from_polygon(merged_polygon, network_type='all')
 gdf_edges = ox.graph_to_gdfs(G, nodes=False)
 
 # 定义保存路径
-output_shp = r'E:\work\sv_zanmeitaiyang\_netroad.shp'
+output_shp = r'e:\work\20250709_sv_michinen\20251021\乡镇级行政区划合集02_netroad.shp'
 # output_shp = input_shp.replace('.shp','_netroad.shp')
 
 # 确保输出目录存在

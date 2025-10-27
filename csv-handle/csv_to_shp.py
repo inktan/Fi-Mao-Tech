@@ -2,7 +2,7 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point
 
-input_file = r'd:\work\sv_taiwan\points_tw.csv'
+input_file = r'e:\work\20250709_sv_michinen\result_road_100m_unique.csv'
 # df = pd.read_csv(input_file, encoding='GBK')
 df = pd.read_csv(input_file)
 # df = pd.read_excel(input_file)

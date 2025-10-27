@@ -34,7 +34,7 @@ def extracted_arch(img_paths,img_names,extracted_ss_folder,extracted_sv_folder):
         elif ".jpeg" in img_path:
             img_path = img_path.replace(".jpeg",".png")
 
-        ss_rgb_path = img_path.replace('sv_pan00','ade_20k_语义分析_色块图')
+        ss_rgb_path = img_path.replace('svi_pan03','ade_20k\\ade_20k_语义分析_色块图')
         ss_pil_image = Image.open(ss_rgb_path)
         # 将图像转换为NumPy数组  
         ss_rgb_array = np.array(ss_pil_image)
@@ -61,11 +61,11 @@ def extracted_arch(img_paths,img_names,extracted_ss_folder,extracted_sv_folder):
         sv_result_image.save(tmp)
 
 if __name__ == "__main__":
-    image_folder =r'E:\work\sv_michinen\sv_pan\sv_pan00'
-    extracted_ss_folder = image_folder.replace('sv_pan00','_04_ss_extracted')
+    image_folder =r'e:\work\20250709_sv_michinen\20251021\svi\svi_pan03'
+    extracted_ss_folder = image_folder.replace('svi_pan03','ade_20k\_04_ss_extracted')
     if not os.path.exists(extracted_ss_folder):
         os.makedirs(extracted_ss_folder)
-    extracted_sv_folder = image_folder.replace('sv_pan00','_05_sv_extracted')
+    extracted_sv_folder = image_folder.replace('svi_pan03','ade_20k\_05_sv_extracted')
     if not os.path.exists(extracted_sv_folder):
         os.makedirs(extracted_sv_folder)
         
@@ -93,4 +93,8 @@ if __name__ == "__main__":
         color_list.append(colors[i-1])
 
     extracted_arch(img_paths,img_names,extracted_ss_folder,extracted_sv_folder)
+    
 
+
+
+    

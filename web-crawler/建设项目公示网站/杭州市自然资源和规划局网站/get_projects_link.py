@@ -140,7 +140,7 @@ def download_images(soup, img_dir, headers, project_name):
 
 # 使用示例
 for page in range(1, PageCount + 1):
-    if page > 1:
+    if page > 11:
         # 构造URL
         url = f"https://ghzyj.sh.gov.cn/gszqyj/index_{page}.html"
     else:

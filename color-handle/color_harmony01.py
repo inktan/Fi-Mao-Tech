@@ -109,7 +109,6 @@ def calculate_color_harmony_(image_path, n_clusters=10):
     harmony /= (n_clusters * (n_clusters - 1) / 2)
     return harmony
 
-
 img_paths = []
 img_names = []
 accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
@@ -125,7 +124,8 @@ color_complexity_harmony_csv = r'E:\work\sv_michinen\sv_pan\_05_sv_extracted\色
 with open(color_complexity_harmony_csv,'w' ,newline='') as f:
     writer = csv.writer(f)
     # writer.writerow(['img_path','complexity','harmony'])
-    writer.writerow(['img_path','色彩协调度'])
+    # writer.writerow(['img_path','色彩协调度'])
+    writer.writerow(['img_path','色彩丰富度','色彩协调度'])
 
 for i,img_path in enumerate(tqdm(img_paths)):
     try:
@@ -140,7 +140,7 @@ for i,img_path in enumerate(tqdm(img_paths)):
         colors = kmeans.cluster_centers_  # 主色彩
         labels = kmeans.labels_  # 每个像素的标签
 
-        # complexity = calculate_color_complexity(image,kmeans, 10)
+        complexity = calculate_color_complexity(image,kmeans, 10)
         harmony = calculate_color_harmony(image,kmeans, 10)
         # print(complexity,harmony)
         # print(f"色彩复杂度: {complexity:.4f}")
@@ -148,8 +148,8 @@ for i,img_path in enumerate(tqdm(img_paths)):
         # break
         with open(color_complexity_harmony_csv,'a' ,newline='') as f:
             writer = csv.writer(f)
-            # writer.writerow([img_path,complexity,harmony])
-            writer.writerow([img_path,harmony])
+            writer.writerow([img_path,complexity,harmony])
+            # writer.writerow([img_path,harmony])
     except Exception as e:
         print(f"Error processing image {img_path}: {e}")
         continue
