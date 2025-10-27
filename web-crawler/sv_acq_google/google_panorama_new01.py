@@ -226,17 +226,11 @@ def get_panorama(pano_id: str, zoom: int = 1) -> Image.Image:
     return panorama
 
 def main(output_):
-
-    gcj02_coords = [
-        [24.449373718777235, 118.33608852113734],
-        [24.442107045386212, 118.31471668061162],
-        [24.438512621978788, 118.32003818307183],
-        [24.42460280081694, 118.30682025760612],
-        [24.427291621427187, 118.30026423951662],
-
+    wgs84_coords = [
+        [34.89310717553419, 136.61290039226003],
 ]
     # 转换为 WGS-84 坐标系
-    wgs84_coords = [gcj2wgs(lon,lat) for lat, lon in gcj02_coords]
+    # wgs84_coords = [gcj2wgs(lon,lat) for lat, lon in wgs84_coords]
     count = len(wgs84_coords)
     for index, row in tqdm(enumerate(wgs84_coords)):
         # if index <= -10:
@@ -245,11 +239,12 @@ def main(output_):
         #     continue
         print(count, index)
         try:
-            resp = search_request(float(row[1]), float(row[0]))
-            panoids = panoids_from_response(resp.text)
+            resp = search_request(float(row[0]), float(row[1]))
+            print(len(resp.text))
+            panoids = panoids_from_response(resp.text[0:20000])
             # print(panoids)
         except Exception as e:
-            # print(e)
+            print(e)
             continue
         if len(panoids)==0:
             continue
@@ -263,11 +258,11 @@ def main(output_):
             try :
                 img_save_path = output_+f"/{int(index)}_{row[1]}_{row[0]}_{pano['heading']}_{year}_{month}.jpg"
                 if os.path.exists(img_save_path):
-                  break
+                  continue
                 image = get_panorama(pano['panoid'],zoom)
                 image.save(img_save_path)
                 print("下载完成==>",img_save_path)
-                break
+                # break
             except Exception as e :
                 print(f'error:{e}')
                 continue
@@ -278,7 +273,7 @@ import os
 # 全景分辨率设置 1-512*1024; 2-1024*2048; 3-2048*4096; 4-4096*8192
 # 全景分辨率设置 1-512*1024; 2-7++*1536; 3-1024*3072; 4-2048*4096; 5-4096*8192
 zoom = 3
-output_ = r'C:\Users\wang.tan.GOA\Pictures\金门/sv_pan_zoom'+str(zoom)
+output_ = r'C:\Users\mslne\Downloads'
 
 if os.path.exists(output_) == False:
     os.makedirs(output_)

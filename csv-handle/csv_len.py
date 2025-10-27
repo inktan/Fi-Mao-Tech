@@ -72,7 +72,7 @@ csv_names = []
 accepted_formats = (".csv")
 
 csv_path_list =[
-    r'd:\work\sv_yj\sv_phoenix\merged_data_02.csv',
+    r'c:\Users\mslne\Desktop\_network01_10m_unique.csv',
     ]
 for folder_path in csv_path_list:
     for root, dirs, files in os.walk(folder_path):
@@ -83,7 +83,7 @@ for folder_path in csv_path_list:
                 csv_names.append(file)
                 
 csv_paths = [
-    r'd:\work\sv_yj\sv_phoenix\phoenix_with_gl.csv',
+    r'c:\Users\mslne\Desktop\_network01_20m_unique.csv',
     ]        
                 
 for csv_path in csv_paths:
@@ -92,6 +92,7 @@ for csv_path in csv_paths:
     print(df.columns)
     print(df.shape)
     print(df.head())
+    print(df.tail())
     
     
     

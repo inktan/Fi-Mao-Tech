@@ -103,8 +103,8 @@ def main(csv_path,folder_out_path):
 
     print(df.shape)
     for index, row in tqdm(df.iterrows()):
-        if index%20!=0:
-            continue
+        # if index%20!=0:
+        #     continue
         # if index <= 1400:
         #     continue
         # if index > 3000:
@@ -117,10 +117,10 @@ def main(csv_path,folder_out_path):
         # print(row)
         # id = int(row['id'])
         # osm_id = row['osm_id']
-        lng = row['longitude']
-        lat = row['latitude']
-        # lng = row['lon']
-        # lat = row['lat']
+        # lng = row['longitude']
+        # lat = row['latitude']
+        lng = row['lon']
+        lat = row['lat']
         # mame_2 = row['name_2']
         
         try:
@@ -141,7 +141,7 @@ def main(csv_path,folder_out_path):
             # filtered_panoramas = [p for p in panoramas  if p.month in [6, 7, 8]]
             # filtered_panoramas = [p for p in filtered_panoramas if 2015 < p.year < 2019]
             filtered_panoramas = panoramas
-            filtered_panoramas = [p for p in filtered_panoramas if p.year == 2021]
+            # filtered_panoramas = [p for p in filtered_panoramas if p.year == 2021]
             # if len(filtered_panoramas) == 0:
             #     filtered_panoramas = panoramas
 
@@ -152,21 +152,21 @@ def main(csv_path,folder_out_path):
                 year = filtered_panoramas[i].year
                 month = filtered_panoramas[i].month
 
-                save_file_path = folder_out_path +'/sv_pan01/' + str(int(index)) + '_'+ str(lng) + '_'+ str(lat) +'_'+ str(heading) +'_'+ str(year) +'_'+ str(month) + '.jpg'
+                save_file_path = folder_out_path +'/' + str(int(index)) + '_'+ str(lng) + '_'+ str(lat) +'_'+ str(heading) +'_'+ str(year) +'_'+ str(month) + '.jpg'
                 # print(save_file_path,'下载完成')
                 # print('count:',count)
                 # break
 
                 if os.path.exists(save_file_path):
                     print(save_file_path,'已存在')
-                    continue
-                    # break
+                    # continue
+                    break
                                 
                 download_and_merge_streetview(pano_id,x_count,y_count,save_file_path)
 
                 print(save_file_path,'下载完成')
-                continue
-                # break
+                # continue
+                break
 
         except Exception as e:
             print(f'error:{e}')
@@ -178,12 +178,12 @@ def main(csv_path,folder_out_path):
 coordinate_point_category = 1
 # coordinate_point_category = 5
 # coordinate_point_category = 6
-# 分辨率 "3 - 2048*1096   4 - 4096*2048"
-resolution_ratio = 4
+# 分辨率 "3 - 2048*1096   4 - 4096*2048"   5 - 8192*4096"
+resolution_ratio = 5
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'd:\work\shanghai\_network_10m_unique.csv'  # 需要爬取的点
-    folder_out_path = r'd:\work\shanghai\sv_pan00'  # 保存街景文件
+    csv_path = r'd:\work\sv_L\坐标点-爬取.csv'  # 需要爬取的点
+    folder_out_path = r'd:\work\sv_L\svi'  # 保存街景文件
 
     main(csv_path,folder_out_path)
