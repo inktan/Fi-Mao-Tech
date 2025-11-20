@@ -16,7 +16,7 @@ def combine_images_optimized(image_path_list, output_image_path):
     new_im.save(output_image_path)
 
 # 指定你想要遍历的文件夹路径  
-folder_path = r'E:\work\sv_cynthia\sv_points\sv_pan'  
+folder_path = r'e:\work\sv_wenhan_levon\sv_三四环内主干道点_pan00\sv_pan01'
   
 img_paths = []
 img_names = []
@@ -31,10 +31,11 @@ for root, dirs, files in os.walk(folder_path):
 
 print(len(img_paths))
 
-for image in tqdm(img_paths):
+for image in tqdm(img_paths,total=len(img_paths)):
     
     angle_suffixes = ['_0', '_60', '_120', '_180', '_240', '_300']
-    image_paths = [image.replace('.jpg', suffix + '.jpg').replace('sv_pan', 'sv_degree') for suffix in angle_suffixes]
+    angle_suffixes = ['_0', '_90', '_180', '_270']
+    image_paths = [image.replace('.jpg', suffix + '.jpg').replace('sv_pan01', '街景') for suffix in angle_suffixes]
     
-    combine_images_optimized(image_paths, image.replace('sv_pan', 'sv_degrees'))
+    combine_images_optimized(image_paths, image.replace('sv_pan01', 'sv_街景_hor').replace('.jpg', '_hor.jpg'))
 
