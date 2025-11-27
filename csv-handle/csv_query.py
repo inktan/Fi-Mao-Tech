@@ -1,52 +1,39 @@
 import pandas as pd
-import os
 
-def main():
-    
-    # 图片库所在文件夹
-    folder_path_list =[
-        r'F:\sv_suzhou\sv_pan'# 16
-        # r'D:\Ai-clip-seacher\AiArchLibAdd-20240822\data-20240822',
-        ]
+csv_paths = [
+    r'f:\大数据\2025年华北地区poi数据\北京市\北京市.csv',
+    ]
+                
+for csv_path in csv_paths:
+    # 读取CSV文件
 
-    # 获取文件夹中的所有文件信息(含多级的子文件夹)
-    img_paths = []
-    img_names = []
-    accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
+    df = pd.read_csv(csv_path)  # 替换为您的文件路径
 
-    for folder_path in folder_path_list:
-        for root, dirs, files in os.walk(folder_path):
-            for file in files:
-                if file.endswith(accepted_formats):
-                    file_path = os.path.join(root, file)
-                    img_paths.append(file_path)
-                    img_names.append(file)
+    # 查询"大类"列的唯一值
+    unique_categories = df['中类'].unique()
 
-    id_list = [file.split('_')[0] for file in img_names]
-    print(id_list)
-    print(len(id_list))
+    # 输出结果
+    print(f"唯一值数量: {len(unique_categories)}")
+    print("唯一值内容:")
+    for i, category in enumerate(unique_categories, 1):
+        print(f"{i}. {category}")
 
-    # 1. 读取 CSV 文件
-    input_file = r'f:\sv_suzhou\points.csv'
-    df = pd.read_csv(input_file)
+    # 可选：按字母顺序排序输出
+    print("\n按字母顺序排序:")
+    sorted_categories = sorted(unique_categories)
+    for i, category in enumerate(sorted_categories, 1):
+        print(f"{i}. {category}")
 
-    length_of_csv = len(df)
-    print(length_of_csv)
+    # 筛选"中类"为"住宅区"的数据并显示前10行
+    filtered_data = df[df['中类'] == '住宅区'].head(10)
 
-    filtered_df = df[df['OBJECTID'].astype(str).isin(id_list)]
-    
-    length_of_csv = len(filtered_df)
-    print(length_of_csv)
+    print(f"找到 {len(filtered_data)} 行数据（最多显示10行）")
+    print("=" * 50)
 
-    # 保存过滤后的数据到新的CSV文件
-    filtered_csv_file_path = r'f:\sv_suzhou\points_has_sv.csv'
-    filtered_df.to_csv(filtered_csv_file_path, index=False)
+    # 显示所有列
+    pd.set_option('display.max_columns', None)  # 显示所有列
+    print(filtered_data)
 
-
-if __name__ == '__main__':
-    print('a01')
-    main()
-
-
-
-
+    # 或者只显示部分重要列
+    print("\n重要列信息:")
+    print(filtered_data[['中类', '小类', '名称']])  # 根据需要调整列名

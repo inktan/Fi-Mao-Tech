@@ -1,22 +1,21 @@
-from transformers import AutoProcessor, AutoModelForZeroShotObjectDetection, infer_device
+from transformers import AutoProcessor, AutoModelForZeroShotObjectDetection
 import torch
 import json
 from PIL import Image, ImageDraw, ImageFont
 import os
 from tqdm import tqdm
 
-# model_id = "IDEA-Research/grounding-dino-tiny"
-# model_id = "IDEA-Research/grounding-dino-base"
-model_id = "v:\Personal\W_王坦\models--IDEA-Research--grounding-dino-tiny"
-# model_id = "v:\Personal\W_王坦\models--IDEA-Research--grounding-dino-base"
+# model_id = r"IDEA-Research/grounding-dino-tiny"
+# model_id = r"IDEA-Research/grounding-dino-base"
+# model_id = r"v:\Personal\W_王坦\models--IDEA-Research--grounding-dino-tiny"
+model_id = r"v:\Personal\W_王坦\models--IDEA-Research--grounding-dino-base"
 # device = 'cuda'
-device = infer_device()
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 processor = AutoProcessor.from_pretrained(model_id)
 model = AutoModelForZeroShotObjectDetection.from_pretrained(model_id).to(device)
 
 def grounding_dino(IMAGE_PATH):
-    IMAGE_PATH = r"e:\work\sv_pangpang\sv_pano_20251106\sv_google_pano\svi01_temp_work\10_151.2221999_-33.87120784_190.2689056396484_2021_3.jpg"
     image = Image.open(IMAGE_PATH)
 
     inputs = processor(images=image, text=text_labels, return_tensors="pt").to(model.device)
@@ -109,10 +108,10 @@ if __name__ == "__main__":
     img_names = []
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
   
-    folder_path = r'E:\work\sv_pangpang\sv_pano_20251106\sv_google_pano\svi01'  
+    folder_path = r'e:\work\sv_pangpang\sv_pano_20251106\sv_google_pano\svi01'  
    
-    source_folder_name = r'svi01_temp_work'
-    result_folder_name = r'svi01_grounding_dino_base_results'
+    source_folder_name = r'svi01'
+    result_folder_name = r'svi01_gdino_results'
 
     for root, dirs, files in os.walk(folder_path):
         for file in files:
@@ -121,7 +120,7 @@ if __name__ == "__main__":
                 img_paths.append(file_path)
                 img_names.append(file)
 
-    img_paths=[r"e:\work\sv_pangpang\sv_pano_20251106\sv_google_pano\svi01_temp_work\10_151.2221999_-33.87120784_190.2689056396484_2021_3.jpg"]
+    # img_paths=[r"e:\work\sv_pangpang\sv_pano_20251106\sv_google_pano\svi01_temp_work\10_151.2221999_-33.87120784_190.2689056396484_2021_3.jpg"]
     print(len(img_paths))
 
     text_labels = [["tree"]]

@@ -51,7 +51,60 @@ def send_get(url,headers,params):
             time.sleep(2)
 
 def get_info(address):
-    url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=11&kw={address}&type=2'
+    # address = '新洲中心村'
+    # 一线城市
+    url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=11&kw={address}&type=2' # 上海
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=12&kw={address}&type=2' # 广州
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=13&kw={address}&type=2' # 深圳
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=14&kw={address}&type=2' # 北京
+    
+    # 新一线城市
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=15&kw={address}&type=2' # 成都',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=16&kw={address}&type=2' # 杭州',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=17&kw={address}&type=2' # 武汉',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=18&kw={address}&type=2' # 西安',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=19&kw={address}&type=2' # 苏州',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=20&kw={address}&type=2' # 南京',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=21&kw={address}&type=2' # 重庆',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=22&kw={address}&type=2' # 长沙',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=23&kw={address}&type=2' # 沈阳',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=24&kw={address}&type=2' # 青岛',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=25&kw={address}&type=2' # 郑州',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=26&kw={address}&type=2' # 大连',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=27&kw={address}&type=2' # 宁波',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=28&kw={address}&type=2' # 东莞',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=29&kw={address}&type=2' # 佛山',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=30&kw={address}&type=2' # 合肥',
+    # 其他重要城市
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=31&kw={address}&type=2' # 昆明',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=32&kw={address}&type=2' # 无锡',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=33&kw={address}&type=2' # 厦门',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=34&kw={address}&type=2' # 济南',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=35&kw={address}&type=2' # 福州',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=36&kw={address}&type=2' # 温州',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=37&kw={address}&type=2' # 金华',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=38&kw={address}&type=2' # 常州',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=39&kw={address}&type=2' # 珠海',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=40&kw={address}&type=2' # 惠州',
+    # 更多城市
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=41&kw={address}&type=2' # 嘉兴',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=42&kw={address}&type=2' # 南通',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=43&kw={address}&type=2' # 扬州',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=44&kw={address}&type=2' # 海口',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=45&kw={address}&type=2' # 石家庄',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=46&kw={address}&type=2' # 哈尔滨',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=47&kw={address}&type=2' # 长春',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=48&kw={address}&type=2' # 太原',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=49&kw={address}&type=2' # 南昌',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=50&kw={address}&type=2' # 南宁',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=51&kw={address}&type=2' # 贵阳',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=52&kw={address}&type=2' # 兰州',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=53&kw={address}&type=2' # 银川',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=54&kw={address}&type=2' # 西宁',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=55&kw={address}&type=2' # 乌鲁木齐',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=56&kw={address}&type=2' # 呼和浩特',
+    # url = f'https://m.anjuke.com/esf-ajax/community/autocomplete?city_id=57&kw={address}&type=2' # 拉萨'
+
     print(url)
     response = send_get(url,headers=headers,params={}).json()
     datalist = response.get("data",[])
@@ -89,13 +142,14 @@ def get_info(address):
 
 if __name__ == '__main__':
     
-    csv_path = r'e:\work\sv_kkkkatrina\殷行_住宅小区-基本信息.csv'
-    df = pd.read_csv(csv_path, encoding='gbk')
-    # df = pd.read_csv(csv_path)
+    csv_path = r'f:\大数据\poi_上海\上海市2024\csv\商务住宅.csv'
+    
+    # df = pd.read_csv(csv_path, encoding='gbk')
+    df = pd.read_csv(csv_path)
 
-    points_df = pd.DataFrame(columns=['id','address','address_01','lng','lat','所属商圈', '开发商', '物业公司', '小区名称', '物业类型', '竣工时间', '绿化率', '容积率', '建筑面积', '总户数', '小区地址', '停车位', '物业费', '挂牌均价'])
+    points_df = pd.DataFrame(columns=['id','address','address_01','lon_wgs84','lat_wgs84','所属商圈', '开发商', '物业公司', '小区名称', '物业类型', '竣工时间', '绿化率', '容积率', '建筑面积', '总户数', '小区地址', '停车位', '物业费', '挂牌均价'])
     print(points_df.shape)
-    for i,row in enumerate(tqdm(df.iterrows())):
+    for i,row in enumerate(tqdm(df.iterrows(),total=df.shape[0])):
         # if i<1997:
         #     continue
         # if i>=20000:
@@ -104,8 +158,8 @@ if __name__ == '__main__':
 
         id = row[1]['id']
         address = row[1]['name']
-        # lng = row[1]['lng_wgs84']
-        # lat = row[1]['lat_wgs84']
+        lng = row[1]['lon_wgs84']
+        lat = row[1]['lat_wgs84']
         temp = ['','','','','','', '', '', '', '', '', '', '', '', '', '', '', '', '']
         if not isinstance(address,str):
             points_df.loc[len(points_df)] = temp
@@ -134,7 +188,8 @@ if __name__ == '__main__':
             points_df.loc[len(points_df)] = temp
             continue
 
-        rate_list = [id,address,address,'lng','lat']
+        # rate_list = [id,address,address,'lng','lat']
+        rate_list = [id,address,address,lng,lat]
 
         while True:
             # count+=1
@@ -158,7 +213,7 @@ if __name__ == '__main__':
         points_df.loc[len(points_df)] = rate_list
         
         if i%100 == 0:
-            points_df.to_csv(r'e:\work\sv_kkkkatrina\备份小区名_lng_lat_anjuke_01.csv', index=False)
+            points_df.to_csv( r'f:\大数据\poi_上海\上海市2024\csv\上海市_商务住宅_anjuke_01.csv', index=False)
 
-points_df.to_csv(r'e:\work\sv_kkkkatrina\备份小区名_lng_lat_anjuke_01.csv', index=False)
+points_df.to_csv( r'f:\大数据\poi_上海\上海市2024\csv\上海市_商务住宅_anjuke_01.csv', index=False)
 

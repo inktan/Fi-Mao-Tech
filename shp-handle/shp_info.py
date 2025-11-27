@@ -1,6 +1,6 @@
 import geopandas as gpd
 
-shp_file_path = r'f:\立方数据\【3】乡镇数据集\2023年全国乡镇行政边界（不分省）\乡镇级行政区划合集.shp'  # 替换为你的SHP文件路径
+shp_file_path = r'f:\大数据\2024年我国多属性建筑矢量数据（免费获取）\合并后的数据（一个省份合并为一个shp文件）\北京市\北京市.shp'  # 替换为你的SHP文件路径
 gdf = gpd.read_file(shp_file_path)
 
 # print(gdf.columns)

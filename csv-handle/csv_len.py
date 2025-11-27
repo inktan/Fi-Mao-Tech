@@ -67,35 +67,59 @@ pd.set_option('display.expand_frame_repr', False)  # 禁止换行显示
 # print(df.head())
 
 # 获取所有符合模式的文件路径
-csv_paths = []
-csv_names = []
-accepted_formats = (".csv")
+# csv_paths = []
+# csv_names = []
+# accepted_formats = (".csv")
 
-csv_path_list =[
-    r'c:\Users\mslne\Desktop\_network01_10m_unique.csv',
-    ]
-for folder_path in csv_path_list:
-    for root, dirs, files in os.walk(folder_path):
+# csv_path_list =[
+#     r'c:\Users\mslne\Desktop\_network01_10m_unique.csv',
+#     ]
+# for folder_path in csv_path_list:
+#     for root, dirs, files in os.walk(folder_path):
+#         for file in files:
+#             if file.endswith(accepted_formats):
+#                 file_path = os.path.join(root, file)
+#                 csv_paths.append(file_path)
+#                 csv_names.append(file)
+                
+# csv_paths = [
+#     r'f:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_csv\北京市\北京市_50m_Spatial_infos01.csv',
+#     ]
+                
+# for csv_path in csv_paths:
+#     df = pd.read_csv(csv_path)
+#     print(csv_path)
+#     print(df.columns)
+#     print(df.shape)
+#     print(df.head())
+#     print(df.tail())
+
+def count_csv_rows(directory):
+    total_rows = 0
+    csv_files = []
+    
+    # 遍历目录及其子目录
+    for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.endswith(accepted_formats):
+            if file.endswith(".csv"):
                 file_path = os.path.join(root, file)
-                csv_paths.append(file_path)
-                csv_names.append(file)
-                
-csv_paths = [
-    r'c:\Users\mslne\Desktop\_network01_20m_unique.csv',
-    ]        
-                
-for csv_path in csv_paths:
-    df = pd.read_csv(csv_path)         
-    print(csv_path)
-    print(df.columns)
-    print(df.shape)
-    print(df.head())
-    print(df.tail())
-    
-    
-    
-    
-    
-    
+                csv_files.append(file_path)
+                try:
+                    # 使用pandas读取csv以统计数据行（通常会自动排除表头）
+                    # 如果不需要排除表头，可以使用 open(file_path).readlines() 计算
+                    df = pd.read_csv(file_path)
+                    rows = len(df)
+                    print(f"文件: {file_path}, 行数: {rows}")
+                    total_rows += rows
+                except Exception as e:
+                    print(f"读取 {file_path} 出错: {e}")
+                    
+    print(f"\n找到的CSV文件总数: {len(csv_files)}")
+    print(f"所有CSV文件的数据总行数: {total_rows}")
+    return total_rows
+
+# 在当前目录下执行
+count_csv_rows(r'F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_svinfo_csv')
+
+
+
