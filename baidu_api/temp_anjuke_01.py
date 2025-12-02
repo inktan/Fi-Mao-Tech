@@ -150,8 +150,8 @@ if __name__ == '__main__':
     points_df = pd.DataFrame(columns=['id','address','address_01','lon_wgs84','lat_wgs84','所属商圈', '开发商', '物业公司', '小区名称', '物业类型', '竣工时间', '绿化率', '容积率', '建筑面积', '总户数', '小区地址', '停车位', '物业费', '挂牌均价'])
     print(points_df.shape)
     for i,row in enumerate(tqdm(df.iterrows(),total=df.shape[0])):
-        # if i<1997:
-        #     continue
+        if i<37800:
+            continue
         # if i>=20000:
         #     continue
         print(points_df.shape[0],i)

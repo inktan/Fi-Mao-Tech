@@ -5,7 +5,6 @@ csvfilepath = r'f:\work\sv_ran\ss_01_surrounding_01.csv'  # 新的CSV文件保�
 
 newcsvfilepath = r'f:\work\sv_ran\ss_01_surrounding_02.csv'  # 新的CSV文件保存路径
 
-
 # 读取CSV文件
 df = pd.read_csv(csvfilepath)
 
@@ -17,3 +16,9 @@ df.to_csv(newcsvfilepath, index=False)
 
 # 输出新的csv文件路径
 print(f'新的CSV文件已保存到 {newcsvfilepath}')
+
+
+
+
+
+

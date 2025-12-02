@@ -2,8 +2,7 @@ import math
 from coord_convert import transform
 
 import os
-import pandas as pd
-from coordinate_converter import transCoordinateSystem, transBmap
+from coordinate_converter import  transBmap
 
 import concurrent.futures
 import math
@@ -15,10 +14,7 @@ from math import cos, sin
 
 from PIL import Image
 from tqdm import tqdm
-import logging
 import os
-import sys
-from typing import Literal
 import pyproj
 from geopy.distance import distance  # type: ignore
 
@@ -386,17 +382,7 @@ if __name__ == '__main__':
         output_path = f"E:\\temp\\sate_img\\{coords[0][0]}_{coords[0][1]}_{size}m_{zoom}_satellite_image.jpg"
         save_image(lat,lon,size,output_path,rotation,zoom,from_center,show_progress)
 
-    # 上海外滩
-    lon = 121.5034659206
-    lat = 31.2462386675    
 
-    # for zoom in [15,16,17,18,19,20]:
-    #     tile_index = transBmap.lnglattotile(lon,lat,zoom)
-    #     x = tile_index[0]
-    #     y = tile_index[1]
-
-    #     with tqdm(total=number_of_tiles, desc="Merging tiles", unit="tiles", disable=not show_progress) as pbar:
-    #         download_tile(x,y,zoom,pbar)
 
 
 

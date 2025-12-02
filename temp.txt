@@ -1,0 +1,20 @@
+天空开阔度：0.2-0.4，街道高宽比：2-3，平均建筑高度：25-50，地表粗糙等级：8，建筑密度：40-60，不渗水面比例：40-60，渗水面比例：0-10，地表传导率：1500-1750，地表反照率：0.1-0.2，人为热排放：50-300，
+
+Sky_openness: 0.2-0.4, Street_aspect ratio: 2-3, Average_building_height: 25-50, Surface_roughness_rating: 8, Building_density: 40-60, Impermeable_surface_ratio: 40-60, Permeable_surface_ratio: 0-10, Surface_conductivity: 1500-1750, Surface_albedo: 0.1-0.2, Anthropogenic_heat_emissions: 50-300, 
+Building_morphology_description: 
+Building_function_description:
+
+Based on the theory of local climate zones, please determine which zone this satellite image belongs to. After the analysis, please return only one JSON data. For example: {Sky openness: 0.2-0.4, Street aspect ratio: 2-3, Average building height: 25-50, Surface roughness rating: 8, Building density: 40-60, Impermeable surface ratio: 40-60, Permeable surface ratio: 0-10, Surface conductivity: 1500-1750, Surface albedo: 0.1-0.2, Anthropogenic heat emissions: 50-300, Building morphology description: Compact layout of high-rise buildings of varying heights (10 stories or more), significantly reduced sky openness along streets. Building materials are mostly steel, concrete, and glass; surface cover is mostly paved with little vegetation. Frequent air conditioning use and vehicular traffic in this area, Building function description: Office buildings, hotels, apartments,}
+
+
+Lcz_type:LCZ 1 - 紧凑高层建筑区
+Sky_openness: 0.2-0.4
+Street_aspect_ratio: 2-3, 
+Average_building_height: 25-50, 
+Surface_roughness_rating: 8, 
+Building_density: 40-60, 
+Impermeable_surface_ratio: 40-60, 
+Permeable_surface_ratio: 0-10, 
+Surface_conductivity: 1500-1750, 
+Surface_albedo: 0.1-0.2, 
+Anthropogenic_heat_emissions: 50-300, 
