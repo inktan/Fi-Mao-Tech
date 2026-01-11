@@ -17,6 +17,9 @@ dist-ssr
 coverage
 *.local
 
+/checkpoints/
+
+/cypress/videos/
 /cypress/videos/
 /cypress/screenshots/
 

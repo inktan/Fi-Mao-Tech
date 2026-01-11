@@ -16,7 +16,7 @@ def combine_images_optimized(image_path_list, output_image_path):
     new_im.save(output_image_path)
 
 # 指定你想要遍历的文件夹路径  
-folder_path = r'e:\work\sv_wenhan_levon\sv_三四环内主干道点_pan00\sv_pan01'
+folder_path = r'e:\work\sv_wenhan_levon\20251211\sv_pan01'
   
 img_paths = []
 img_names = []

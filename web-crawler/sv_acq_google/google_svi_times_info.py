@@ -6,6 +6,7 @@ import re
 import pandas as pd
 from datetime import datetime
 from requests.models import Response
+import geopandas as gpd
 
 def make_search_url(lat: float, lon: float) -> str:
     """
@@ -107,14 +108,15 @@ def main(csv_path, sv_infos_path, start_index=None, end_index=None):
     # Create CSV file with headers if it doesn't exist
     with open(sv_infos_path, 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['id','osm_id','longitude','latitude','panoid','pitch','heading','fov01','fov02','year','month'])
+        writer.writerow(['ORIG_FID','rid','longitude','latitude','panoid','pitch','heading','fov01','fov02','year','month'])
 
     for index, row in tqdm(df.iterrows(), total=df.shape[0]):
         # 使用原始的index（从CSV中读取的），而不是重置后的index
         original_index = index
         
         try:
-            resp = search_request(float(row['latitude']), float(row['longitude']))
+            # resp = search_request(float(row['latitude']), float(row['longitude']))
+            resp = search_request(float(row['latY']), float(row['lngX']))
             panoids = panoids_from_response(resp.text)
         except Exception as e:
             print(f"Error processing row {original_index}: {e}")
@@ -131,15 +133,16 @@ def main(csv_path, sv_infos_path, start_index=None, end_index=None):
                 year = 0
                 month = 0
 
-            if year < 2022:
-                continue
+            # if year < 2022:
+            #     continue
 
             # Add record to buffer
             buffer.append([
                 original_index,  # 使用原始的index
-                int(row['osm_id']),
-                float(row['longitude']),
-                float(row['latitude']),
+                int(row['ORIG_FID']),
+                int(row['rid']),
+                float(row['lngX']),
+                float(row['latY']),
                 pano['panoid'],
                 pano['pitch'],
                 pano['heading'],
@@ -167,11 +170,10 @@ def main(csv_path, sv_infos_path, start_index=None, end_index=None):
         print(f"Saved final {len(buffer)} records to CSV (total: {count})")
 
 if __name__ == "__main__":
-    start_index = 1000
-    end_index = 1500
+    start_index = 0
+    end_index = 20000
 
-    csv_path = '/root/autodl-tmp/20250815_sv_taiwan/台湾省_15m_points.csv' # 需要爬取的点
-    sv_infos_path = f'/root/autodl-tmp/20250815_sv_taiwan/gl_svi_infos_{start_index}_{end_index}.csv'
+    csv_path = r'e:\work\sv_pangpang\4_tree_species_deeplearning\GIS_data\CoS_GSV_30m_points.shp' # 需要爬取的点
+    sv_infos_path = r'e:\work\sv_pangpang\4_tree_species_deeplearning\GIS_data\CoS_GSV_30m_points_infos.csv' # 爬取结果保存路径
+
     main(csv_path, sv_infos_path, start_index, end_index)
-
-

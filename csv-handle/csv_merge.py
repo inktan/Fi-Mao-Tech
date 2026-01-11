@@ -32,8 +32,8 @@ combined_df = pd.DataFrame()
     # combined_df = pd.concat([combined_df, df[need_columns]], axis=1)
 
 csv_paths=[
-    r'd:\work\sv_yj\sv_phoenix\merged_data_02_id.csv',
-    r'd:\work\sv_yj\sv_phoenix\merged_data_id.csv',
+    r'e:\work\sv_pangpang\sv_pano_20251219\points_info\CoS_GSV_30m_points_infos.csv',
+    r'e:\work\sv_pangpang\sv_pano_20251219\points_info\CoS_GSV_30m_points_infos02_.csv',
 ]
 
 for file in csv_paths:
@@ -49,7 +49,7 @@ for file in csv_paths:
 # combined_df = combined_df.drop_duplicates(subset='img_path')
 
 # # 保存合并后的 DataFrame 到新的 CSV 文件
-output_file_path = r'D:\work\sv_yj\sv_phoenix\merged_data_02.csv'
+output_file_path = r'e:\work\sv_pangpang\sv_pano_20251219\points_info\CoS_GSV_30m_points_infos_.csv'
 combined_df.to_csv(output_file_path, index=False)
 
 print(f"合并后的文件已保存到 {output_file_path}")

@@ -1,12 +1,28 @@
+import pandas as pd
 import geopandas as gpd
 
-shp_file_path = r'f:\大数据\2024年我国多属性建筑矢量数据（免费获取）\合并后的数据（一个省份合并为一个shp文件）\北京市\北京市.shp'  # 替换为你的SHP文件路径
+# 1. 禁止横向折叠（解决 \ 换行问题）
+pd.set_option('display.expand_frame_repr', False)
+
+# 2. 设置显示的最大行数（设置为 None 表示全部显示，慎用，如果数据有几万行会卡死）
+pd.set_option('display.max_rows', None)
+
+# 3. 设置显示的最大列数
+pd.set_option('display.max_columns', None)
+
+# 4. 解决浮点数精度（防止经纬度被截断）
+pd.set_option('display.precision', 15)
+
+# 5. 如果列宽还是不够（防止 geometry 列太长显示 ...）
+pd.set_option('display.max_colwidth', None)
+
+shp_file_path = r'e:\work\sv_pangpang\4_tree_species_deeplearning\GIS_data\CoS_GSV_30m_points.shp'  # 替换为你的SHP文件路径
 gdf = gpd.read_file(shp_file_path)
 
 # print(gdf.columns)
 print(gdf.columns.tolist())
 print(gdf.shape)
-print(gdf.head())
+print(gdf.head(100))
 # print(gdf)
 # print(gdf.crs)
 # print(gdf['geometry'].head())

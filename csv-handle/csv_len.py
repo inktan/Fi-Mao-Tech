@@ -83,17 +83,17 @@ pd.set_option('display.expand_frame_repr', False)  # 禁止换行显示
 #                 csv_names.append(file)
                 
 csv_paths = [
-    r'f:\大数据\poi_北京\北京市2024\csv\北京市_商务住宅_anjuke_01.csv',
+    r'e:\work\sv_pangpang\sv_pano_20251219\points_info\CoS_GSV_30m_points_infos_01.csv',
     ]
                 
 for csv_path in csv_paths:
     df = pd.read_csv(csv_path)
     # df = pd.read_csv(csv_path,encoding='gbk')
     print(csv_path)
-    print(df.columns)
+    # print(df.columns)
     print(df.shape)
-    print(df.head())
-    print(df.tail())
+    print(df.head(100))
+    # print(df.tail())
 
 # 查看一个目录下所有CSV文件的行数总和
 # def count_csv_rows(directory):

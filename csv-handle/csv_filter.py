@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 csv_paths = [
-    r'f:\大数据\poi_深圳\深圳市2024\csv\深圳市_商务住宅.csv',
+    r'e:\work\sv_pangpang\sv_pano_20251219\points_info\CoS_GSV_30m_points_infos02.csv',
 ]
 
 for csv_path in csv_paths:
@@ -11,14 +11,15 @@ for csv_path in csv_paths:
         df = pd.read_csv(csv_path)
 
         # 检查type列是否存在
-        if 'type' not in df.columns:
-            print(f"错误: 在文件 {csv_path} 中未找到 'type' 列")
-            print(f"可用列: {list(df.columns)}")
-            continue
+        # if 'type' not in df.columns:
+        #     print(f"错误: 在文件 {csv_path} 中未找到 'type' 列")
+        #     print(f"可用列: {list(df.columns)}")
+        #     continue
         
         # 过滤数据：type列包含"住宅小区"
-        filtered_df = df[df['type'].str.contains('住宅小区', na=False)]
-        # filtered_df = df[df['中类'] == '住宅区']
+        # filtered_df = df[df['type'].str.contains('住宅小区', na=False)]
+        # filtered_df = df[df['year'] == '住宅区']
+        filtered_df = df[df['year'] != 0]
         
         print(f"文件: {os.path.basename(csv_path)}")
         print(f"总行数: {len(df)}")
@@ -26,7 +27,7 @@ for csv_path in csv_paths:
         
         # 生成输出文件路径
         output_dir = os.path.dirname(csv_path)
-        output_filename = os.path.basename(csv_path).replace('.csv', '_住宅小区.csv')
+        output_filename = os.path.basename(csv_path).replace('.csv', '_.csv')
         output_path = os.path.join(output_dir, output_filename)
         
         # 保存为新的CSV文件

@@ -5,7 +5,14 @@ import numpy as np
 
 def calculate_point_statistics():
     # 读取北京.csv点数据
-    excel_path = r'e:\work\sv_kaixindian\20251124\上海.csv'
+    excel_path = r'e:\work\sv_kaixindian\20251124\长春.csv'
+    
+    # 读取第二个CSV文件（请替换为实际文件路径）
+    second_csv_path = r'f:\大数据\poi_长春\长春市2024\csv\长春市_商务住宅_anjuke_02.csv'  # 请修改为实际路径
+    
+    # 保存结果（可选：保存到新文件）
+    output_path = r'e:\work\sv_kaixindian\20251124\长春_100m_anjuke_poi统计结果.csv'
+
     df = pd.read_csv(excel_path)
     
     # 创建GeoDataFrame并转换坐标系
@@ -13,10 +20,8 @@ def calculate_point_statistics():
     gdf_points = gpd.GeoDataFrame(df, geometry=geometry, crs="EPSG:4326").to_crs(epsg=32633)
     
     # 创建缓冲区域（500米半径）
-    gdf_points['buffer_500m'] = gdf_points.geometry.buffer(500)
+    gdf_points['buffer_100m'] = gdf_points.geometry.buffer(100)
     
-    # 读取第二个CSV文件（请替换为实际文件路径）
-    second_csv_path = r'f:\大数据\poi_上海\上海市2024\CSV\上海市_商务住宅_anjuke_04.csv'  # 请修改为实际路径
     df_second = pd.read_csv(second_csv_path,encoding='gbk')
     
     # 创建第二个文件的GeoDataFrame
@@ -30,7 +35,7 @@ def calculate_point_statistics():
     # 对每个北京.csv的点进行计算
     for idx, row in gdf_points.iterrows():
         # 获取当前点的缓冲区域
-        buffer_zone = row['buffer_500m']
+        buffer_zone = row['buffer_100m']
         
         # 找出落在缓冲区域内的点
         points_in_buffer = gdf_second[gdf_second.geometry.within(buffer_zone)]
@@ -54,8 +59,6 @@ def calculate_point_statistics():
     df['总户数'] = total_households_list
     df['平均房价'] = avg_price_list
     
-    # 保存结果（可选：保存到新文件）
-    output_path = r'e:\work\sv_kaixindian\20251124\上海2024_poi统计结果.csv'
     df.to_csv(output_path, index=False, encoding='utf-8-sig')
     
     print(f"处理完成！结果已保存到: {output_path}")

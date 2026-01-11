@@ -1,11 +1,8 @@
 from PIL import Image
 import os
-import Equirec2Perspec as E2P 
-import cv2
 import os  
 from tqdm import tqdm
 from PIL import Image  
-import numpy as np  
 
 def resize_imgs(input_dir):
 
@@ -28,18 +25,18 @@ def resize_imgs(input_dir):
     for i,image_path in enumerate(tqdm(img_paths)): 
         # 判断文件是否为图片类型  
         if image_path.lower().endswith(image_types):
-            if i < 0:
-                continue
-            if i >= 111:
-                continue
+            # if i < 0:
+            #     continue
+            # if i >= 111:
+            #     continue
 
             try:
-                image_path_save = image_path.replace('sv_pan_zoom3_fixedBlack','sv_pan_zoom3_fixedBlack_resize')
+                image_path_save = image_path.replace('色块图','色块图_resize')
                 if os.path.exists(image_path_save):
                     continue
                 
                 img = Image.open(image_path)
-                img_resized = img.resize((4096, 2048))
+                img_resized = img.resize((1664, 832))
 
                 folder_path = os.path.dirname(image_path_save)
                 if not os.path.exists(folder_path):
@@ -52,7 +49,7 @@ def resize_imgs(input_dir):
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
-    input = r'Y:\GOA-AIGC\02-Model\安装包\temp\sv_pan_zoom3_fixedBlack'
+    input = r'e:\work\sv_pangpang\sv_pano_20251219\ade_20k\色块图'
     resize_imgs(input)
 
 print("所有图片已处理并保存到输出文件夹。")
