@@ -16,7 +16,7 @@ import pandas as pd
 from shapely.ops import unary_union
 
 # 1. 读取原始 SHP 文件并合并所有多边形
-input_shp = r"e:\work\20250709_sv_michinen\20251021\乡镇级行政区划合集02.shp"  # 替换为你的输入文件路径
+input_shp = r"e:\work\sv_npc\_network_region.shp"  # 替换为你的输入文件路径
 gdf = gpd.read_file(input_shp)
 
 # 基本绘图
@@ -25,9 +25,9 @@ gdf = gpd.read_file(input_shp)
 # plt.show()
 
 # 确保是WGS84 (EPSG:4326)坐标系
-if gdf.crs != 'EPSG:4326':
-    gdf = gdf.to_crs('EPSG:4326')
-print(gdf.crs)
+# if gdf.crs != 'EPSG:4326':
+#     gdf = gdf.to_crs('EPSG:4326')
+# print(gdf.crs)
 
 # 2. 检查几何类型是否为多边形
 if not all(gdf.geometry.type.isin(['Polygon', 'MultiPolygon'])):
@@ -60,7 +60,7 @@ G = ox.graph_from_polygon(merged_polygon, network_type='all')
 gdf_edges = ox.graph_to_gdfs(G, nodes=False)
 
 # 定义保存路径
-output_shp = r'e:\work\20250709_sv_michinen\20251021\乡镇级行政区划合集02_netroad.shp'
+output_shp = r'e:\work\sv_npc\_network.shp'
 # output_shp = input_shp.replace('.shp','_netroad.shp')
 
 # 确保输出目录存在

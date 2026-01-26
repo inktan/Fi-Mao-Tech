@@ -72,7 +72,7 @@ def process_geometry(row,interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'e:\work\20250709_sv_michinen\20251021\乡镇级行政区划合集02_netroad.shp',
+    r'e:\work\sv_npc\_network.shp',
 ]
 
 for file_path in shape_files:
@@ -82,7 +82,7 @@ for file_path in shape_files:
     gdf = gpd.read_file(shp_file_path)
     
     # 应用函数并创建DataFrame
-    interval = 100
+    interval = 50
     results = gdf.apply(process_geometry, axis=1, interval=interval).explode()
     points_df = pd.DataFrame(list(results), columns=['osm_id', 'longitude', 'latitude'])
     # points_df = points_df.drop(columns=['geometry'])

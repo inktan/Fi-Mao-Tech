@@ -102,7 +102,7 @@ def main(csv_path,folder_out_path):
     # df['name_2'] = df['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
 
     print(df.shape)
-    for index, row in tqdm(df.iterrows()):
+    for index, row in tqdm(df.iterrows(),total=df.shape[0]):
         # if index%20!=0:
         #     continue
         # if index <= 1400:
@@ -117,10 +117,10 @@ def main(csv_path,folder_out_path):
         # print(row)
         # id = int(row['id'])
         # osm_id = row['osm_id']
-        # lng = row['longitude']
-        # lat = row['latitude']
-        lng = row['lon']
-        lat = row['lat']
+        lng = row['longitude']
+        lat = row['latitude']
+        # lng = row['lon']
+        # lat = row['lat']
         # mame_2 = row['name_2']
         
         try:
@@ -183,7 +183,7 @@ resolution_ratio = 5
 
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'd:\work\sv_L\坐标点-爬取.csv'  # 需要爬取的点
-    folder_out_path = r'd:\work\sv_L\svi'  # 保存街景文件
+    csv_path = r'e:\work\sv_npc\_network_50m_Spatial.csv'  # 需要爬取的点
+    folder_out_path = r'e:\work\sv_npc\svi'  # 保存街景文件
 
     main(csv_path,folder_out_path)

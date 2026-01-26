@@ -1,68 +1,46 @@
-import os
-import requests
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin
+import pandas as pd
+import numpy as np
+import colorsys
+import ast
+from skimage import color
 
-# --- 配置参数 ---
-html_path = r'C:\Users\wang.tan.GOA\Pictures\loopparade\content.html'
-save_folder = r'C:\Users\wang.tan.GOA\Pictures\loopparade\downloaded_videos'
-# 如果 mp4 的 src 是相对路径，需要提供一个基准 URL (如果是本地相对路径则设为原文件夹路径)
-base_url = "" 
+def process_rgb_csv(input_file, output_file):
+    # 1. 读取 CSV 文件
+    df = pd.read_csv(input_file)
 
-# 创建下载目录
-if not os.path.exists(save_folder):
-    os.makedirs(save_folder)
+    def parse_rgb(s):
+        """将字符串格式的 '[r, g, b]' 转换为数值列表"""
+        return ast.literal_eval(s)
 
-def download_mp4_from_html():
-    # 1. 读取本地 HTML 文件
-    try:
-        with open(html_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-    except FileNotFoundError:
-        print(f"错误：找不到文件 {html_path}")
-        return
+    def rgb_to_hsl(rgb):
+        """将 RGB (0-255) 转换为 HSL (H:0-360, S:0-100, L:0-100)"""
+        r, g, b = [x / 255.0 for x in rgb]
+        h, l, s = colorsys.rgb_to_hls(r, g, b)
+        return [round(h * 360, 2), round(s * 100, 2), round(l * 100, 2)]
 
-    # 2. 解析 HTML 寻找视频链接
-    soup = BeautifulSoup(content, 'html.parser')
-    video_links = []
+    def rgb_to_lab(rgb):
+        """将 RGB (0-255) 转换为 CIELAB"""
+        # skimage 需要输入范围为 [0, 1] 的 3D 数组 (1, 1, 3)
+        rgb_normalized = np.array(rgb).reshape(1, 1, 3) / 255.0
+        lab = color.rgb2lab(rgb_normalized)
+        return [round(x, 2) for x in lab.flatten().tolist()]
 
-    # 查找所有 video 标签和 source 标签
-    sources = soup.find_all(['source', 'video'])
-    for tag in sources:
-        src = tag.get('src')
-        if src and src.endswith('.mp4'):
-            # 处理可能的相对路径
-            full_url = urljoin(base_url, src) if base_url else src
-            video_links.append(full_url)
-
-    # 去重
-    video_links = list(set(video_links))
-    print(f"找到 {len(video_links)} 个视频链接。")
-
-    # 3. 下载视频
-    for url in video_links:
-        file_name = os.path.basename(url).split('?')[0] # 移除 URL 参数
-        file_path = os.path.join(save_folder, file_name)
-
-        print(f"正在下载: {file_name} ...")
+    # 2. 遍历 4 列数据进行转换
+    for i in range(1, 5):
+        rgb_col = f'rgb{i}'
+        # 将字符串解析为列表
+        rgb_series = df[rgb_col].apply(parse_rgb)
         
-        try:
-            # 如果是本地路径，直接复制文件；如果是网络链接，使用 requests
-            if url.startswith('http'):
-                response = requests.get(url, stream=True)
-                response.raise_for_status()
-                with open(file_path, 'wb') as f:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        f.write(chunk)
-            else:
-                # 假设是本地相对路径，进行复制
-                import shutil
-                source_file = os.path.join(os.path.dirname(html_path), url)
-                shutil.copy2(source_file, file_path)
-                
-            print(f"成功保存到: {file_path}")
-        except Exception as e:
-            print(f"下载失败 {url}: {e}")
+        # 添加 HSL 列
+        df[f'hsl{i}'] = rgb_series.apply(rgb_to_hsl)
+        
+        # 添加 Lab 列
+        df[f'Lab{i}'] = rgb_series.apply(rgb_to_lab)
 
-if __name__ == "__main__":
-    download_mp4_from_html()
+    # 3. 保存结果
+    df.to_csv(output_file, index=False)
+    print(f"处理完成！结果已保存至: {output_file}")
+    return df
+
+# 使用示例
+df_result = process_rgb_csv(r'e:\work\sv_npc\cluster_colors.csv', r'e:\work\sv_npc\cluster_colors01.csv')

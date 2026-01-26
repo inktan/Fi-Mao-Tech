@@ -86,7 +86,7 @@ def cluster_main_colors(img_path, n_clusters):
     # plt.show()
     plt.tight_layout()
 
-    out_name = img_path.replace('svi', '_svi_cluster_colors').replace('.jpg', '.png').replace('.JPG', '.png').replace('.jpeg', '.png')
+    out_name = img_path.replace('街景', '街景_cluster_colors').replace('.jpg', '.png').replace('.JPG', '.png').replace('.jpeg', '.png')
     
     # 保存图像
     folder_path = os.path.dirname(out_name)
@@ -98,8 +98,8 @@ def cluster_main_colors(img_path, n_clusters):
 
 if __name__ == "__main__":
     
-    iamges_folder_path = r'E:\work\sv_jiaman\svi'
-    results_csv = r'E:\work\sv_jiaman\cluster_colors.csv'
+    iamges_folder_path = r'E:\work\sv_npc\街景'
+    results_csv = r'E:\work\sv_npc\cluster_colors.csv'
     
     img_paths = []
     img_names = []
@@ -118,7 +118,8 @@ if __name__ == "__main__":
         writer = csv.writer(f)
         writer.writerow(headers)
  
-    n_clusters = 8
+    n_clusters = 4
+    # n_clusters = 8
     for i ,img_path in enumerate(tqdm(img_paths)):
         try:
             cluster_main_colors(img_path,n_clusters)
