@@ -118,7 +118,7 @@ def coord_convert(lng1,lat1):
     
 if __name__ == '__main__':
     # 文件夹路径
-    csv_path = r'f:\立方数据\2025年道路数据\【立方数据学社】北京市\北京市_50m_Spatial.csv'  # 需要爬取的点
+    csv_path = r'f:\大数据\osm\roads\macau\macau_gis_osm_roads_free_1_50m_unique.csv'  # 需要爬取的点
     sv_infos_path = csv_path.replace('.csv','_infos.csv')
 
     with open(sv_infos_path,'w' ,newline='') as f:

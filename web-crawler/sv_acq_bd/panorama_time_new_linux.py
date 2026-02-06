@@ -1,16 +1,16 @@
 
 # -*- coding:utf-8 -*-
-
 import math
 import json
 import requests
-import time
 import os
 from PIL import Image
-import shutil
-import csv
 from tqdm import tqdm
 import pandas as pd
+import pandas as pd
+from tqdm import tqdm
+from multiprocessing import Pool
+import functools
 
 # 以下是根据百度地图JavaScript API破解得到 百度坐标<->墨卡托坐标 转换算法
 array1 = [75, 60, 45, 30, 15, 0]
@@ -294,98 +294,87 @@ def coord_convert(lng1,lat1):
     elif coordinate_point_category == 6:
         result = gcj02_to_bd09(lng1,lat1)
         return lnglattopoint(result[0],result[1])
- 
-def main(csv_path,folder_out_path):
-    if os.path.exists(folder_out_path) == False:
-        os.mkdir(folder_out_path)
 
-    # if(resolution_ratio == 3):
-    #     ratio = 8
-    # else:
-    #     ratio = 32
+# 假设这些是你自定义的函数和类，请确保已正确导入
+# from your_module import coord_convert, get_panoid, Panorama, download_and_merge_streetview
 
-    # 分辨率 "3 - 2048*1096   4 - 4096*2048"
+def process_row(row, folder_out_path):
+    """
+    单个行数据的处理逻辑，封装成函数以便多进程调用
+    """
+    # 提取分辨率计算参数
     x_count = int(2 ** (resolution_ratio - 2))
     y_count = int(x_count * 2)
-    # 3 2 2*2 = 8
-    # 3 4 4*2 = 32
+    
+    index = row['index']
+    # lng = row['lon']
+    # lat = row['lat']
+    lng = row['longitude']
+    lat = row['latitude']
 
-    # 读取经纬度坐标点
-    # df = pd.read_csv(csv_path, encoding='latin1')
-    df = pd.read_csv(csv_path)
-    # df['name_2'] = df['name_2'].str.encode('latin1').str.decode('utf-8')  # 尝试 latin1 → gbk
-
-    print(df.shape)
-    for index, row in tqdm(df.iterrows(), total=df.shape[0]):
-        index = row['index']
-        if index <= 10000:
-            continue
-        if index > 13500:
-            continue
-        print(df.shape[0],index)
-
-        # 1、lat是“latitude”的缩写，纬度
-        # 2、lng是“longitude”的缩写，经度
-        # 中国的经纬度 经度范围:73°33′E至135°05′E。 纬度范围:3°51′N至53°33′N。
-        # print(row)
-        # id = int(row['id'])
-        # osm_id = row['osm_id']
-        # lng = row['lon']
-        # lat = row['lat']
-        lng = row['longitude']
-        lat = row['latitude']
-        # mame_2 = row['name_2']
+    try:
+        # 坐标转换与获取 ID
+        tar_lng_lat = coord_convert(lng, lat)
+        panoidInfos = get_panoid(tar_lng_lat[0], tar_lng_lat[1])
         
-        try:
-            tar_lng_lat = coord_convert(lng,lat)
-            # print(tar_lng_lat)
-            panoidInfos = get_panoid(tar_lng_lat[0],tar_lng_lat[1])
-            timeLineIds = panoidInfos[0]
-            heading = panoidInfos[1]
-            # print(panoidInfos)
-            # break
+        if not panoidInfos or len(panoidInfos[0]) == 0:
+            return f"Index {index}: No panorama found."
 
-            panoramas = []
-            for timeLineId in timeLineIds:
-                panoramas.append(Panorama(timeLineId, timeLineId['TimeLine'], int(timeLineId['TimeLine'][:4]), int(timeLineId['TimeLine'][4:])))
+        timeLineIds = panoidInfos[0]
+        heading = panoidInfos[1]
 
-            # 筛选2015-2017年中5-9月份的街景
-            # 使用列表推导式筛选month大于4小于10的实例
-            # filtered_panoramas = [p for p in panoramas  if p.month in [6, 7, 8]]
-            # filtered_panoramas = [p for p in filtered_panoramas if 2015 < p.year < 2019]
-            # filtered_panoramas = [p for p in filtered_panoramas if p.year == 2021]
-            # if len(filtered_panoramas) == 0:
-            #     filtered_panoramas = panoramas
+        # 转换并筛选（这里直接取最新的一个，你可以根据需要改回循环）
+        p = timeLineIds[0] 
+        year = int(p['TimeLine'][:4])
+        month = int(p['TimeLine'][4:])
+        pano_id = p['ID']
 
-            # 是否过滤
-            filtered_panoramas = panoramas
-            for i in range(len(filtered_panoramas)):
-                pano_id = filtered_panoramas[i].pano['ID']
-                year = filtered_panoramas[i].year
-                month = filtered_panoramas[i].month
+        # 路径处理
+        save_dir = os.path.join(folder_out_path, 'sv_pan01')
+        os.makedirs(save_dir, exist_ok=True)
+        
+        save_file_path = os.path.join(save_dir, f"{index}_{lng}_{lat}_{heading}_{year}_{month}.jpg")
 
-                save_file_path = folder_out_path +'/sv_pan01/' + str(index) + '_'+ str(lng) + '_'+ str(lat) +'_'+ str(heading) +'_'+ str(year) +'_'+ str(month) + '.jpg'
-                # print(save_file_path,'下载完成')
-                # print('count:',count)
-                # break
+        if os.path.exists(save_file_path):
+            return f"Index {index}: Already exists."
 
-                if os.path.exists(save_file_path):
-                    print(save_file_path,'已存在')
-                    # continue
-                    break
-                                
-                download_and_merge_streetview(pano_id,x_count,y_count,save_file_path)
+        # 执行下载
+        download_and_merge_streetview(pano_id, x_count, y_count, save_file_path)
+        return f"Index {index}: Downloaded."
 
-                print(save_file_path,'下载完成')
-                # continue
-                break
+    except Exception as e:
+        return f"Index {index}: Error {e}"
 
-        except Exception as e:
-            print(f'error:{e}')
-            continue
-            # mistake = id + ',' + lng+','+lat + ',' + '\n'
-            # with open(folder_out_path + '/error_data.csv', 'a', encoding='utf-8') as f:
-            #     f.write(mistake)
+def main(csv_path, folder_out_path, start_idx=10000, end_idx=13500, num_processes=5):
+    # 1. 创建输出目录
+    if not os.path.exists(folder_out_path):
+        os.makedirs(folder_out_path)
+
+    # 2. 读取 CSV 并根据 index 列筛选数据
+    df = pd.read_csv(csv_path)
+    # 筛选指定范围的行
+    mask = (df['index'] > start_idx) & (df['index'] <= end_idx)
+    target_df = df[mask].copy()
+    
+    print(f"Total rows to process: {len(target_df)}")
+
+    # for _, row in target_df.iterrows():
+    #     process_row(row, resolution_ratio, folder_out_path)
+
+    # 3. 使用多进程池
+    # partial 用于固定不需要变动的参数 (resolution_ratio, folder_out_path)
+    func = functools.partial(process_row, 
+                             folder_out_path=folder_out_path)
+
+    # 将 dataframe 转换为字典列表供多进程消费
+    rows = [row for _, row in target_df.iterrows()]
+
+    with Pool(processes=num_processes) as pool:
+        # 使用 imap_unordered 配合 tqdm 显示进度条
+        results = list(tqdm(pool.imap_unordered(func, rows), total=len(rows), desc="Downloading"))
+
+    # 打印简要总结
+    print("\nProcessing Complete.")
 
 coordinate_point_category = 1
 # coordinate_point_category = 5
@@ -394,8 +383,10 @@ coordinate_point_category = 1
 resolution_ratio = 4
 
 if __name__ == '__main__':
-    # 文件夹路径
-    csv_path = r'/home/ubuntu/SV_acq/points.csv'  # 需要爬取的点
-    folder_out_path = r'/home/ubuntu/SV_acq/points'  # 保存街景文件
-
-    main(csv_path,folder_out_path)
+    CSV_PATH = r'/home/ubuntu/SV_acq/泉州市_50m_Spatial.csv'
+    CSV_PATH = r'F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\泉州市_50m_Spatial.csv'
+    FOLDER_OUT_PATH = r'/home/ubuntu/SV_acq/sv_pan'
+    FOLDER_OUT_PATH = r'/home/ubuntu/SV_acq/sv_pan'
+    
+    # 在这里设置你想提取的范围和进程数
+    main(CSV_PATH, FOLDER_OUT_PATH, start_idx=0, end_idx=12000, num_processes=5)

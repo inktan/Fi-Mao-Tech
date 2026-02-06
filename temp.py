@@ -1,46 +1,52 @@
+import os
 import pandas as pd
-import numpy as np
-import colorsys
-import ast
-from skimage import color
+from PIL import Image
+from tqdm import tqdm
 
-def process_rgb_csv(input_file, output_file):
-    # 1. 读取 CSV 文件
-    df = pd.read_csv(input_file)
+def analyze_image_storage(folder_path):
+    file_sizes = []
+    resolutions = set()
+    
+    # 获取目录下所有文件
+    files = [f for f in os.listdir(folder_path) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
+    
+    if not files:
+        print("文件夹中未找到图片文件。")
+        return
 
-    def parse_rgb(s):
-        """将字符串格式的 '[r, g, b]' 转换为数值列表"""
-        return ast.literal_eval(s)
+    print(f"正在分析 {len(files)} 张图片...")
 
-    def rgb_to_hsl(rgb):
-        """将 RGB (0-255) 转换为 HSL (H:0-360, S:0-100, L:0-100)"""
-        r, g, b = [x / 255.0 for x in rgb]
-        h, l, s = colorsys.rgb_to_hls(r, g, b)
-        return [round(h * 360, 2), round(s * 100, 2), round(l * 100, 2)]
-
-    def rgb_to_lab(rgb):
-        """将 RGB (0-255) 转换为 CIELAB"""
-        # skimage 需要输入范围为 [0, 1] 的 3D 数组 (1, 1, 3)
-        rgb_normalized = np.array(rgb).reshape(1, 1, 3) / 255.0
-        lab = color.rgb2lab(rgb_normalized)
-        return [round(x, 2) for x in lab.flatten().tolist()]
-
-    # 2. 遍历 4 列数据进行转换
-    for i in range(1, 5):
-        rgb_col = f'rgb{i}'
-        # 将字符串解析为列表
-        rgb_series = df[rgb_col].apply(parse_rgb)
+    for file in tqdm(files):
+        file_path = os.path.join(folder_path, file)
+        # 获取文件大小 (Bytes)
+        file_sizes.append(os.path.getsize(file_path))
         
-        # 添加 HSL 列
-        df[f'hsl{i}'] = rgb_series.apply(rgb_to_hsl)
-        
-        # 添加 Lab 列
-        df[f'Lab{i}'] = rgb_series.apply(rgb_to_lab)
+        # 仅读取第一张图片的分辨率（假设如你所说全一致）
+        if len(resolutions) == 0:
+            with Image.open(file_path) as img:
+                resolutions.add(img.size)
 
-    # 3. 保存结果
-    df.to_csv(output_file, index=False)
-    print(f"处理完成！结果已保存至: {output_file}")
-    return df
+    # 转换为 DataFrame 方便计算
+    df = pd.Series(file_sizes) / (1024 * 1024)  # 转换为 MB
+    
+    res_w, res_h = list(resolutions)[0]
+    avg_size = df.mean()
+    max_size = df.max()
+    min_size = df.min()
+    
+    print("\n" + "="*30)
+    print(f"分析报告 - 路径: {folder_path}")
+    print(f"图片分辨率: {res_w} x {res_h}")
+    print(f"样本数量: {len(files)} 张")
+    print("-" * 30)
+    print(f"平均单张大小: {avg_size:.2f} MB")
+    print(f"最大单张大小: {max_size:.2f} MB")
+    print(f"最小单张大小: {min_size:.2f} MB")
+    print("-" * 30)
+    print(f"预估 10,000 张所需空间: {avg_size * 10000 / 1024:.2f} GB")
+    print(f"预估 1,000,000 张所需空间: {avg_size * 1000000 / 1024 / 1024:.2f} TB")
+    print("="*30)
 
-# 使用示例
-df_result = process_rgb_csv(r'e:\work\sv_npc\cluster_colors.csv', r'e:\work\sv_npc\cluster_colors01.csv')
+if __name__ == '__main__':
+    target_path = r'F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\sv_pan01'
+    analyze_image_storage(target_path)

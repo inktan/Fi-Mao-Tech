@@ -72,7 +72,7 @@ def process_geometry(row,interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'e:\work\sv_npc\_network.shp',
+    r'f:\大数据\osm\roads\macau\macau_gis_osm_roads_free_1.shp',
 ]
 
 for file_path in shape_files:
