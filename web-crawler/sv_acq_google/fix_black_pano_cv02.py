@@ -44,7 +44,7 @@ def fix_black_images(img_paths):
         # if i>210000:
         #     continue
         try:
-            img_save_path = image_path.replace(r'F:\GoogleDrive\wt282532\我的云端硬盘',r'F:\work\sv_ran\sv_degree_960_720').replace(r'sv_pan_zoom3 (1)',r'')
+            img_save_path = image_path.replace(r'svi_google',r'svi_google_fixed')
             if os.path.exists(img_save_path):
                 continue
             cropped_img = crop_non_black_area(image_path)  # 添加缩放尺寸
@@ -68,7 +68,7 @@ def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
 
     folder_path_list =[
-        r'F:\GoogleDrive\wt282532\我的云端硬盘\sv_points_surrounding_times',
+        r'F:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\澳门特别行政区\svi_google',
         ]
     
     for folder_path in folder_path_list:

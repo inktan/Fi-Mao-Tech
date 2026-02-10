@@ -1,52 +1,44 @@
 import os
 import pandas as pd
-from PIL import Image
-from tqdm import tqdm
 
-def analyze_image_storage(folder_path):
-    file_sizes = []
-    resolutions = set()
+def process_images_to_csv(folder_path, output_csv):
+    data_list = []
     
-    # 获取目录下所有文件
-    files = [f for f in os.listdir(folder_path) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
+    # 支持的图片后缀
+    valid_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.tiff')
     
-    if not files:
-        print("文件夹中未找到图片文件。")
-        return
-
-    print(f"正在分析 {len(files)} 张图片...")
-
-    for file in tqdm(files):
-        file_path = os.path.join(folder_path, file)
-        # 获取文件大小 (Bytes)
-        file_sizes.append(os.path.getsize(file_path))
+    # 1. 使用 os.walk 遍历文件夹（包括子文件夹）
+    for root, dirs, files in os.walk(folder_path):
+        for file in files:
+            # 检查是否为图片文件
+            if file.lower().endswith(valid_extensions):
+                # 2. 去掉后缀并使用 _ 分割
+                # 例如: 0_135.52_34.68_102.34_2016_4_0.jpg -> [0, 135.52, 34.68, 102.34, 2016, 4, 0]
+                file_name_without_ext = os.path.splitext(file)[0]
+                split_parts = file_name_without_ext.split('_')
+                
+                # 将分割后的数据添加到列表
+                data_list.append(split_parts)
+    
+    # 3. 统计并打印图片数量
+    print(f"共找到图片文件数量: {len(data_list)}")
+    
+    if len(data_list) > 0:
+        # 4. 创建 DataFrame 并指定列名
+        # 注意：请确保文件名分割后的段数与列名数量匹配
+        columns = ['index', 'lon', 'lat', 'heading_degree', 'year', 'month']
         
-        # 仅读取第一张图片的分辨率（假设如你所说全一致）
-        if len(resolutions) == 0:
-            with Image.open(file_path) as img:
-                resolutions.add(img.size)
+        # 如果某些文件名分割后长度不一致，这里会报错，建议先预览数据
+        df = pd.DataFrame(data_list, columns=columns)
+        
+        # 5. 保存为 CSV
+        df.to_csv(output_csv, index=False, encoding='utf-8-sig')
+        print(f"处理完成，结果已保存至: {output_csv}")
+    else:
+        print("未发现匹配的图片文件。")
 
-    # 转换为 DataFrame 方便计算
-    df = pd.Series(file_sizes) / (1024 * 1024)  # 转换为 MB
-    
-    res_w, res_h = list(resolutions)[0]
-    avg_size = df.mean()
-    max_size = df.max()
-    min_size = df.min()
-    
-    print("\n" + "="*30)
-    print(f"分析报告 - 路径: {folder_path}")
-    print(f"图片分辨率: {res_w} x {res_h}")
-    print(f"样本数量: {len(files)} 张")
-    print("-" * 30)
-    print(f"平均单张大小: {avg_size:.2f} MB")
-    print(f"最大单张大小: {max_size:.2f} MB")
-    print(f"最小单张大小: {min_size:.2f} MB")
-    print("-" * 30)
-    print(f"预估 10,000 张所需空间: {avg_size * 10000 / 1024:.2f} GB")
-    print(f"预估 1,000,000 张所需空间: {avg_size * 1000000 / 1024 / 1024:.2f} TB")
-    print("="*30)
+# --- 使用示例 ---
+target_folder = r'F:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\澳门特别行政区\svi_google'  # 替换为你的实际文件夹路径
+output_file = r'F:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\澳门特别行政区\svi_google_image_data_info.csv'        # 结果文件名
 
-if __name__ == '__main__':
-    target_path = r'F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\sv_pan01'
-    analyze_image_storage(target_path)
+process_images_to_csv(target_folder, output_file)
