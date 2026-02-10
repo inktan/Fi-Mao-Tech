@@ -72,7 +72,7 @@ def process_geometry(row,interval):
 # shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
 
 shape_files=[
-    r'f:\大数据\osm\roads\macau\macau_gis_osm_roads_free_1.shp',
+    r'f:\大数据\2025年8月份道路矢量数据\分城市的道路数据\澳门特别行政区-260208-free\gis_osm_roads_free_1.shp',
 ]
 
 for file_path in shape_files:
@@ -80,6 +80,9 @@ for file_path in shape_files:
 
     shp_file_path = file_path
     gdf = gpd.read_file(shp_file_path)
+    # 读取后立即转换坐标系
+    if gdf.crs != "EPSG:4326":
+        gdf = gdf.to_crs("EPSG:4326") # 转换为地理坐标系
     
     # 应用函数并创建DataFrame
     interval = 50

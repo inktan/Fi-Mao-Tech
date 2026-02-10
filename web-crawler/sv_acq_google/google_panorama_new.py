@@ -227,14 +227,15 @@ def main(csv_path,output_):
     for index, row in tqdm(df.iterrows()):
         index = row['index']
         
-        if index <= 90000:
-            continue
-        if index > 100000:
-            continue
+        # if index <= 90000:
+        #     continue
+        # if index > 100000:
+        #     continue
         
         print(df.shape[0],index)
         try:
-            resp = search_request(float(row['lon']), float(row['lat']))
+            # resp = search_request(float(row['lon']), float(row['lat']))
+            resp = search_request(float(row['longitude']), float(row['latitude']))
             panoids = panoids_from_response(resp.text)
             # print(panoids)
         except Exception as e:
@@ -270,15 +271,15 @@ def main(csv_path,output_):
 
 import os
 # 输入经纬度点的csv文件
-points_csv = r'e:\work\sv_YJ_20240924\20250818\0530_5_NY_standpoint_final.csv'
+points_csv = r'e:\work\sv_Gonhoo\大阪核心区GIS数据\大阪核心区GIS数据\road_单线_50m_Spatial.csv'
 
 # 输入街景保存文件夹
 # 全景分辨率设置 1-512*1024; 2-1024*2048; 3-2048*4096; 4-4096*8192
 # 全景分辨率设置 1-512*1024; 2-7++*1536; 3-1024*3072; 4-2048*4096; 5-4096*8192
 # zoom = 3
-# zoom = 4
-zoom = 5
-output_ = r'e:\work\sv_YJ_20240924\20250818\sv_pano'
+zoom = 4
+# zoom = 5
+output_ = r'e:\work\sv_Gonhoo\大阪核心区GIS数据\大阪核心区GIS数据\sv_pano'
 
 if os.path.exists(output_) == False:
     os.makedirs(output_)

@@ -352,6 +352,7 @@ def main(csv_path, folder_out_path, start_idx=10000, end_idx=13500, num_processe
 
     # 2. 读取 CSV 并根据 index 列筛选数据
     df = pd.read_csv(csv_path)
+    print(df.shape, "起始索引:", start_idx, "结束索引:", end_idx)
     # 筛选指定范围的行
     mask = (df['index'] > start_idx) & (df['index'] <= end_idx)
     target_df = df[mask].copy()
@@ -386,7 +387,10 @@ if __name__ == '__main__':
     CSV_PATH = r'/home/ubuntu/SV_acq/泉州市_50m_Spatial.csv'
     CSV_PATH = r'F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\泉州市_50m_Spatial.csv'
     FOLDER_OUT_PATH = r'/home/ubuntu/SV_acq/sv_pan'
-    FOLDER_OUT_PATH = r'/home/ubuntu/SV_acq/sv_pan'
     
     # 在这里设置你想提取的范围和进程数
-    main(CSV_PATH, FOLDER_OUT_PATH, start_idx=0, end_idx=12000, num_processes=5)
+    start_idx=0
+    end_idx=12000
+    FOLDER_OUT_PATH = f'/home/ubuntu/SV_acq/sv_pan_{start_idx}_{end_idx}'
+    num_processes=20
+    main(CSV_PATH, FOLDER_OUT_PATH, start_idx=start_idx, end_idx=end_idx, num_processes=num_processes)

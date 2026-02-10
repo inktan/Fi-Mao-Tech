@@ -1,52 +1,43 @@
 import os
-import pandas as pd
-from PIL import Image
-from tqdm import tqdm
 
-def analyze_image_storage(folder_path):
-    file_sizes = []
-    resolutions = set()
+def delete_files_by_split_count(folder_path, separator='_', target_count=10):
+    """
+    遍历文件夹，根据分隔符分割文件名，并删除符合数量条件的图片
+    """
+    # 支持的图片格式
+    image_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.webp', '.tiff')
     
-    # 获取目录下所有文件
-    files = [f for f in os.listdir(folder_path) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
-    
-    if not files:
-        print("文件夹中未找到图片文件。")
+    if not os.path.exists(folder_path):
+        print(f"错误: 文件夹 '{folder_path}' 不存在")
         return
 
-    print(f"正在分析 {len(files)} 张图片...")
+    print(f"开始扫描文件夹: {folder_path}...")
+    delete_count = 0
 
-    for file in tqdm(files):
-        file_path = os.path.join(folder_path, file)
-        # 获取文件大小 (Bytes)
-        file_sizes.append(os.path.getsize(file_path))
-        
-        # 仅读取第一张图片的分辨率（假设如你所说全一致）
-        if len(resolutions) == 0:
-            with Image.open(file_path) as img:
-                resolutions.add(img.size)
+    for filename in os.listdir(folder_path):
+        # 1. 检查是否为图片文件
+        if filename.lower().endswith(image_extensions):
+            # 2. 分离文件名和后缀（防止后缀中的点干扰分割）
+            name_without_ext = os.path.splitext(filename)[0]
+            
+            # 3. 使用下划线分割
+            elements = name_without_ext.split(separator)
+            
+            # 4. 判断分割后的元素数量
+            if len(elements) == target_count:
+                file_path = os.path.join(folder_path, filename)
+                try:
+                    # 执行删除
+                    os.remove(file_path)
+                    print(f"已删除: {filename} (元素数量: {len(elements)})")
+                    delete_count += 1
+                except Exception as e:
+                    print(f"删除失败: {filename}, 错误: {e}")
 
-    # 转换为 DataFrame 方便计算
-    df = pd.Series(file_sizes) / (1024 * 1024)  # 转换为 MB
-    
-    res_w, res_h = list(resolutions)[0]
-    avg_size = df.mean()
-    max_size = df.max()
-    min_size = df.min()
-    
-    print("\n" + "="*30)
-    print(f"分析报告 - 路径: {folder_path}")
-    print(f"图片分辨率: {res_w} x {res_h}")
-    print(f"样本数量: {len(files)} 张")
     print("-" * 30)
-    print(f"平均单张大小: {avg_size:.2f} MB")
-    print(f"最大单张大小: {max_size:.2f} MB")
-    print(f"最小单张大小: {min_size:.2f} MB")
-    print("-" * 30)
-    print(f"预估 10,000 张所需空间: {avg_size * 10000 / 1024:.2f} GB")
-    print(f"预估 1,000,000 张所需空间: {avg_size * 1000000 / 1024 / 1024:.2f} TB")
-    print("="*30)
+    print(f"处理完成！共删除文件数量: {delete_count}")
 
-if __name__ == '__main__':
-    target_path = r'F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\sv_pan01'
-    analyze_image_storage(target_path)
+# --- 使用示例 ---
+# 请将下方的路径替换为你实际的文件夹路径
+target_folder = r'F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\街景'
+delete_files_by_split_count(target_folder)
