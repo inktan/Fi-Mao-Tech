@@ -1,99 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import os
+import Equirec2Perspec as E2P 
 import cv2
 import os  
 from tqdm import tqdm
 from PIL import Image  
 import numpy as np  
-import cv2
-import numpy as np
 
-from PIL import Image  
-
-def xyz2lonlat(xyz):
-    atan2 = np.arctan2
-    asin = np.arcsin
-
-    norm = np.linalg.norm(xyz, axis=-1, keepdims=True)
-    xyz_norm = xyz / norm
-    x = xyz_norm[..., 0:1]
-    y = xyz_norm[..., 1:2]
-    z = xyz_norm[..., 2:]
-
-    lon = atan2(x, z)
-    lat = asin(y)
-    lst = [lon, lat]
-
-    out = np.concatenate(lst, axis=-1)
-    return out
-
-def lonlat2XY(lonlat, shape):
-    X = (lonlat[..., 0:1] / (2 * np.pi) + 0.5) * (shape[1] - 1)
-    Y = (lonlat[..., 1:] / (np.pi) + 0.5) * (shape[0] - 1)
-    lst = [X, Y]
-    out = np.concatenate(lst, axis=-1)
-
-    return out 
-
-class Equirectangular:
-    def __init__(self, img_name):
-
-        # 使用PIL读取图像  
-        pil_image = Image.open(img_name)  
-        # 获取当前宽度和高度
-        width, height = pil_image.size
-        # 检查宽度是否是高度的2倍
-        if width != 2 * height:
-            # 计算新的高度（保持原始高度）和新的宽度（高度的2倍）
-            new_height = height
-            new_width = 2 * height
-            
-            # 使用Lanczos重采样算法进行高质量缩放
-            pil_image = pil_image.resize((new_width, new_height), Image.LANCZOS)
-        # 将PIL图像转换为OpenCV格式  
-        self._img = np.array(pil_image)[:, :, ::-1].copy()  # 注意：PIL使用RGB顺序，而OpenCV使用BGR顺序
-
-        # self._img = cv2.imread(img_name, cv2.IMREAD_COLOR)
-        [self._height, self._width, _] = self._img.shape
-        #cp = self._img.copy()  
-        #w = self._width
-        #self._img[:, :w/8, :] = cp[:, 7*w/8:, :]
-        #self._img[:, w/8:, :] = cp[:, :7*w/8, :]    
-
-    def GetPerspective(self, FOV, THETA, PHI, height, width):
-        #
-        # THETA is left/right angle, PHI is up/down angle, both in degree
-        #
-
-        f = 0.5 * width * 1 / np.tan(0.5 * FOV / 180.0 * np.pi)
-        cx = (width - 1) / 2.0
-        cy = (height - 1) / 2.0
-        K = np.array([
-                [f, 0, cx],
-                [0, f, cy],
-                [0, 0,  1],
-            ], np.float32)
-        K_inv = np.linalg.inv(K)
-        
-        x = np.arange(width)
-        y = np.arange(height)
-        x, y = np.meshgrid(x, y)
-        z = np.ones_like(x)
-        xyz = np.concatenate([x[..., None], y[..., None], z[..., None]], axis=-1)
-        xyz = xyz @ K_inv.T
-
-        y_axis = np.array([0.0, 1.0, 0.0], np.float32)
-        x_axis = np.array([1.0, 0.0, 0.0], np.float32)
-        R1, _ = cv2.Rodrigues(y_axis * np.radians(THETA))
-        R2, _ = cv2.Rodrigues(np.dot(R1, x_axis) * np.radians(PHI))
-        R = R2 @ R1
-        xyz = xyz @ R.T
-        lonlat = xyz2lonlat(xyz) 
-        XY = lonlat2XY(lonlat, shape=self._img.shape).astype(np.float32)
-        persp = cv2.remap(self._img, XY[..., 0], XY[..., 1], cv2.INTER_CUBIC, borderMode=cv2.BORDER_WRAP)
-
-        return persp
 def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
       
     # 定义图片文件类型  
@@ -121,7 +35,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
             #     continue
             try:
                 
-                equ = Equirectangular(image_path)    # Load equirectangular image
+                equ = E2P.Equirectangular(image_path)    # Load equirectangular image
 
                 degree_avg = 360 / degree_count
                 degrees = [i*degree_avg for i in range(degree_count)]
@@ -130,7 +44,7 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
                 image_type = image_path.split('.')[-1]
                 for i in degrees:
                     # img_degree_save = image_path.replace('svi',f'街景_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
-                    img_degree_save = image_path.replace('sv_pan01',f'街景').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
+                    img_degree_save = image_path.replace('svi_google',f'svi_google_degree').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
                     # img_degree_save = image_path.replace('sv_pan_zoom3',f'街景_{width}_{height}').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
                     # img_degree_save = image_path.replace(r'F:\GoogleDrive\wt282532\我的云端硬盘',r'F:\work\sv_ran\sv_degrees').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
                     # img_degree_save = image_path.replace(r'F:\GoogleDrive\wt282532\我的云端硬盘',r'F:\work\sv_ran\sv_degrees').replace('.'+image_type,'_'+str(int(i))+'.'+image_type)
@@ -150,11 +64,10 @@ def panorama_to_street_view(input_dir,fov,degree_count,phi,height,width):
            
             except Exception as e:
                 print(e)
-        # break
 
 # ------------Main Function -------------------
 if __name__ == "__main__":
-    input = r'F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\sv_pan01'
+    input = r'F:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\澳门特别行政区\svi_google'
     
     # fov是镜头的远近关系 水平方向范围，范围[10,360]，fov=360即可显示整幅全是图
     # pitch是仰头，低头关系 垂直视角，范围[0,90]。
