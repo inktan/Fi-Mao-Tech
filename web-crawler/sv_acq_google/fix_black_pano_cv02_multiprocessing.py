@@ -40,7 +40,7 @@ def process_single_image(image_path):
     """
     try:
         # 生成保存路径
-        img_save_path = image_path.replace('svi_google', 'svi_google_fixed')
+        img_save_path = image_path.replace('lisiben', 'lisiben_fixed')
         
         # 如果已存在则跳过
         if os.path.exists(img_save_path):
@@ -82,7 +82,7 @@ def run_multiprocessing(img_paths, max_workers=None):
 def main():
     accepted_formats = (".png", ".jpg", ".JPG", ".jpeg", ".webp")
     folder_path_list = [
-        r'F:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\澳门特别行政区\svi_google',
+        r'd:\work\work_zhoujunling\lisiben',
     ]
     
     img_paths = []

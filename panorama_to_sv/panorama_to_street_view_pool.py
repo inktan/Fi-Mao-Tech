@@ -110,7 +110,7 @@ def run_conversion(input_dir, fov, degree_count, phi, out_h, out_w):
         output_info = []
         for i, d in enumerate(degrees):
             # 构建输出路径：将 sv_pan01 替换为 街景
-            out_p = path.replace('sv_pan01', '街景').replace('.j', f'_{int(d)}.j')
+            out_p = path.replace('svi_0_20000', '街景').replace('.j', f'_{int(d)}.j')
             if not os.path.exists(out_p):
                 output_info.append((d, out_p, i))
         
@@ -132,7 +132,7 @@ def run_conversion(input_dir, fov, degree_count, phi, out_h, out_w):
 if __name__ == "__main__":
     # 配置参数
     CONFIG = {
-        "input_dir": r'F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\sv_pan01',
+        "input_dir": r'd:\work\work_zhoujunling\lisiben_fixed\svi_0_20000',
         "fov": 90,
         "phi": 0,
         "degree_count": 4,

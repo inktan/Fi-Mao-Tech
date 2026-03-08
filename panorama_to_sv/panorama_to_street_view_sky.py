@@ -112,8 +112,8 @@ def run_conversion(input_dir, fov, degree_count, phi, out_h, out_w):
         for i, d in enumerate(degrees):
             # 构建输出路径：将 sv_pan01 替换为 街景
             # out_p = path.replace('sv_pan01', '街景').replace('.j', f'_{int(d)}.j')
-            out_p = path.replace('sv_pan01', '街景').replace('.j', f'_ground.j')
-            # out_p = path.replace('sv_pan01', '街景').replace('.j', f'_sky.j')
+            # out_p = path.replace('sv_pan01', '街景').replace('.j', f'_ground.j')
+            out_p = path.replace('sv_pan01', '街景').replace('.j', f'_sky.j')
             if not os.path.exists(out_p):
                 output_info.append((d, out_p, i))
             # output_info.append((d, out_p, i))
@@ -138,7 +138,7 @@ if __name__ == "__main__":
     CONFIG = {
         "input_dir": r'f:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\厦门市\sv_pan01',
         "fov": 150,
-        "phi": -90,
+        "phi": 90,
         "degree_count": 4,
         "width": 2048,
         "height": 1536
