@@ -1,108 +1,76 @@
+import json
 import geopandas as gpd
 import osmnx as ox
-import os
-from shapely.geometry import Polygon
-import matplotlib.pyplot as plt
-import time
-import pandas as pd
+from shapely.geometry import shape, Polygon
+from coord_convert import transform  # 确保你的转换工具可用
 
-# 设置OSMnx配置
-ox.settings.log_console = True
-ox.settings.use_cache = True
-ox.settings.timeout = 600  # 增加超时时间
-
-def process_individual_polygons(input_shp, output_dir=None, network_type='all'):
-    """
-    为SHP文件中的每个多边形单独获取路网并保存
-    
-    参数:
-        input_shp: 输入SHP文件路径
-        output_dir: 输出目录(默认为输入文件所在目录)
-        network_type: 路网类型 ('all', 'drive', 'walk', 'bike')
-    """
-    # 1. 读取SHP文件
-    gdf = gpd.read_file(input_shp)
-    
-    # 2. 确保是WGS84坐标系
-    if gdf.crs != 'EPSG:4326':
-        gdf = gdf.to_crs('EPSG:4326')
-    
-    # 3. 检查几何类型
-    if not all(gdf.geometry.type.isin(['Polygon', 'MultiPolygon'])):
-        raise ValueError("输入SHP文件必须只包含多边形要素")
-    
-    # 4. 设置输出目录
-    if output_dir is None:
-        output_dir = os.path.dirname(input_shp)
-    os.makedirs(output_dir, exist_ok=True)
-    
-    # 5. 创建结果DataFrame用于汇总
-    results = []
-    
-    # 6. 处理每个多边形
-    for idx, row in gdf.iterrows():
-        start_time = time.time()
-        polygon = row.geometry
+def process_geojson_and_download_osm(geojson_path, output_shp):
+    try:
+        # 1. 读取 GeoJSON 文件
+        with open(geojson_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
         
-        # 为每个多边形创建基本文件名
-        base_name = os.path.splitext(os.path.basename(input_shp))[0]
-        output_shp = os.path.join(output_dir, f"{base_name}_polygon_{idx}_netroad.shp")
+        # 2. 兼容处理嵌套的 features 格式
+        if "features" in data and isinstance(data["features"], dict):
+            inner_features = data["features"]["features"]
+        else:
+            inner_features = data["features"]
+
+        # 3. 提取第一个有效的多边形 (Polygon)
+        # 假设 GeoJSON 中只有一个主要区域，或者我们取第一个
+        target_geometry = None
+        for feature in inner_features:
+            geom = shape(feature['geometry'])
+            if geom.geom_type in ['Polygon', 'MultiPolygon']:
+                target_geometry = geom
+                break
         
-        try:
-            # 获取路网数据
-            print(f"\n正在处理多边形 {idx}...")
-            G = ox.graph_from_polygon(polygon, network_type=network_type)
-            
-            # 转换为GeoDataFrame
-            gdf_edges = ox.graph_to_gdfs(G, nodes=False)
-            
-            # 确保有有效的几何图形
-            gdf_edges = gdf_edges[gdf_edges.geometry.notnull()]
-            
-            # 保存结果
-            gdf_edges.to_file(output_shp, encoding='utf-8')
-            
-            # 记录处理结果
-            processing_time = time.time() - start_time
-            road_count = len(gdf_edges)
-            results.append({
-                'polygon_id': idx,
-                'road_count': road_count,
-                'processing_time': processing_time,
-                'output_file': output_shp,
-                'status': 'success'
-            })
-            
-            print(f"成功保存多边形 {idx} 的路网数据到: {output_shp}")
-            print(f"包含 {road_count} 条道路，处理时间: {processing_time:.2f}秒")
-            
-        except Exception as e:
-            processing_time = time.time() - start_time
-            results.append({
-                'polygon_id': idx,
-                'road_count': 0,
-                'processing_time': processing_time,
-                'output_file': '',
-                'status': f'failed: {str(e)}'
-            })
-            print(f"处理多边形 {idx} 时出错: {e}")
-            print(f"处理多边形 {idx} 时出错: {e}")
-    
-    # 7. 保存处理结果汇总
-    results_df = pd.DataFrame(results)
-    summary_file = os.path.join(output_dir, f"{base_name}_processing_summary.csv")
-    results_df.to_csv(summary_file, index=False)
-    print(f"\n处理完成! 结果汇总已保存到: {summary_file}")
-    
-    return results_df
+        if not target_geometry:
+            print("错误：在 GeoJSON 中未找到多边形几何体。")
+            return
 
-# 使用示例
-input_shp = r"e:\work\sv_xiufenganning\地理数据\circles_500m.shp"
-output_dir = r"e:\work\sv_xiufenganning\地理数据\individual_road_networks"  # 可选自定义输出目录
+        # 4. 坐标转换：从 GCJ-02 转换为 WGS84
+        # 处理 Polygon 的外轮廓 (exterior)
+        print("正在进行坐标转换 (GCJ-02 -> WGS84)...")
+        
+        def convert_polygon(poly):
+            # 转换外轮廓
+            wgs_exterior = [transform.gcj2wgs(lng, lat) for lng, lat in poly.exterior.coords]
+            # 转换内环（如果有的话）
+            wgs_interiors = []
+            for hole in poly.interiors:
+                wgs_interiors.append([transform.gcj2wgs(lng, lat) for lng, lat in hole.coords])
+            return Polygon(wgs_exterior, wgs_interiors)
 
-# 处理多边形
-results = process_individual_polygons(input_shp, output_dir, network_type='all')
+        if target_geometry.geom_type == 'Polygon':
+            polygon_wgs = convert_polygon(target_geometry)
+        else:
+            # 如果是 MultiPolygon，处理每一个子多边形
+            from shapely.geometry import MultiPolygon
+            polygon_wgs = MultiPolygon([convert_polygon(p) for p in target_geometry.geoms])
 
-# 显示前几个处理结果
-print("\n处理结果摘要:")
-print(results.head())
+        # 5. 使用 OSMnx 下载路网
+        print(f"正在下载该区域的 OSM 路网数据 (此步骤取决于网络和区域大小)...")
+        # network_type 可选: 'all', 'drive', 'walk', 'bike'
+        G = ox.graph_from_polygon(polygon_wgs, network_type='all', retain_all=True)
+
+        # 6. 转换为 GeoDataFrame 并保存
+        # ox.graph_to_gdfs 默认返回 (nodes, edges)
+        nodes, edges = ox.graph_to_gdfs(G)
+        
+        # 移除不支持保存到 Shp 的复杂列（如 lists）
+        for col in edges.columns:
+            if isinstance(edges[col].iloc[0], list):
+                edges[col] = edges[col].astype(str)
+
+        edges.to_file(output_shp, encoding='utf-8')
+        print(f"路网已成功保存至: {output_shp}")
+
+    except Exception as e:
+        print(f"发生错误：{e}")
+
+# --- 执行设置 ---
+input_geojson = r"e:\work\sv_zhoujunling\20260209\OSMB-13ca4e6f72ce0d9773fe5206137002939b07a485.geojson"
+output_shapefile = r"e:\work\sv_zhoujunling\20260209\lisiben_network.shp"
+
+process_geojson_and_download_osm(input_geojson, output_shapefile)
