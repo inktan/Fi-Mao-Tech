@@ -1,54 +1,58 @@
-import os
-from collections import Counter
+import json
+import geopandas as gpd
+import matplotlib.pyplot as plt
 
-def analyze_images_in_folder(folder_path):
-    # 定义常见的图片后缀名
-    image_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.gif', '.webp', '.tiff')
-    
-    extracted_elements = []
+# 1. 定义文件路径
+# 使用 r 前缀避免反斜杠转义问题
+file_path = r"e:\work\sv_zhoujunling\20260209\OSMB-13ca4e6f72ce0d9773fe5206137002939b07a485.geojson"
 
-    # 检查路径是否存在
-    if not os.path.exists(folder_path):
-        print(f"错误：文件夹路径 '{folder_path}' 不存在。")
-        return
+def plot_custom_geojson(path):
+    try:
+        # 2. 读取原始 JSON 文件
+        with open(path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        # 3. 提取嵌套的 features
+        # 你的格式是 {"features": {"features": [...]}}
+        if "features" in data and isinstance(data["features"], dict):
+            inner_features = data["features"]["features"]
+        else:
+            inner_features = data["features"]
 
-    # 遍历文件夹下的所有文件
-    for filename in os.listdir(folder_path):
-        # 1. 筛选图片文件（忽略大小写）
-        if filename.lower().endswith(image_extensions):
-            # 2. 去掉文件扩展名，只保留文件名部分
-            name_without_ext = os.path.splitext(filename)[0]
-            
-            # 3. 使用 '_' 进行分割
-            parts = name_without_ext.split('_')
-            
-            # 4. 获取分割后的倒数第二个元素
-            # 注意：只有当分割后的部分至少有 2 个时，倒数第二个才存在
-            if len(parts) >= 2:
-                element = parts[-2]
-                extracted_elements.append(element)
-            else:
-                print(f"跳过文件 '{filename}': 分割后不足两个元素。")
+        # 4. 转换为 GeoDataFrame
+        gdf = gpd.GeoDataFrame.from_features(inner_features)
 
-    # 5. 统计分析
-    # 计算每个唯一值的出现次数
-    counts = Counter(extracted_elements)
-    # 计算所有提取出来的元素总数
-    total_count = len(extracted_elements)
+        # 5. 绘图设置
+        fig, ax = plt.subplots(figsize=(12, 10))
+        
+        # 绘制所有 Polygon
+        # facecolor: 填充颜色, edgecolor: 边框颜色 (类似 Google Maps 的红色线条)
+        gdf.plot(ax=ax, alpha=0.3, facecolor='royalblue', edgecolor='red', linewidth=1.5)
 
-    # 打印结果
-    print("-" * 30)
-    print(f"统计报告：")
-    print(f"处理的元素总个数: {total_count}")
-    print("-" * 30)
-    print("各元素出现次数（唯一值统计）:")
-    for value, count in counts.items():
-        print(f" - {value}: {count} 次")
-    print("-" * 30)
+        # 6. 添加标注（如果属性中有 name 列）
+        if 'name' in gdf.columns:
+            for idx, row in gdf.iterrows():
+                if row['geometry'] and row['geometry'].is_valid:
+                    centroid = row['geometry'].centroid
+                    # 只有当名字不为空时才标注
+                    if row['name'] and str(row['name']) != 'nan':
+                        ax.text(centroid.x, centroid.y, str(row['name']), 
+                                fontsize=9, ha='center', color='darkred', fontfamily='SimHei')
 
-    return counts, total_count
+        # 图形美化
+        ax.set_title("Polygon Geometry Visualization", fontsize=14)
+        ax.set_xlabel("Longitude (WGS84)")
+        ax.set_ylabel("Latitude (WGS84)")
+        plt.grid(True, linestyle=':', alpha=0.5)
+        
+        # 自动调整比例
+        plt.tight_layout()
+        plt.show()
 
-# --- 使用示例 ---
-# 请将下面的路径替换为你电脑上真实的文件夹路径
-your_folder_path = r'F:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\厦门市\sv_pan01' 
-analyze_images_in_folder(your_folder_path)
+    except FileNotFoundError:
+        print(f"错误：找不到文件，请检查路径是否正确：{path}")
+    except Exception as e:
+        print(f"发生错误：{e}")
+
+# 执行函数
+plot_custom_geojson(file_path)
