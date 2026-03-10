@@ -1,6 +1,8 @@
 cache
 *cache
 
+*.sqlite3
+
 # Logs
 logs
 *.log
