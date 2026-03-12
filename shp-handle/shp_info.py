@@ -16,13 +16,13 @@ pd.set_option('display.precision', 15)
 # 5. 如果列宽还是不够（防止 geometry 列太长显示 ...）
 pd.set_option('display.max_colwidth', None)
 
-shp_file_path = r'e:\work\sv_pangpang\4_tree_species_deeplearning\GIS_data\CoS_GSV_30m_points.shp'  # 替换为你的SHP文件路径
+shp_file_path = r'f:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\svi_泉州市_points_unique.shp'  # 替换为你的SHP文件路径
 gdf = gpd.read_file(shp_file_path)
 
 # print(gdf.columns)
-print(gdf.columns.tolist())
+# print(gdf.columns.tolist())
 print(gdf.shape)
-print(gdf.head(100))
+# print(gdf.head(1))
 # print(gdf)
 # print(gdf.crs)
 # print(gdf['geometry'].head())

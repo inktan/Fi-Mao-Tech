@@ -83,7 +83,7 @@ pd.set_option('display.expand_frame_repr', False)  # 禁止换行显示
 #                 csv_names.append(file)
 
 csv_paths = [
-    r'e:\work\sv_Gonhoo\_beautiful.csv',
+    r'e:\work\sv_Humpy\output\shanghai_landmark_points.csv',
     ]
                 
 for csv_path in csv_paths:
@@ -94,7 +94,7 @@ for csv_path in csv_paths:
     print(df.columns[0])
     print(df.shape)
     print(df.iloc[0,0])
-    # print(df.head(10))
+    print(df.head(10))
     # print(df.tail())
 
     # unique_count = df['index'].nunique()

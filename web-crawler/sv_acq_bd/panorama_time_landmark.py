@@ -1,16 +1,21 @@
-
 # -*- coding:utf-8 -*-
+"""
+基于地标 CSV 的街景采集：读取含 landmark_name, longitude, latitude, point_index 的 CSV，
+按 landmark_name 作为一级文件夹归类保存图片；在保证一定限速与重试的前提下尽量提高下载效率。
+"""
 import math
 import json
+import re
 import requests
 import os
 from PIL import Image
 from tqdm import tqdm
 import pandas as pd
-import pandas as pd
-from tqdm import tqdm
 from multiprocessing import Pool
 import functools
+from io import BytesIO
+import time
+import random
 
 # 以下是根据百度地图JavaScript API破解得到 百度坐标<->墨卡托坐标 转换算法
 array1 = [75, 60, 45, 30, 15, 0]
@@ -39,8 +44,8 @@ def Convertor(x, y, param):
     cF *= (-1 if y < 0 else 1)
     return T, cF
 
-        
-# 平面坐标转百度经纬度   
+
+# 平面坐标转百度经纬度
 def pointtolnglat(pointx,pointy):
     arr = []
     for i in range(len(array3)):
@@ -71,13 +76,13 @@ def lnglattopoint(lng,lat):
     res = Convertor(lng, lat, arr)
     return [res[0], res[1]]
 
-# 平面坐标（pointX, pointY）转瓦片    
+# 平面坐标（pointX, pointY）转瓦片
 def pointtotile(pointx,pointy,zoom=18):
     tilex = int(pointx * 2 ** (zoom - 18) / 256)
     tiley = int(pointy * 2 ** (zoom - 18) / 256)
     return [tilex, tiley]
 
-# 平面坐标（pointX, pointY）转像素（pixelX, pixelY）  
+# 平面坐标（pointX, pointY）转像素（pixelX, pixelY）
 def pointtopixel(pointx,pointy,zoom=18):
     pixelx = int(pointx * 2 ** (zoom - 18) - int(pointx * 2 ** (zoom - 18) / 256) * 256)
     pixely = int(pointy * 2 ** (zoom - 18) - int(pointy * 2 ** (zoom - 18) / 256) * 256)
@@ -91,17 +96,15 @@ def tile_pixel_to_point(tilex,tiley,pixelx,pixely,zoom=18):
 
 # 瓦片及像素瓦片转经纬度坐标
 def tile_pixel_to_lnglat(tilex,tiley,pixelx,pixely,zoom=18):
-    # pointx = (tilex * 256 + pixelx) / (2 ** (zoom - 18))
-    # pointy = (tiley * 256 + pixely) / (2 ** (zoom - 18))
     pointx_pointy = tile_pixel_to_point(tilex,tiley,pixelx,pixely,zoom)
     return pointtolnglat(pointx_pointy[0],pointx_pointy[1])
 
-# 经纬度坐标转瓦片   
+# 经纬度坐标转瓦片
 def lnglattotile(lng,lat,zoom=18):
     pointx,pointy = lnglattopoint(lng,lat)
     return pointtotile(pointx,pointy,zoom)
 
-# 经纬度坐标转像素（pixelX, pixelY）  
+# 经纬度坐标转像素（pixelX, pixelY）
 def lnglattopixel(lng,lat,zoom=18):
     pointx,pointy = lnglattopoint(lng,lat)
     return pointtopixel(pointx,pointy,zoom)
@@ -115,9 +118,6 @@ def gcj02_to_bd09(lng, lat):
     """
     火星坐标系(GCJ-02)转百度坐标系(BD-09)
     谷歌、高德——>百度
-    :param lng:火星坐标经度
-    :param lat:火星坐标纬度
-    :return:
     """
     z = math.sqrt(lng * lng + lat * lat) + 0.00002 * math.sin(lat * x_pi)
     theta = math.atan2(lat, lng) + 0.000003 * math.cos(lng * x_pi)
@@ -130,9 +130,6 @@ def bd09_to_gcj02(bd_lon, bd_lat):
     """
     百度坐标系(BD-09)转火星坐标系(GCJ-02)
     百度——>谷歌、高德
-    :param bd_lat:百度坐标纬度
-    :param bd_lon:百度坐标经度
-    :return:转换后的坐标列表形式
     """
     x = bd_lon - 0.0065
     y = bd_lat - 0.006
@@ -146,11 +143,8 @@ def bd09_to_gcj02(bd_lon, bd_lat):
 def wgs84_to_gcj02(lng, lat):
     """
     WGS84转GCJ02(火星坐标系)
-    :param lng:WGS84坐标系的经度
-    :param lat:WGS84坐标系的纬度
-    :return:
     """
-    if out_of_china(lng, lat):  # 判断是否在国内
+    if out_of_china(lng, lat):
         return lng, lat
     dlat = _transformlat(lng - 105.0, lat - 35.0)
     dlng = _transformlng(lng - 105.0, lat - 35.0)
@@ -167,9 +161,6 @@ def wgs84_to_gcj02(lng, lat):
 def gcj02_to_wgs84(lng, lat):
     """
     GCJ02(火星坐标系)转GPS84
-    :param lng:火星坐标系的经度
-    :param lat:火星坐标系纬度
-    :return:
     """
     if out_of_china(lng, lat):
         return lng, lat
@@ -216,184 +207,245 @@ def _transformlng(lng, lat):
     return ret
 
 def out_of_china(lng, lat):
-    """
-    判断是否在国内，不在国内不做偏移
-    :param lng:
-    :param lat:
-    :return:
-    """
     return not (lng > 73.66 and lng < 135.05 and lat > 3.86 and lat < 53.55)
 
-class Panorama:
-    def __init__(self, pano, year_month, year, month):
-        self.pano = pano
-        self.year_month = year_month
-        self.year = year
-        self.month = month
 
-import requests
-from PIL import Image
-from io import BytesIO
-import os
+# ====================== 网络与并发配置（可按需调整） ======================
+# 每次 HTTP 请求超时时间（秒）
+REQUEST_TIMEOUT = 10
+# 单个请求最大重试次数（含首次）
+MAX_RETRIES = 3
+# 指数退避的基础秒数（退避时间约为 RETRY_BACKOFF_BASE * 2^(n-1) * [0.5, 1.5]）
+RETRY_BACKOFF_BASE = 0.5
+# 同一进程内相邻 HTTP 请求之间的最小间隔（秒），防止单 IP 过快触发风控；设为 0 则不做间隔
+MIN_REQUEST_INTERVAL = 0.0
+
+# 进程内复用 Session，减少握手开销
+_session = None
+_last_request_time = 0.0
+
+
+def _get_session() -> requests.Session:
+    """每个进程懒加载一个全局 Session，用于复用连接。"""
+    global _session
+    if _session is None:
+        _session = requests.Session()
+    return _session
+
+
+def _throttled_get(url: str, *, stream: bool = False, timeout: int = REQUEST_TIMEOUT):
+    """
+    带限速 + 简单重试的 GET。
+    - 对 429 / 5xx 状态码会指数退避重试；
+    - 对网络异常也会重试；
+    - 其他 4xx 直接返回。
+    """
+    global _last_request_time
+    sess = _get_session()
+
+    for attempt in range(1, MAX_RETRIES + 1):
+        # 简单的进程内限速
+        if MIN_REQUEST_INTERVAL > 0:
+            now = time.time()
+            wait = _last_request_time + MIN_REQUEST_INTERVAL - now
+            if wait > 0:
+                time.sleep(wait)
+
+        try:
+            resp = sess.get(url, stream=stream, timeout=timeout)
+            _last_request_time = time.time()
+
+            # 成功
+            if resp.status_code == 200:
+                return resp
+
+            # 对 429 / 5xx 做重试
+            if resp.status_code in (429, 500, 502, 503, 504) and attempt < MAX_RETRIES:
+                backoff = RETRY_BACKOFF_BASE * (2 ** (attempt - 1)) * (0.5 + random.random())
+                time.sleep(backoff)
+                continue
+
+            # 其他状态直接返回
+            return resp
+
+        except requests.RequestException:
+            _last_request_time = time.time()
+            if attempt < MAX_RETRIES:
+                backoff = RETRY_BACKOFF_BASE * (2 ** (attempt - 1)) * (0.5 + random.random())
+                time.sleep(backoff)
+                continue
+            return None
+
+    return None
+
+
+def _sanitize_folder_name(name: str) -> str:
+    """将地标名称转为合法文件夹名（去除或替换非法字符）。"""
+    if not name or not isinstance(name, str):
+        return "unknown"
+    s = re.sub(r'[\\/:*?"<>|]', "_", name.strip())
+    return s or "unknown"
+
 
 def download_and_merge_streetview(timeLineId, x_count, y_count, save_file_path):
     final_img = Image.new('RGB', (512 * y_count, 512 * x_count), (0, 0, 0))
-    
+
     for x in range(x_count):
         for y in range(y_count):
-            # 构造请求URL
             url = (
                 'https://mapsv1.bdimg.com/?qt=pdata&sid=' + str(timeLineId) +
                 '&pos=' + str(x) + '_' + str(y) +
                 '&z=' + str(resolution_ratio) +
                 '&udt=20200825&from=PC&auth=GPJbXPMId1MK3NC4B41Mzx7H0%3DNMQDQ%3DuxLEELLENBEtw805wi09v7uvYgP1PcGCgYvjPuVtvYgPMGvgWv%40uVtvYgPPxRYuVtvYgP%40vYZcvWPCuVtvYgP%40ZPcPPuVtvYgPhPPyheuVtvhgMuxVVty1uVtCGYuBtGIiyRWF%3D9Q9K%3DxXw1cv3uVtGccZcuVtPWv3Guxtdw8E62qvyIu9iTHf2PYIUvhgMZSguxzBEHLNRTVtcEWe1GD8zv7u%40ZPuVtc3CuVteuxtf0wd0vyMFFMMFOyAupt66FcErZZWux&seckey=mx8n3s4BT%2BM5jF6vP0bY6%2Bm25GJG9bJAPCy40WbYcVI%3D%2CLObtdXnaK4xy2ePuTyzwbSgjY0lwTkDw27LrZ2b6EqVnuWsCWY8KRbk0pLU3O7nH3Bxrl6QDIDwn3mcxqW8ivuJSq9AWKTb3QWqDwXO1CjnfVgGjLX42xPm511xNwk-n-XPUVVZWEHCymx0r0rAvOnY4vCwIwhNdEUnVTGHwmiRVJeaHB6B6bIKynrJcZMVy'
             )
-            response = requests.get(url, stream=True)
-            if response.status_code == 200:
+            response = _throttled_get(url, stream=True)
+            if response is not None and response.status_code == 200:
                 img = Image.open(BytesIO(response.content))
-                final_img.paste(img, (y * 512, x * 512))  # 粘贴到最终图片
+                final_img.paste(img, (y * 512, x * 512))
             else:
-                print(f"Failed to download image at ({x}, {y}), status code: {response.status_code}")
-    
-    os.makedirs(os.path.dirname(save_file_path), exist_ok=True)
-    final_img.save(save_file_path) 
-    
-#获取街景对应ID
-def get_panoid(lng,lat):
-    url = 'https://mapsv0.bdimg.com/?qt=qsdata&x=' + str(lng) + '&y=' + str(lat)
-    req = requests.get(url)
-    data = json.loads(req.text)
-    # print('data')
-    # print(data)
-    if (data is not None):
-         result = data['content']
-         # 提取所有历史街景ID
-         panoid = result['id']
-         url = 'https://mapsv0.bdimg.com/?qt=sdata&sid=' + panoid + '&pc=1'
-         r = requests.get(url,stream=True)
-         data = json.loads(r.text)
-         timeLineIds = data["content"][0]['TimeLine']
-         Heading = data["content"][0]['Heading']
-         MoveDir = data["content"][0]['MoveDir']
-         NorthDir = data["content"][0]['NorthDir']
+                code = response.status_code if response is not None else "NO_RESPONSE"
+                print(f"Failed to download image at ({x}, {y}), status code: {code}")
 
-         return [timeLineIds,Heading,MoveDir, NorthDir]
-    else:
+    os.makedirs(os.path.dirname(save_file_path), exist_ok=True)
+    final_img.save(save_file_path)
+
+
+def get_panoid(lng, lat):
+    url = 'https://mapsv0.bdimg.com/?qt=qsdata&x=' + str(lng) + '&y=' + str(lat)
+    req = _throttled_get(url)
+    if req is None or req.status_code != 200:
+        return []
+    try:
+        data = json.loads(req.text)
+    except json.JSONDecodeError:
+        return []
+    if not data:
         return []
 
-#经纬度坐标转换
-# 坐标点类别 1-5-6
+    result = data.get('content')
+    if not result or 'id' not in result:
+        return []
 
-def coord_convert(lng1,lat1):
+    panoid = result['id']
+    url = 'https://mapsv0.bdimg.com/?qt=sdata&sid=' + panoid + '&pc=1'
+    r = _throttled_get(url, stream=True)
+    if r is None or r.status_code != 200:
+        return []
+    try:
+        data = json.loads(r.text)
+    except json.JSONDecodeError:
+        return []
+
+    if "content" not in data or not data["content"]:
+        return []
+
+    content0 = data["content"][0]
+    timeLineIds = content0.get('TimeLine', [])
+    Heading = content0.get('Heading')
+    MoveDir = content0.get('MoveDir')
+    NorthDir = content0.get('NorthDir')
+
+    return [timeLineIds, Heading, MoveDir, NorthDir]
+
+
+def coord_convert(lng1, lat1):
     if coordinate_point_category == 1:
         result = wgs84_to_gcj02(lng1, lat1)
-        result = gcj02_to_bd09(result[0],result[1])
-        return lnglattopoint(result[0],result[1])
+        result = gcj02_to_bd09(result[0], result[1])
+        return lnglattopoint(result[0], result[1])
     elif coordinate_point_category == 5:
-        return lnglattopoint(lng1,lat1)
+        return lnglattopoint(lng1, lat1)
     elif coordinate_point_category == 6:
-        result = gcj02_to_bd09(lng1,lat1)
-        return lnglattopoint(result[0],result[1])
+        result = gcj02_to_bd09(lng1, lat1)
+        return lnglattopoint(result[0], result[1])
 
-# 假设这些是你自定义的函数和类，请确保已正确导入
-# from your_module import coord_convert, get_panoid, Panorama, download_and_merge_streetview
 
 def process_row(row, folder_out_path):
     """
-    单个行数据的处理逻辑，封装成函数以便多进程调用
+    处理单行：CSV 列 landmark_name, longitude, latitude, point_index。
+    图片按 landmark_name 作为一级文件夹保存。
     """
-    # 提取分辨率计算参数
     x_count = int(2 ** (resolution_ratio - 2))
     y_count = int(x_count * 2)
-    
-    index = row['index']
-    # lng = row['lon']
-    # lat = row['lat']
+
+    landmark_name = row['landmark_name']
+    point_index = row['point_index']
     lng = row['longitude']
     lat = row['latitude']
 
     try:
-        # 坐标转换与获取 ID
         tar_lng_lat = coord_convert(lng, lat)
         panoidInfos = get_panoid(tar_lng_lat[0], tar_lng_lat[1])
-        
+
         if not panoidInfos or len(panoidInfos[0]) == 0:
-            return f"Index {index}: No panorama found."
+            return f"{landmark_name}_{point_index}: No panorama found."
 
         timeLineIds = panoidInfos[0]
         heading = panoidInfos[1]
 
-        # 转换并筛选（这里直接取最新的一个，你可以根据需要改回循环）
-        p = timeLineIds[0] 
+        p = timeLineIds[0]
         year = int(p['TimeLine'][:4])
         month = int(p['TimeLine'][4:])
         pano_id = p['ID']
 
-        # 路径处理
-        save_dir = os.path.join(folder_out_path, 'sv_pan01')
+        # 按 landmark_name 作为一级文件夹归类
+        safe_name = _sanitize_folder_name(landmark_name)
+        save_dir = os.path.join(folder_out_path, safe_name, 'sv_pan01')
         os.makedirs(save_dir, exist_ok=True)
-        
-        save_file_path = os.path.join(save_dir, f"{index}_{lng}_{lat}_{heading}_{year}_{month}.jpg")
+
+        save_file_path = os.path.join(
+            save_dir,
+            f"{point_index}_{lng}_{lat}_{heading}_{year}_{month}.jpg"
+        )
 
         if os.path.exists(save_file_path):
-            return f"Index {index}: Already exists."
+            return f"{landmark_name}_{point_index}: Already exists."
 
-        # 执行下载
         download_and_merge_streetview(pano_id, x_count, y_count, save_file_path)
-        return f"Index {index}: Downloaded."
+        return f"{landmark_name}_{point_index}: Downloaded."
 
     except Exception as e:
-        return f"Index {index}: Error {e}"
+        return f"{landmark_name}_{point_index}: Error {e}"
 
-def main(csv_path, folder_out_path, start_idx=10000, end_idx=13500, num_processes=5):
-    # 1. 创建输出目录
+
+def main(csv_path, folder_out_path, start_idx=0, end_idx=None, num_processes=5):
+    """
+    读取地标 CSV（列：landmark_name, longitude, latitude, point_index），
+    按行范围 [start_idx, end_idx) 筛选后多进程下载，图片按 landmark_name 存到一级子文件夹。
+    """
     if not os.path.exists(folder_out_path):
         os.makedirs(folder_out_path)
 
-    # 2. 读取 CSV 并根据 index 列筛选数据
     df = pd.read_csv(csv_path)
-    print(df.shape, "起始索引:", start_idx, "结束索引:", end_idx)
-    # 筛选指定范围的行
-    mask = (df['index'] > start_idx) & (df['index'] <= end_idx)
-    target_df = df[mask].copy()
-    
-    print(f"Total rows to process: {len(target_df)}")
+    required = ['landmark_name', 'longitude', 'latitude', 'point_index']
+    for col in required:
+        if col not in df.columns:
+            raise ValueError(f"CSV 缺少列: {col}，当前列: {list(df.columns)}")
 
-    # for _, row in target_df.iterrows():
-    #     process_row(row, resolution_ratio, folder_out_path)
+    if end_idx is None:
+        end_idx = len(df)
+    target_df = df.iloc[start_idx:end_idx].copy()
+    print(df.shape, "行范围:", start_idx, "~", end_idx, "共", len(target_df), "行")
 
-    # 3. 使用多进程池
-    # partial 用于固定不需要变动的参数 (resolution_ratio, folder_out_path)
-    func = functools.partial(process_row, 
-                             folder_out_path=folder_out_path)
-
-    # 将 dataframe 转换为字典列表供多进程消费
+    func = functools.partial(process_row, folder_out_path=folder_out_path)
     rows = [row for _, row in target_df.iterrows()]
 
     with Pool(processes=num_processes) as pool:
-        # 使用 imap_unordered 配合 tqdm 显示进度条
         results = list(tqdm(pool.imap_unordered(func, rows), total=len(rows), desc="Downloading"))
 
-    # 打印简要总结
     print("\nProcessing Complete.")
 
+
 coordinate_point_category = 1
-# coordinate_point_category = 5
-# coordinate_point_category = 6
-# 分辨率 "3 - 2048*1096   4 - 4096*2048"   4 - 8192*4096"
 resolution_ratio = 5
 
 if __name__ == '__main__':
-    CSV_PATH = r'/home/ubuntu/SV_acq/泉州市_50m_Spatial.csv'
-    CSV_PATH = r'F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\泉州市_50m_Spatial.csv'
-    FOLDER_OUT_PATH = r'/home/ubuntu/SV_acq/sv_pan'
-    
-    # 在这里设置你想提取的范围和进程数
-    start_idx=0
-    end_idx=20000
-    FOLDER_OUT_PATH = f'/home/ubuntu/SV_acq/sv_pan_{start_idx}_{end_idx}'
-    # 腾讯云服务器内存4gb 可设置为30？
-    num_processes=25
+    # 地标 CSV：必须包含 landmark_name, longitude, latitude, point_index
+    CSV_PATH = r'E:\work\sv_Humpy\output\shanghai_landmark_points.csv'
+    FOLDER_OUT_PATH = r'E:\work\sv_Humpy\sv_pan_by_landmark'
+
+    start_idx = 0
+    end_idx = None   # None 表示处理到末尾
+    num_processes = 25
+
     main(CSV_PATH, FOLDER_OUT_PATH, start_idx=start_idx, end_idx=end_idx, num_processes=num_processes)
-
-

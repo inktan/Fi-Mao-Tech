@@ -1,0 +1,87 @@
+================================================================================
+  work01.py 使用说明：上海地标区域与采样点生成
+================================================================================
+
+一、功能概述
+------------
+本脚本用于：
+  1. 定义 100 个上海地标性区域（建筑、公园、商圈、古镇、滨江等）；
+  2. 为每个地标保存其中心经纬度与覆盖半径到 CSV 和 SHP；
+  3. 在每个地标区域内二次生成 100 个均匀分布的经纬度点，用于覆盖该区域；
+  4. 将这 100×100 共 10000 个采样点保存到带“_points”含义的 CSV 和 SHP 文件中。
+
+这些采样点可用于后续基于经纬度调用百度街景等接口获取街景图。
+
+
+二、输出路径配置（在代码中指定）
+--------------------------------
+所有路径均在 work01.py 文件顶部通过以下变量指定，可按需修改：
+
+  OUTPUT_DIR
+    输出根目录，所有 CSV/SHP 文件均保存在此目录下。
+    默认：当前脚本所在目录下的 output 子目录。
+
+  地标区域文件（100 条记录）：
+    LANDMARKS_CSV_FILENAME   → 地标 CSV 文件名
+    LANDMARKS_SHP_FILENAME   → 地标 SHP 文件名
+    程序内使用的完整路径：
+    LANDMARKS_CSV_PATH = OUTPUT_DIR / LANDMARKS_CSV_FILENAME
+    LANDMARKS_SHP_PATH = OUTPUT_DIR / LANDMARKS_SHP_FILENAME
+
+  每个区域二次获取的 100 个经纬度点（共 10000 条记录，文件名已带 _points 含义）：
+    POINTS_CSV_FILENAME      → 采样点 CSV 文件名（如 shanghai_landmark_points.csv）
+    POINTS_SHP_FILENAME      → 采样点 SHP 文件名（如 shanghai_landmark_points.shp）
+    程序内使用的完整路径：
+    POINTS_CSV_PATH = OUTPUT_DIR / POINTS_CSV_FILENAME
+    POINTS_SHP_PATH = OUTPUT_DIR / POINTS_SHP_FILENAME
+
+修改方式示例：
+  若希望输出到 D:\data\shanghai，则设置：
+    OUTPUT_DIR = Path(r"D:\data\shanghai")
+  若希望地标 CSV 名为 landmarks.csv，则设置：
+    LANDMARKS_CSV_FILENAME = "landmarks.csv"
+
+
+三、输出文件说明
+----------------
+1) 地标区域文件（无后缀“_points”）
+   - shanghai_landmarks.csv
+     表头：landmark_name, longitude, latitude, radius_m
+     每行一个地标：名称、经度、纬度、覆盖半径（米）。
+   - shanghai_landmarks.shp（及同名的 .shx, .dbf, .prj）
+     点图层，每个点为一个地标中心；属性同上。
+
+2) 每个区域二次获取的 100 个点（文件名带 _points）
+   - shanghai_landmark_points.csv
+     表头：landmark_name, longitude, latitude, point_index
+     每行一个采样点；point_index 为该地标内的点编号 0～99。
+   - shanghai_landmark_points.shp（及 .shx, .dbf, .prj）
+     点图层，每个点为一条采样点；属性含 landmark、lon、lat、point_idx。
+
+SHP 的 .prj 为 WGS84 经纬度坐标系，便于在 GIS 软件中正确显示。
+
+
+四、运行方法
+------------
+  1. 安装依赖（仅生成 SHP 时需要）：
+     pip install pyshp
+
+  2. 在脚本所在目录执行：
+     python work01.py
+
+  3. 若未安装 pyshp，程序仍会正常生成两个 CSV，仅跳过两个 SHP 并提示安装 pyshp。
+
+
+五、地标与采样规则
+------------------
+  - 地标列表：脚本内常量 SHANGHAI_LANDMARKS，每项为 (名称, 经度, 纬度, 覆盖半径米)。
+  - 每个地标区域：在以中心点为基准、东西与南北各 ± 半径的矩形内，用 10×10 网格生成 100 个点。
+  - 经纬度为 WGS84，可直接用于百度地图/街景等接口。
+
+
+六、后续使用建议
+----------------
+  - 读取 shanghai_landmark_points.csv 或 .shp，按每行的 longitude、latitude 调用百度街景 API 获取街景图。
+  - 可根据 landmark_name 或 point_index 做批量任务划分与去重。
+
+================================================================================
