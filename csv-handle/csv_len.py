@@ -83,7 +83,7 @@ pd.set_option('display.expand_frame_repr', False)  # 禁止换行显示
 #                 csv_names.append(file)
 
 csv_paths = [
-    r'e:\work\sv_Humpy\output\shanghai_landmark_points.csv',
+    r'f:\osm\分城市的道路数据_50m_point_csv\澳门特别行政区\macau_gis_osm_roads_free_1_50m_Spatial.csv',
     ]
                 
 for csv_path in csv_paths:

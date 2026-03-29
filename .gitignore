@@ -45,3 +45,6 @@ coverage
 # Invalid cache file
 **/__pycache__/
 *.pyc
+img-handle/image_dedupe_cache.sqlite3
+img-handle/image_dedupe_cache.sqlite3
+img-handle/image_dedupe_cache.sqlite3

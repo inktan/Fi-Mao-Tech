@@ -294,7 +294,7 @@ def remove_duplicate_images(
 def main():
     # ========== 配置（在 VSCode 里直接改这里，然后运行） ==========
     folder_path_list = [
-        r"F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市",
+        r"F:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\厦门市",
     ]
     workers = 0          # 并行进程数：0=自动(CPU-1)，>0 为指定数量
     in_flight = 0        # 在途任务数：0=自动，>0 可限制磁盘/内存压力

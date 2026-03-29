@@ -9,13 +9,13 @@ from pathlib import Path
 
 # ========== 配置（直接修改后运行） ==========
 # 图片所在文件夹路径
-folder_path = r"F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\街景"
+folder_path = r"F:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\厦门市\街景"
 # 全量结果 CSV 保存路径
-# output_csv = r"F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\svi_泉州市_points.csv"
+# output_csv = r"F:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\厦门市\svi_厦门市_points.csv"
 # 去重后 CSV 保存路径（仅唯一 lon,lat）
-output_csv_unique = r"F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\svi_泉州市_points_unique.csv"
+output_csv_unique = r"F:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\厦门市\svi_厦门市_points_unique.csv"
 # 去重后 SHP 保存路径
-output_shp_unique = r"F:\大数据\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\泉州市\svi_泉州市_points_unique.shp"
+output_shp_unique = r"F:\osm\2025年8月份道路矢量数据\分城市的道路数据_50m_point_csv\厦门市\svi_厦门市_points_unique.shp"
 
 # 支持的图片扩展名（小写）
 IMAGE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp", ".bmp", ".tif", ".tiff")
