@@ -51,6 +51,6 @@ def process_polygon_and_download_osm(csv_path, output_shp):
     print(f"路网已成功保存至: {output_shp}")
 
 # --- 执行 ---
-csv_file = r'e:\work\sv_zhoujunling\20260209\guoa.csv'  # 替换为你的文件名
-output_path = r'e:\work\sv_zhoujunling\20260209\guoa_network.shp'  
+csv_file = r'e:\work\sv_Celiaaa\城区范围- 未命名的图层.csv'  # 替换为你的文件名
+output_path = r'e:\work\sv_Celiaaa\城区范围_network.shp'  
 process_polygon_and_download_osm(csv_file, output_path)

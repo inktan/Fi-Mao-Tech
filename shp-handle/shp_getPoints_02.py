@@ -158,9 +158,11 @@ def process_shapefile(file_path, interval):
         print("--> 步骤 5/5: 保存结果...")
         output_basename = file_path.replace('.shp', f'_{interval}m_Optimized')
         
-        # 保存为 CSV
+        # 保存为 CSV（首列 index：自增，从 0 开始）
         csv_path = f"{output_basename}.csv"
-        final_gdf.drop(columns=['geometry', 'x_utm', 'y_utm']).to_csv(csv_path, index=False)
+        csv_df = final_gdf.drop(columns=['geometry', 'x_utm', 'y_utm']).copy()
+        csv_df.insert(0, 'index', range(len(csv_df)))
+        csv_df.to_csv(csv_path, index=False)
         print(f"     已保存 CSV 文件: {csv_path}")
         
         # 保存为 SHP
@@ -182,7 +184,9 @@ def main():
     shape_files.append(r'f:\大数据\2025年8月份道路矢量数据\north-korea-260227-free.shp\gis_osm_roads_free_1.shp')
     shape_files.append(r'f:\大数据\2025年8月份道路矢量数据\south-korea-260227-free.shp\gis_osm_roads_free_1.shp')
 
-    interval = 50
+    interval = 100
+
+    shape_files = [r'e:\work\sv_Celiaaa\城区范围_network.shp']
 
     for file_path in shape_files:
         process_shapefile(file_path, interval)
