@@ -83,12 +83,12 @@ pd.set_option('display.expand_frame_repr', False)  # 禁止换行显示
 #                 csv_names.append(file)
 
 csv_paths = [
-    r'f:\osm\分城市的道路数据_50m_point_csv\澳门特别行政区\macau_gis_osm_roads_free_1_50m_Spatial.csv',
+    r'd:\work\work_zhoujunling\Lisbon历史建筑.xlsx',
     ]
                 
 for csv_path in csv_paths:
-    df = pd.read_csv(csv_path)
-    # df = pd.read_csv(csv_path,encoding='gbk')
+    # df = pd.read_csv(csv_path)
+    df = pd.read_csv(csv_path,encoding='gbk')
     print(csv_path)
     print(df.columns)
     print(df.columns[0])
