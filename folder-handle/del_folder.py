@@ -16,7 +16,7 @@ base_destination = r'D:\work'
 #     folder_paths.append(dest_path)
     
 folder_paths = [
-   r'f:\work\work_zhoujunling\guoa_fixed',
+   r'C:\Users\mslne\.conda\envs\GroundingDINO',
 ]
 
 for folder_path in folder_paths:

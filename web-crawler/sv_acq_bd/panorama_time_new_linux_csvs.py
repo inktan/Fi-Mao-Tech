@@ -436,7 +436,8 @@ def wgs84_to_bd09(lon, lat):
 
 
 # ====================== 业务逻辑 ======================
-coordinate_point_category = 1
+# coordinate_point_category = 1
+coordinate_point_category = 5
 resolution_ratio = 4
 
 
@@ -462,8 +463,10 @@ def process_row_single_folder(row, folder_out_path: str) -> str:
 
     # 显式转换为 int，避免浮点或字符串参与文件名
     index = int(row["index"])
-    lng = row["longitude"]
-    lat = row["latitude"]
+    # lng = row["longitude"]
+    # lat = row["latitude"]
+    lng = row["lon"]
+    lat = row["lat"]
 
     try:
         tar_lng_lat = coord_convert(lng, lat)
@@ -529,7 +532,8 @@ def process_single_csv(
     csv_dir = os.path.dirname(csv_path)
     folder_out_path = os.path.join(csv_dir, sv_folder_name)
     df = pd.read_csv(csv_path)
-    required = ["longitude", "latitude", "index"]
+    # required = ["longitude", "latitude", "index"]
+    required = ["lon", "lat", "index"]
     for col in required:
         if col not in df.columns:
             raise ValueError(f"CSV 缺少列: {col}，当前列: {list(df.columns)}")
@@ -653,6 +657,9 @@ def main_multi_csv(root_dir: str,
       相当于行区间是“上一个已完成 CSV 的末尾 ~ 当前 CSV 末尾”，不会出现数据缺失。
     """
     csv_files = scan_all_csv_files(root_dir)
+    
+    csv_files = [r'd:\work\sv_xijiaoliwupu\sv20260417\points_coordinates_01.csv']
+    
     if not csv_files:
         print(f"[INFO] 在目录 {root_dir} 下未发现任何 CSV 文件。")
         return
@@ -710,7 +717,7 @@ def main_multi_csv(root_dir: str,
 if __name__ == '__main__':
     # ========== 请按需修改以下参数 ==========
     # 1. 需要遍历的根目录，脚本会在该目录及所有子目录中递归查找 *.csv
-    ROOT_DIR = r'H:\_50m_point'  # TODO: 换成你的根目录
+    ROOT_DIR = r'd:\work\sv_xijiaoliwupu\sv20260417'  # TODO: 换成你的根目录
 
     # 2. 多进程进程数（建议根据 CPU 与网络情况调整）
     NUM_PROCESSES = 30
