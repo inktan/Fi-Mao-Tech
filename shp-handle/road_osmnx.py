@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import osmnx as ox
 import geopandas as gpd
 from shapely.geometry import Polygon
@@ -5,19 +7,11 @@ from coord_convert import transform
 import matplotlib.pyplot as plt
 # 从google map量去的坐标为gcj-2，需要转为wgs84
 coords = [
-(113.53250016371473,22.181140459506132),
-(113.53771962963158,22.185973574958727),
-(113.53905484184287,22.190385052647752),
-(113.54060247417868,22.192042833290838),
-(113.54360670165407,22.192801472144044),
-(113.54442603642009,22.197409412692405),
-(113.54345497298222,22.20513580292119),
-(113.53735548083522,22.20488294597244),
-(113.53826585279745,22.197297025719344),
-(113.53468505641264,22.19139658216867),
-(113.52946559049578,22.186760345482607),
-(113.52894971305052,22.181814857710247),
-
+(117.19143401018415,34.26405120752162),
+(117.19842583661028,34.26738321569162),
+(117.20414178230169,34.26788933196559),
+(117.20475420505437,34.26333417584514),
+(117.19156159825764,34.26010745765545),
 ]
 # 将 GCJ-02 坐标转换为 WGS84 坐标
 wgs_coords = [transform.gcj2wgs(lng, lat) for lng, lat in coords]
@@ -40,5 +34,6 @@ G = ox.graph_from_polygon(polygon, network_type='all')
 gdf = ox.graph_to_gdfs(G, nodes=False)
 
 # 定义保存 SHP 文件的文件路径
-file_path = r"E:\work\sv_npc\_network.shp"
+file_path = r"E:\work\sv_temp\test_network.shp"
+Path(file_path).parent.mkdir(parents=True, exist_ok=True)
 gdf.to_file(file_path)

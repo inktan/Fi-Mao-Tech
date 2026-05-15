@@ -83,7 +83,7 @@ pd.set_option('display.expand_frame_repr', False)  # 禁止换行显示
 #                 csv_names.append(file)
 
 csv_paths = [
-    r'f:\osm\分城市的道路数据_50m_point_csv\澳门特别行政区\macau_gis_osm_roads_free_1_50m_Spatial.csv',
+    r'E:\work\sv_tw\test_network_10m_Optimized_top5_osm_ids.csv',
     ]
                 
 for csv_path in csv_paths:
@@ -94,7 +94,7 @@ for csv_path in csv_paths:
     print(df.columns[0])
     print(df.shape)
     print(df.iloc[0,0])
-    print(df.head(10))
+    print(df.head(100))
     # print(df.tail())
 
     # unique_count = df['index'].nunique()

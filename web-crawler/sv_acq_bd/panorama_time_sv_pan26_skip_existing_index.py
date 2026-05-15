@@ -2,14 +2,13 @@
 """
 基于 `panorama_time_new_linux_csvs.py` 的街景采集变体（默认输出目录 `sv_pan26`）。
 
-在 `panorama_time_new_linux_csvs.py` 的基础上增加 **按 index 前缀断点跳过**：
+在 `panorama_time_new_linux_csvs.py` 的基础上增加 **按已有图片推断已占用 index**：
 
-- 处理每个 CSV 之前，先扫描同目录下 `sv_pan26` 中已有图片文件；
-- 对每个文件名用 `split("_")` 取第一个片段，视为已占用的 `index` 键；
-- 对 CSV 中的每一行，若该行 `index`（字符串形式与首段一致）已存在于上述集合中，
-  则跳过该行的全景下载，避免重复请求。
+- 处理每个 CSV 之前，扫描 **同级目录下输出子文件夹**（默认 `sv_pan26`）中已有图片；
+- 对每个文件名（去掉扩展名）按 `_` 分割，**只取第一个片段**；若该片段为整数则视为已占用的 index（与 CSV 列对齐）；
+- CSV 中 `index` 落在该集合中的行视为已有图，**只对剩余行**发起下载。
 
-其余下载、坐标转换、多 CSV 遍历与进度文件逻辑与原脚本一致。
+多 CSV 扫描仅检查根目录下一层子文件夹内**直接放置**的 `*.csv`（不递归更深层），以加快启动。
 """
 import math
 import json
@@ -24,7 +23,7 @@ import functools
 from io import BytesIO
 import time
 import random
-from typing import List, Tuple, Optional, Dict, Any
+from typing import List, Optional
 
 # ====================== 坐标转换相关（与原脚本保持一致） ======================
 array1 = [75, 60, 45, 30, 15, 0]
@@ -437,18 +436,26 @@ def wgs84_to_bd09(lon, lat):
 coordinate_point_category = 1
 resolution_ratio = 4
 
-# 扫描输出目录时视为图片的扩展名（仅文件名首段参与 index 占用判断）
+# 扫描输出目录时视为图片的扩展名
 _IMAGE_EXTS_FOR_INDEX_SCAN = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 
 
-def collect_existing_indices_from_sv_folder(folder_out_path: str) -> set:
+def _segment_to_index_key(seg: str) -> Optional[str]:
+    """若下划线分段整段为（非负）整数，则规范为与 CSV index 对齐的字符串，否则不参与匹配。"""
+    s = seg.strip()
+    if s.isdigit():
+        return str(int(s))
+    return None
+
+
+def collect_occupied_indices_from_sv_folder(folder_out_path: str) -> set:
     """
-    列出 folder_out_path 下所有图片文件，将每个文件名按 '_' 分割后的首段加入集合。
-    与保存逻辑中的 `f"{index}_..."` 命名一致时，首段即为 CSV 行的 index 字符串形式。
+    扫描 folder_out_path 下图片：去掉扩展名后按 '_' 分割，只取第一个片段；
+    若该片段整段为非负整数，则加入集合（与 CSV 列 index 用 str(int) 对齐）。
     """
-    existing: set = set()
+    occupied: set = set()
     if not os.path.isdir(folder_out_path):
-        return existing
+        return occupied
     try:
         for name in os.listdir(folder_out_path):
             path = os.path.join(folder_out_path, name)
@@ -456,12 +463,16 @@ def collect_existing_indices_from_sv_folder(folder_out_path: str) -> set:
                 continue
             if os.path.splitext(name)[1].lower() not in _IMAGE_EXTS_FOR_INDEX_SCAN:
                 continue
-            parts = name.split("_")
-            if parts and parts[0]:
-                existing.add(parts[0])
+            stem = os.path.splitext(name)[0]
+            parts = stem.split("_")
+            if not parts or not parts[0]:
+                continue
+            key = _segment_to_index_key(parts[0])
+            if key is not None:
+                occupied.add(key)
     except OSError:
         pass
-    return existing
+    return occupied
 
 
 def coord_convert(lng1, lat1):
@@ -542,17 +553,11 @@ def process_single_csv(
     end_idx: Optional[int] = None,
     num_processes: int = 5,
     sv_folder_name: str = "sv_pan26",
-    *,
-    progress_path: Optional[str] = None,
-    csv_global_index: Optional[int] = None,
-    progress_interval: int = 10000,
 ) -> None:
     """
     处理单个 CSV：
     - 在该 CSV 所在目录下创建/复用输出文件夹（默认 sv_pan26）；
-    - 使用多进程下载；
-    - 如果提供 progress_path 与 csv_global_index，则每处理 progress_interval 行
-      就调用一次 save_progress，记录 (csv_index, row_index) 以支持行级断点续传。
+    - 使用多进程下载。
     """
     print(
         f"[CSV_PROCESS][START] {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())} "
@@ -581,19 +586,29 @@ def process_single_csv(
     print(f"[CSV] {csv_path}")
     print(df.shape, "行范围:", start_idx, "~", end_idx, "共", len(target_df), "行")
 
-    existing_prefixes = collect_existing_indices_from_sv_folder(folder_out_path)
+    occupied_indices = collect_occupied_indices_from_sv_folder(folder_out_path)
+    idx_as_key = target_df["index"].map(lambda v: str(int(v)))
+    remaining_df = target_df[~idx_as_key.isin(occupied_indices)]
+    skipped_n = len(target_df) - len(remaining_df)
     print(
-        f"[INDEX_SKIP] 目录 {folder_out_path} 中已存在 {len(existing_prefixes)} 个 index 前缀（按图片文件名首段统计）。"
+        f"[INDEX_SKIP] 子文件夹 {folder_out_path} 中图片名（`_` 首段）推断已占用 index 共 "
+        f"{len(occupied_indices)} 个；本批次跳过 {skipped_n} 行，待下载 {len(remaining_df)} 行。"
     )
+
+    if remaining_df.empty:
+        print(
+            f"[CSV_PROCESS][END  ] {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())} "
+            f"csv={csv_path}, 无需下载（均在已占用集合中）"
+        )
+        return
 
     func = functools.partial(
         process_row_single_folder,
         folder_out_path=folder_out_path,
-        existing_index_prefixes=existing_prefixes,
+        existing_index_prefixes=occupied_indices,
     )
-    rows = [row for _, row in target_df.iterrows()]
+    rows = [row for _, row in remaining_df.iterrows()]
 
-    # 使用 tqdm 手动遍历，以便在每处理 progress_interval 行时保存一次进度
     processed = 0
     with Pool(processes=num_processes) as pool:
         for _ in tqdm(
@@ -602,20 +617,6 @@ def process_single_csv(
             desc=f"Downloading ({os.path.basename(csv_path)})",
         ):
             processed += 1
-            if (
-                progress_path
-                is not None
-                and csv_global_index is not None
-                and progress_interval > 0
-                and processed % progress_interval == 0
-            ):
-                # 行级进度：当前 CSV 索引 + 当前已处理到的行号（全表绝对行号）
-                current_row_index = start_idx + processed
-                save_progress(
-                    progress_path,
-                    csv_index=csv_global_index,
-                    row_index=current_row_index,
-                )
 
     print(
         f"[CSV_PROCESS][END  ] {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())} "
@@ -623,127 +624,64 @@ def process_single_csv(
     )
 
 
-# ====================== 递归遍历 CSV + 简单断点续传 ======================
-def scan_all_csv_files(root_dir: str) -> List[str]:
+# ====================== 遍历 CSV（仅下一层子目录） ======================
+
+
+def scan_csv_files_immediate_subdirs(root_dir: str) -> List[str]:
     """
-    递归扫描 root_dir 下所有 .csv 文件。
-    返回排序后的绝对路径列表，确保多次运行顺序稳定。
+    仅扫描 root_dir 的「下一层」各子目录中、直接位于该子目录下的 *.csv。
+    不递归更深层目录，也不在 root_dir 根级查找 CSV，用于海量目录树时加速启动枚举。
     """
     result: List[str] = []
-    for cur_root, _dirs, files in os.walk(root_dir):
-        for f in files:
-            if f.lower().endswith(".csv"):
-                result.append(os.path.join(cur_root, f))
+    try:
+        sub_names = sorted(os.listdir(root_dir))
+    except OSError:
+        return result
+
+    for name in sub_names:
+        sub_path = os.path.join(root_dir, name)
+        if not os.path.isdir(sub_path):
+            continue
+        try:
+            for fn in os.listdir(sub_path):
+                if fn.lower().endswith(".csv"):
+                    result.append(os.path.join(sub_path, fn))
+        except OSError:
+            continue
+
     result.sort()
     return result
 
 
-def load_progress(progress_path: str) -> Tuple[int, int]:
-    """
-    从进度文件中读取：
-    - current_csv_index: 已经处理完成的 CSV 数量（下次从该索引开始）；
-    - current_row_index: 预留字段，当前实现为 0，表示按“整 CSV”为粒度的区间记录。
-    """
-    if not os.path.exists(progress_path):
-        return 0, 0
-    try:
-        with open(progress_path, "r", encoding="utf-8") as f:
-            data: Dict[str, Any] = json.load(f)
-        csv_idx = int(data.get("current_csv_index", 0))
-        row_idx = int(data.get("current_row_index", 0))
-        return max(csv_idx, 0), max(row_idx, 0)
-    except Exception:
-        # 进度文件损坏则从头开始
-        return 0, 0
+def main_multi_csv(
+    root_dir: str,
+    num_processes: int = 5,
+    sv_folder_name: str = "sv_pan26",
+) -> None:
+    """枚举 root_dir 下一层子目录中的 CSV，依次下载。"""
+    csv_files = scan_csv_files_immediate_subdirs(root_dir)
 
+    csv_files = [r'e:\work\sv_temp\test_network_10m_Optimized.csv']
 
-def save_progress(progress_path: str, csv_index: int, row_index: int) -> None:
-    """
-    将当前进度写入进度文件。
-    当前实现以“整 CSV”为单位，row_index 固定为 0，也可以后续扩展为行区间级别。
-    """
-    print(
-        f"[PROGRESS][START] {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())} "
-        f"path={progress_path}, csv_index={csv_index}, row_index={row_index}"
-    )
-    data = {
-        "current_csv_index": int(csv_index),
-        "current_row_index": int(row_index),
-        "updated_at": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    }
-    os.makedirs(os.path.dirname(progress_path), exist_ok=True)
-    with open(progress_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-    print(
-        f"[PROGRESS][END  ] {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())} "
-        f"path={progress_path}"
-    )
-
-
-def main_multi_csv(root_dir: str,
-                   num_processes: int = 5,
-                   progress_filename: str = "sv_pan26_skip_index_progress.json",
-                   sv_folder_name: str = "sv_pan26") -> None:
-    """
-    主函数：递归遍历 root_dir 下所有 CSV，并结合进度文件实现简单断点续传。
-
-    断点续传策略（满足“区间位置”的要求，而不追求精确到每一行）：
-    - 将所有 CSV 排序后形成有序列表；
-    - 进度文件记录“已经完成到第几个 CSV（csv_index）”，以及一个预留行区间字段 row_index；
-    - 脚本重启时，根据 csv_index 跳过之前已下载完成的所有 CSV，从尚未完成的 CSV 开始继续；
-    - 如果在处理某个 CSV 的过程中异常退出，则该 CSV 会在下次被整体重新处理一遍，
-      相当于行区间是“上一个已完成 CSV 的末尾 ~ 当前 CSV 末尾”，不会出现数据缺失。
-    """
-    csv_files = scan_all_csv_files(root_dir)
     if not csv_files:
         print(f"[INFO] 在目录 {root_dir} 下未发现任何 CSV 文件。")
         return
 
-    progress_path = os.path.join(root_dir, progress_filename)
-    current_csv_index, current_row_index = load_progress(progress_path)
-
     total = len(csv_files)
     print(f"[INFO] 共发现 {total} 个 CSV 文件。")
-    print(f"[INFO] 进度文件: {progress_path}")
-    print(f"[INFO] 已完成到 CSV 索引: {current_csv_index}, 行区间起点: {current_row_index}")
-
-    # 防御：索引合理化
-    if current_csv_index < 0:
-        current_csv_index = 0
-    if current_csv_index > total:
-        current_csv_index = total
 
     for idx, csv_path in enumerate(csv_files):
-        if idx < current_csv_index:
-            # 已处理完毕的 CSV，直接跳过
-            print(f"[SKIP] ({idx + 1}/{total}) {csv_path}")
-            continue
-
-        # 根据进度文件中的 row_index 决定当前 CSV 的起始行
-        if idx == current_csv_index and current_row_index > 0:
-            start_idx = current_row_index
-        else:
-            start_idx = 0
-
-        print(f"[RUN ] ({idx + 1}/{total}) {csv_path}, start_idx={start_idx}")
+        print(f"[RUN ] ({idx + 1}/{total}) {csv_path}")
         try:
             process_single_csv(
                 csv_path=csv_path,
-                start_idx=start_idx,
+                start_idx=0,
                 end_idx=None,
                 num_processes=num_processes,
                 sv_folder_name=sv_folder_name,
-                progress_path=progress_path,
-                csv_global_index=idx,
             )
-            # 单个 CSV 完成后，更新进度为“下一个 CSV 的起点”（行号重置为 0）
-            save_progress(progress_path, csv_index=idx + 1, row_index=0)
-            # 下一轮循环不再使用上一 CSV 的行级进度
-            current_row_index = 0
         except Exception as e:
             print(f"[ERROR] 处理 CSV 失败: {csv_path}, error={e}")
-            # 发生异常时不更新“完成的 CSV 数量”，但已处理的行数已经在
-            # process_single_csv 内按 progress_interval 写入，下次会从该行继续
             break
 
     print("[DONE] 所有可处理的 CSV 已完成当前批次下载。")
@@ -751,21 +689,17 @@ def main_multi_csv(root_dir: str,
 
 if __name__ == '__main__':
     # ========== 请按需修改以下参数 ==========
-    # 1. 需要遍历的根目录，脚本会在该目录及所有子目录中递归查找 *.csv
+    # 1. 根目录：仅在「下一层子文件夹」内查找直接放置的 *.csv（不递归更深、根下无 CSV）
     ROOT_DIR = r'H:\_50m_point'  # TODO: 换成你的根目录
 
     # 2. 多进程进程数（建议根据 CPU 与网络情况调整）
     NUM_PROCESSES = 30
 
-    # 3. 进度文件名，会存放在 ROOT_DIR 下（与本变体默认名一致，避免与其它任务混用）
-    PROGRESS_FILENAME = 'sv_pan26_skip_index_progress.json'
-
-    # 4. 每个 CSV 同级目录下用于保存图片的文件夹名
+    # 3. 每个 CSV 同级目录下用于保存图片的文件夹名
     SV_FOLDER_NAME = 'sv_pan26'
 
     main_multi_csv(
         root_dir=ROOT_DIR,
         num_processes=NUM_PROCESSES,
-        progress_filename=PROGRESS_FILENAME,
-        sv_folder_name=SV_FOLDER_NAME
+        sv_folder_name=SV_FOLDER_NAME,
     )

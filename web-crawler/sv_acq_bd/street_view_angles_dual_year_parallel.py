@@ -1,22 +1,21 @@
 # -*- coding: utf-8 -*-
 """
-四视角百度街景（pr3d）下载脚本 — 与 panorama_time_new_linux_csvs.py 对齐的加速策略：
+双年份百度街景（pr3d）四视角下载 — 基于 street_view_angles_parallel.py：
 
-- 多进程并行（Pool + imap_unordered）
-- 每进程复用 requests.Session（连接池）
-- 带退避的 _throttled_get，与 csvs 脚本同类重试逻辑
-- 小图直接写入 response.content，避免 1KB 分块读盘
-
-CSV 需含列：longitude, latitude, index（与 panorama_time_new_linux_csvs 一致）。
+- 固定两个目标年份：2022、2016，分别写入子目录 svi_degrees_2022 / svi_degrees_2016
+- 时间轴上无该年时，选取日历年份距离最近的一条；距离相同时优先较新年份
+- 同一行若两个目标解析到同一 TimeLine，每视角只下载一次并复制到另一目录，减少请求
+- 其余策略与原脚本一致：多进程、Session、_throttled_get、道路名 CSV
 """
+import functools
 import json
 import os
 import random
+import shutil
 import time
-import functools
 from multiprocessing import Pool, Lock
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 import requests
@@ -24,11 +23,13 @@ from tqdm import tqdm
 
 from coordinate_converter import transBmap, transCoordinateSystem
 
-# ====================== 网络（与 panorama_time_new_linux_csvs 对齐）======================
 REQUEST_TIMEOUT = 10
 MAX_RETRIES = 3
 RETRY_BACKOFF_BASE = 0.5
 MIN_REQUEST_INTERVAL = 0.0
+
+# 目标年份（可改常量）；输出目录为 folder_out_path/svi_degrees_{year}/
+TARGET_YEARS: Tuple[int, ...] = (2022, 2016)
 
 _session: Optional[requests.Session] = None
 _last_request_time: float = 0.0
@@ -36,7 +37,6 @@ _road_name_lock: Any = None
 
 
 def init_worker(road_lock: Lock) -> None:
-    """Pool 子进程入口：绑定道路名 CSV 的写入锁。"""
     global _road_name_lock
     _road_name_lock = road_lock
 
@@ -127,7 +127,7 @@ def download_baidu_panorama(
 
 
 class Panorama:
-    def __init__(self, pano, year_month, year, month):
+    def __init__(self, pano, year_month: str, year: int, month: int):
         self.pano = pano
         self.year_month = year_month
         self.year = year
@@ -187,8 +187,6 @@ def get_panoid(lng, lat, bound, sv_id, folder_out_path):
 
 
 coordinate_point_category = 1
-# coordinate_point_category = 5
-# coordinate_point_category = 6
 
 
 def coord_convert(lng1, lat1):
@@ -204,8 +202,31 @@ def coord_convert(lng1, lat1):
     return transBmap.lnglattopoint(lng1, lat1)
 
 
+def select_panorama_for_target_year(panoramas: List[Panorama], target_year: int) -> Optional[Panorama]:
+    """有目标年则取该年内最新月份；否则取日历年份最近的一条，等距时取较新年份。"""
+    if not panoramas:
+        return None
+    same_year = [p for p in panoramas if p.year == target_year]
+    if same_year:
+        return max(same_year, key=lambda p: p.year_month)
+    return min(panoramas, key=lambda p: (abs(p.year - target_year), -p.year))
+
+
+def _append_year_log(folder_out_path: str, line: str) -> None:
+    log_path = os.path.join(folder_out_path, "dual_year_resolution.csv")
+    if _road_name_lock is not None:
+        with _road_name_lock:
+            os.makedirs(folder_out_path, exist_ok=True)
+            with open(log_path, "a", encoding="utf-8") as f:
+                f.write(line)
+    else:
+        os.makedirs(folder_out_path, exist_ok=True)
+        with open(log_path, "a", encoding="utf-8") as f:
+            f.write(line)
+
+
 def process_row(row, folder_out_path: str) -> str:
-    """处理单行：查询 panoid 并下载四个朝向 pr3d 图。"""
+    """每行：解析时间轴，为每个目标年选全景并下载四视角；目录按目标年分文件夹。"""
     row_key = int(row["index"])
     lng = row["longitude"]
     lat = row["latitude"]
@@ -229,45 +250,70 @@ def process_row(row, folder_out_path: str) -> str:
         panoramas: List[Panorama] = []
         for time_line_id in time_line_ids:
             tl = time_line_id["TimeLine"]
-            panoramas.append(
-                Panorama(time_line_id, tl, int(tl[:4]), int(tl[4:]))
-            )
+            panoramas.append(Panorama(time_line_id, tl, int(tl[:4]), int(tl[4:])))
 
-        filtered_panoramas = panoramas
+        chosen: List[Tuple[int, Panorama]] = []
+        for ty in TARGET_YEARS:
+            p = select_panorama_for_target_year(panoramas, ty)
+            if p is None:
+                return f"{row_key}: no panorama for target {ty}"
+            chosen.append((ty, p))
 
-        pic_path = os.path.join(folder_out_path, "svi_degrees")
-        os.makedirs(pic_path, exist_ok=True)
+        option1 = (heading + 90) % 360
+        option2 = (heading + 180) % 360
+        option3 = (heading + 270) % 360
+        option4 = (heading + 0) % 360
+        headings = [round(x, 1) for x in (option1, option2, option3, option4)]
 
-        for i in [0]:
-            pano_id = filtered_panoramas[i].pano["ID"]
-            time_line = filtered_panoramas[i].pano["TimeLine"]
+        # 记录目标年 -> 实际使用的年月
+        for ty, p in chosen:
+            log_line = f"{row_key},{lng},{lat},{ty},{p.year},{p.month},{p.year_month},{p.pano.get('ID','')}\n"
+            _append_year_log(folder_out_path, log_line)
 
-            option1 = (heading + 90) % 360
-            option2 = (heading + 180) % 360
-            option3 = (heading + 270) % 360
-            option4 = (heading + 0) % 360
+        # (目标年, Panorama) 按 pano ID + TimeLine 去重下载
+        unique_key_to_targets: Dict[Tuple[str, str], List[int]] = {}
+        for ty, p in chosen:
+            key = (str(p.pano["ID"]), p.year_month)
+            unique_key_to_targets.setdefault(key, []).append(ty)
 
-            for option in [option1, option2, option3, option4]:
-                option = round(option, 1)
-                save_file_path = os.path.join(
-                    pic_path,
+        for (_pano_id, time_line), target_years in unique_key_to_targets.items():
+            p = next(pp for ty, pp in chosen if (str(pp.pano["ID"]), pp.year_month) == (_pano_id, time_line))
+            pano_id = p.pano["ID"]
+
+            for option in headings:
+                primary_ty = target_years[0]
+                pic_dir = os.path.join(folder_out_path, f"svi_degrees_{primary_ty}")
+                os.makedirs(pic_dir, exist_ok=True)
+                primary_path = os.path.join(
+                    pic_dir,
                     f"{row_key}_{lng}_{lat}_{int(option)}_{time_line}.jpg",
                 )
 
-                if os.path.exists(save_file_path):
-                    continue
+                if not os.path.exists(primary_path):
+                    ok = download_baidu_panorama(
+                        save_path=primary_path,
+                        panoid=pano_id,
+                        fovy=90,
+                        heading=option,
+                        pitch=0,
+                        width=960,
+                        height=720,
+                    )
+                    if not ok:
+                        return f"{row_key}: download failed ty={primary_ty} heading {option}"
 
-                ok = download_baidu_panorama(
-                    save_path=save_file_path,
-                    panoid=pano_id,
-                    fovy=90,
-                    heading=option,
-                    pitch=0,
-                    width=960,
-                    height=720,
-                )
-                if not ok:
-                    return f"{row_key}: download failed at heading {option}"
+                for other_ty in target_years[1:]:
+                    other_dir = os.path.join(folder_out_path, f"svi_degrees_{other_ty}")
+                    os.makedirs(other_dir, exist_ok=True)
+                    other_path = os.path.join(
+                        other_dir,
+                        f"{row_key}_{lng}_{lat}_{int(option)}_{time_line}.jpg",
+                    )
+                    if not os.path.exists(other_path):
+                        try:
+                            shutil.copy2(primary_path, other_path)
+                        except OSError as e:
+                            return f"{row_key}: copy failed {e}"
 
         return f"{row_key}: ok"
 
@@ -300,6 +346,12 @@ def process_csv(
 
     target_df = df.iloc[start_idx:end_idx]
     print(df.shape, "行范围:", start_idx, "~", end_idx, "共", len(target_df), "行")
+    print("目标年份 -> 子目录:", [f"svi_degrees_{y}" for y in TARGET_YEARS])
+
+    log_path = os.path.join(folder_out_path, "dual_year_resolution.csv")
+    if not os.path.exists(log_path):
+        with open(log_path, "w", encoding="utf-8") as f:
+            f.write("index,longitude,latitude,target_year,actual_year,actual_month,time_line,pano_id\n")
 
     rows = [row for _, row in target_df.iterrows()]
     func = functools.partial(process_row, folder_out_path=folder_out_path)
@@ -309,7 +361,7 @@ def process_csv(
         for _ in tqdm(
             pool.imap_unordered(func, rows),
             total=len(rows),
-            desc="street_view_angles (pr3d)",
+            desc="street_view dual-year (pr3d)",
         ):
             pass
 
@@ -319,9 +371,8 @@ def main(csv_path: str, folder_out_path: str, num_processes: int = 8) -> None:
 
 
 if __name__ == "__main__":
-    # 与 panorama_time_new_linux_csvs 类似：按机器与带宽调高进程数
     csv_path = r"e:\work\sv_yyy\_network_10m_Optimized.csv"
-    folder_out_path = r"e:\work\sv_yyy\sv_degrees"
+    folder_out_path = r"e:\work\sv_yyy\sv_degrees_dual_year"
     NUM_PROCESSES = 16
 
     main(csv_path, folder_out_path, num_processes=NUM_PROCESSES)
