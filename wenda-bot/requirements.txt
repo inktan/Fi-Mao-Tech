@@ -1,0 +1,9 @@
+pywin32
+opencv-python
+numpy
+mss
+pytesseract
+rapidocr-onnxruntime
+pillow
+regex
+pydirectinput

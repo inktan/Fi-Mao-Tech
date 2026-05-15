@@ -1,0 +1,28 @@
+{
+  "poll_interval_ms": 450,
+  "focus_delay_ms": 120,
+  "after_click_delay_ms": 120,
+  "windows": [
+    { "name": "client1", "title_regex": "问道.*", "prefer_process": "" },
+    { "name": "client2", "title_regex": "问道.*", "prefer_process": "" },
+    { "name": "client3", "title_regex": "问道.*", "prefer_process": "" },
+    { "name": "client4", "title_regex": "问道.*", "prefer_process": "" },
+    { "name": "client5", "title_regex": "问道.*", "prefer_process": "" }
+  ],
+  "ocr": {
+    "backend": "auto",
+    "tesseract_cmd": "C:\\\\Program Files\\\\Tesseract-OCR\\\\tesseract.exe",
+    "lang": "chi_sim",
+    "psm": 6
+  },
+  "regions": {
+    "dialog": { "x": 260, "y": 430, "w": 680, "h": 220 },
+    "quest_hint": { "x": 25, "y": 85, "w": 330, "h": 240 }
+  },
+  "clicks": {
+    "npc": { "x": 640, "y": 360 },
+    "dialog_continue": { "x": 860, "y": 610 },
+    "auto_battle": { "x": 930, "y": 690 }
+  }
+}
+

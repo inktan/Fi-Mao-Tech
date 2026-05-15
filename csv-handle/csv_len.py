@@ -67,34 +67,34 @@ pd.set_option('display.expand_frame_repr', False)  # 禁止换行显示
 # print(df.head())
 
 # 获取所有符合模式的文件路径
-# csv_paths = []
-# csv_names = []
-# accepted_formats = (".csv")
+csv_paths = []
+csv_names = []
+accepted_formats = (".csv")
 
-# csv_path_list =[
-#     r'c:\Users\mslne\Desktop\_network01_10m_unique.csv',
-#     ]
-# for folder_path in csv_path_list:
-#     for root, dirs, files in os.walk(folder_path):
-#         for file in files:
-#             if file.endswith(accepted_formats):
-#                 file_path = os.path.join(root, file)
-#                 csv_paths.append(file_path)
-#                 csv_names.append(file)
-
-csv_paths = [
-    r'd:\work\work_zhoujunling\Lisbon历史建筑.xlsx',
+csv_path_list =[
+     r'D:\work\work_zhoujunling\sv_degree26',
     ]
+for folder_path in csv_path_list:
+    for root, dirs, files in os.walk(folder_path):
+        for file in files:
+            if file.endswith(accepted_formats):
+                file_path = os.path.join(root, file)
+                csv_paths.append(file_path)
+                csv_names.append(file)
+
+# csv_paths = [
+#     r'd:\work\work_zhoujunling\aomen_fiexd\sv_pan_02_ss_02.csv',
+#     ]
                 
 for csv_path in csv_paths:
     # df = pd.read_csv(csv_path)
     df = pd.read_csv(csv_path,encoding='gbk')
     print(csv_path)
-    print(df.columns)
-    print(df.columns[0])
+    # print(df.columns)
+    # print(df.columns[0])
     print(df.shape)
-    print(df.iloc[0,0])
-    print(df.head(10))
+    # print(df.iloc[0,0])
+    # print(df.head(1))
     # print(df.tail())
 
     # unique_count = df['index'].nunique()

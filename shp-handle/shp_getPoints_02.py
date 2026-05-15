@@ -181,12 +181,11 @@ def main():
     folder_path = r'F:\大数据\2025年8月份道路矢量数据\Japan'
     shape_files = glob.glob(os.path.join(folder_path, '*.shp'))
     
-    shape_files.append(r'f:\大数据\2025年8月份道路矢量数据\north-korea-260227-free.shp\gis_osm_roads_free_1.shp')
-    shape_files.append(r'f:\大数据\2025年8月份道路矢量数据\south-korea-260227-free.shp\gis_osm_roads_free_1.shp')
+    shape_files.append(r'd:\work\work_20260515\TsimShaTsui_footway\TsimShaTsui_footway.shp')
 
-    interval = 100
+    interval = 15
 
-    shape_files = [r'e:\work\sv_Celiaaa\城区范围_network.shp']
+    shape_files = [r'd:\work\work_20260515\TsimShaTsui_footway\TsimShaTsui_footway.shp']
 
     for file_path in shape_files:
         process_shapefile(file_path, interval)
